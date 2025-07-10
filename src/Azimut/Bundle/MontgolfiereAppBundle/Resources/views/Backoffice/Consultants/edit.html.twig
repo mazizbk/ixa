@@ -1,0 +1,18 @@
+{% set activeTab = 'edit' %}
+{% set consultant = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ consultant.lastName ~' '~ consultant.firstName }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_consultants_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.consultants.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,8 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-08 12:17:13
+#}
+
+{{ 'email.hello'|trans }},
+
+{{ 'email.click.on.following.link.to.confirm.your.email.address'|trans }} : <a href="{{ absolute_url(path('azimut_frontofficesecurity_confirm_email', {'token': token})) }}">{{ 'email.confirm.email.address'|trans|lower }}</a>

@@ -1,0 +1,20 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:41:28
+#}
+
+
+{#
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutShop'} %}
+    {% block content %}
+        {% verbatim %}
+            <div class="margin-block">
+                Side panel content<br />
+            </div>
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+#}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

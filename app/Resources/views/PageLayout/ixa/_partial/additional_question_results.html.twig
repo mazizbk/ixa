@@ -1,0 +1,34 @@
+{% if additionalQuestion is defined %}
+    <h5 class="Title--5">{{ additionalQuestion.question.question.question|raw }}</h5>
+    <div>{{ additionalQuestion.question.question.description|raw }}</div>
+    <table class="Table">
+        {% if additionalQuestion.question.question.type == constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_TRUE_FALSE') %}
+            {% set possibleValues = [{'label':'montgolfiere.questionnaire.question.true_'|trans, 'value':'true'},{'label':'montgolfiere.questionnaire.question.false_'|trans, 'value':'false'} ] %}
+            {% set displayValues = false %}
+        {% elseif additionalQuestion.question.question.type == constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_SATISFACTION_GAUGE') %}
+            {% set possibleValues = [] %}
+            {% for i in (0..10) %}
+                {% set possibleValues = possibleValues|merge([{'label':i, 'value':i}]) %}
+            {% endfor %}
+            {% set displayValues = false %}
+        {% else %}
+            {% set possibleValues = additionalQuestion.question.question.possibleValues|extractPossibleValues %}
+            {% set displayValues = true %}
+        {% endif %}
+        {% for possibleValue in possibleValues %}
+            {% set currentValue = possibleValue.value is defined ? possibleValue.value : possibleValue.label|replace({"\r": ""}) %}
+            {% if additionalQuestion.participationCount >0 and additionalQuestion.answers[currentValue] is defined %}
+                {% set ratio = (additionalQuestion.answers[currentValue]*100/additionalQuestion.participationCount)|round %}
+            {% else %}
+                {% set ratio = 0 %}
+            {% endif %}
+            <tr>
+                <td><span class="green">{{ possibleValue.value is defined and displayValues ?possibleValue.value~'. ' }}</span>{{ possibleValue.label }}</td>
+                <td style="width:150px;">
+                    <div class="progress-inline" role="progressbar" style="width: {{ ratio }}%">&nbsp;</div>
+                </td>
+                <td class="green text-right">{{ ratio }}%</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

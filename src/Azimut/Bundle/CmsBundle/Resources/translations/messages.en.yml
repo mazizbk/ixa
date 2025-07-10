@@ -1,0 +1,135 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 12:29:17
+
+cms.app.name: "Contents"
+
+cms.meta.title: "Azimut Contents"
+
+cms.file: "file|files"
+
+cms.all.files: "all files"
+
+select.cmsfile: "select file"
+
+read.more: "read more"
+published.on: "published on"
+
+create: "create"
+update: "update"
+delete: "delete"
+
+search.files: "Search in files"
+
+cms.new.file: "New file"
+new.comment: "New comment"
+new.product.item: "New product item"
+
+publish.start.datetime: "Publish start datetime"
+publish.end.datetime: "Publish end datetime"
+
+event.start.datetime: "Event start datetime"
+event.end.datetime: "Event end datetime"
+
+subtitle: "subtitle"
+text: "text"
+geolocation: "geolocation"
+location: "location"
+associated.products: "associated products"
+
+main.attachment: "main media"
+secondary.attachment: "secondary media"
+complementary.attachment: "complementary media"
+complementary.attachment.2: "complementary media 2"
+complementary.attachment.3: "complementary media 3"
+complementary.attachment.4: "complementary media 4"
+related.articles: "related articles"
+
+comment: "comment"
+comments: "comments"
+post.comment: "Post comment"
+your.comment.has.been.saved: "Your comment has been saved"
+your.comment.will.be.visible.once.validated.by.admin: "Your comment will be visible once validated by an administrator"
+
+product.item: "product item"
+product.items: "product items"
+
+rating: "rating"
+ratings: "ratings"
+visible: "visible"
+not.visible: "not visible"
+published: "published"
+not.published: "non published"
+
+file.publications: "File publications"
+publications: "Publications"
+
+cms.file.%file_name%.confirm.permanent.delete: 'Are you sure you want to permanently delete file "%file_name%" ?'
+comment.%id%.confirm.permanent.delete: 'Are you sure you want to permanently delete comment "%id%" ?'
+product.item.%name%.confirm.permanent.delete: 'Are you sure you want to permanently delete product item "%name%" ?'
+
+no.cmsfile.found: "No file found"
+no.comment.found: "No comment found"
+no.product.item.found: "No product item found"
+
+notification:
+
+    error.file.create: "file could not be created"
+    success.file.create: "file successfully created"
+    error.file.update: "file could not be updated"
+    success.file.update: "file successfully updated"
+    error.file.delete: "file could not be deleted"
+    success.file.delete: "file successfully deleted"
+    success.cms_file.trash: "file successfully trashed"
+    error.cms_file.trash: "unable to trash file"
+    success.cms_file.untrash: "file successfully restored"
+    error.cms_file.untrash: "unable to restore file"
+    error.cms_file.%id%.get: "Can't access file %id%"
+    error.cms_file.%id%.not.allowed: "You are not allowed to view file %id%"
+
+    error.comment.create: "comment could not be created"
+    success.comment.create: "comment successfully created"
+    error.comment.update: "comment could not be updated"
+    success.comment.update: "comment successfully updated"
+    error.comment.delete: "comment could not be deleted"
+    success.comment.delete: "comment successfully deleted"
+    error.comment.%id%.get: "Can't access comment %id%"
+    error.comment.%id%.not.allowed: "You are not allowed to view comment %id%"
+    error.comment.validate: "comment could not be validated"
+    success.comment.validate: "comment successfully validated"
+    error.comment.unvalidate: "comment could not be unvalidated"
+    success.comment.unvalidate: "comment successfully unvalidated"
+
+    error.product.item.create: "product item could not be created"
+    success.product.item.create: "product item successfully created"
+    error.product.item.update: "product item could not be updated"
+    success.product.item.update: "product item successfully updated"
+    error.product.item.delete: "product item could not be deleted"
+    success.product.item.delete: "product item successfully deleted"
+    error.product.item.%id%.get: "Can't access product item %id%"
+    error.product.item.%id%.not.allowed: "You are not allowed to view product item %id%"
+
+roles:
+    PRICES: "Manage prices"
+
+cms.file.type:
+    article: "article|articles"
+    block: "block|blocks"
+    press_review: "press review|press reviews"
+    product: "product|products"
+    map_point: "map point|map points"
+    event: "event|events"
+    demo: "demo|demos"
+
+# class names translation (for security bundle)
+cmsfilearticle: "article"
+cmsfileblock: "block"
+cmsfilepress_review: "press review"
+cmsfileproduct: "product"
+cmsfilemap_point: "map point"
+cmsfileevent: "event"
+cmsfiledemo: "demo"
+
+cms.file.has.not.been.saved.are.you.sure.you.want.to.continue: "File has not been saved, are you sure you want to continue ?"
+comment.has.not.been.saved.are.you.sure.you.want.to.continue: "Comment has not been saved, are you sure you want to continue ?"
+product_item.has.not.been.saved.are.you.sure.you.want.to.continue: "Product item  has not been saved, are you sure you want to continue ?"
+no.cmsfile.available: "No file available"

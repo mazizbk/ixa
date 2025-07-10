@@ -1,0 +1,71 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/Restitution/base.html.twig" %}
+
+{% block innerBody %}
+    <h3>{{ theme.title | trans}}</h3>
+
+    {% if updateForm is defined and updateForm is not null %}
+        {% form_theme updateForm _self "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+        {{ form_start(updateForm) }}
+        {{ form_errors(updateForm) }}
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="{{ 'montgolfiere.backoffice.common.save'|trans }}">
+        </div>
+
+        <div id="restitutions-grid">
+            {% for sform in updateForm if sform.vars.name matches "/^\\d+_\\d+$/" %}
+                {% if loop.index0%6 == 0 %}
+                    <div class="restitution-item">
+                        <h3>{{ ('montgolfiere.backoffice.campaigns.restitution.categories.'~sform.vars.value.category)|trans }}</h3>
+                    </div>
+                {% endif %}
+                {{ form_widget(sform) }}
+                {% if loop.index%3 == 0 and loop.index%2 != 0%}
+                    <div class="restitution-item">
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="{{ 'montgolfiere.backoffice.common.save'|trans }}">
+        </div>
+        {{ form_end(updateForm) }}
+    {% endif %}
+
+    <script>
+        function setColor(className){
+            var colorSquare = document.getElementsByClassName(className);
+            for (var i = 0; i < colorSquare.length; ++i) {
+                var colorCode;
+                switch(colorSquare[i].dataset.color) {
+                    case '{{ constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\RestitutionItem::COLOR_BLUE') }}':
+                        colorCode = '#6e96c8';
+                        break;
+                    case '{{ constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\RestitutionItem::COLOR_GREEN') }}':
+                        colorCode = '#46b446';
+                        break;
+                    default:
+                        colorCode = '#e6b405';
+                        break;
+                }
+                colorSquare[i].style.backgroundColor = colorCode;
+            }
+        }
+
+        setColor("restitution-color-square");
+    </script>
+{% endblock %}
+
+{% block restitutionitem_widget %}
+    <div class="restitution-item">
+        {% for color in value.combination|split('-') %}
+            <div class="restitution-color-square" data-color="{{ color }}" style="width: 2vw; height: 2vw;"></div>
+        {% endfor %}
+        {{ form_row(form.trendText) }}
+        {{ form_row(form.actionPlanText) }}
+    </div>
+{% endblock %}
+
+{% block submit_widget %}
+    {%- set type = type|default('submit') -%}
+    {{ block('button_widget') }}
+{% endblock %}

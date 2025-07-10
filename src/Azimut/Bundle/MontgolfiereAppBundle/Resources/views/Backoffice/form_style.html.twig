@@ -1,0 +1,131 @@
+{% extends "bootstrap_3_layout.html.twig" %}
+
+{% block buttons_widget %}
+    <div class="{% if centered %}text-center {% endif %}buttons">
+        {{ block('form_widget') }}
+    </div>
+{% endblock buttons_widget %}
+
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}{% if hide is defined and hide %} hide{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {% if help is defined %}
+            {% if help_translation_domain is defined and help_translation_domain is same as(false) %}
+                {% set help_text = help %}
+            {% else %}
+                {% set help_text = help|trans(domain=help_translation_domain) %}
+            {% endif %}
+            {% if help_raw is defined and help_raw is same as(true) %}
+                <span class="help-block">{{ help_text|raw }}</span>
+            {% else %}
+                <span class="help-block">{{ help_text }}</span>
+            {% endif %}
+        {% endif %}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row %}
+
+{% block submit_row -%}
+    {% spaceless %}
+        {% if form.parent.vars['nested'] is defined and form.parent.vars['nested'] == true %}
+            {{ form_widget(form) }}
+        {% else %}
+            {{ block('button_row') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock submit_row %}
+
+{% block button_row -%}
+    <div class="form-group{% if hide is defined and hide %} hide{% endif %}">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
+
+{% block button_link_row %}
+    <a href="{{ path(route, routeParams) }}" class="btn btn-{{ color }}">{% if icon %}<i class="glyphicon glyphicon-{{ icon }}"></i> {% endif %}{{ text|trans }}</a>
+{% endblock button_link_row %}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message|transchoice(error.messagePluralization, error.messageParameters) }}</li>
+        {%- endfor -%}
+        </ul>
+        {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
+
+{% block tel_widget %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            var input = $("#{{ id }}");
+            input.intlTelInput({
+                'initialCountry': 'fr',
+                'preferredCountries': ['fr', 'be'],
+                'placeholderNumberType': $(this).data('number-type')
+            });
+            var hiddenInput = $("<input>", {
+                type: "hidden",
+                name: input.attr('name')
+            }).insertBefore(input);
+            input.parents('form').submit(function() {
+                hiddenInput.val(input.intlTelInput("getNumber", intlTelInputUtils.numberFormat.INTERNATIONAL));
+            });
+            input.attr('name', '');
+        });
+    </script>
+
+{% endblock tel_widget %}
+
+{% block extended_entity_entry_label %}
+    {# Do not display the label if widget is not defined in order to prevent double label rendering #}
+    {%- if widget is defined -%}
+        {%- if required -%}
+            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) -%}
+        {%- endif -%}
+        {%- if parent_label_class is defined -%}
+            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) -%}
+        {%- endif -%}
+        {%- if label is not same as(false) and label is empty -%}
+            {%- if label_format is not empty -%}
+                {%- set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) -%}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label>
+            {{- widget|raw }} <span{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}</span>
+        </label>
+    {%- endif -%}
+{% endblock %}
+
+{% block datepicker_widget %}
+    {% set html5 = false %}
+    {{ block('date_widget') }}
+    {% if widget == 'single_text' %}
+        <script>
+            $(document).ready(function(){
+                $('#{{ id }}').datepicker({
+                    language: '{{ app.request.locale }}',
+                    format: '{{ format is defined?format|lower:'yyyy-mm-dd' }}',
+                    autoclose: {{ autoclose?'true':'false' }}
+                    {% if todayHighlight is defined %},todayHighlight: {{ todayHighlight?'true':'false' }}{% endif %}
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block _form_fastSearch_row %}
+    {# Remove form-group so that elements can all be in the same container #}
+    {{- form_label(form) }}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+{% endblock %}

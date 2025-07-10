@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 17:26:47
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutSecurity'} %}
+    {% block content %}
+        <ul class="tree-list">
+            <li>
+                <span class="list-item">
+                    <span class="list-toggle">&nbsp;</span>
+                    <a href ng-click="openUserList()" class="list-label"><span class="glyphicon glyphicon-user"></span> {{ 'user'|transchoice(10)|capitalize }}</a>
+                </span>
+            </li>
+            <li>
+                <span class="list-item">
+                    <span class="list-toggle">&nbsp;</span>
+                    <a href ng-click="openGroupList()" class="list-label"><span class="glyphicon glyphicon-pro glyphicon-pro-group"></span> {{ 'group'|transchoice(10)|capitalize }}</a>
+                </span>
+            </li>
+        </ul>
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

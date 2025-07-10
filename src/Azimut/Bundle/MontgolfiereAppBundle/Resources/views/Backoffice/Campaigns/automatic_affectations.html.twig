@@ -1,0 +1,22 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'automatic_affectations' %}
+{% set hasFooterPanel = false %}
+{% set campaign = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div
+            id="app"
+            campaign-id="{{ campaign.id }}"
+            locales="{{ campaign.allowedLanguages|json_encode }}"
+            sorting-factors="{{ campaign.sortingFactors|map(sf => {id: sf.id, names: sf.names, values: sf.values|map(v => {id: v.id, labels: v.labels})})|json_encode }}"
+            affectations="{{ automaticAffectations|json_encode(constant('JSON_FORCE_OBJECT')) }}"
+    ></div>
+{% endblock %}
+
+{% block headerstylesheets %}
+    {{ encore_entry_link_tags('ixa-automatic-affectations') }}
+{% endblock %}
+{% block footerscripts %}
+    {{ encore_entry_script_tags('ixa-automatic-affectations') }}
+{% endblock %}

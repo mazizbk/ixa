@@ -1,0 +1,16 @@
+azimut_montgolfiere_app__consultant_area_campaigns_house_data:
+    path:     /{id}/house/data
+    defaults: { _controller: AzimutMontgolfiereAppBundle:ConsultantArea:data }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app__consultant_area_campaigns_generate_word:
+    path:     /{id}/house/get_word_document
+    defaults: { _controller: AzimutMontgolfiereAppBundle:ConsultantArea:generateWordDocument }
+    methods: POST
+    requirements:
+        id: \d+
+    options:
+        expose: true

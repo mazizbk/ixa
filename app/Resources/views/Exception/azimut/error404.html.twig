@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-02 15:36:35
+#}
+
+{% extends 'SiteLayout/azimut/base.html.twig' %}
+
+{% block title %}
+    {{ 'the.page.cannot.be.found'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>404</h1>
+        <h2>{{ 'the.page.cannot.be.found'|trans|capitalize }}</h2>
+        <p><a href="{{ url('azimut_frontoffice_home') }}">{{ 'go.to.home.page'|trans }}</a></p>
+    </div>
+{% endblock %}

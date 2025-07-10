@@ -1,0 +1,230 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-30 16:30:04
+
+#Expose AngularJS views
+azimut_frontoffice_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_tree_child:
+    path: /jsviews/page_tree_child
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_tree_child.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_sites_list:
+    path: /jsviews/sites_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:sites_list.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_site_detail:
+    path: /jsviews/site_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:site_detail.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_menu_detail:
+    path: /jsviews/menu_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:menu_detail.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_detail:
+    path: /jsviews/page_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_detail.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_detail_zones:
+    path: /jsviews/page_detail_zones
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_detail_zones.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_detail_parameters:
+    path: /jsviews/page_detail_parameters
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_detail_parameters.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_children_pages_list:
+    path: /jsviews/children_pages_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:children_pages_list.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_zone_detail:
+    path: /jsviews/zone_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:zone_detail.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_zone_detail_content:
+    path: /jsviews/zone_detail_content
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:zone_detail_content.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_site_form:
+    path: /jsviews/site_form
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:SiteForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_menu_form:
+    path: /jsviews/menu_form
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:MenuForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_form:
+    path: /jsviews/page_form_{type}
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:PageForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_zone_form:
+    path: /jsviews/zone_form
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:ZoneForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_zone_cms_file_attachment:
+    path: /jsviews/zone_cms_file_attachment
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:ZoneCmsFileAttachmentForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_new_site:
+    path: /jsviews/new_site
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:new_site.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_new_page:
+    path: /jsviews/new_page
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:new_page.angularjs.twig'
+        roles: ['APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_site_layouts_list:
+    path: /jsviews/site_layouts_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:site_layouts_list.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_site_layout_detail:
+    path: /jsviews/site_layout_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:site_layout_detail.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_site_layout_form:
+    path: /jsviews/site_layout_form
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:SiteLayoutForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_new_site_layout:
+    path: /jsviews/new_site_layout
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:new_site_layout.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_layouts_list:
+    path: /jsviews/page_layouts_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_layouts_list.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_layout_detail:
+    path: /jsviews/page_layout_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:page_layout_detail.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_page_layout_form:
+    path: /jsviews/page_layout_form
+    defaults: { _controller: AzimutFrontofficeBundle:Backoffice:PageLayoutForm }
+    options:
+        expose: true
+
+azimut_frontoffice_backoffice_jsview_new_page_layout:
+    path: /jsviews/new_page_layout
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutFrontofficeBundle:Backoffice:new_page_layout.angularjs.twig'
+        roles: ['SUPERADMIN']
+    options:
+        expose: true
+
+
+#Expose layout previews
+
+azimut_frontoffice_backoffice_layout_preview:
+    path: /jsviews/preview/{template}
+    requirements: { template: ".*" }
+    defaults:
+        _controller: AzimutFrontofficeBundle:Template:displayLayoutPreview
+    options:
+        expose: true

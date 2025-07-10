@@ -1,0 +1,17 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-11-02 11:46:26
+#}
+
+<section>
+    {% if cmsFile.mainAttachment != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.mainAttachment,
+            'class': 'pull-left'
+        } %}
+    {% endif %}
+
+    <p>{{ cmsFile.abstract|limit_length(250) }}</p>
+
+    <div class="clearfix"></div>
+</section>

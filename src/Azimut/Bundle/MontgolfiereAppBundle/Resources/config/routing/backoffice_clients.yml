@@ -1,0 +1,63 @@
+azimut_montgolfiere_app_backoffice_clients_homepage:
+    path:     /
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:index }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_clients_create:
+    path:     /new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:create }
+
+azimut_montgolfiere_app_backoffice_clients_iframe_selector:
+    path:     /iframe_selector
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:iframeSelector }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_clients_read:
+    path:     /{slug}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:read }
+
+azimut_montgolfiere_app_backoffice_clients_update:
+    path:     /{slug}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:update }
+
+azimut_montgolfiere_app_backoffice_clients_logo:
+    path:     /{slug}/logo
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:logo }
+    methods: GET
+
+azimut_montgolfiere_app_backoffice_clients_delete:
+    path:     /{slug}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:delete }
+    methods: DELETE
+
+azimut_montgolfiere_app_backoffice_clients_impersonate:
+    path:     /{slug}/impersonate
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClients:impersonate }
+    methods: GET
+
+# Contacts
+
+azimut_montgolfiere_app_backoffice_clients_contacts:
+    path:     /{slug}/contacts
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClientsContacts:list }
+
+azimut_montgolfiere_app_backoffice_clients_contacts_new:
+    path:     /{slug}/contacts/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClientsContacts:create }
+
+azimut_montgolfiere_app_backoffice_clients_contacts_update:
+    path:     /{slug}/contacts/{contact}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClientsContacts:update }
+    methods: [GET, POST]
+
+azimut_montgolfiere_app_backoffice_clients_contacts_delete:
+    path:     /{slug}/contacts/{contact}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClientsContacts:delete }
+    methods: DELETE
+
+azimut_montgolfiere_app_backoffice_clients_contacts_impersonate:
+    path:     /{slug}/contacts/{contact}/impersonate
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeClientsContacts:impersonate }
+    methods: GET

@@ -1,0 +1,8 @@
+services:
+    azimut_login_oauth_provider:
+        class: Azimut\Bundle\AzimutLoginBundle\Provider\AzimutLoginProvider
+        arguments: ["%base_url_login%", "%client_id%", "%client_secret%", "%kernel.cache_dir%", "@filesystem", "@security.token_storage"]
+    azimut_login_oauth_client:
+        class: Azimut\Bundle\AzimutLoginBundle\Service\AzimutLoginClient
+        arguments:
+            - "@azimut_login_oauth_provider"

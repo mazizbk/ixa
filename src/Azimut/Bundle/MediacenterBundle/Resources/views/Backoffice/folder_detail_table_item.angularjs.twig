@@ -1,0 +1,51 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-24 15:26:54
+#}
+
+{% verbatim %}
+
+    <td class="icon-column">
+        <span ng-if="currentFile.fileType == 'folder' && !currentFile.waitingForUpdate" class="glyphicon glyphicon-folder-open"></span>
+        <span ng-if="currentFile.fileType == 'media' && !currentFile.waitingForUpdate" ng-class="currentFile.cssIcon"></span>
+
+        <span ng-if="currentFile.waitingForUpdate" class="glyphicon glyphicon-refresh spin"></span>
+    </td>
+    <td ng-dblclick="openFile(currentFile)">
+        <a href ng-click="currentFile.editMode=true" ng-hide="currentFile.editMode">{{ currentFile.name }}</a>
+        <form ng-if="currentFile.editMode" ng-init="currentFileNewName = currentFile.name" ng-submit="renameFile(currentFile, currentFileNewName)">
+            <input type="text" class="form-control input-sm"
+                ng-model="currentFileNewName"
+                ui-event="{ blur : 'renameFile(currentFile, currentFileNewName)' }"
+                az-auto-focus="currentFile.editMode"
+            />
+        </form>
+
+        <span ng-if="currentFile.hasUploadingFile">
+             - {{ currentFile.progress }}%
+        </span>
+
+        <div class="progress" ng-if="currentFile.hasUploadingFile">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ currentFile.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ currentFile.progress }}%;"></div>
+        </div>
+
+    </div>
+    </td>
+    <td class="hidden-xxs-max">
+        {{ currentFile.creationDate|date:datetimeFormat }}
+    </td>
+    <td class="hidden-xxs-max">
+        <span ng-if="currentFile.fileType == 'folder'">{% endverbatim %}{{ 'folder'|transchoice(1) }}{% verbatim %}</span>
+        <span ng-if="currentFile.fileType == 'media'">{{ Translator.trans(currentFile.mediaType) }}</span>
+
+    </td>
+{% endverbatim %}{#
+    <td class="hidden-xxs-max">
+        TODO
+    </td>
+#}{% verbatim %}
+    <td class="icon-column">
+        <a href ng-click="trashFile(currentFile)" ng-if="'temp' != currentFile.fileType"><span class="glyphicon glyphicon-trash"></span></a>
+    </td>
+
+{% endverbatim %}

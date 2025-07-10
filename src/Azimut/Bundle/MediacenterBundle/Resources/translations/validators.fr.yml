@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-09-08 12:20:24
+
+media.name.cannot.be.longer.than._limit_.characters: "Le nom du média ne doit pas dépasser {{ limit }} caractères"
+folder.name.cannot.be.longer.than._limit_.characters: "Le nom du dossier ne doit pas dépasser {{ limit }} caractères"
+media.declination.name.cannot.be.longer.than._limit_.characters: "Le nom de la déclinaison de média ne doit pas dépasser {{ limit }} caractères"
+embed.html.must.contain.iframe: "Le code de partage doit contenir une balise iframe"

@@ -1,0 +1,28 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-04 17:59:53
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include "SiteLayout/shop_order_steps.html.twig" with { 'step': 'addresses' } %}
+
+    <h1>{{ 'addresses'|trans }}</h1>
+
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.billingAddress) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.deliveryAddress) }}
+            </div>
+        </div>
+        {{ form_widget(form) }}
+        <div class="text-center">
+            <input class="btn btn-success" type="submit" value="{{ 'valider'|trans }}" />
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-09-01 16:19:01
+
+main.media.attachment.must.be.of.type.image: "Main media must be of type image"
+main.media.attachment.must.be.of.type.video: "Main media must be of type video"
+this.value.must.be.of.type.%type_name%: "Must be a media of type %type_name%"
+publish.end.date.must.be.later.than.start.date: "Publish end date must be later than start date"

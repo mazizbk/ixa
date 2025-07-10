@@ -1,0 +1,5 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-02 10:29:34
+
+this.value.must.contain.only.lowercase.alphanumeric.characters.and.dashes: 'Cette valeur ne doit contenir que des caractères alphanumériques minuscules et des tirets'
+this.value.must.not.contain.special.characters: 'Cette valeur ne doit pas contenir de caractères spéciaux'

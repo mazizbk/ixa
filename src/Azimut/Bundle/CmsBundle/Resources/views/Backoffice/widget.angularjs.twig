@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-06-25 11:44:09
+#}
+
+<div class="widget-popin" id="{{ id }}">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button aria-hidden="true" class="close" type="button">×</button>
+            {{ title }}
+        </div>
+
+        <div class="root panel-body">
+            <div class="body" ng-transclude></div>
+        </div>
+    </div>
+
+</div>

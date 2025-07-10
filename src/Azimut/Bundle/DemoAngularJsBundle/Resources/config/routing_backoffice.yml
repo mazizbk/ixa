@@ -1,0 +1,33 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 16:41:45
+
+#Expose AngularJS views
+azimut_demoangularjs_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutDemoAngularJsBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_DEMO_ANGULAR_JS']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_demoangularjs_backoffice_jsview_demo_home:
+    path: /jsviews/home_demo
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutDemoAngularJsBundle:Backoffice:home_demo.angularjs.twig'
+        roles: ['APP_DEMO_ANGULAR_JS']
+    options:
+        expose: true
+
+azimut_demoangularjs_backoffice_jsview_demo:
+    path: /jsviews/demo
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutDemoAngularJsBundle:Backoffice:demo.angularjs.twig'
+        roles: ['APP_DEMO_ANGULAR_JS']
+    options:
+        expose: true

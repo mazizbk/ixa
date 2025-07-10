@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-10-23 16:28:42
+#}
+
+{% if archivesHtmlContent %}
+    <ul>
+        {{ archivesHtmlContent|raw }}
+    </ul>
+{% else %}
+    <p>{{ 'no.archive'|trans|capitalize }}</p>
+{% endif %}

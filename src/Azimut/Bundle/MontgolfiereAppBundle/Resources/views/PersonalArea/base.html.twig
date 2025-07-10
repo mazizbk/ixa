@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Workcare{% endblock %}</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+
+    {% stylesheets filter='cssrewrite,assetdirectory' package='build' output='layout/css/workcare_personal_area.css'
+        '@font_awesome_css'
+        '../app/Resources/css/ixa/fonts.css'
+        '../app/Resources/css/ixa/forms.css'
+        '../app/Resources/css/ixa/normalize.css'
+        '../app/Resources/css/ixa/scaffolding.css'
+        '../app/Resources/css/ixa/utilities.css'
+        '../app/Resources/css/twitter-bootstrap/tooltip.css'
+        '../app/Resources/css/ixa/components/*'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts package='build' output='layout/js/workcare_personal_area.js'
+        '@jquery_js'
+        '@d3_js'
+        '@easeljs_js'
+        '../app/Resources/js/ixa/MainMenu.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/js/transition.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/js/collapse.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/js/tooltip.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+        <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+        <script src="{{ url('bazinga_jstranslation_js') }}?locales={{ app.request.locale }}"></script>
+    {% endjavascripts %}
+</head>
+<body{% if _bodyClass is defined %} class="{{ _bodyClass }}"{% endif %}>
+    <div class="MainHeader" style="background-image:url('{{ asset('img/personal_area/lines-header.svg') }}');">
+        <div class="MainHeader-logo">
+            <img src="{{ asset('img/questionnaire/logo-black.svg') }}" alt="Workcare" width="100"/>
+        </div>
+        {% block mainHeader %}
+            <div class="MainHeader-title">{{ ('montgolfiere.frontoffice.personal_area.hello')|trans }}</div>
+            {% if participation is defined %}
+                <i class="fa fa-calendar"></i> Participation du {{ participation.createdAt|localizeddate("medium", "none") }}
+            {% endif %}
+        {% endblock %}
+
+        <div class="MainHeader-action hideMobile">
+            <a href="{{ path('azimut_montgolfiere_personal_area_logout') }}" class="Btn Btn--small Btn--white">{{'logout'|trans}}</a>
+        </div>
+    </div>
+    <div class="MainMenu MainMenu--light  MainMenu--line">
+        {% if selectedMenu is not defined %}
+            {% set selectedMenu = '' %}
+        {% endif %}
+        {% block mainMenu %}
+        <div class="MainMenu-btn"></div>
+        <div class="MainMenu-list">
+            <a href="{{ path('azimut_montgolfiere_personal_area_home') }}" class="MainMenu-list-item {{ selectedMenu == 'BEEProfil' ? 'MainMenu-list-item--selected' : '' }}">{{ 'montgolfiere.frontoffice.personal_area.my_BEEProfil'|trans }}</a>
+            <a href="{{ path('azimut_montgolfiere_personal_area_participations') }}" class="MainMenu-list-item {{ selectedMenu == 'records' ? 'MainMenu-list-item--selected' : '' }}">{{ 'montgolfiere.frontoffice.personal_area.history'|trans }}</a>
+            <a href="{{ path('azimut_montgolfiere_personal_area_charter') }}" class="MainMenu-list-item {{ selectedMenu == 'charter' ? 'MainMenu-list-item--selected' : '' }}">{{ 'montgolfiere.frontoffice.personal_area.commitment_charter'|trans }}</a>
+            <a href="{{ path('azimut_montgolfiere_personal_area_opinion') }}" class="MainMenu-list-item {{ selectedMenu == 'opinion' ? 'MainMenu-list-item--selected' : '' }}">{{ 'montgolfiere.frontoffice.personal_area.give_your_opinion'|trans }}</a>
+            <a href="https://workcare.fr/faq/" target="_blank" class="MainMenu-list-item {{ selectedMenu == 'help' ? 'MainMenu-list-item--selected' : '' }}">{{ 'montgolfiere.frontoffice.personal_area.faq'|trans }}</a>
+            <a href="{{ path('azimut_montgolfiere_personal_area_logout') }}" class="MainMenu-list-item showMobile">{{'logout'|trans}}</a>
+        </div>
+        {% endblock %}
+    </div>
+    <div class="MainBody MainBody--grey">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <div class="MainBody-footer">
+        <div class="MainBody-footer-logo">
+            <a href="https://workcare.fr/" target="_blank">
+                <img src="{{ asset('img/questionnaire/logo-black.svg') }}" class="MainBody-footer-logo-img" alt="Workcare" width="100" />
+            </a>
+            <ul class="MainBody-footer-socialnetworks">
+                <li class="MainBody-footer-socialnetworks-item"><a title="Workcare sur LinkedIn" target="_blank" rel="noopener" href="https://www.linkedin.com/showcase/work-care"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                <li class="MainBody-footer-socialnetworks-item"><a title="Workcare sur Facebook" target="_blank" rel="noopener" href="https://www.facebook.com/workcare.fr"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                <li class="MainBody-footer-socialnetworks-item"><a title="Workcare sur Instagram" target="_blank" rel="noopener" href="https://www.instagram.com/workcare_fr/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                <li class="MainBody-footer-socialnetworks-item"><a title="Workcare sur Twitter" target="_blank" rel="noopener" href="https://twitter.com/workcare_fr"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+                <li class="MainBody-footer-socialnetworks-item"><a title="Workcare sur Youtube" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UC-IxdVKF_338K8OJLE2E4PA"><i class="fa fa-youtube-square" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+        <div class="MainBody-footer-content">
+            {{ 'montgolfiere.frontoffice.footer.text1'|trans }}<br />
+            {{ 'montgolfiere.frontoffice.footer.text2'|trans }}<br />
+        </div>
+        <div class="MainBody-footer-action">
+            <a href="mailto:contact@workcare.fr" class="Btn Btn--small">{{ 'montgolfiere.questionnaire.question.contact.title'|trans }}</a>
+        </div>
+    </div>
+    {% block endjavascripts %}
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    {% endblock %}
+    <script async src="https://opentech-ux.org/lom-captor/dist/opentech-ux-lib.js" data-endpoint="https://workcare.ux-key.com/endpoint"></script>
+
+</body>
+</html>

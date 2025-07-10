@@ -1,0 +1,42 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-04 09:27:24
+
+frontoffice_security.app.name: "Internautes"
+frontoffice_security.meta.title: "Internautes"
+
+frontoffice.user: "Internaute"
+create.frontoffice.user: "Créer l'internaute"
+user.roles: "Profils"
+
+login: "Se connecter"
+logout: "Se déconnecter"
+password: "Mot de passe"
+confirm.password: "Confirmer le mot de passe"
+lost.password: "Mot de passe perdu"
+invalid.credentials: "Identifiant ou mot de passe invalide, ou compte suspendu"
+continue: "Continuer"
+password.reset.email.sent: "Un message vous a été envoyé sur votre adresse email avec un lien pour choisir un nouveau mot de passe"
+password.reset: "Modifier le mot de passe"
+reset.your.password: "Choisir un nouveau mot de passe"
+set.password: "Enregistrer le mot de passe"
+your.password.has.been.reseted: "Votre mot de passe a été modifié"
+frontoffice.user.not.found: "Le compte n'a pas été trouvé"
+password.reset.token.invalid: "Le lien est invalide ou périmé"
+register: "S'inscrire"
+your.user.account.has.been.created: "Votre compte utilisateur a été créé"
+your.account.will.be.activated.after.validation: "Votre compte sera activé dès qu'un administrateur l'aura validé"
+edit.your.user.profile: "Editer votre profil utilisateur"
+your.user.profile.has.been.updated: "Votre profil utilisateur a été mis à jour"
+is.active: "actif"
+confirm.email: "Confirmer l'adresse email"
+your.email.has.been.confirmed: "Votre adresse email a été confirmée"
+email.confirmation.token.invalid: "Jeton de confirmation d'adresse email invalide"
+login.as.%username%: "se connecter en tant que %username%"
+change_password: "Changer mon mot de passe"
+
+notification:
+    error.frontoffice.user.%id%.get: "Impossible d'accéder à l'internaute %id%"
+    error.frontoffice.user.impersonate: "L'internaute n'a pas pu être impersonnifié"
+    success.frontoffice.user.impersonate: "L'internaute a été impersonnifié avec succès, suivant ce lien pour vous identifier :"
+
+"Please validate your email address before logging in.": "Veuillez valider votre adresse email avant de pouvoir vous connecter."

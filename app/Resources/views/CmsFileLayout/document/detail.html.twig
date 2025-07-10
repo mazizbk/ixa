@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-01-11 16:03:49
+#}
+
+{% if cmsFile.mainAttachment != null %}
+    <div class="bloc-document">
+        <a href="{{ asset(cmsFile.mainAttachment.mediaDeclination.webPath) }}" class="btn btn-default" download>{{ cmsFile.mainAttachment.mediaDeclination.name }}</a>
+    </div>
+{% endif %}

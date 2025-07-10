@@ -1,0 +1,43 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-04-15 10:25:33
+#}
+
+{% if options.mapSvgSrc is not defined and options.mapImgSrc is not defined %}
+    {% set options = options|merge({'mapSvgSrc': asset('img/maps/map.svg')}) %}
+{% endif %}
+
+{% if options.zoom is not defined %}
+    {% set options = options|merge({'zoom': 1}) %}
+{% endif %}
+
+{% if options.maxZoom is not defined %}
+    {% set options = options|merge({'maxZoom': 4}) %}
+{% endif %}
+
+{% if options.minZoom is not defined %}
+    {% set options = options|merge({'minZoom': 1}) %}
+{% endif %}
+
+{% if zone.title %}
+    <h1 class="zone-title">{{ zone.title }}</h1>
+{% endif %}
+
+{% include 'ZoneLayout/filters.html.twig' %}
+
+<div
+    class="ylc-js-map"
+    {% if options.mapImgSrc is defined %}
+        data-map-img-src="{{ options.mapImgSrc }}"
+    {% endif %}
+    {% if options.mapSvgSrc is defined %}
+        data-map-svg-src="{{ options.mapSvgSrc }}"
+        data-map-svg-native-width="1920"
+        data-map-svg-native-height="1080"
+    {% endif %}
+    data-map-initial-zoom="{{ options.zoom }}"
+    data-map-max-zoom="{{ options.maxZoom }}"
+    data-map-min-zoom="{{ options.minZoom }}"
+    data-map-points-src="{{ path('azimut_cmsmap_api_public_get_cmsfiles', {'zoneId': zone.id }) }}"
+    style="height: 500px"
+></div>

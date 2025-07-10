@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Montserrat';
+    src:
+        url('../../../../web/fonts/montserrat/Montserrat-Regular.woff') format('woff')
+    ;
+    font-weight: normal; /* Regular */
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src:
+            url('../../../../web/fonts/montserrat/Montserrat-Bold.woff') format('woff')
+;
+    font-weight: bold;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src:
+            url('../../../../web/fonts/montserrat/Montserrat-ExtraBold.woff') format('woff')
+;
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DIN";
+    src: local('DIN-Regular Medium'), local('DIN-Regular'), url("../../../../web/fonts/din/din-regular.ttf") format("truetype");
+}
+
+/* carlito-latin-ext-400-normal */
+@font-face {
+    font-family: 'Carlito';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url("../../../../web/fonts/carlito/carlito-latin-400-normal.woff2") format('woff2'), url("../../../../web/fonts/carlito/carlito-latin-400-normal.woff") format('woff');
+}

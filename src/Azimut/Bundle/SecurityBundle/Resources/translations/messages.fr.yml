@@ -1,0 +1,99 @@
+security.app.name: "Utilisateurs"
+
+security.meta.title: "Azimut Utilisateurs"
+
+user: "utilisateur|utilisateurs"
+group: "groupe|groupes"
+groups: "groupes"
+new.user: "Nouvel utilisateur"
+new.group: "Nouveau groupe"
+
+username: "identifiant"
+first.name: "Prénom"
+last.name: "Nom"
+email: "Adresse email"
+name: "nom"
+
+search.users: "Chercher parmi les utilisateurs"
+search.groups: "Chercher parmi les groupes"
+search.accessright: "Chercher parmi les droits d'accès"
+
+template.error.message: "Vous n'avez pas accès à cette page"
+application.error.message: "Vous n'avez pas de droits sur cette application, contactez l'administrateur ou déconnectez vous en suivant le lien"
+
+no.user.found: "aucun utilisateur trouvé"
+no.group.found: "aucun groupe trouvé"
+
+security:
+    newuser:
+        found.%firstname%.%lastname%: "Nous avons trouvé un utilisateur correspondant à cette adresse email : %firstname% %lastname%"
+        notfound: "Aucun utilisateur n'existe avec cette adresse email. Nous lui enverrons un email pour qu'il ou elle puisse créer son compte."
+        header: "Création d'un nouvel utilisateur"
+    edituser:
+        notice:
+            "%firstname%.%lastname%": "Si nécessaire, %firstname% %lastname% peut éditer ses propres informations en accédant à"
+            notconfirmed: "L'utilisateur n'a pas encore confirmé son compte"
+            notconfirmed2: "Pour confirmer son compte, l'utilisateur doit cliquer sur le lien que nous lui avons envoyé par email."
+            notconfirmed3: "Si nécessaire, vous pouvez "
+            resentemail: "renvoyer l'email"
+        header:
+            "%firstname%.%lastname%": "Édition de l'utilisateur %firstname% %lastname%"
+            "%email%": "Édition de l'utilisateur %email%"
+        sections:
+            general_information: 'Informations générales'
+            access_rights: 'Droits d''accès'
+        access_rights:
+            simple_roles: "Roles simples"
+            applications: "Applications"
+        groups:
+            update: 'Après avoir modifié l''appartenance à un groupe, vous devez sauvegarder l''utilisateur pour voir ses droits effectifs'
+            removing_group_would_remove_access: 'Impossible de mettre à jour vos groupes, car cette modification vous empêcherait d''accéder à l''application sécurité.'
+        rights:
+          removing_group_would_remove_access: 'Impossible de supprimer le droit à l''application sécurité car aucun autre groupe ne vous donne accès à l''application.'
+    users_list:
+        confirmed_accounts: 'Comptes confirmés'
+        accounts_waiting_confirmation: 'Comptes en attente de confirmation'
+    editgroup:
+        header.%name%: "Édition du groupe %name%"
+        rights:
+            removing_group_would_remove_access: 'Impossible de mettre à jour les droits de ce groupe, car il s''agit du dernier groupe vous donnant accès à l''application sécurité.'
+    deletegroup.deleting_group_would_remove_access: 'Impossible de supprimer ce groupe, car sa suppression vous empêcherait d''accéder à l''application sécurité.'
+roles:
+    VIEW: Voir
+    CREATE: Créer
+    EDIT: Modifier
+    DELETE: Supprimer
+    GLOBAL_ADMIN: Administrateur
+    GLOBAL_EDIT_ALL_LANG: "Édition toutes langues"
+    GLOBAL_EDIT_FR: "Édition Français"
+    GLOBAL_EDIT_EN: "Édition Anglais"
+    EDIT_PARAMS: "Modifier les paramètres"
+    SUGGEST: "Proposer"
+    WRITE: "Écrire"
+
+
+notification:
+
+    error.user.create: "L'utilisateur n'a pas pu être créé"
+    success.user.create: "L'utilisateur a été créé avec succès"
+    error.user.update: "L'utilisateur n'a pas pu être mis à jour"
+    success.user.update: "L'utilisateur a été mis à jour avec succès"
+    error.user.delete: "L'utilisateur n'a pas pu être supprimé"
+    success.user.delete: "L'utilisateur a été supprimé avec succès"
+    success.user.validationemail: "L'email de confirmation a été envoyé"
+
+    error.group.create: "Le groupe n'a pas pu être créé"
+    success.group.create: "Le groupe a été créé avec succès"
+    error.group.update: "Le groupe n'a pas pu être mis à jour"
+    success.group.update: "Le groupe a été mis à jour avec succès"
+    error.group.delete: "Le groupe n'a pas pu être supprimé"
+    success.group.delete: "Le groupe a été supprimé avec succès"
+
+    error.accessrights.update: "Les droits d'accès n'ont pas pu être mis à jour"
+
+user.has.not.been.saved.are.you.sure.you.want.to.continue: "L'utilisateur n'a pas été sauvegardé, êtes-vous sûr de vouloir continuer ?"
+group.has.not.been.saved.are.you.sure.you.want.to.continue: "Le groupe n'a pas été sauvegardé, êtes-vous sûr de vouloir continuer ?"
+access.rights.have.not.been.saved.are.you.sure.you.want.to.continue: "Les droits d'accès n'ont pas été sauvegardés, êtes-vous sûr de vouloir continuer ?"
+
+user.%name%.confirm.permanent.delete: "Etes-vous sûr de vouloir supprimer définitivement l'utilisateur \"%name%\""
+group.%name%.confirm.permanent.delete: "Etes-vous sûr de vouloir supprimer définitivement le groupe \"%name%\""

@@ -1,0 +1,217 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{# @var segment \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignSegment #}
+{% set activeTab = 'participations' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+{% set segment = participation.segment %}
+{% import _self as macros %}
+
+{% block readBody %}
+    <div class="pull-right" style="margin-bottom: 20px;">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations', {'id': campaign.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+            {{ 'montgolfiere.backoffice.campaigns.participations.back_to_list'|trans }}
+        </a>
+        <span class="dropdown">
+            <a href="#" class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                Profil BEE <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_send_wbe', {'id': campaign.id, 'participation': participation.id}) }}" {{ not participation.emailAddress ? 'class="disabled"' : '' }} >
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        {{ 'montgolfiere.backoffice.campaigns.participations.send_wbe'|trans }}
+                    </a>
+                </li>
+                <li>
+                    <a {% if participation.token %}href="{{ path('azimut_montgolfiere_personal_area_profil', {'token' : participation.token}) }}" target="_blank" {% else %} href="#" class="disabled"{% endif %}>
+                        <i class="glyphicon glyphicon-pro glyphicon-pro-eye-open"></i>
+                        {{ 'montgolfiere.backoffice.campaigns.participations.consult_wbe'|trans }}
+                    </a>
+                </li>
+                <li>
+                    <a {% if participation.token %}href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_block_wbe', {'id': campaign.id, 'participation': participation.id}) }}"{% else %} href="#" class="disabled"{% endif %}>
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        {{ 'montgolfiere.backoffice.campaigns.participations.block_wbe'|trans }}
+                    </a>
+                </li>
+            </ul>
+        </span>
+    </div>
+    <div class="clearfix"></div>
+
+    {% if not participation.finished %}
+        <div class="alert alert-warning">{{ 'montgolfiere.backoffice.campaigns.participations.flash.not_finished'|trans }}</div>
+    {% elseif participation.archivedAt %}
+        <div class="alert alert-warning">{{ 'montgolfiere.backoffice.campaigns.participations.flash.archived'|trans }}</div>
+    {% endif %}
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'montgolfiere.backoffice.campaigns.participations.basic_info'|trans }}
+                <div class="pull-right"><a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_edit', {'id': campaign.id, 'participation': participation.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a></div>
+            </div>
+            <ul class="list-group">
+                {% for sortingFactor in campaign.sortingFactors %}
+                    <li class="list-group-item">
+                        <strong>{{ ixa_sorting_factor_name(sortingFactor) }} :</strong>
+                        {{ participation.getSortingFactorValue(sortingFactor)?ixa_sorting_factor_value_name(participation.getSortingFactorValue(sortingFactor)) }}
+                    </li>
+                {% endfor %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-group" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.segment'|trans }}"></i>
+                    {{ participation.segment.name }}
+                </li>
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-calendar" data-toggle="tooltip" title="{{ 'montgolfiere.backoffice.campaigns.participations.date'|trans }}"></i>
+                    {{ participation.createdAt|localizeddate }}<br />
+                    {% set _diff = participation.updatedAt.diff(participation.createdAt) %}
+                    <span title="{{ _diff.format('%i minutes %s secondes') }}" data-toggle="tooltip">{{ _diff.format('%i') }} minutes</span>
+                </li>
+                {% if participation.firstName or participation.lastName %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-user" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.last_name'|trans }}"></i>
+                        {{ participation.firstName }} {{ participation.lastName }}
+                    </li>
+                {% endif %}
+                {% if participation.emailAddress %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-envelope" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.email_address'|trans }}"></i>
+                        <a href="mailto:{{ participation.emailAddress }}">{{ participation.emailAddress }}</a>
+                    </li>
+                {% endif %}
+                {% if participation.phoneNumber %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-earphone" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.phone_number'|trans }}"></i>
+                        {{ participation.phoneNumber }}
+                    </li>
+                {% endif %}
+                {% if participation.gender %}
+                    <li class="list-group-item">
+                        {% if participation.gender is constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\CampaignParticipation::GENDER_MAN') %}
+                            {% set gender = 'male' %}
+                        {% elseif participation.gender is constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\CampaignParticipation::GENDER_WOMAN') %}
+                            {% set gender = 'female' %}
+                        {% elseif participation.gender is constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\CampaignParticipation::GENDER_OTHER') %}
+                            {% set gender = 'other' %}
+                        {% else %}
+                            {% set gender = 'unknown' %}
+                        {% endif %}
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-gender-{{ gender }}" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.gender'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.genders.'~participation.gender)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.managerName %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-businessman" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.manager_name'|trans }}"></i>
+                        {{ participation.managerName }}
+                    </li>
+                {% endif %}
+                {% if participation.seniority %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-history" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.seniority'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.seniorities.'~participation.seniority)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.education %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-education" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.education'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.educations.'~participation.education)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.csp %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-briefcase" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.csp'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.csps.'~participation.csp)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.age %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-clock" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.age'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.ages.'~participation.age)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.maritalStatus %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-marriage" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.marital_status'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.marital_statuses.'~participation.maritalStatus)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.managementResponsibilities %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-user-lock" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.management_responsibilities'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.management_responsibilities_values.'~participation.managementResponsibilities)|trans }}
+                    </li>
+                {% endif %}
+                {% if participation.position %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-vcard" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.position'|trans }}"></i>
+                        {{ participation.position }}
+                    </li>
+                {% endif %}
+                {% if participation.residenceState %}
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-home" data-toggle="tooltip" title="{{ 'montgolfiere.questionnaire.basic_information.residence_state'|trans }}"></i>
+                        {{ ('montgolfiere.questionnaire.basic_information.states.'~participation.residenceState)|trans }}
+                    </li>
+                {% endif %}
+                <li class="list-group-item">
+                    {{ 'montgolfiere.backoffice.campaigns.participations.wbe_score'|trans }}<br />
+                    <ul>
+                        <li>{{ 'montgolfiere.backoffice.campaigns.participations.well_being'|trans }} : {{ participation.wellBeingScore|number_format(decimal=2) }} ({{ ('montgolfiere.backoffice.common.wbe_profiles.well_being.'~ixa_wbe_well_being_profile(participation))|trans }})</li>
+                        <li>{{ 'montgolfiere.backoffice.campaigns.participations.engagement'|trans }} : {{ participation.engagementScore|number_format(decimal=2) }} ({{ ('montgolfiere.backoffice.common.wbe_profiles.engagement.'~ixa_wbe_engagement_profile(participation))|trans }})</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-6 col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+
+                <thead>
+                <tr>
+                    <th>{{ 'montgolfiere.backoffice.questions.fields.label'|trans }}</th>
+                    <th>{{ 'montgolfiere.backoffice.campaigns.participations.value'|trans }}</th>
+                    <th>{{ 'montgolfiere.questionnaire.question.open_answer'|trans }}</th>
+                    <th>{{ 'montgolfiere.questionnaire.question.skip_question'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for step in participation.segment.steps %}
+                    {% if step.type == constant('TYPE_ITEM', step) or step.type == constant('TYPE_QUESTION', step) %}
+                        {% set _answer = participation.answer(step) %}
+                        {{ macros.answerRow(step.question, _answer) }}
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% macro answerRow(question, answer) %}
+    <tr>
+        <th>{% if question %}{{ question.label }}{% else %}Question non trouvée !{% endif %}</th>
+        {% if not answer %}
+            <td colspan="3"><em>Non répondu</em></td>
+        {% else %}
+            <td>
+                {% if answer.value is not same as(null) %}
+                    {% set side = answer.value < 0 ? 'left' : 'right' %}
+                    {{ 10 - (answer.value|abs) }}{% if answer.value != 0 %} {{ ('montgolfiere.backoffice.campaigns.participations.value_'~side)|trans }} ({{ answer.value }}){% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {% if answer.openAnswer is iterable %}
+                    {% for choice in answer.openAnswer %}
+                        {{ choice }}{% if not loop.last %}<br />{% endif %}
+                    {% endfor %}
+                {% else %}
+                    {{ answer.openAnswer }}
+                {% endif %}
+            </td>
+            <td>{{ answer.skipped?'montgolfiere.backoffice.questions.fields.yes'|trans }}</td>
+        {% endif %}
+    </tr>
+{% endmacro %}

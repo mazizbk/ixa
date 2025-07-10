@@ -1,0 +1,20 @@
+{% extends '@AzimutMontgolfiereApp/PersonalArea/base.html.twig' %}
+{% block body %}
+    <div class="MainBody-content MainBody-content--small">
+        <h1 class="Title Title--1">{{ 'montgolfiere.frontoffice.personal_area.give_your_opinion'|trans }}</h1>
+        {% if message is defined and message != '' %}
+        <p class="text-center">
+            {{ ('montgolfiere.frontoffice.personal_area.'~ message)|trans }}
+        </p>
+        <div class="text-center">
+            <a href="{{ path('azimut_montgolfiere_personal_area_profil', {'token': participation.token}) }}" class="Btn Btn--off">Retour</a>
+        </div>
+        {% else %}
+            {% if form is defined %}
+                {% form_theme form _self "bootstrap_3_layout.html.twig" "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" %}
+                {{ form(form, {'attr': {'class' : 'form-block'}}) }}
+            {% endif %}
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-07-19 14:31:50
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {{ renderZone(page, 'map', pagePath, {
+        'templateName': 'zone_map',
+        'templateOptions': {
+            'mapSvgSrc': asset('img/maps/map.svg'),
+            'zoom': 1,
+            'maxZoom': 4,
+            'minZoom': 1
+        }
+    }) }}
+{% endblock %}

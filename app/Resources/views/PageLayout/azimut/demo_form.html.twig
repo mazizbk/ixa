@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-07-05 14:55:53
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        <h1>Demo form</h1>
+
+        {{ renderZone(page, 'intro', pagePath, {
+            'cmsFileTemplateName': 'cms_file_detail',
+        }) }}
+
+        {{ renderZoneForm(page, 'form') }}
+    </div>
+{% endblock %}

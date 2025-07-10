@@ -1,0 +1,18 @@
+{# @var cmsFile \Azimut\Bundle\CmsBundle\Entity\Traits\CmsFileSecondaryAttachmentsTrait #}
+{% if cmsFile.secondaryAttachments != null and cmsFile.secondaryAttachments.count > 0 %}
+    {% for attachment in cmsFile.secondaryAttachments %}
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="thumbnail">
+                {% include 'CmsFileLayout/media_attachment.html.twig' with {'attachment': attachment, class: '', width: '100%', height: '100%'} %}
+                <div class="caption">
+                    {% if 'video' == attachment.mediaDeclination.mediaDeclinationType and attachment.mediaDeclination.embedHtml %}
+                        <h3>{{ attachment.mediaDeclination.media.name }}</h3>
+                    {% else %}
+                        <h3><a href="{{ asset(attachment.mediaDeclination.webPath) }}" target="_blank">{{ attachment.mediaDeclination.media.name }}</a></h3>
+                    {% endif %}
+                    <p>{{ attachment.mediaDeclination.media.description }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

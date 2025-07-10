@@ -1,0 +1,9 @@
+{# @var entity \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'edit' %}
+{% set campaign = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {% include "@AzimutMontgolfiereApp/Backoffice/Campaigns/form.html.twig" with {closeAll: true} %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+{% verbatim %}
+
+    <div
+        ng-if="currentFile.fileType === 'media'"
+        ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_media_detail') }}{% verbatim %}'"
+        az-include-replace
+    ></div>
+
+    <div
+        ng-if="currentFile.fileType === 'folder'"
+        ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_detail') }}{% verbatim %}'"
+        az-include-replace
+    ></div>
+
+{% endverbatim %}

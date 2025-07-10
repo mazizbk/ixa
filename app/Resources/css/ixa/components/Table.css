@@ -1,0 +1,168 @@
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+ * date:    2019-06-21 10:50:09
+ */
+
+.Table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Table tr,
+.Table td {
+    vertical-align: top;
+}
+
+.Table thead th {
+    font-weight: normal;
+}
+.Table--white tbody{
+    background: white;
+}
+
+.Table--spaceLines th,
+.Table--spaceLines td {
+    padding: 1em;
+}
+
+.Table--spaceLines th:last-child,
+.Table--spaceLines td:last-child {
+    padding-right: 0;
+}
+
+.Table--thLeft th {
+   text-align: left;
+   padding-right: 2em;
+}
+
+.Table--2--1-2 tr > *:first-child {
+    width: 33%;
+}
+.Table--2--1-2 tr > *:last-child {
+    padding-left: 2rem;
+}
+
+.Table--center {
+    width: auto;
+    margin: 0 auto;
+}
+.Table--min70width {
+    min-width: 70%;
+}
+
+.Table--rowsSeparator tr + tr {
+    border-top: 1px solid #d7d7d7;
+}
+
+.Table--thMinWidth11 th {
+    min-width: 10.5em;
+}
+
+.Table tr.togglableLine {
+    display: none;
+}
+.Table.open tr.togglableLine {
+    /*display: table-row;*/
+}
+
+.Table-toggler {
+    display: block;
+    text-align: center;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.Table.Table--verticalCenterLines th,
+.Table th.Table-cell--verticalCenter,
+.Table.Table--verticalCenterLines td,
+.Table td.Table-cell--verticalCenter {
+    vertical-align: middle;
+}
+
+.Table-cell--icon {
+    width: 1.5em;
+}
+
+.Table-cell--big {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.Table--striped tr:nth-child(even) td{
+    background:white;
+}
+.Table--striped tr:nth-child(even) td:first-child{
+    border-radius: 15px 0 0 15px;
+}
+.Table--striped tr:nth-child(even) td:last-child{
+    border-radius: 0 15px 15px 0;
+}
+
+@media (max-width: 1080px) {
+    /* 1 column at size M */
+    .Table--m-1,
+    .Table--m-1 tr,
+    .Table--m-1 th,
+    .Table--m-1 td,
+    .Table--m-1.Table--2--1-2 tr > *:first-child,
+    .Table--m-1.Table--2--1-2 tr > *:last-child {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: auto;
+    }
+    .Table--m-1 tr + tr {
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 960px) {
+    /* 1 column at size S */
+    .Table--s-1,
+    .Table--s-1 tr,
+    .Table--s-1 th,
+    .Table--s-1 td,
+    .Table--s-1.Table--2--1-2 tr > *:first-child,
+    .Table--s-1.Table--2--1-2 tr > *:last-child {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: auto;
+    }
+    .Table--s-1 tr + tr {
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 900px) {
+    /* 1 column at size XS */
+    .Table--xs-1,
+    .Table--xs-1 tr,
+    .Table--xs-1 th,
+    .Table--xs-1 td,
+    .Table--xs-1.Table--2--1-2 tr > *:first-child,
+    .Table--xs-1.Table--2--1-2 tr > *:last-child {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: auto;
+    }
+    .Table--xs-1 tr + tr {
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 620px) {
+    /* 1 column at size XXS */
+    .Table--xxs-1,
+    .Table--xxs-1 tr,
+    .Table--xxs-1 th,
+    .Table--xxs-1 td,
+    .Table--xxs-1.Table--2--1-2 tr > *:first-child,
+    .Table--xxs-1.Table--2--1-2 tr > *:last-child {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: auto;
+    }
+    .Table--xxs-1 tr + tr {
+        margin-top: 1rem;
+    }
+}

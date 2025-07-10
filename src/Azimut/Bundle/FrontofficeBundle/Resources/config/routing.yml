@@ -1,0 +1,23 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-28 14:21:17
+
+azimut_frontoffice_frontoffice:
+    resource: "@AzimutFrontofficeBundle/Resources/config/routing_frontoffice.yml"
+    type: azimut_frontoffice
+
+azimut_frontoffice_sitemap:
+    path: "sitemap.xml"
+    defaults: { _controller: "AzimutFrontofficeBundle:Seo:sitemap" }
+    options: { i18n: false }
+
+azimut_frontoffice_robots:
+    path: "robots.txt"
+    defaults: { _controller: "AzimutFrontofficeBundle:Seo:robots" }
+    options: { i18n: false }
+
+# without langage prefix (for handling 301 and unsupported locales)
+azimut_frontoffice_redirections:
+    path: "{path}"
+    requirements: { path: "^(?!api\/|admin\/).*" }
+    defaults: { _controller: "AzimutFrontofficeBundle:Front:index" }
+    options: { i18n: false }

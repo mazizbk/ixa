@@ -1,0 +1,34 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 12:16:45
+
+services:
+
+    azimut_moderation.roles:
+        class: Azimut\Bundle\ModerationBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_moderation_roles }
+
+    azimut_moderation.cms_file_buffer_converter:
+        class: Azimut\Bundle\ModerationBundle\Service\CmsFileBufferConverter
+        arguments: ["@annotation_reader", "@doctrine", "%uploads_dir%"]
+
+    azimut_moderation.mailer:
+        class: Azimut\Bundle\ModerationBundle\Service\Mailer
+        arguments: ["@mailer", "@templating", "@translator", "%sender_address%", "%moderation_form_recipient%"]
+
+    #form type services
+    azimut_moderation.form.cms_file_buffer:
+        class: Azimut\Bundle\ModerationBundle\Form\Type\CmsFileBufferType
+        arguments:
+            - "%locales%"
+        tags:
+            -
+                name: form.type
+
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\ModerationBundle\DataFixtures\ORM\LoadCmsFileArticleBufferData:
+        tags:
+            - { name: doctrine.fixture.orm }

@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-27 12:14:12
+#}
+
+<div id="shopBasketProductQuantityNotChanged" class="shop-popin-container" style="display: none">
+    <div class="shop-popin">
+        <p class="text-danger">{{ 'quantity.has.not.been.changed'|trans }}</p>
+        <p id="shopBasketProductQuantityNotChangedMessage"></p>
+        <a class="btn btn-default" onclick="$('#shopBasketProductQuantityNotChanged').hide()">{{ 'close'|trans }}</a>
+    </div>
+</div>
+
+<div id="shopBasketProductQuantityError" class="shop-popin-container" style="display: none">
+    <div class="shop-popin">
+        <p>{{ 'an.error.occured.while.changing.quantity'|trans }}</p>
+        <a class="btn btn-default" onclick="$('#shopBasketProductQuantityError').hide()">{{ 'close'|trans }}</a>
+    </div>
+</div>

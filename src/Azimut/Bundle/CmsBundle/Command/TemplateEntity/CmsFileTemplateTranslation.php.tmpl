@@ -1,0 +1,33 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:   2015-07-28
+ */
+
+namespace Azimut\Bundle\CmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cms_cmsfile_%cms_file_type_lowercase%_translation")
+ *
+ * @DynamicInheritanceSubClass(discriminatorValue="%cms_file_type_lowercase%")
+ */
+class CmsFile%cms_file_type_capitalize%Translation extends CmsFileTranslation
+{
+    /**
+     * @ORM\Column(type="string", length=150)
+     */
+    protected $myTranslatedField;
+
+    public function getMyTranslatedField() {
+        return $this->myTranslatedField;
+    }
+
+    public function setMyTranslatedField($myTranslatedField) {
+        $this->myTranslatedField = $myTranslatedField;
+        return $this;
+    }
+}

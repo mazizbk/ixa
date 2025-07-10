@@ -1,0 +1,28 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:   2018-09-19 10:44:57
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% if page is defined %}
+        <header>
+            <h1>{{ page.pageTitle }}</h1>
+            {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+        </header>
+    {% endif %}
+
+    <div class="row">
+        {{ renderZone(page, 'products', pagePath, {
+            'cmsFileTemplateName': 'cms_file_summary',
+            'requestQuery': requestQuery,
+            'pagination': {
+                'paginationNumber': paginationNumber,
+                'paginationLimit': 10,
+                'showItemCount': true
+            },
+            'orderCmsFilesBy': 'title'
+        }) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    <div class="introduction">
+        {% form_theme form _self "bootstrap_3_layout.html.twig" "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" %}
+        {{ form_start(form, {attr:{id:"form-container"}}) }}
+        <section class="first-section active">
+            <div class="left">
+                <a href="#" target="_blank" id="videoLink">
+                    <img src="{{ asset('img/questionnaire/icon-play.svg') }}" alt="Lecture" />
+                </a>
+            </div>
+            <div class="right" id="introductionText">
+                <div>
+                    {{ campaign.introduction[locale]|raw }}
+                    <a href="#" class="btn btn-primary" data-action="next" data-target="#form-container" aria-hidden="true">{{ 'montgolfiere.questionnaire.continue'|trans }}</a>
+                </div>
+            </div>
+        </section>
+        <section class="arguments-section">
+            <div class="text-center">
+                <h2>{{ 'montgolfiere.questionnaire.introduction.privacy.title'|trans }}</h2>
+            </div>
+            <div class="scroll-container">
+                <div class="items-container scrollable">
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-user-lock fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.privacy.confidentality.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.privacy.confidentality.text'|trans }}</p>
+                    </div>
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-certificate fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.privacy.independent.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.privacy.independent.text'|trans }}</p>
+                    </div>
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-globe fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.privacy.global_results.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.privacy.global_results.text'|trans }}</p>
+                    </div>
+                </div>
+                <div class="hide-md scroll-buttons">
+                    <div class="active"></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="btn btn-primary" data-action="next" data-target="#form-container" aria-hidden="true">{{ 'montgolfiere.questionnaire.continue'|trans }}</a>
+            </div>
+        </section>
+        <section class="arguments-section">
+            <div class="text-center">
+                <h2>{{ 'montgolfiere.questionnaire.introduction.commitment.title'|trans }}</h2>
+            </div>
+
+            <div class="scroll-container">
+                <div class="items-container scrollable">
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-lock fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.commitment.for_us.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.commitment.for_us.text'|trans }}</p>
+                    </div>
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-signature fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.commitment.for_your_employer.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.commitment.for_your_employer.text'|trans }}</p>
+                    </div>
+                    <div>
+                        <div class="icon-container">
+                            <i class="fas fa-thumbs-up fa-3x fa-fw text-primary"></i>
+                        </div>
+                        <p class="title">{{ 'montgolfiere.questionnaire.introduction.commitment.for_you.title'|trans }}</p>
+                        <p>{{ 'montgolfiere.questionnaire.introduction.commitment.for_you.text'|trans }}</p>
+                    </div>
+                </div>
+                <div class="hide-md scroll-buttons">
+                    <div class="active"></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                {{ form_row(form.privacy_policy, {label_attr:{class:'checkbox-inline'}}) }}
+                {{ form_row(form.submit, {attr:{class:'mt-4'}}) }}
+            </div>
+        </section>
+        {{ form_end(form) }}
+    </div>
+    <img src="{{ asset('img/questionnaire/logo-black.svg') }}" alt="{{ 'montgolfiere.questionnaire.workcare_logo'|trans }}" class="logo-bottom" width="100" />
+    <script>
+        document.querySelector('#videoLink').href = document.querySelector('#introductionText a').href;
+    </script>
+{% endblock %}
+{% block _introduction_privacy_policy_row %}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        <a href="https://workcare.fr/charte-de-confidentialite/" target="_blank">{{ 'montgolfiere.questionnaire.introduction.learn_more_about_privacy_and_security_code'|trans }}</a><br />
+        {{- form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}

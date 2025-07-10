@@ -1,0 +1,65 @@
+.congrats {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+
+    #scrollable-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        transition: margin-left $transition-animation $transition-speed;
+    }
+
+    section {
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .content {
+        padding: 10px;
+        @include lg{
+            padding: 50px;
+        }
+        align-self: center;
+        h1 {
+            font-size: 2.5em;
+            @include lg{
+                padding: 2.8em;
+            }
+        }
+    }
+
+    .left {
+        width: 36%;
+        display: none;
+        @include lg{
+            display: flex;
+        }
+        flex-direction: column;
+
+        .image {
+            flex-grow: 1;
+        }
+    }
+
+    .image {
+        &#low_wbe {
+            background: url('../../img/AdobeStock_370233622.jpeg') center/cover no-repeat;
+        }
+        &#bee_score {
+            background: url('../../img/AdobeStock_271325831.jpeg') center/cover no-repeat;
+        }
+        &#thanks {
+            background: url('../../img/thanks.jpg') center/cover no-repeat;
+        }
+        height: 200px;
+        flex-shrink: 0;
+        @include lg {
+            height: auto;
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-12-10 14:55:16
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <az-breadcrumb ng-if="showBreadcrumb" class="left shrink2" breadcrumb="breadcrumb" current-element="currentFile" open-function="openBreadcrumbElement"></az-breadcrumb>
+
+        <div ng-if="!showBreadcrumb" class="left">
+            {{ fileName }}
+        </div>
+
+        <div class="right shrink0" ng-show="showFormLocaleSelector">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <header class="header-bar header-bar-tabs" ng-if="1 < (cmsFileTabs|objectLength)">
+        <ul class="nav nav-tabs">
+            <li ng-repeat="(tabName, tab) in cmsFileTabs" ng-class="{'active': tabName == activeCmsFileTab}">
+                <a href ng-click="openTab(tabName)|capitalize"><span ng-class="'glyphicon ' + tab.icon"></span> {{ tab.label|capitalize }}</a>
+            </li>
+        </ul>
+    </header>
+
+    <section class="body scrollable-container" ng-class="{'block-readonly': false === fileEditIsGranted}">
+        <div class="scrollable margin-block" ng-show="'main' == activeCmsFileTab">
+            <div>
+                <div class=" text-center">
+                    <a ng-click="toggleFilePublications()">{% endverbatim %}{{ 'file.publications'|trans }}{% verbatim %} <span ng-class="showFilePublications && 'caret caret-inverse' || 'caret'"></span></a>
+                </div>
+
+                <div class="table-responsive" ng-show="showFilePublications">
+                    <div class="text-center" ng-if="0 == filePublications.length">{% endverbatim %}{{ 'no.publication'|trans }}{% verbatim %}</div>
+                    <table class="table table-striped table-hover table-hover table-bordered" ng-if="filePublications.length>0">
+                        {% endverbatim %}
+                        <tr>
+                            <th>{{ 'site'|trans|capitalize }}</th>
+                            <th>{{ 'page'|trans|capitalize }}</th>
+                            <th>{{ 'zone'|trans|capitalize }}</th>
+                            <th>URL</th>
+                        </tr>
+                        {% verbatim %}
+                        <tr ng-repeat="filePublication in filePublications">
+                            <td>{{ filePublication.site_name }}</td>
+                            <td>{{ filePublication.page_name }}</td>
+                            <td>{{ Translator.trans('zone_names.' + filePublication.zone_name).replace('zone_names.', '') }}</td>
+                            <td><a href="{{ filePublication.page_url }}" target="_blank">{{ filePublication.page_url }}</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <br />
+            </div>
+            <div class="well" ng-include="formFileTemplateUrl"></div>
+        </div>
+        <div class="scrollable margin-block" ui-view ng-show="'main' != activeCmsFileTab" ng-init="disableBodyScroll = true"></div>
+    </section>
+{% endverbatim %}

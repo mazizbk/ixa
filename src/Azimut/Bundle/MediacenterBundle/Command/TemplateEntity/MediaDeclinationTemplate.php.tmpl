@@ -1,0 +1,67 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:   2014-08-01
+ */
+
+namespace Azimut\Bundle\MediacenterBundle\Entity;
+
+use Azimut\Bundle\MediacenterBundle\Entity\Media;
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+use Azimut\Bundle\DoctrineExtraBundle\Translation\TranslationProxy;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="mediacenter_media_declination_%media_type_lowercase%")
+ *
+ * @DynamicInheritanceSubClass(discriminatorValue="%media_type_lowercase%")
+ */
+class MediaDeclination%media_type_capitalize% extends MediaDeclination
+{
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Groups({"list_media_declinations","detail_media_declination"})
+     */
+    protected $myDeclinationField;
+
+    public static function getMediaDeclinationType() {
+        return '%media_type_lowercase%';
+    }
+
+    public function generateThumb() {
+
+    }
+
+    public function getMyDeclinationField() {
+        return $this->myDeclinationField;
+    }
+
+    public function setMyDeclinationField($myDeclinationField) {
+        $this->myDeclinationField = $myDeclinationField;
+        return $this;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @Groups({"detail_media"})
+     */
+    public function getMyTranslatedDeclinationField($locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+
+        return $proxy->getMyTranslatedDeclinationField();
+    }
+
+    public function setMyTranslatedDeclinationField($myTranslatedField, $locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+        $proxy->setMyTranslatedDeclinationField(ucfirst($myTranslatedField));
+
+        return $this;
+    }
+
+}

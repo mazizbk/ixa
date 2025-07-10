@@ -1,0 +1,16 @@
+{% set _bodyClass = 'interior' %}
+{% extends siteLayout %}
+{% block body %}
+    <div class="MainBody-content text-center">
+        <div class="alert alert-info">
+            {{ 'montgolfiere.frontoffice.account_creation.greetings'|trans({'%firstname%': user.firstName, '%lastname%': user.lastName}) }}<br />
+            {{ 'montgolfiere.frontoffice.account_creation.explanation'|trans }}
+        </div>
+        <br>
+        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        {{ form_start(form, { 'attr': { class : 'Form--classic Form--column' } } ) }}
+        {{ form_widget(form.plainPassword) }}
+        {{ form_widget(form.submit, { 'attr': { class : 'Btn' } }) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-11-09 10:09:35
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include "SiteLayout/shop_order_steps.html.twig" with { 'step': 'delivery' } %}
+
+    <h1>Choose relay package</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="text-center">
+            <input class="btn btn-success" type="submit" value="{{ 'valider'|trans }}" />
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

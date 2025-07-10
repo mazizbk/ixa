@@ -1,0 +1,14 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-01-25 22:27:16
+#}
+
+{% if cmsFile.secondaryAttachments != null and cmsFile.secondaryAttachments.count > 0 %}
+    <ul>
+        {% for attachment in cmsFile.secondaryAttachments %}
+            <li>{% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': attachment
+            } %}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

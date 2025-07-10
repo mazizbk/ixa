@@ -1,0 +1,178 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 10:11:49
+
+mediacenter.app.name: "Mediacenter"
+
+mediacenter.meta.title: "Azimut Mediacenter"
+
+my.library: "Mes média"
+submitted.library: "Média soumis"
+
+main.declination: "Declinaison principale"
+media.publications: "Publications du média"
+no.publication: "Aucune publication"
+
+#media types
+image: "image"
+video: "vidéo"
+text: "texte"
+animation: "animation"
+archive: "archive"
+presentation: "présentation"
+audio: "audio"
+spreadsheet: "tableur"
+text: "texte"
+other: "autre"
+
+#media properties
+name: "nom"
+description: "description"
+file: "fichier"
+creation.date: "date de création"
+type: "type"
+desc: "déc"
+size: "poids"
+
+#media declination properties
+alternative.text: "texte alternatif"
+caption: "légende"
+author: "auteur"
+copyright: "copyright"
+pixel.width: "largeur en pixels"
+pixel.height: "hauteur en pixels"
+datetime.original: "date et heure de l'original"
+software: "logiciel"
+device.maker: "marque de l'appareil"
+device.model: "modèle de l'appareil"
+image.orientation: "orientation"
+landscape: "paysage"
+landscape.flipped: "paysage retourné"
+landscape.reverse: "paysage inversé"
+landscape.reverse.flipped: "paysage inversé et retourné"
+portrait.flipped: "portrait retourné"
+portrait.reverse: "portait inversé"
+portrait.reverse.flipped: "portrait inversé et retourné"
+portrait: "portrait"
+embed.html.video: "code de partage de vidéo"
+
+
+favorite: "favori|favoris"
+recent: "récent|récents"
+trash: "corbeille"
+all.files: "tous les fichiers"
+drag.from.desktop.here: "Déposez des médias depuis votre bureau ici"
+your.file.could.not.be.saved: "Votre fichier n'a pas pu être enregistré"
+maybe.your.file.is.too.large: "Votre fichier est peut être trop lourd"
+
+folder: "dossier|dossiers"
+media: "média|médias"
+parent.folder: "dossier parent"
+declination: "déclinaison|déclinaisons"
+
+search.in: "chercher dans"
+
+save: "enregistrer"
+edit: "éditer"
+delete: "supprimer"
+delete.confirmation: "Êtes-vous sûr?"
+rename: "renommer"
+add.to.favorites: "ajouter aux favoris"
+
+new: "nouveau"
+in: "dans"
+new.media: "nouveau média"
+new.declination: "nouvelle déclinaison"
+create.media: "créer le média"
+update.media: "mettre à jour le média"
+create.declination: "créer la déclinaison"
+update.declination: "mettre à jour la déclinaison"
+original.file.location: "emplacement d'origine"
+add.files: "ajouter les fichiers"
+add.embed.code: "ajouter un code de partage"
+
+sort.by: "Trier par"
+
+element: "élément|éléments"
+download: "télécharger"
+
+select.media: "sélectionner le media"
+select.media.declination: "sélectionner la déclinaison de media"
+
+file.%file_type%.%file_name%.confirm.permanent.delete: "Etes-vous sûr de vouloir supprimer définitivement le %file_type% \"%file_name%\""
+
+file.size.exceeded.%max_size%.limit: "Le poids du fichier dépasse la limite de %max_size%o"
+cannot.save.file.%file_name%.folder.quota.%folder_quota%.overflowed: "Impossible d'enregistrer l'image, le quota du dossier de \"%file_name%\" est dépassé"
+cannot.save.file.global.quota.%quota%.overflowed: "Impossible d'enregistrer l'image, le quota global de %quota% est dépassé"
+
+notification:
+    warning.dropped.file.%type%.not.supported: "l'élément déposé de type \"%type%\" n'est pas supporté"
+    warning.can.not.move.temp.file: "Impossible de déplacer un fichier temporaire. Veuillez attendre la création du fichier sur le serveur."
+    warning.can.not.open.temp.file: "Impossible d'ouvrir un fichier temporaire Veuillez attendre la création du fichier sur le serveur."
+    success.folder.move: "Le dossier a été déplacé avec succès"
+    error.folder.move: "Erreur lors du déplacement du dossier"
+    success.media.move: "Le média a été déplacé avec succès"
+    error.media.move: "Erreur lors du déplacement du média"
+    error.dropped.not.supported: "l'élément déposé n'est pas pris en charge"
+    error.file.%file_path%.get: "Impossible d'accéder à \"%file_path%\""
+    info.media.moved.by.server.in.%folder_name%: "Le média a été déplacé par le serveur, il est maintenant dans \"%folder_name%\""
+    info.folder.moved.by.server: "Le dossier a été déplacé par le serveur"
+    success.folder.update: "Le dossier a été mis à jour avec succès"
+    error.folder.update: "Erreur de la mise à jour du dossier"
+    success.folder.rename: "Le dossier a été renommé avec succès"
+    error.folder.rename: "Erreur lors du renommage du dossier"
+    info.media.moved.by.server: "Le média a été déplacé par le serveur"
+    success.media.update: "Le média a été mis à jour avec succès"
+    error.media.update: "Erreur lors de la mise à jour du média"
+    success.media.rename: "Le média a été renommé avec succès"
+    error.media.rename: "Erreur lors du renommage du média"
+    error.folder.create: "Impossible de créer le dossier"
+    success.folder.delete: "Le dossier a été supprimé avec succès"
+    error.folder.delete: "Impossible de supprimer le dossier"
+    success.folder.trash: "Le dossier a été mis à la corbeille avec succès"
+    error.folder.trash: "Impossible de mettre le dossier à la corbeille"
+    success.folder.untrash: "Le dossier a été restauré avec succès"
+    error.folder.untrash: "Impossible de restaurer le dossier"
+    error.media.delete: "Impossible de supprimer le média"
+    success.media.delete: "Le média a été supprimé avec succès"
+    success.media.trash: "Le média a été mis à la corbeille avec succès"
+    error.media.trash: "Impossible de mettre le média à la corbeille"
+    success.media.untrash: "Le média a été restauré avec succès"
+    error.media.untrash: "Impossible de restaurer le fichier"
+    error.media.create.inside.another: "Désolé, on ne peut pas créer de média à l'intérieur d'un autre"
+    success.media.create: "Le média a été créé avec succès"
+    error.media.create: "Impossible de créer le média"
+    error.media.declination.%file_path%.is.not.a.media: "Arg, malheureusement \"%file_path%\" n'est pas un média, donc nous ne pouvons pas créer de déclinaison ici"
+    success.media.declination.update: "La déclinaison de média a bien été enregistrée"
+    error.media.declination.create: "La déclinaison de média n'a pas pu été créée"
+    error.media.declination.update: "La déclinaison de média n'a pas pu été enregistrée"
+    error.media.declination.delete: "La déclinaison de média n'a pas pu été supprimée"
+    success.media.declination.delete: "La déclinaison de média a été supprimée avec succès"
+    success.trashbin.delete: "La corbeille a été vidée avec succès"
+    error.trashbin.delete: "Impossible de vider la corbeille"
+    warning.you.trashed.a.media.linked.to.%count%.elements: "Vous avez mis à la corbeille un média lié à %count% élément(s)"
+
+security:
+    media.creation.denied.can.not.write.%folder%: "Impossible de créer le media car vous ne pouvez écrire dans le dossier %folder%"
+    media.update.denied.can.not.write.%folder%: "Impossible de mettre à jour le media car vous ne pouvez écrire dans le dossier %folder%"
+    folder.creation.denied.can.not.write.%folder%: "Impossible de créer le dossier car vous ne pouvez pas écrire dans le dossier %folder%"
+    folder.update.denied.can.not.write.%folder%: "Impossible de déplacer le dossier car vous ne pouvez pas écrire dans le dossier %folder%"
+    folder.%folder1%.update.denied.can.not.write.%folder2%: "Impossible de mettre à jour le dossier %folder1% car vous ne pouvez pas écrire dans le dossier %folder2%"
+    folder.%folder1%.deletion.denied.can.not.write.%folder2%: "Impossible de supprimer le dossier %folder1% car vous ne pouvez pas écrire dans le %folder2%"
+    no.access.to.any.folder: "Vous n'avez accès à aucun dossier"
+
+a.media.must.belong.to.a.folder.or.to.trashbin: "Un média doit appartenir à un dossier ou à la corbeille"
+
+media.has.not.been.saved.are.you.sure.you.want.to.continue: "Le média n'a pas été sauvegardé, êtes-vous sûr de vouloir continuer ?"
+media.declination.has.not.been.saved.are.you.sure.you.want.to.continue: "La déclinaison de média n'a pas été sauvegardée, êtes-vous sûr de vouloir continuer ?"
+
+byte.unit.symbol: "o"
+
+mediacenter.file.type.hints.message.media:
+    image: 'Image JPEG, PNG, PNG, TIFF, documents PSD, AI, EPS. (seules les images JPEG, PNG et GIF seront diffusables sur les sites internet)'
+    animation: 'Animation SWF'
+    archive: 'Archive ZIP, 7ZIP, TAR, BZ, BZ2, RAR, DMG, etc.'
+    audio: 'Son MP3, AAC, MIDI, OGA, WAV, WEBM audio, 3GPP audio, etc. (seules les fichiers MP3 seront diffusables sur les sites internet)'
+    presentation: 'Présentation PPT, PPTX, ODP'
+    spreadsheet: 'Tableur XLS, XLSX, ODS'
+    text: 'Document PDF, DOC, DOCX, ODT, PUB, texte brute'
+    video: 'Vidéo MP4, AVI, MPEG, OGV, WEBM, 3GPP, etc. (seules les vidéos MP4 seront diffusables sur les sites internet)'

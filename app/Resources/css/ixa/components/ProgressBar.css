@@ -1,0 +1,33 @@
+.ProgressBar{
+    background:white;
+    height:5px;
+    position: relative;
+}
+.ProgressBar-value{
+    background:var(--green);
+    height:100%;
+    width:0;
+    position:absolute;
+    left:0;
+    top:0;
+}
+.ProgressBar-legend{
+    display: flex;
+    justify-content: space-between;
+    color:var(--dark-grey);
+    margin-top:3px;
+    font-size:0.9em;
+}
+.ProgressBar-legend--selected{
+    color:var(--green);
+    font-weight: bold;
+}
+.ProgressBar-graduation{
+    display:flex;
+    justify-content: space-between;
+    margin:5px 0;
+}
+.ProgressBar-graduation-segment{
+    height:0.5em;
+    border-left:2px solid #d2d2d2;
+}

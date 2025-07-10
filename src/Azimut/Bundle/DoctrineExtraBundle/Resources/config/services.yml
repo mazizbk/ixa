@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    Azimut\Bundle\DoctrineExtraBundle\Listener\DynamicInheritanceMapListener:
+        arguments:
+            $bundles: "%kernel.bundles%"

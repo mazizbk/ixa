@@ -1,0 +1,16 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+
+services:
+
+    azimut_console_extra.console_terminate_event_listener:
+        class: Azimut\Bundle\ConsoleExtraBundle\EventListener\ConsoleTerminateEventListener
+        arguments:
+            - '%after_console_auto_chmod%'
+            - '%kernel.cache_dir%'
+            - '%kernel.logs_dir%'
+            - '%sessions_dir%'
+            - '%uploads_dir%'
+        tags:
+            - { name: kernel.event_listener, event: console.terminate, method: onConsoleTerminateEvent }
+            - { name: kernel.cache_warmer, priority: -250 }

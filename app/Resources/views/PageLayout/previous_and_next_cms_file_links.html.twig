@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-03-14 09:31:00
+#}
+
+<p class="text-center">
+    {% set neighboursCmsFileInZone = neighboursCmsFileInZone(page, zoneName, cmsFile, app.request.locale) %}
+
+    {% if neighboursCmsFileInZone.previous %}
+        <a href="{{ path('azimut_frontoffice', {'path': page.fullSlug ~ '/' ~ neighboursCmsFileInZone.previous.slug}) }}" class="btn pull-left">{{ 'previous'|trans|capitalize }}</a>
+    {% endif %}
+
+    <a href="./" class="btn">{{ 'page.up'|trans }}</a>
+
+    {% if neighboursCmsFileInZone.next %}
+        <a href="{{ path('azimut_frontoffice', {'path': page.fullSlug ~ '/' ~ neighboursCmsFileInZone.next.slug}) }}" class="btn pull-right">{{ 'next'|trans|capitalize }}</a>
+    {% endif %}
+</p>

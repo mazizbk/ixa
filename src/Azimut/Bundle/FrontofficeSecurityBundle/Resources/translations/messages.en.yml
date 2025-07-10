@@ -1,0 +1,40 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-04 09:27:24
+
+frontoffice_security.app.name: "Surfers"
+frontoffice_security.meta.title: "Surfers"
+
+frontoffice.user: "Surfer"
+create.frontoffice.user: "Create surfer"
+user.roles: "Profiles"
+
+login: "Login"
+logout: "Logout"
+password: "Password"
+confirm.password: "Confirm password"
+lost.password: "Lost password"
+invalid.credentials: "Invalid credentials or account suspended"
+continue: "Continue"
+password.reset.email.sent: "A message has been sent to your email address with a link to reset your password"
+password.reset: "Password reset"
+reset.your.password: "Reset your password"
+set.password: "Set password"
+your.password.has.been.reseted: "Your password has been reseted"
+frontoffice.user.not.found: "Account not found"
+password.reset.token.invalid: "Link is invalid or outdated"
+register: "Register"
+your.user.account.has.been.created: "Your user account has been created"
+your.account.will.be.activated.after.validation: "Your account will be activated as soon as an administrator has validated it"
+edit.your.user.profile: "Edit user profile"
+your.user.profile.has.been.updated: "Your user profile has been updated"
+is.active: "active"
+confirm.email: "Confirm email"
+your.email.has.been.confirmed: "Your email has been confirmed"
+email.confirmation.token.invalid: "Email confirmation token invalid"
+login.as.%username%: "login as %username%"
+change_password: "Change my password"
+
+notification:
+    error.frontoffice.user.%id%.get: "Can't access surfer %id%"
+    error.frontoffice.user.impersonate: "Surfer could not be impersonated"
+    success.frontoffice.user.impersonate: "Surfer successfully impersonated, follow this link to login:"

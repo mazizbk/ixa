@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-09-19 10:54:46
+#}
+
+{% verbatim %}
+    <td class="icon-column">
+        <span ng-if="currentFile.fileType == 'folder'" class="glyphicon glyphicon-folder-open"></span>
+        <span ng-if="currentFile.fileType == 'media'" class="glyphicon glyphicon-file"></span>
+    </td>
+    <td>
+        {{ currentFile.name }}
+    </td>
+    <td>
+        {{ currentFile.trashedFolderPath.replace('My.library', Translator.trans('my.library')) }}
+    </td>
+    <td class="hidden-xxs-max">
+        <span ng-if="currentFile.fileType == 'folder'">folder</span>
+        <span ng-if="currentFile.fileType == 'media'">{{ currentFile.mediaType }}</span>
+    </td>
+    <td class="hidden-xxs-max">
+        {{ currentFile.trashedDate|date:datetimeFormat }}
+    </td>
+    <td class="icon-column">
+        <a href ng-click="untrashFile(currentFile)"><span class="glyphicon glyphicon-pro glyphicon-pro-restart"></span></a>
+        &nbsp;&nbsp;
+        <a href ng-click="deleteFile(currentFile)" az-confirm-click="Translator.trans('file.%file_type%.%file_name%.confirm.permanent.delete', {file_name: currentFile.name, file_type: Translator.transChoice(currentFile.fileType, 1)})"><span class="glyphicon glyphicon-trash"></span></a>
+    </td>
+{% endverbatim %}

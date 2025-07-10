@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-06-12 16:17:40
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'new.group'|trans|capitalize }}{% verbatim %}
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formGroupTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+
+{% endverbatim %}

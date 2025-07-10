@@ -1,0 +1,57 @@
+{# @var opinion \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipationOpinion #}
+{% set opinion = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.campaigns.participations.opinions.title'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_opinions_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.campaigns.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+{% block body %}
+    <br>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ opinion.participation.lastName ? : opinion.participation.emailAddress }} ({{ opinion.participation.campaign.client.corporateName }}) - {{ opinion.updatedAt|localizeddate }}
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question1.question'|trans }}</strong><br />
+                    {{ ('montgolfiere.frontoffice.personal_area.opinion_form.question1.answer'~ opinion.question1)|trans }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question2'|trans }}</strong><br />
+                    {{ opinion.question2|nl2br }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question3.question'|trans }}</strong><br />
+                    {{ ('montgolfiere.frontoffice.personal_area.opinion_form.question3.answer'~ opinion.question3)|trans }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question4'|trans }}</strong><br />
+                    {{ opinion.question4|nl2br }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question5.question'|trans }}</strong><br />
+                    {{ ('montgolfiere.frontoffice.personal_area.opinion_form.question5.answer'~ opinion.question5)|trans }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question6'|trans }}</strong><br />
+                    {{ opinion.question6|nl2br }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question7'|trans }}</strong><br />
+                    {{ opinion.question7|nl2br }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.frontoffice.personal_area.opinion_form.question8.question'|trans }}</strong><br />
+                    {{ ('montgolfiere.frontoffice.personal_area.opinion_form.question8.answer'~ opinion.question8)|trans }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+{% endblock %}

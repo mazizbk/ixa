@@ -1,0 +1,37 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-11 16:57:44
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'new.page'|trans|capitalize }}{% verbatim %}
+        </div>
+        <div class="right shrink0">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <section class="body scrollable-container" ng-class="{'loading': !formPageTemplateLoaded}">
+        <div class="scrollable">
+            <div class="margin-block">
+                <form>
+                    <div class="form-group">
+                        <label>{% endverbatim %}{{ 'page.type'|trans|capitalize }}{% verbatim %}:</label>
+                        <br />
+
+                        <div class="radio-inline" ng-repeat="(typeName, typeClass) in pageTypes">
+                            <label>
+                                <input type="radio" ng-model="$parent.currentPageTypeName" ng-value="typeName" />
+                                {{ Translator.trans(typeName) }}
+                            </label>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="well" ng-include="formPageTemplateUrl" onload="formPageTemplateLoaded = true" ng-show="formPageTemplateLoaded"></div>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

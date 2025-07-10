@@ -1,0 +1,32 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-08-22 12:13:36
+
+cms_map.app.name: "Maps"
+
+cms_map.meta.title: "Azimut Maps"
+
+search.map.points: "search in maps"
+
+cms_map.welcome.message: "Select a map point from the side panel"
+
+new.map.point: "new map point"
+
+map.point.%map_point_name%.confirm.permanent.delete: 'Are you sure you want to permanently delete point "%map_point_name%"'
+
+notification:
+    error.map.point.create: "map point could not be created"
+    success.map.point.create: "map point successfully created"
+    error.map.point.update: "map point could not be updated"
+    success.map.point.update: "map point successfully updated"
+    error.map.point.delete: "map point could not be deleted"
+    success.map.point.delete: "map point successfully deleted"
+    success.map.point.trash: "map point successfully trashed"
+    error.map.point.trash: "unable to trash map"
+    success.map.point.untrash: "map point successfully restored"
+    error.map.point.untrash: "unable to restore map point"
+    error.map.point.%id%.get: "Can't access map point %id%"
+
+cms.file.type.map: map
+
+# class names translation (for security bundle)
+cmsfilemap: "map"

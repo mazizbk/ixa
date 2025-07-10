@@ -1,0 +1,32 @@
+.MainHeader{
+    background:var(--green);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    color:var(--dark-grey);
+    text-align:center;
+    min-height:300px;
+}
+.MainHeader-logo{
+    margin-bottom:3em;
+}
+.MainHeader-logo img{
+    max-width: 250px;
+}
+.MainHeader-title{
+    color:#fff;
+    font-size:2em;
+    font-weight: bold;
+}
+.MainHeader-action{
+    position:absolute;
+    right:2em;
+    top:2em;
+}
+@media (max-width: 620px) {
+    .MainHeader-logo{
+        margin-bottom:1em;
+    }
+    .MainHeader{
+        min-height: 200px;
+    }
+}

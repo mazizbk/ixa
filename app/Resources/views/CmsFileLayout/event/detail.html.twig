@@ -1,0 +1,52 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-03-17 16:58:31
+#}
+
+<section itemscope itemtype="http://schema.org/Event">
+    <header>
+        <h1 itemprop="name">{{ cmsFile.title }}</h1>
+        <h2>
+            <time itemprop="startDate" datetime="{{ cmsFile.eventStartDatetime|date('Y-m-d\\TH:i:s+02:00') }}">{{ cmsFile.eventStartDatetime|localizeddate('full')|capitalize }}</time>
+            {% if cmsFile.eventEndDatetime is defined %}
+                - <time itemprop="endDate" datetime="{{ cmsFile.eventEndDatetime|date('Y-m-d\\TH:i:s+02:00') }}">{{ cmsFile.eventEndDatetime|localizeddate('full')|capitalize }}</time>
+            {% endif %}
+        </h2>
+    </header>
+
+    <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+        <span itemprop="address">{{ cmsFile.location }}</span>
+      </div>
+
+    {% if cmsFile.mainAttachment != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.mainAttachment,
+            'width': '300px',
+            'height': '168px',
+            'class': 'img-thumbnail',
+            'displayCaption': true,
+            'isItemprop': true
+        } %}
+    {% endif %}
+
+    <p itemprop="description">{{ cmsFile.text|render_media_declination_tags|raw }}</p>
+
+    <div class="clearfix"></div>
+
+    <br />
+
+    {% for attachment in cmsFile.secondaryAttachments %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': attachment,
+            'width': '150px',
+            'height': '84px',
+            'class': 'img-thumbnail pull-left'
+        } %}
+    {% endfor %}
+</section>
+
+<div class="clearfix"></div>
+
+<br />
+
+<p class="text-center"><a href="./">{{ 'page.up'|trans }}</a></p>

@@ -1,0 +1,72 @@
+{% set selectedMenu = 'charter' %}
+{% extends '@AzimutMontgolfiereApp/PersonalArea/base.html.twig' %}
+{% block body %}
+    <div class="MainBody--dark" style="background: top center / cover url('{{ asset('img/personal_area/Groupe 324.png') }}') no-repeat;">
+        <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom Grid Grid--3 Grid--bigGap Grid--xxs-noGrid text-center">
+            <div>
+                <br>
+                <div><img src="{{ asset('img/personal_area/hands-green.svg') }}" alt="" /></div>
+                <br />
+                <strong>Le cabinet</strong>
+                <p>s'engage à respecter votre confidentialité et votre sécurité professionnelle à tout niveau.</p>
+            </div>
+            <div>
+                <br>
+                <div><img src="{{ asset('img/personal_area/company-green.svg') }}" alt="" /></div>
+                <br />
+                <strong>L'organisation</strong>
+                <p>s'engage à respecter les conditions de l'enquête, et à appliquer les règles de bienveillance et de respect imposées par le cabinet.</p>
+            </div>
+            <div>
+                <br>
+                <div><img src="{{ asset('img/personal_area/user-green.svg') }}" alt="" /></div>
+                <br />
+                <strong>Le salarié</strong>
+                <p>s'engage à garantir l'authenticité des réponses livrées lors de l'enquête.</p>
+            </div>
+        </div>
+    </div>
+    <div class="MainBody--white">
+        <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom Grid Grid--2--1-4 Grid--xxs-noGrid">
+            <div>
+                <br><br><br>
+                <img src="{{ asset('img/personal_area/rules.svg') }}" alt="" />
+                <div class="Title Title--2 Title--bold Title-no-margin">Règle générale</div>
+            </div>
+            <div>
+                <div class="Title Title--1 Title--bold">Qu'est-ce que<br />la charte tripartie <span class="green">?</span></div>
+                <div class="MainBody--grey MainBody-content">
+                    Le cabinet est le premier garant de la confidentialité. Il reçoit des données brutes par les relevés, les interviews et les « alertes » spontanées puis les analyse, les synthétise, les anonymise et les met en forme.<br>
+                    <br>
+                    Les résultats, totalement anonymisés, sont transmis à l'entreprise. Le niveau de restitution de cette enquête reste de la décision de l'entreprise, régulée par un éventuel accord préalable avec les personnels.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="MainBody--grey">
+        <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom Grid Grid--2 Grid--bigGap Grid--xxs-noGrid Grid--verticalCenter">
+            <div>
+                <img src="{{ asset('img/personal_area/hands.svg') }}" alt="" />
+                <div class="Title Title--3">Le Cabinet</div>
+                <div class="green">Règle de sécurité «perso-professionnelle»</div>
+                <p>Le cabinet s'engage à ne pas confier des éléments qui risqueraient de créer un inconvénient pour l'emploi, la carrière, l'évolution professionnelle ou la considération sociale ou familiale d'une personne au travail.</p>
+                <p>Si au cours de l'analyse des données brutes, le constat d'un risque psychosocial personnel important pour la sécurité psychique d'un salarié était rendu possible, ce constat devra prévaloir sur toute autre considération. Dans ce cas, la personne concernée est contactée directement par le psychologue du cabinet (dans la mesure où le répondant aura donné ses coordonnées). Si nécessaire, le cabinet pourra transmettre une éventuelle information au médecin du travail, RH et/ou un préventeur agréé de l'organisation, de l'existence d'un cas de souffrance importante ou de caractère urgent.</p>
+                <br>
+                <img src="{{ asset('img/personal_area/user.svg') }}" alt="" />
+                <div class="Title Title--3">Le salarié</div>
+                <div class="green">Règle d'authenticité</div>
+                <p>Chaque salarié, quant à lui, s'engage à garantir l'authenticité des informations livrées dans ses réponses lors de sa participation au questionnaire. Il fait preuve de mesure et rapporte des faits sans manipulation.</p>
+            </div>
+            <div>
+                <img src="{{ asset('img/personal_area/company.svg') }}" alt="" />
+                <div class="Title Title--3">L'entreprise</div>
+                <div class="green">Règle de vigilance</div>
+                <p>L'Organisation, de son côté, déclare avoir compris et intégré ce que peuvent être les atteintes de l'identité professionnelle, ou l'expression d'une souffrance psychique, ou l'apparition d'un trouble de l'humeur (des formations préalables peuvent aider et garantir cette prise de conscience). Elle renonce explicitement à assimiler ou associer systématiquement ces expressions aux notions d'incompétence ou de défaut, de faiblesse ou de désengagement. L'Organisation s'engage également à ne jamais chercher « qui a dit quoi ».</p>
+                <p>Elle déclare, au contraire, faire valoir les raisons essentielles de la mise en place du dispositif par les notions de vigilance dues aux salariés, de solidarité humaine au travail, d'accompagnement professionnel bienveillant et non intrusif, de capacité de l'entreprise à l'échange et à l'action sur ces questions.</p>
+            </div>
+        </div>
+        <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom">
+            Avec le temps et l'habituation de l'organisation à traiter de la vigilance sur la QVT (Qualité de Vie au Travail) et les RPS (Risques psycho-Sociaux), le cabinet pourra éventuellement s'effacer progressivement pour laisser le dialogue s'inscrire dans la culture de l'entreprise, selon les règles qu'elle aura pu se construire et dans le respect des principes qu'elle aura expérimentés.
+        </div>
+    </div>
+{% endblock %}

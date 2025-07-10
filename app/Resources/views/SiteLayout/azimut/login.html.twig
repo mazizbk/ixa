@@ -1,0 +1,14 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-11 09:49:59
+#}
+
+{% extends 'SiteLayout/login.html.twig' %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <div class="well form-login">
+        {{ parent() }}
+    </div>
+{% endblock %}

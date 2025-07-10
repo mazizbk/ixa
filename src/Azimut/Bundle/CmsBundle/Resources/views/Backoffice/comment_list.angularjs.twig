@@ -1,0 +1,49 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-18 11:02:17
+#}
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            <div class="form-inline">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search'|trans|capitalize }}{% verbatim %}" />
+                <select class="form-control" ng-model="visibleFilter">
+                    <option ng-value="true" ng-selected="visibleFilter">{% endverbatim %}{{ 'published'|trans|capitalize }}{% verbatim %}</option>
+                    <option ng-value="false" ng-selected="!visibleFilter">{% endverbatim %}{{ 'not.published'|trans|capitalize }}{% verbatim %}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="right">
+            <a href ng-click="openNewComment()" ng-if="null != file">
+                <span class="glyphicon glyphicon-comment"></span> <span class="glyphicon glyphicon-add glyphicon-plus-sign"></span> {% endverbatim %}{{ 'comment'|trans|capitalize }}{% verbatim %}
+            </a>
+        </div>
+    </header>
+
+    <section class="body" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+        <div class="margin-block" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+            <div ng-repeat="comment in filteredComments = (comments | filter: {$: searchKeywords, isVisible: visibleFilter }) | orderBy: natural('id'):true" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a href ng-click="openComment(comment)"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href ng-if="!comment.isVisible" ng-click="validateComment(comment)"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                        <a href ng-if="comment.isVisible" ng-click="unvalidateComment(comment)"><span class="glyphicon glyphicon-ban-circle"></span></a>
+                        <a href ng-click="deleteComment(comment)" az-confirm-click="Translator.trans('comment.%id%.confirm.permanent.delete', { id: comment.id })"><span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                    <small>{{ comment.createdAt|date:'dd/MM/yyyy' }} - </small><strong>{{ comment.userName }}</strong> - {{ comment.userEmail }}
+                </div>
+
+                <div class="panel-body">
+                    <p class="nl2br">{{ comment.text }}</p>
+
+                    <p ng-if="comment.rating">{% endverbatim %}{{ 'rating'|trans|capitalize }}{% verbatim %} : {{ comment_ratings[comment.rating] }}</p>
+                </div>
+
+                <div class="panel-footer" ng-if="!file && comment.cmsFile">{% endverbatim %}{{ 'cms.file'|transchoice(1)|capitalize }}{% verbatim %} : <a ui-sref="backoffice.cms.file_detail({ file_id: comment.cmsFile.id })">{{ comment.cmsFile.getName($scope.locale) }}</a></div>
+            </div>
+
+            <p class="data-not-found-message" ng-if="0 == filteredComments.length"><span class="glyphicon glyphicon-info-sign"></span> {% endverbatim %}{{ 'no.comment.found'|trans|capitalize }}{% verbatim %}</p>
+        </div>
+    </section>
+{% endverbatim %}

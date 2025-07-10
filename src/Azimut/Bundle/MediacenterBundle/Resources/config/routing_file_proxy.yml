@@ -1,0 +1,55 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-07
+
+# azimut_mediacenter_mediadeclination_proxy_thumb:
+#     path: mediadeclination/{size}/{id}
+#     defaults: { _controller: AzimutMediacenterBundle:FileProxy:getMediaDeclinationThumb }
+#     requirements:
+#         size: xxs|xs|s|m|l|xl|xxl|cxxs|cxs|cs|cm|cl|cxl|cxxl|fxxs|fxs|fs|fm|fl|fxl|fxxl|sqcxxs|sqcxs|sqcs|sqcm|sqcl|sqcxl|sqcxxl|sqfxxs|sqfxs|sqfs|sqfm|sqfl|sqfxl|sqfxxl
+#         filepath: \d+
+#     options:
+#         i18n: false
+#         expose: true
+
+# Frontoffice proxy
+
+azimut_mediacenter_file_proxy_thumb:
+    path: mediacenter/uploads/{size}/{filepath}
+    defaults: { _controller: AzimutMediacenterBundle:FrontofficeFileProxy:getFileThumb }
+    requirements:
+        size: xxs|xs|s|m|l|xl|xxl|cxxs|cxs|cs|cm|cl|cxl|cxxl|fxxs|fxs|fs|fm|fl|fxl|fxxl|sqcxxs|sqcxs|sqcs|sqcm|sqcl|sqcxl|sqcxxl|sqfxxs|sqfxs|sqfs|sqfm|sqfl|sqfxl|sqfxxl
+        filepath: .+
+    options:
+        i18n: false
+        expose: true
+
+azimut_mediacenter_file_proxy:
+    path: mediacenter/uploads/{filepath}
+    defaults: { _controller: AzimutMediacenterBundle:FrontofficeFileProxy:getFile }
+    requirements:
+        filepath: .+
+    options:
+        i18n: false
+        expose: true
+
+# Backoffice proxy
+
+azimut_mediacenter_backoffice_file_proxy_thumb:
+    path: admin/mediacenter/uploads/{size}/{filepath}
+    defaults: { _controller: AzimutMediacenterBundle:BackofficeFileProxy:getFileThumb }
+    requirements:
+        size: xxs|xs|s|m|l|xl|xxl|cxxs|cxs|cs|cm|cl|cxl|cxxl|fxxs|fxs|fs|fm|fl|fxl|fxxl|sqcxxs|sqcxs|sqcs|sqcm|sqcl|sqcxl|sqcxxl|sqfxxs|sqfxs|sqfs|sqfm|sqfl|sqfxl|sqfxxl
+        filepath: .+
+    options:
+        i18n: false
+        expose: true
+
+azimut_mediacenter_backoffice_file_proxy:
+    path: admin/mediacenter/uploads/{filepath}
+    defaults: { _controller: AzimutMediacenterBundle:BackofficeFileProxy:getFile }
+    requirements:
+        filepath: .+
+    options:
+        i18n: false
+        expose: true
+

@@ -1,0 +1,20 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+@import "flexbox_prefixes.less";
+
+.translateY(@y) {
+    -webkit-transform: translateY(@y);
+    //-ms-transform: translateY(@y); // IE9 only
+    //-o-transform: translateY(@y); // no need for prefix in recent opera
+    transform: translateY(@y);
+}
+
+.transform(@transform) {
+    -webkit-transform: @transform;
+    //-ms-transform: @transform; // IE9 only
+    //-o-transform: @transform;
+    transform: @transform;
+}

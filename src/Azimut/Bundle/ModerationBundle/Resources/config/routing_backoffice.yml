@@ -1,0 +1,49 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 12:13:43
+
+#Expose AngularJS views
+azimut_moderation_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutModerationBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_MODERATION']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_moderation_backoffice_jsview_cms_file_buffer_list:
+    path: /jsviews/cms_file_buffer_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutModerationBundle:Backoffice:cms_file_buffer_list.angularjs.twig'
+        roles: ['APP_MODERATION']
+    options:
+        expose: true
+
+azimut_moderation_backoffice_jsview_cms_file_buffer_detail:
+    path: /jsviews/cms_file_buffer_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutModerationBundle:Backoffice:cms_file_buffer_detail.angularjs.twig'
+        roles: ['APP_MODERATION']
+    options:
+        expose: true
+
+azimut_moderation_backoffice_jsview_cms_file_buffer_form:
+    path: /jsviews/cms_file_buffer_form/{type}
+    defaults: { _controller: AzimutModerationBundle:Backoffice:cmsFileBufferForm }
+    options:
+        expose: true
+
+azimut_moderation_file_proxy_thumb:
+    path: uploads/{size}/{filepath}
+    defaults: { _controller: AzimutModerationBundle:FileProxy:getFileThumb }
+    requirements:
+        size: xxs|xs|s|m|l|xl|xxl|cxxs|cxs|cs|cm|cl|cxl|cxxl|fxxs|fxs|fs|fm|fl|fxl|fxxl|sqcxxs|sqcxs|sqcs|sqcm|sqcl|sqcxl|sqcxxl|sqfxxs|sqfxs|sqfs|sqfm|sqfl|sqfxl|sqfxxl
+        filepath: .+
+    options:
+        i18n: false
+        expose: true

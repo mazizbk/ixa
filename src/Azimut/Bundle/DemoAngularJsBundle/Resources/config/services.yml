@@ -1,0 +1,10 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 16:51:26
+
+services:
+
+    azimut_demoangularjs.roles:
+        class: Azimut\Bundle\DemoAngularJsBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_demoangularjs_roles }

@@ -1,0 +1,77 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.settings.themes_settings'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_index') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.settings.back_to_settings"|trans }}
+        </a>
+    </div>
+{% endblock %}
+{% block body %}
+    {% set selectedLocale = app.request.locale %}
+    <div class="alert alert-info">
+        Seul le texte et l'image sont actualisés sur les compagnes existantes. L'ordre n'est repris que sur les nouvelles compagnes.<br />
+        Pour modifier l'ordre d'une campagne existante, modifiez le ou les segments de la campagne.
+    </div>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th style="min-width:350px;">Items</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for theme in themes %}
+        <tr>
+            <td style="width: 15%;">
+                {% for locale in questionnaire_locales %}
+                    <small>{{ locale }} :</small>
+                    {{ theme.name[locale]??'' }}<br />
+                {% endfor %}
+                {% if theme.filename %}
+                    <img src="{{ path('azimut_montgolfiere_app_backoffice_settings_theme_image', {id: theme.id}) }}" alt="" style="max-width: 100%;" />
+                {% endif %}
+            </td>
+            <td>
+                {% for locale in questionnaire_locales %}
+                    <small>{{ locale }} :</small>
+                    {{ (theme.description[locale]??'')|striptags|raw }}<br />
+                {% endfor %}
+            </td>
+            <td>
+                {% if theme.virtual %}
+                    <em>Thème virtuel</em>
+                {% elseif theme.type == constant('TYPE_FREE', theme) %}
+                    <em>Theme libre</em>
+                {% else %}
+                    <table class="table">
+                        <tbody>
+                        {% for item in theme.items %}
+                        <tr>
+                            <td>
+                                {% for locale in questionnaire_locales %}
+                                    <small>{{ locale }} :</small>
+                                    {{ item.name[locale]??'' }}<br />
+                                {% endfor %}
+                            </td>
+                            <td class="icon-column">
+                                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_theme_item_edit', {id: theme.id, item: item.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </td>
+            <td class="icon-column">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_theme_move', {id: theme.id, direction: 'up'}) }}" class="{{ loop.first?'disabled' }}"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_theme_move', {id: theme.id, direction: 'down'}) }}" class="{{ loop.last?'disabled' }}"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_theme_edit', {id: theme.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}

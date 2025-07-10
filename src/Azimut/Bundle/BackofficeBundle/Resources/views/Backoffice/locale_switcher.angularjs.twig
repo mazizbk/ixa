@@ -1,0 +1,21 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-01-21 15:01:25
+#}
+
+{% if backoffice_locales|length > 1 %}
+
+    <div class="dropdown hidden-sm-max">
+        <a href id="localeSwitcher" data-toggle="dropdown" aria-expanded="true">
+            {{ app.request.locale|upper }}<b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="localeSwitcher">
+            {% for locale in backoffice_locales %}
+                {% if locale != app.request.locale %}
+                    <li><a href="{{ path('azimut_backoffice_dashboard', {'_locale': locale}) }}">{{ locale|upper }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endif %}

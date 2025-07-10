@@ -1,0 +1,104 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+.table {
+    > thead, > tbody, > tfoot {
+        > tr {
+            > th {
+                .sort-icon {
+                    float: right;
+                    height: 100%;
+
+                    .caret {
+                        color: @az-table-sort-caret-color;
+                    }
+                    &.selected .caret {
+                        color: @az-table-sort-caret-selected-color !important;
+                    }
+                }
+            }
+            > th,
+            > td {
+                border: none;
+                border-right: 1px solid @az-table-column-border-color;
+
+                &.icon-column {
+                    width: 1%;
+                    white-space: nowrap !important;
+                }
+            }
+            &.selected, &.selected > td {
+                background-color: @az-table-selected-item-bg-color;
+            }
+
+            &.drag {
+                opacity: 0.7;
+                background-color: @az-thumbnail-grid-drag-bg-color;
+                border-color: @az-thumbnail-grid-drag-border-color;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.36);
+            }
+
+            &.drop:not(.drag) {
+                color: @az-thumbnail-grid-drop-color;
+                background-color: @az-thumbnail-grid-drop-bg-color;
+                border-color: @az-thumbnail-grid-drop-border-color;
+                box-shadow: 0 2px 6px rgba(255, 121, 0, 0.36) !important;
+            }
+        }
+    }
+
+    .progress {
+        height: 10px;
+        margin: 5px 0 0 0;
+    }
+}
+
+/*
+.table-striped {
+    > tbody > tr {
+        &:nth-child(odd) {
+            background-color: @table-bg-accent;
+        }
+        &:nth-child(even) {
+            background: none;
+        }
+    }
+}*/
+
+.table > tbody > tr > th[ng-click]:hover,
+
+.table-hover > tbody > tr:hover > td {
+    background-color: @table-bg-hover;
+}
+
+.table-responsive {
+    > .table {
+        > thead, > tbody, > tfoot {
+            > tr {
+                > th, > td {
+                    white-space: inherit;
+                }
+            }
+        }
+    }
+}
+
+// styles for drag'n drop sortable table
+.table-sortable {
+    > tbody > tr {
+        > td {
+            border-top: 2px solid transparent;
+        }
+        &.drop-before > td {
+            border-top-color: @az-table-sortable-drop-border-color;
+        }
+        &:last-child {
+            background: none;
+            > td {
+                border: none;
+            }
+        }
+    }
+}

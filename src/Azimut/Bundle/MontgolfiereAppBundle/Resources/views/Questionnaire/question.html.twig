@@ -1,0 +1,260 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    {% form_theme form "bootstrap_3_layout.html.twig" "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" _self %}
+    {% set submit_title = 'montgolfiere.questionnaire.question.submit_title.'~(form.value is defined ? 'select_value' : 'enter_answer') %}
+    {% if not form.skip.vars.disabled %}
+        {% set submit_title = submit_title~'_or_skip' %}
+    {% endif %}
+    {% if not form.submit.vars.attr.disabled %}
+        {% set submit_title = null %}
+    {% endif %}
+    {% set skip_title = form.skip.vars.disabled?'montgolfiere.questionnaire.question.skip_disabled_title':null %}
+
+    <div class="question">
+        <div class="actions">
+            <span class="fa-stack fa-lg" id="help-btn" data-toggle="tooltip" data-placement="left" title="{{ 'montgolfiere.questionnaire.question.get_help'|trans }}" tabindex="2" data-focus-enter-click>
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-question fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+            <span class="fa-stack fa-lg" id="contact-btn" data-contact-type="contact" data-toggle="tooltip" data-placement="left" title="{{ 'montgolfiere.questionnaire.question.contact.title'|trans }}" tabindex="2" data-focus-enter-click>
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-envelope fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+        </div>
+        {{ form_start(form) }}
+        <div class="question-container">
+            <h2>{{ question.question|ixa_questionnaire_wildcard|raw }}</h2>
+            <div style="display: flex;flex-direction: row;position: static;">
+                {% if question.description %}
+                    <div class="text-heading mb-3" style="color:#666;flex-grow:1">{{ question.description|ixa_questionnaire_wildcard|raw }}</div>
+                {% endif %}
+
+                {% if tooltip %}
+                    <div class="tooltip-container">
+                    <span class="fa-stack fa-lg" data-toggle="tooltip" data-container="body" data-placement="left" title="{{ 'montgolfiere.questionnaire.question.tooltip'|trans }}">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-info fa-stack-1x fa-inverse fa-fw"></i>
+                    </span>
+
+                        <div class="question-tooltip">
+                        <span class="fa-stack fa-lg" data-toggle="tooltip" data-placement="left">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-times fa-stack-1x fa-inverse fa-fw"></i>
+                        </span>
+
+                            <span class="fa-stack">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-info fa-stack-1x fa-inverse fa-fw"></i>
+                        </span>
+                            <h2>{{ 'montgolfiere.questionnaire.question.tooltip'|trans }}</h2>
+                            <p>{{ tooltip|raw }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="gauge-container">
+            {% if form.value is defined %}
+                <div class="question-label center" aria-description="{{ 'montgolfiere.questionnaire.question.aria.center'|trans }}">{{ question.centerLabel|raw }}</div>
+                <div class="question-label left" aria-description="{{ 'montgolfiere.questionnaire.question.aria.left'|trans }}">{{ question.leftLabel|raw }}</div>
+                <div class="gauge">{{ form_row(form.value, {label: false, newGauge: campaign.useNewGauge}) }}</div>
+                <div class="question-label right" aria-description="{{ 'montgolfiere.questionnaire.question.aria.right'|trans }}">{{ question.rightLabel|raw }}</div>
+            {% endif %}
+            {% if form.openAnswer is defined %}
+                {{ form_row(form.openAnswer) }}
+            {% endif %}
+        </div>
+        <div>
+            <div class="hidden">
+                {{ form_row(form.previous) }}
+                {{ form_row(form.skip, {title: skip_title|trans}) }}
+            </div>
+            {{ form_row(form.submit, {title: submit_title|trans, attr: {tabindex: 1}}) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+    <footer class="questionnaire-footer">
+        <div class="actions">
+            <span class="fa-stack fa-lg{% if form.previous.vars.disabled %} disabled{% endif %}" onclick="document.getElementById('{{ form.previous.vars.id }}').click()" data-toggle="tooltip" title="{{ form.previous.vars.label|trans }}" tabindex="1" data-focus-enter-click>
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-arrow-alt-left fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+            <span class="fa-stack fa-lg{% if form.skip.vars.disabled and not (form.value??form.openAnswer).vars.value %} disabled{% endif %}" id="nextButton" onclick="nextAction()" tabindex="1" data-focus-enter-click>
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-arrow-alt-right fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+        </div>
+        {% include "@AzimutMontgolfiereApp/Questionnaire/progress.html.twig" %}
+    </footer>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-help">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{ 'montgolfiere.questionnaire.question.get_help'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ help_text|raw }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'montgolfiere.backoffice.common.close'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "@AzimutMontgolfiereApp/Questionnaire/contact_modal.html.twig" %}
+{% endblock %}
+{% block end_javascripts %}
+    {{ parent() }}
+    <script>
+        function nextAction() {
+            var skipButton = document.getElementById('{{ form.skip.vars.id }}');
+            var submitButton = document.getElementById('{{ form.submit.vars.id }}');
+            var skippable = !skipButton.disabled;
+            var hasValue = !submitButton.disabled;
+            if(hasValue) {
+                submitButton.click();
+            }
+            else if(skippable) {
+                skipButton.click();
+            }
+        }
+
+        $(document).ready(function () {
+            $('[data-toggle=tooltip]').tooltip();
+            $('.modal').modal({
+                show: false
+            });
+            $('#help-btn').on('click', function(e){
+                e.preventDefault();
+                $('#modal-help').modal('show');
+            });
+            {% include "@AzimutMontgolfiereApp/Questionnaire/contact_modal.js.twig" %}
+            $('.tooltip-container span[data-toggle="tooltip"]').click(function() {
+                $(this).parents('.tooltip-container').toggleClass('active');
+            });
+
+            var selectors = [];
+            {% if form.openAnswer is defined %}
+            selectors.push('#{{ form.openAnswer.vars.id }}');
+            {% endif %}
+            {% if form.skipped is defined %}
+            selectors.push('#{{ form.skipped.vars.id }}');
+            {% endif %}
+            $(selectors.join(',')).on('change keyup keydown', function(){
+                $('#{{ form.submit.vars.id }}')
+                    .prop('disabled', false)
+                        .parents('[data-toggle=tooltip]')
+                        .tooltip('destroy')
+                ;
+            });
+
+            $(".dial").each(function(){
+                var $this = $(this);
+                var width = Math.min($this.data('width'), $this.parents('.knob-container').width());
+                $this.knob({
+                    width: ""+width,
+                    height: ""+Math.round(width/2),
+                    draw: montgolfiereKnob.draw,
+                    release: function (value) {
+                        $('#{{ form.submit.vars.id }}')
+                            .prop('disabled', false)
+                            .parents('[data-toggle=tooltip]')
+                            .tooltip('destroy')
+                        ;
+                        $('#nextButton').removeClass('disabled');
+                    }
+                });
+            });
+
+            var sliderColors = [
+                '#ff1e26', '#ff4225', '#ff7324', '#ffd424', '#fff723',
+                '#d5f81d', '#9aeb15', '#62e20d', '#2ad905', '#04d300'
+            ];
+            {% if question.gaugeInvert %}
+                sliderColors = sliderColors.reverse();
+            {% endif %}
+            $('.satisfaction-slider').each(function(){
+                var that = this;
+                $(that).hide();
+                var container = $('<div></div>').insertAfter(this).get(0);
+                var min = parseInt($(this).attr('min'));
+                var max = parseInt($(this).attr('max'));
+                noUiSlider.create(container, {
+                    start: [(max-min)/2],
+                    range: {
+                        min: [min],
+                        max: [max]
+                    },
+                    pips: {
+                        mode: 'count',
+                        values: Math.min(10, max - min)+1
+                    },
+                    step: (max - min)/100,
+                    connect: 'lower'
+                });
+                container.noUiSlider.on('update', function(v, h) {
+                    var val = Math.round(v[h]);
+                    $(that).val(val).trigger('change');
+                    $(container).find('.noUi-connect').css('background', sliderColors[Math.round((val/max)*10)]);
+                });
+            });
+
+            window.addEventListener('orientationchange', function(){
+                window.location.reload();
+            });
+
+            {% if form.value is defined %}
+                {% include "@AzimutMontgolfiereApp/Questionnaire/question_tour.js.twig" %}
+            {% endif %}
+        });
+    </script>
+    <style>
+        .noUi-connect {transition: background .25s linear;}
+        .noUi-horizontal {margin-bottom: 80px;}
+        .noUi-pips {color: #666;}
+
+        .product-tour-js-pulse, .product-tour-js-image {
+            display: none !important;
+        }
+        .product-tour-js-single-step .product-tour-js-single-step-inner:before {
+            display: none !important;
+        }
+        :root {
+            --product-tour-js-brand-color: #118553;
+        }
+        .product-tour-js-single-step-inner {
+            height: auto;
+        }
+        .product-tour-js-tour-nav {
+            position: relative;
+            padding: 0;
+        }
+
+    </style>
+{% endblock %}
+{% block _questionnaire_question_value_widget %}
+    {% set type = 'hidden' %}
+    {% set attr = attr|merge({
+        class: "dial", 'data-cursor': 'true', 'data-angleoffset': '-90', 'data-anglearc': 180,
+        'data-max': '1000', 'data-displayinput': 'false', 'data-width': 500, 'data-height': 250,
+        'data-skin': 'montgolfiere'~(newGauge?'-ng')
+    }) %}
+    {% set value = value|default(500) %}
+    <div class="knob-container">
+        {{ block('form_widget') }}
+        {% include '@AzimutMontgolfiereApp/Questionnaire/thermometer.svg.twig' %}
+    </div>
+
+{% endblock %}
+
+{% block button_row %}
+    <div {% if title is defined and title is not null %}title="{{ title }}" data-toggle="tooltip" data-tooltip-style="danger" {% endif %}style="display:inline-block; margin: 10px;">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}

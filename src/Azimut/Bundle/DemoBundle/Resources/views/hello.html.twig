@@ -1,0 +1,40 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+#}
+
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+	{% stylesheets filter="less,cssrewrite,assetdirectory" package='build' output='css/demo.css'
+        '../app/Resources/less/original-bootstrap.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block title %}
+  Hello World Page
+{% endblock %}
+
+{% block body %}
+
+  <h1>Hello World!</h1>
+
+  <br />
+  <a href="#" class="btn btn-large btn-success">Demo button</a>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {% javascripts filter="cssrewrite,assetdirectory" package='build' output='backoffice/js/demo.js'
+        '../vendor/azimut/system-assets/jquery/jquery.min.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/dist/js/bootstrap.min.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-07 14:03:47
+#}
+
+{% include 'AzimutBackofficeBundle:Backoffice:dashboard_entity_shortcut.angularjs.twig' with {
+    'backgroundColor': '#5d7cd1',
+    'glyphicon': 'glyphicon-list-alt',
+    'entitiesName': 'cms.file.type.article'|transchoice(articlesCount),
+    'entitiesCount': articlesCount,
+    'listEntitiesState': "backoffice.cms.file_list({cmsFileType: 'article'})",
+    'newEntityState': "backoffice.cms.new_file({cmsFileType: 'article'})"
+} %}
+
+{% include 'AzimutBackofficeBundle:Backoffice:dashboard_entity_shortcut.angularjs.twig' with {
+    'backgroundColor': '#5d7cd1',
+    'glyphicon': 'glyphicon-pro glyphicon-pro-package',
+    'entitiesName': 'cms.file.type.product'|transchoice(productsCount),
+    'entitiesCount': productsCount,
+    'listEntitiesState': "backoffice.cms.file_list({cmsFileType: 'product'})",
+    'newEntityState': "backoffice.cms.new_file({cmsFileType: 'product'})"
+} %}

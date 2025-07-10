@@ -1,0 +1,103 @@
+{% set hasCollapsableTopPanel = false %}
+{% set hasFooterPanel = false %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.campaigns.create.header'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.campaigns.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="scrollable">
+        <div class="margin-block">
+            {% form_theme form _self "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {% include "@AzimutMontgolfiereApp/Backoffice/Campaigns/form.html.twig" %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _campaign_client_widget %}
+    {% set type = 'hidden' %}
+    {{ block('form_widget') }}
+    <p class="form-control-static" id="{{ id }}_text">
+        <span>{{ 'montgolfiere.backoffice.campaigns.create.no_client_selected'|trans }}</span>
+        <a href="#" class="btn btn-xs btn-default" data-toggle="client_modal">{{ 'montgolfiere.backoffice.campaigns.create.select_client'|trans }}</a>
+    </p>
+{% endblock %}
+
+{% block footerscripts %}
+    {{ parent() }}
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-xlg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'montgolfiere.backoffice.common.close'|trans }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{ 'montgolfiere.backoffice.campaigns.create.modal.client_title'|trans }}</h4>
+                </div>
+                <div class="modal-body loading">
+                    <iframe src="about:blank" frameborder="0" style="width: 100%; min-height:300px;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{ 'montgolfiere.backoffice.common.close'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var modal = $('.modal');
+            modal.modal({
+                show: false
+            });
+            modal.on('hidden.bs.modal', function(){
+                $(this).find('iframe').attr('src', 'about:blank').css('height', 'auto');
+            });
+            var iframe = modal.find('iframe');
+            iframe.get(0).addEventListener('load', function(e){
+                iframe.parent().removeClass('loading');
+                iframe.get(0).contentWindow.onbeforeunload = function(){
+                    iframe.parent().addClass('loading');
+                };
+
+                var doc = this.contentDocument;
+                var scrollable = $(doc).find('.scrollable')[0];
+                if(!scrollable) {
+                    return;
+                }
+                var maxHeight = doc.documentElement.scrollHeight + scrollable.scrollHeight - scrollable.clientHeight;
+                var screenHeight = window.innerHeight - 225; // 225 is the sum of margins and other elements than .scrollable
+                this.style.height = Math.min(maxHeight, screenHeight)+'px';
+            });
+
+            $('a[data-toggle="client_modal"]').on('click', function(e){
+                e.preventDefault();
+
+                iframe.attr('src', Routing.generate('azimut_montgolfiere_app_backoffice_clients_iframe_selector'));
+                modal.modal('show');
+            });
+
+            window.addEventListener('message', function(e){
+                if(typeof e.data !== 'object') {
+                    return;
+                }
+                if(!e.data.hasOwnProperty('type') || e.data.type !== 'select') {
+                    return;
+                }
+
+                modal.modal('hide');
+                var name = e.data.data.corporateName;
+                if(e.data.data.tradingName !== '') {
+                    name+= ' ('+e.data.data.tradingName+')';
+                }
+                $('#{{ form.client.vars.id }}_text span').text(name);
+                $('#{{ form.client.vars.id }}').val(e.data.data.id);
+                $('#{{ form.expectedAnswers.vars.id }}').val(e.data.data.workforce);
+            });
+        });
+    </script>
+{% endblock %}

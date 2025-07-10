@@ -1,0 +1,24 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-10-15
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'new.declination'|trans|capitalize }}{% verbatim %} {% endverbatim %}{{ 'in'|trans }}{% verbatim %} {{ media.name }}
+        </div>
+    </header>
+
+    </div>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formMediaDeclinationTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+
+{% endverbatim %}

@@ -1,0 +1,99 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-08-27 16:24:42
+#}
+
+{% import 'Macro/media_macro.html.twig' as mediaMacro %}
+
+{% if not attachment.mediaDeclination.media.isTrashed %}
+    {% if width is not defined %}
+        {% set width = '150px' %}
+    {% endif %}
+
+    {% if height is not defined %}
+        {% set height = '84px' %}
+    {% endif %}
+
+    {% if class is not defined %}
+        {% set class = '' %}
+    {% endif %}
+
+    {% if figureClass is not defined %}
+        {% set figureClass = 'media-pullLeft' %}
+    {% endif %}
+
+    {% if mediaSize is not defined %}
+        {% set mediaSize = 'l' %}
+    {% endif %}
+
+    {% if displayCaption is not defined %}
+        {% set displayCaption = false %}
+    {% endif %}
+
+    {% if isItemprop is not defined %}
+        {% set isItemprop = false %}
+    {% endif %}
+
+    {% if displayUploadLink is not defined %}
+        {% set displayUploadLink = true %}
+    {% endif %}
+
+    {% if 'image' == attachment.mediaDeclination.mediaDeclinationType and attachment.mediaDeclination.path %}
+        {% set attr = {
+            'width': width,
+            'height': height,
+            'class': class,
+        } %}
+        {% if displayCaption %}
+            {{ mediaMacro.figure('image', attachment.mediaDeclination, mediaSize, figureClass, isItemprop, attr) }}
+        {% else %}
+            {% if isItemprop %}
+                {% set attr = attr|merge({ 'itemprop': 'image'}) %}
+            {% endif %}
+            {% if displayUploadLink %}
+                <a href="{{ path('azimut_mediacenter_file_proxy', {'filepath': attachment.mediaDeclination.path}) }}" target="_blank">
+                    {{ mediaMacro.image(attachment.mediaDeclination, mediaSize, attr) }}
+                </a>
+            {% else %}
+                {{ mediaMacro.image(attachment.mediaDeclination, mediaSize, attr) }}
+            {% endif %}
+        {% endif %}
+    {% elseif 'video' == attachment.mediaDeclination.mediaDeclinationType %}
+        {% set attr = {
+            'width': width,
+            'height': height,
+            'class': class,
+        } %}
+        {% if attachment.mediaDeclination.path and attachment.mediaDeclination.fileExtension == 'MP4' %}
+            {% if displayCaption %}
+                {{ mediaMacro.figure('video', attachment.mediaDeclination, mediaSize, figureClass, isItemprop, attr) }}
+            {% else %}
+                {% if isItemprop %}
+                    {% set attr = attr|merge({ 'itemprop': 'video'}) %}
+                {% endif %}
+                {{ mediaMacro.video(attachment.mediaDeclination, mediaSize, attr) }}
+            {% endif %}
+
+            {# Provide image alternative when displayed as a parent item property #}
+            {% if isItemprop %}
+                <meta itemprop="image" content="{{ path('azimut_mediacenter_file_proxy_thumb', { 'filepath': attachment.mediaDeclination.path, 'size': mediaSize }) }}" />
+            {% endif %}
+        {% elseif attachment.mediaDeclination.embedHtml %}
+            {% if displayCaption %}
+                {{ mediaMacro.figure('iframe', attachment.mediaDeclination, mediaSize, figureClass, false, attr) }}
+            {% else %}
+                {{ mediaMacro.iframe(attachment.mediaDeclination, mediaSize, attr) }}
+            {% endif %}
+        {% endif %}
+    {% elseif 'audio' == attachment.mediaDeclination.mediaDeclinationType %}
+        {% if attachment.mediaDeclination.path %}
+            {{ mediaMacro.audio(attachment.mediaDeclination, {
+                'class': class,
+            }) }}
+        {% endif %}
+    {% elseif attachment.mediaDeclination.path %}
+        {{ mediaMacro.document(attachment.mediaDeclination, {
+            'class': class,
+        }) }}
+    {% endif %}
+{% endif %}

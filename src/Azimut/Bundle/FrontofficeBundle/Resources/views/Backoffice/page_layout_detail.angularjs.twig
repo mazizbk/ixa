@@ -1,0 +1,24 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-01 10:43:12
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div ng-if="!showBreadcrumb" class="left">
+            {{ pageLayout.name }}
+        </div>
+
+        <div class="right shrink0">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formPageLayoutTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

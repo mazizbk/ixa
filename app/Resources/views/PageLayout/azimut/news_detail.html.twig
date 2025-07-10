@@ -1,0 +1,23 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-03 10:55:16
+#}
+
+{% extends siteLayout %}
+
+{% block OgImage %}
+{% spaceless %}
+    {% if cmsFile.mainAttachment is not null %}
+        {{ absolute_url(path('azimut_mediacenter_file_proxy_thumb', { 'filepath': cmsFile.mainAttachment.mediaDeclination.path, 'size': 'xl' })) }}
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% include 'CmsFileLayout/cms_file_detail.html.twig' with {
+            'cmsFile': cmsFile,
+            'cmsFileNeighoursZoneName': 'news',
+        } %}
+    </div>
+{% endblock %}

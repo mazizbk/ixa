@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-12-10 14:34:02
+#}
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'cms.new.file'|trans|capitalize }}{% verbatim %} {{ Translator.transChoice('cms.file.type.' + cmsFileType, 1) }}
+        </div>
+        <div class="right shrink0" ng-show="showFormLocaleSelector">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formFileTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

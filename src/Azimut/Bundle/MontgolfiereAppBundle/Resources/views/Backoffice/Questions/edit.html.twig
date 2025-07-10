@@ -1,0 +1,33 @@
+{% set activeTab = 'edit' %}
+{% set question = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Questions/read_base.html.twig' %}
+
+{% block readBody %}
+    {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/Questions/values_distribution_theme.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(form) }}
+    {{ form_row(form.label) }}
+    {{ form_row(form.question) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.type) }}
+    {{ form_row(form.gaugeMaxValue) }}
+    {{ form_row(form.gaugeInvert) }}
+    {{ form_row(form.wellBeingCoefficient) }}
+    {{ form_row(form.engagementCoefficient) }}
+    {{ form_row(form.item) }}
+    {{ form_row(form.valuesDistribution) }}
+    {{ form_row(form.leftLabel) }}
+    {{ form_row(form.centerLabel) }}
+    {{ form_row(form.rightLabel) }}
+    {{ form_row(form.tooltip) }}
+    {{ form_row(form.possibleValues) }}
+    {{ form_row(form.canBeSkipped) }}
+    {{ form_row(form.tags) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block footerscripts %}
+    {{ parent() }}
+    <script>
+        {% include "@AzimutMontgolfiereApp/Backoffice/Questions/form_script.js.twig" %}
+    </script>
+{% endblock %}

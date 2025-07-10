@@ -1,0 +1,60 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 09:49:49
+
+backoffice.meta.title: "Azimut Backoffice"
+backoffice.app.name: "Azimut Backoffice"
+
+dashboard.app.name: "Tableau de bord"
+
+toggle.navigation: "Afficher le menu"
+logo.azimut: "Logo Azimut"
+
+dashboard: "Tableau de bord"
+dashboard.meta.title: "Azimut Dashboard"
+
+dashboard.introduction.text1: "Bienvenue dans votre interface de gestion."
+dashboard.introduction.text2: "Pour commencer, sélectionnez une application dans le menu de gauche."
+
+title: "titre"
+name: "nom"
+type: "type"
+
+add: "ajouter"
+remove: "retirer"
+
+all: "tous"
+
+form.error.invalid.data: "Données invalides, veuillez vérifier les champs"
+
+form.error.required: "Requis"
+
+choose: "choisir"
+replace.file: "remplacer le fichier"
+
+updating: "mise à jour en cours"
+
+invalid.form.please.check.form.values: "Formulaire invalide. Veuillez vérifiez les champs du formulaire."
+
+empty.trashbin: "Vider la corbeille"
+trashed.date: "date de suppression"
+this.trashbin.is.empty: "Cette corbeille est vide"
+
+browse: "parcourir"
+
+trashbin.confirm.permanent.delete.of.%element_count%: "Etes-vous sûr de vouloir supprimer définitivement %element_count% élément(s)?"
+
+yes: "Oui"
+no: "Non"
+
+error.occurred.during.initialization: "Une erreur est survenue lors de l'initialisation"
+view.details: "Voir les détails"
+
+error.browser.not.supported: "Désolé, votre navigateur n'est pas supporté par Azimut System"
+error.browser.not.supported.help.comment: "Merci de mettre à jour votre navigateur ou d'en installer un nouveau."
+error.browser.not.supported.help.browser.advise.firefox: "Nous vous conseillons l'usage de Firefox :"
+
+backoffice.forbidden.application.message: "Désolé, vous n'avez pas accès à cette application"
+
+dirty.data.on.state.are.you.sure.you.want.to.leave: "Vous avez des données non enregistrées sur cette page, êtes-vous sûre de vouloir quitter la page ?"
+
+action.not.allowed: "Vous n'êtes pas autorisé à effectuer cette action"

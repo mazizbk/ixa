@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-29 18:17:26
+#}
+
+<section itemscope itemtype="http://schema.org/Person">
+    <h1 itemprop="name">{{ cmsFile.firstName }} {{ cmsFile.lastName }}</h1>
+
+    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+        <b>Address : </b><br />
+        <br />
+        <span itemprop="streetAddress">
+            {{ cmsFile.address }}<br />
+        </span>
+        <span itemprop="postalCode">{{ cmsFile.zipCode }}</span> <span itemprop="addressLocality">{{ cmsFile.city }}</span><br />
+        <span itemprop="addressCountry">{{ cmsFile.country }}</span><br />
+
+    </div>
+
+    <br />
+
+    {{ 'phone'|trans }} : <span itemprop="telephone">{{ cmsFile.phone }}</span><br />
+    {{ 'email'|trans }} : <span itemprop="email">{{ cmsFile.email }}</span><br />
+</section>
+<br />
+<p class="text-center"><a href="./">{{ 'page.up'|trans }}</a></p>

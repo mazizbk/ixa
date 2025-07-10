@@ -1,0 +1,32 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-08-22 12:13:36
+
+cms_map.app.name: "Plans"
+
+cms_map.meta.title: "Azimut Plans"
+
+search.map.points: "chercher dans les points"
+
+cms_map.welcome.message: "Selectionnez un point depuis le panneau latéral"
+
+new.map.point: "nouveau point"
+
+map.point.%map_point_name%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement le point "%map_point_name%"'
+
+notification:
+    error.map.point.create: "le point n'a pas pu être créé"
+    success.map.point.create: "le point a été créé avec succès"
+    error.map.point.update: "le point n'a pas pu être mis à jour"
+    success.map.point.update: "le point a été mis à jour avec succès"
+    error.map.point.delete: "le point n'a pas pu être supprimé"
+    success.map.point.delete: "le point a été supprimé avec succès"
+    success.map.point.trash: "le point a été mis à la corbeille avec succès"
+    error.map.point.trash: "impossible de mettre le point à la corbeille"
+    success.map.point.untrash: "le point a été restauré avec succès"
+    error.map.point.untrash: "impossible de restaurer le map"
+    error.map.point.%id%.get: "Impossible d'accéder au point %id%"
+
+cms.file.type.map: plan
+
+# class names translation (for security bundle)
+cmsfilemap: "plan"

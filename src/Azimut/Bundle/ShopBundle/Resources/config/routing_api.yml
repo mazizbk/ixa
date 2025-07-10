@@ -1,0 +1,19 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:44:13
+
+azimut_shop_api_order:
+    type: rest
+    resource: Azimut\Bundle\ShopBundle\Controller\ApiOrderController
+    name_prefix: azimut_shop_api_
+
+azimut_shop_api_basket:
+    type: rest
+    resource: Azimut\Bundle\ShopBundle\Controller\ApiBasketController
+    name_prefix: azimut_shop_api_
+    prefix: public
+
+azimut_shop_api_delivery_tracking:
+    type: rest
+    resource: Azimut\Bundle\ShopBundle\Controller\ApiDeliveryTrackingController
+    name_prefix: azimut_shop_api_
+    prefix: public

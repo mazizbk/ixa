@@ -1,0 +1,168 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2015-01-21 10:36:02
+// --------------------------------------------------
+
+@az-font-path: '../fonts/opensans_regular_macroman/OpenSans-Regular-webfont';
+
+@az-main-color: #ff7900;
+
+@az-dark-color: #222;
+@az-light-color: #999;
+@az-selected-item-bg-color: lighten(@az-main-color, 40);
+@az-selected-item-border-color: @az-main-color;
+@az-selected-item-shadow-color: rgba(255, 121, 0, 0.36);
+@az-off-color: #c4c4c4;
+@az-on-color: @az-main-color;
+@az-form-error-color: #ff3600;
+
+@az-body-color: @az-dark-color;
+
+@screen-xxs-max: (@screen-xs-min - 1);
+
+// --------------------------------------------------
+
+@az-root-header-color: @az-light-color;
+@az-root-header-link-color: @az-light-color;
+@az-root-header-bg-color: darken(@az-dark-color, 10);
+
+@az-root-header-input-bg-color: lighten(@az-root-header-bg-color, 20);
+@az-root-header-input-color: @az-light-color;
+@az-root-header-btn-bg-color: lighten(@az-root-header-bg-color, 17);
+
+@az-root-header-progress-bg-color: lighten(@az-root-header-bg-color, 29);
+
+@az-root-header-img-border-color: #f5f5f5;
+
+@az-root-header-logout-color: #ff3600;
+
+// --------------------------------------------------
+
+@az-breadcrumb-link-color: @az-main-color;
+@az-breadcrumb-up-btn-color: lighten(@az-root-header-bg-color, 17);
+
+// --------------------------------------------------
+
+@az-root-side-panel-color: @az-light-color;
+@az-root-side-panel-bg-color: @az-dark-color;
+@root-side-menu-nav-link-hover-bg: darken(@az-root-side-panel-bg-color, 10);
+
+// --------------------------------------------------
+
+@az-app-body-bg-color: #fff;
+@az-app-body-caret-color: #777;
+
+// --------------------------------------------------
+
+@az-app-side-panel-color: @az-dark-color;
+@az-app-side-panel-bg-color: lighten(@az-light-color, 34);
+
+// --------------------------------------------------
+
+@az-bar-height: 50px;
+@az-app-bar-color: @az-dark-color;
+@az-app-bar-bg-color: lighten(@az-light-color, 30);
+@az-app-bar-even-bg-color: #fff;
+
+// --------------------------------------------------
+
+@az-tree-list-icon-color: @az-main-color;
+@az-tree-list-hover-item-bg-color: #fff;
+@az-tree-list-selected-item-bg-color: @az-selected-item-bg-color;
+@az-tree-list-caret-color: #777;
+@az-tree-list-drag-item-bg-color: #fff;
+@az-tree-list-drop-item-color: #fff;
+@az-tree-list-drop-item-bg-color: @az-main-color;
+
+// --------------------------------------------------
+
+@az-main-link-color: @az-dark-color;
+@az-main-link-icon-color: @az-main-color;
+
+// --------------------------------------------------
+
+@az-table-column-border-color: #ddd;
+@az-table-sort-caret-color: @az-off-color;
+@az-table-sort-caret-selected-color: @az-main-color;
+@az-table-even-bg-color: #f9f9f9;
+@az-table-cell-padding: 8px 15px;
+@az-table-bg-hover: #e6e6e6;
+@az-table-selected-item-bg-color: @az-selected-item-bg-color;
+@az-table-sortable-drop-border-color: @az-main-color;
+
+// --------------------------------------------------
+
+@az-collapsable-border-color: #c4c4c4;
+
+@az-collapsable-border-btn-width: 50px;
+@az-collapsable-border-btn-height: 10px;
+
+@az-collapsable-border-labelled-btn-vertical-padding: 3px;
+@az-collapsable-border-labelled-btn-height: @line-height-computed + 2*@az-collapsable-border-labelled-btn-vertical-padding;
+
+
+@az-collapsable-border-btn-width-coarse-pointer: round(@az-collapsable-border-btn-width*2);
+@az-collapsable-border-btn-height-coarse-pointer: @line-height-computed;
+
+@az-collapsable-border-btn-color: #fff;
+@az-collapsable-border-btn-bg-color: @az-collapsable-border-color;
+@az-collapsable-border-btn-active-bg-color: darken(@az-collapsable-border-btn-bg-color, 30);
+@az-root-side-panel-collapsable-border-btn-bg-color: #444;
+@az-root-side-panel-collapsable-border-btn-active-bg-color: darken(@az-root-side-panel-collapsable-border-btn-bg-color, 30);
+
+@az-collapsable-panel-bg-color: #f0f0f0;
+//@az-collapsable-panel-btn-color: #fff;
+//@az-collapsable-panel-btn-bg-color: #999;
+
+// --------------------------------------------------
+
+@az-thumbnail-grid-preview-color: #fff;
+@az-thumbnail-grid-preview-bg-color: @az-main-color;
+@az-thumbnail-grid-preview-bg-gradient-outer-color: darken(@az-main-color, 10);
+@az-thumbnail-grid-preview-bg-gradient-inner-color: @az-main-color;
+@az-thumbnail-grid-selected-bg-color: #fff;
+@az-thumbnail-grid-drag-bg-color: #fff;
+@az-thumbnail-grid-drag-border-color: #999;
+@az-thumbnail-grid-drop-color: #fff;
+@az-thumbnail-grid-drop-bg-color: @az-main-color;
+@az-thumbnail-grid-drop-border-color: @az-main-color;
+
+// --------------------------------------------------
+
+@az-droppable-container-dragover-bg-color: @az-selected-item-bg-color;
+@az-drop-zone-color: #999;
+@az-drop-zone-bg-color: #fff;
+@az-drop-zone-dragover-color: #fff;
+@az-drop-zone-dragover-bg-color: @az-main-color;
+
+// --------------------------------------------------
+
+@az-tag-color1: #0072ff;
+@az-tag-color2: #ae00ff;
+@az-tag-color3: #ff0078;
+
+// --------------------------------------------------
+//twitter bootstrap
+
+//@icon-font-path: "../../../../../../../../../../vendor/azimut/system-assets/twitter/bootstrap/fonts/"; //for dev mode with assetic use_controller on
+@icon-font-path: "../../../../../../../../vendor/azimut/system-assets/twitter/bootstrap/fonts/";
+
+@brand-primary:         #ff7900;
+@brand-success:         #5db85c;
+//@brand-info:            #5bc0de;
+//@brand-warning:         #f0ad4e;
+@brand-danger:          #d75553;
+
+@breadcrumb-bg: none;
+@breadcrumb-padding-vertical: 0;
+@breadcrumb-padding-horizontal: 0;
+
+@btn-primary-border: @brand-primary;
+
+@table-cell-padding: @az-table-cell-padding;
+@table-bg-hover: @az-table-bg-hover;
+
+// --------------------------------------------------
+
+@az-well-bg-color: lighten(@az-light-color, 36);
+@az-well-border-color: lighten(@az-light-color, 30);

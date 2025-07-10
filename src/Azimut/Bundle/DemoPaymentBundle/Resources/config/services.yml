@@ -1,0 +1,13 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-13 09:09:14
+
+services:
+   azimut_demo_payment.demo_payment_service:
+       class: Azimut\Bundle\DemoPaymentBundle\Service\DemoPaymentService
+       arguments:
+        - '@form.factory'
+        - '@templating'
+        - '%azimut_demo_payment.normal_return_url%'
+        - '%azimut_demo_payment.cancel_return_url%'
+        - '%azimut_demo_payment.automatic_response_url%'
+       # arguments: [%parameter%"]

@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-06-13 11:10:41
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        {% include 'CmsFileLayout/cms_file_detail.html.twig' with {'cmsFile': cmsFile} %}
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+.tooltip {
+    position: absolute;
+    z-index: 10;
+    display: block;
+    font-weight: normal;
+    line-height: 1.4;
+    opacity: 0;
+}
+.tooltip.in     { opacity: 0.9; }
+.tooltip.top    { margin-top:  -3px; padding: 5px 0; }
+.tooltip.right  { margin-left:  3px; padding: 0 5px; }
+.tooltip.bottom { margin-top:   3px; padding: 5px 0; }
+.tooltip.left   { margin-left: -3px; padding: 0 5px; }
+.tooltip-inner {
+    font-size:0.9em;
+    max-width: 300px;
+    padding: 3px 8px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #000;
+    border-radius: 4px;
+}

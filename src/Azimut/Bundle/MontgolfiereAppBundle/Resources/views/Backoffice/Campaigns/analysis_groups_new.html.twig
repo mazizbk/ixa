@@ -1,0 +1,15 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'analysis_groups' %}
+{% set campaign = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="scrollable">
+        <div class="margin-block">
+            {% form_theme form _self "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

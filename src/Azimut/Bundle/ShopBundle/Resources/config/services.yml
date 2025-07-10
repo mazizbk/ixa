@@ -1,0 +1,123 @@
+
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:43:41
+
+services:
+
+    azimut_shop.roles:
+        class: Azimut\Bundle\ShopBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_shop_roles }
+
+    azimut_shop.basket:
+        class: Azimut\Bundle\ShopBundle\Service\BasketService
+        arguments:
+            - '@session'
+            - '@doctrine.orm.entity_manager'
+            - '@azimut_frontoffice.front'
+            - '@security.firewall.map'
+            - '@request_stack'
+
+    Azimut\Bundle\ShopBundle\DataFixtures\ORM\LoadOrderData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    azimut_shop.order_status_provider:
+        class: Azimut\Bundle\ShopBundle\Service\OrderStatusProvider
+        arguments:
+            - '%shop_statuses_after_validated%'
+            - '%shop_statuses_after_paid%'
+            - '%shop_statuses_after_processed%'
+            - '%shop_statuses_after_cancelled%'
+            - '@translator'
+
+    azimut_shop.azimut_shop_twig_extension:
+        class: Azimut\Bundle\ShopBundle\Twig\ShopTwigExtension
+        arguments: ['@azimut_shop.basket', '%shop_default_vat_rate%']
+        tags:
+            - { name: twig.extension }
+
+    azimut_shop.form.order:
+        class: Azimut\Bundle\ShopBundle\Form\Type\OrderType
+        arguments: ['@azimut_shop.order_status_provider']
+        tags:
+            - { name: form.type }
+
+    azimut_shop.delivery_provider_chain:
+        class: Azimut\Bundle\ShopBundle\Service\Delivery\DeliveryProviderChain
+
+    azimut_shop.standard_delivery_provider:
+        class: Azimut\Bundle\ShopBundle\Service\Delivery\StandardDeliveryProvider
+        arguments:
+            - '@translator'
+            - '@doctrine.orm.entity_manager'
+            - '%shop_standard_delivery_shipping_cost%'
+            - '%shop_standard_delivery_free_shipping_amount%'
+        tags:
+            - { name: azimut_shop.delivery_provider }
+
+    azimut_shop.demo_relay_package_delivery_provider:
+        class: Azimut\Bundle\ShopBundle\Service\Delivery\DemoRelayPackageDeliveryProvider
+        arguments: ['@translator', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: azimut_shop.delivery_provider }
+
+    azimut_shop.form.delivery:
+        class: Azimut\Bundle\ShopBundle\Form\Type\DeliveryType
+        arguments: ['@azimut_shop.delivery_provider_chain']
+        tags:
+            - { name: form.type }
+
+    azimut_shop.payment_provider_chain:
+        class: Azimut\Bundle\ShopBundle\Service\Payment\PaymentProviderChain
+
+    azimut_shop.payment_demo_simple_provider:
+        class: Azimut\Bundle\ShopBundle\Service\Payment\DemoSimplePaymentProvider
+        arguments: ['@translator']
+        tags:
+            - { name: azimut_shop.payment_provider }
+
+    azimut_shop.payment_demo_provider:
+        class: Azimut\Bundle\ShopBundle\Service\Payment\DemoPaymentProvider
+        arguments: ['@translator']
+        tags:
+            - { name: azimut_shop.payment_provider }
+
+    azimut_shop.payment_check_provider:
+        class: Azimut\Bundle\ShopBundle\Service\Payment\CheckPaymentProvider
+        arguments: ['@translator']
+        tags:
+            - { name: azimut_shop.payment_provider }
+
+    azimut_shop.form.payment:
+        class: Azimut\Bundle\ShopBundle\Form\Type\PaymentType
+        arguments: ['@azimut_shop.payment_provider_chain']
+        tags:
+            - { name: form.type }
+
+    azimut_shop.order_doctrine_event_subscriber:
+        class: Azimut\Bundle\ShopBundle\EventListener\Doctrine\OrderSubscriber
+        arguments: ['@event_dispatcher', '%shop_default_vat_rate%']
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_shop.mailer:
+        class: Azimut\Bundle\ShopBundle\Service\Mailer
+        arguments:
+            - '@mailer'
+            - '@templating'
+            - '@translator'
+            - '@request_stack'
+            - '%shop_sender%'
+            - '%shop_admin_recipient%'
+
+    azimut_shop.order_status_subscriber:
+        class: Azimut\Bundle\ShopBundle\EventListener\OrderStatusSubscriber
+        arguments: ['@azimut_shop.mailer', '@azimut_shop.payment_provider_chain']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Demo simplified payment service
+    azimut_shop.demo_payment_service:
+        class: Azimut\Bundle\ShopBundle\Service\DemoSimplePaymentService

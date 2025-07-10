@@ -1,0 +1,6 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-13 09:09:14
+
+azimut_demo_payment_call_payment:
+    path:     /call_payment
+    defaults: { _controller: AzimutDemoPaymentBundle:Payment:callPayment }

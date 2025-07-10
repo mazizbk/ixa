@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-01-28 11:35:12
+
+azimut_demoangularjsapi_demo:
+    type: rest
+    resource: Azimut\Bundle\DemoAngularJsBundle\Controller\ApiDemoController
+    name_prefix: azimut_demoangularjs_api_

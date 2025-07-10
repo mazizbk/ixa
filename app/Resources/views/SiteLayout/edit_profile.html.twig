@@ -1,0 +1,21 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-18 17:48:28
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+
+    {% if form.vars.submitted and form.vars.valid %}
+        <p>{{ 'your.user.profile.has.been.updated'|trans }}</p>
+    {% else %}
+        {{ form_start(form, { 'attr': { 'action': path('azimut_frontofficesecurity_edit_profile') }}) }}
+            {{ form_widget(form) }}
+            <div class="form-group">
+                <button type="submit" class="btn-default btn">{{ 'save'|trans|capitalize }}</button>
+            </div>
+        {{ form_end(form) }}
+    {% endif %}
+
+{% endblock %}

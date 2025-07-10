@@ -1,0 +1,71 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-02 14:09:30
+
+# 100
+'Continue': 'Continuer'
+'Switching Protocols': 'Changement de protocole'
+'Processing': 'Traitement en cours'
+'OK': 'OK'
+
+# 200
+'Created': 'Créé'
+'Accepted': 'Accepté'
+'Non-Authoritative Information': 'Information non certifiée'
+'No Content': 'Pas de contenu'
+'Reset Content': 'Contenu réinitialisé'
+'Partial Content': 'Contenu partiel'
+'Multi-Status': 'Réponse multiple'
+#'Already Reported': 'xxxx'
+#'IM Used': 'xxxx'
+
+# 300
+'Multiple Choices': 'Choix multiples'
+'Moved Permanently': "Changement d'adresse définitif"
+'Found': 'Trouvé'
+'See Other': 'Voir ailleurs'
+'Not Modified': 'Non modifié'
+'Use Proxy': 'Utiliser le proxy'
+'Temporary Redirect':  "Redirection temporaire"
+'Permanent Redirect': "Redirection définitive"
+
+# 400
+'Bad Request': 'Mauvaise requête'
+'Unauthorized': 'Non autorisé'
+'Payment Required': 'Paiement requis'
+'Forbidden': 'Interdit'
+'Not Found': 'Non trouvé'
+'Method Not Allowed': 'Méthode non autorisée'
+'Not Acceptable': 'Aucun disponible'
+'Proxy Authentication Required': 'Authentification proxy requise'
+'Request Timeout': 'Requête hors-délai'
+'Conflict': 'Conflit'
+'Gone': 'Parti'
+'Length Required': 'Longueur requise'
+'Precondition Failed': 'Précondition échouée'
+'Payload Too Large': 'Corps de requête trop lourd'
+'URI Too Long': 'URI trop long'
+'Unsupported Media Type': 'Format non supporté'
+'Range Not Satisfiable': 'Plage demandée invalide'
+'Expectation Failed': 'Comportement erroné'
+"I'm a teapot": 'Je suis une théière'
+'Unprocessable Entity': 'Entité incompréhensible ou incomplète'
+'Locked': 'Vérouillé'
+'Failed Dependency': 'Méthode échouée'
+#'Reserved for WebDAV advanced collections expired proposal': 'xxxx'
+#'Upgrade Required': 'xxxx'
+#'Precondition Required': 'xxxx'
+'Too Many Requests': 'Trop de requêtes'
+'Request Header Fields Too Large': 'Entêtes de requête trop lourds'
+
+# 500
+'Internal Server Error': 'Erreur interne du serveur'
+'Not Implemented': 'Non implémenté'
+'Bad Gateway': 'Mauvaise passerelle'
+'Service Unavailable': 'Service indisponible'
+'Gateway Timeout': 'Passerelle hors délais'
+'HTTP Version Not Supported': 'Version HTTP non supportée'
+#'Variant Also Negotiates (Experimental)': 'xxxx'
+'Insufficient Storage': 'Stockage insuffisant'
+'Loop Detected': 'Boucle détectée'
+'Not Extended': 'Non étendu'
+'Network Authentication Required': 'Authentification réseau requise'

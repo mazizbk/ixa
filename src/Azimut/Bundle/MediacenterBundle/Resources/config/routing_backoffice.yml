@@ -1,0 +1,148 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-07
+
+
+azimut_mediacenter_backoffice_widget:
+    path: /widget
+    defaults: { _controller: AzimutMediacenterBundle:Backoffice:widget }
+    options:
+        expose: true
+
+
+#Expose AngularJS views
+azimut_mediacenter_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_folder_tree_child:
+    path: /jsviews/file_list_child
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:folder_tree_child.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_file_detail:
+    path: /jsviews/file_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:file_detail.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_folder_detail_thumbnail_item:
+    path: /jsviews/folder_detail_thumbnail_item
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:folder_detail_thumbnail_item.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_folder_detail_table_item:
+    path: /jsviews/folder_detail_table_item
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:folder_detail_table_item.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_folder_detail:
+    path: /jsviews/folder_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:folder_detail.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_media_detail:
+    path: /jsviews/media_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:media_detail.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_new_media:
+    path: /jsviews/new_media
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:new_media.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_media_form_with_one_declination:
+    path: /jsviews/media_form_with_one_declination_{type}
+    defaults: { _controller: AzimutMediacenterBundle:Backoffice:MediaFormWithOneDeclination }
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_media_form_with_declinations:
+    path: /jsviews/media_form_with_declinations_{type}
+    defaults: { _controller: AzimutMediacenterBundle:Backoffice:mediaFormWithDeclinations }
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_media_form:
+    path: /jsviews/media_form_{type}
+    defaults: { _controller: AzimutMediacenterBundle:Backoffice:MediaForm }
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_new_media_declination:
+    path: /jsviews/new_media_declination
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:new_media_declination.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_media_declination_form:
+    path: /jsviews/media_declination_form/{type}
+    defaults: { _controller: AzimutMediacenterBundle:Backoffice:mediaDeclinationForm }
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_widget:
+    path: /jsviews/widget
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:widget.angularjs.twig'
+        roles: ~
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_trash_bin:
+    path: /jsviews/trash_bin
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:trash_bin.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+azimut_mediacenter_backoffice_jsview_trash_bin_item:
+    path: /jsviews/trash_bin_item
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutMediacenterBundle:Backoffice:trash_bin_item.angularjs.twig'
+        roles: ['APP_MEDIACENTER']
+    options:
+        expose: true
+
+#end AngularJS views

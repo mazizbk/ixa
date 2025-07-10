@@ -1,0 +1,90 @@
+{% extends '@AzimutMontgolfiereApp/Email/base.html.twig' %}
+
+{% block bodyContainer %}
+    <tr>
+        <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            <h1 class="text-center">{{ 'montgolfiere.emails.bee_alert.greetings'|trans }}</h1>
+                            <p>{{ 'montgolfiere.emails.bee_alert.text1'|trans }}</p>
+
+                            {% set attribute1 %}
+                                <strong>{{ ('montgolfiere.emails.bee_alert.client'|trans) }}</strong> : {{ participation.campaign.client.tradingName??participation.campaign.client.corporateName }}<br>
+                                <strong>{{ ('montgolfiere.emails.bee_alert.campaign'|trans) }}</strong> : {{ participation.campaign.name }}
+                            {% endset %}
+                            {% set attribute2 %}
+                                <strong>{{ ('montgolfiere.emails.bee_alert.well_being_score'|trans) }}</strong> : {{ participation.wellBeingScore|number_format(decimal=2) }}<br>
+                                <strong>{{ ('montgolfiere.emails.bee_alert.engagement_score'|trans) }}</strong> : {{ participation.engagementScore|number_format(decimal=2) }}
+                            {% endset %}
+                            {% set attribute3 %}
+                                {% for sortingFactor in participation.campaign.sortingFactors %}
+                                    <strong>{{ ixa_sorting_factor_name(sortingFactor) }}</strong> : {{ participation.getSortingFactorValue(sortingFactor)?ixa_sorting_factor_value_name(participation.getSortingFactorValue(sortingFactor)) }}<br>
+                                {% endfor %}
+                                <strong>{{ 'montgolfiere.questionnaire.basic_information.segment'|trans }}</strong> {{ participation.segment.name }}
+                                <strong>{{ 'montgolfiere.backoffice.campaigns.participations.date'|trans }}</strong> : {{ participation.createdAt|localizeddate -}}
+                                {%- set _diff = participation.updatedAt.diff(participation.createdAt) %} ({{ _diff.format('%i') }} minutes)
+                            {% endset %}
+                            {% set attribute4 %}
+                                {% if participation.firstName or participation.lastName %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.last_name'|trans }}</strong> {{ participation.firstName }} {{ participation.lastName }}<br>
+                                {% endif %}
+                                {% if participation.emailAddress %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.email_address'|trans }}</strong> <a href="mailto:{{ participation.emailAddress }}">{{ participation.emailAddress }}</a><br>
+                                {% endif %}
+                                {% if participation.phoneNumber %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.phone_number'|trans }}</strong> {{ participation.phoneNumber }}<br>
+                                {% endif %}
+                                {% if participation.gender %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.gender'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.genders.'~participation.gender)|trans }}<br>
+                                {% endif %}
+                                {% if participation.managerName %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.manager_name'|trans }}</strong> {{ participation.managerName }}<br>
+                                {% endif %}
+                                {% if participation.seniority %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.seniority'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.seniorities.'~participation.seniority)|trans }}<br>
+                                {% endif %}
+                                {% if participation.education %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.education'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.educations.'~participation.education)|trans }}<br>
+                                {% endif %}
+                                {% if participation.csp %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.csp'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.csps.'~participation.csp)|trans }}<br>
+                                {% endif %}
+                                {% if participation.age %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.age'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.ages.'~participation.age)|trans }}<br>
+                                {% endif %}
+                                {% if participation.maritalStatus %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.marital_status'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.marital_statuses.'~participation.maritalStatus)|trans }}<br>
+                                {% endif %}
+                                {% if participation.managementResponsibilities %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.management_responsibilities'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.management_responsibilities_values.'~participation.managementResponsibilities)|trans }}<br>
+                                {% endif %}
+                                {% if participation.position %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.position'|trans }}</strong> {{ participation.position }}<br>
+                                {% endif %}
+                                {% if participation.residenceState %}
+                                    <strong>{{ 'montgolfiere.questionnaire.basic_information.residence_state'|trans }}</strong> {{ ('montgolfiere.questionnaire.basic_information.states.'~participation.residenceState)|trans }}<br>
+                                {% endif %}
+                            {% endset %}
+                            {% set attributes = [attribute1, attribute2, attribute3, attribute4] %}
+                            {% include "@AzimutMontgolfiereApp/Email/helpers/attributes.html.twig" with {attributes:attributes} only %}
+
+                            {% include "@AzimutMontgolfiereApp/Email/helpers/button.html.twig" with {
+                                action: url('azimut_backoffice_dashboard')~'#/home/external_campaigns#'~participation.campaign.id~'%2Fparticipations%2F'~participation.id,
+                                text: "montgolfiere.emails.bee_alert.view_participation"|trans,
+                                color: "green"
+                            } only %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+{% endblock %}
+
+{% block beforeLogo %}
+    <img src="{{ absolute_url(asset('img/questionnaire/wbe-logo.png')) }}" alt="Indice Bee" class="email-masthead_logo" width="158" height="82" />
+{% endblock %}

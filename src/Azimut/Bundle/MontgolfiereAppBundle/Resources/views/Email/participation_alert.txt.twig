@@ -1,0 +1,59 @@
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{{ 'montgolfiere.emails.bee_alert.greetings'|trans }}
+
+{{ 'montgolfiere.emails.bee_alert.text1'|trans }}
+
+{{ 'montgolfiere.emails.bee_alert.participation'|trans }} : {{ url('azimut_backoffice_dashboard') }}#/home/external_campaigns#{{ participation.campaign.id }}%2Fparticipations%2F{{ participation.id }}
+
+{{ 'montgolfiere.emails.bee_alert.client'|trans }} : {{ participation.campaign.client.tradingName??participation.campaign.client.corporateName }}
+{{ 'montgolfiere.emails.bee_alert.campaign'|trans }} : {{ participation.campaign.name }}
+
+{{ 'montgolfiere.emails.bee_alert.well_being_score'|trans }} : {{ participation.wellBeingScore|number_format(decimal=2) }}
+{{ 'montgolfiere.emails.bee_alert.engagement_score'|trans }} : {{ participation.engagementScore|number_format(decimal=2) }}
+
+{% for sortingFactor in participation.campaign.sortingFactors %}
+{{ ixa_sorting_factor_name(sortingFactor) }} : {{ participation.getSortingFactorValue(sortingFactor)?ixa_sorting_factor_value_name(participation.getSortingFactorValue(sortingFactor)) }}
+{% endfor %}
+{{ 'montgolfiere.questionnaire.basic_information.segment'|trans }} {{ participation.segment.name }}
+{{ 'montgolfiere.backoffice.campaigns.participations.date'|trans }} : {{ participation.createdAt|localizeddate -}}
+{%- set _diff = participation.updatedAt.diff(participation.createdAt) %} ({{ _diff.format('%i') }} minutes)
+
+{% if participation.firstName or participation.lastName %}
+    {{- 'montgolfiere.questionnaire.basic_information.last_name'|trans }} {{ participation.firstName }} {{ participation.lastName }}
+{% endif %}
+{% if participation.emailAddress %}
+    {{- 'montgolfiere.questionnaire.basic_information.email_address'|trans }} {{ participation.emailAddress }}
+{% endif %}
+{% if participation.phoneNumber %}
+    {{- 'montgolfiere.questionnaire.basic_information.phone_number'|trans }} {{ participation.phoneNumber }}
+{% endif %}
+{% if participation.gender %}
+    {{- 'montgolfiere.questionnaire.basic_information.gender'|trans }} {{ ('montgolfiere.questionnaire.basic_information.genders.'~participation.gender)|trans }}
+{% endif %}
+{% if participation.managerName %}
+    {{- 'montgolfiere.questionnaire.basic_information.manager_name'|trans }} {{ participation.managerName }}
+{% endif %}
+{% if participation.seniority %}
+    {{- 'montgolfiere.questionnaire.basic_information.seniority'|trans }} {{ ('montgolfiere.questionnaire.basic_information.seniorities.'~participation.seniority)|trans }}
+{% endif %}
+{% if participation.education %}
+    {{- 'montgolfiere.questionnaire.basic_information.education'|trans }} {{ ('montgolfiere.questionnaire.basic_information.educations.'~participation.education)|trans }}
+{% endif %}
+{% if participation.csp %}
+    {{- 'montgolfiere.questionnaire.basic_information.csp'|trans }} {{ ('montgolfiere.questionnaire.basic_information.csps.'~participation.csp)|trans }}
+{% endif %}
+{% if participation.age %}
+    {{- 'montgolfiere.questionnaire.basic_information.age'|trans }} {{ ('montgolfiere.questionnaire.basic_information.ages.'~participation.age)|trans }}
+{% endif %}
+{% if participation.maritalStatus %}
+    {{- 'montgolfiere.questionnaire.basic_information.marital_status'|trans }} {{ ('montgolfiere.questionnaire.basic_information.marital_statuses.'~participation.maritalStatus)|trans }}
+{% endif %}
+{% if participation.managementResponsibilities %}
+    {{- 'montgolfiere.questionnaire.basic_information.management_responsibilities'|trans }} {{ ('montgolfiere.questionnaire.basic_information.management_responsibilities_values.'~participation.managementResponsibilities)|trans }}
+{% endif %}
+{% if participation.position %}
+    {{- 'montgolfiere.questionnaire.basic_information.position'|trans }} {{ participation.position }}
+{% endif %}
+{% if participation.residenceState %}
+    {{- 'montgolfiere.questionnaire.basic_information.residence_state'|trans }} {{ ('montgolfiere.questionnaire.basic_information.states.'~participation.residenceState)|trans }}
+{% endif %}

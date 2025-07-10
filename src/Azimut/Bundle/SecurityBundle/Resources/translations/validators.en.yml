@@ -1,0 +1,4 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-11-07 15:57:50
+
+this.user.already.exists: "This user already exists"

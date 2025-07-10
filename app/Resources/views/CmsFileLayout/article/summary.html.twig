@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-07 16:59:29
+#}
+
+{# Note: for list of elements that leads to a full describing page, it is recommend to just use ItemList with urls. These elements have to be wrapped into a ItemListElement. They must be only one ItemList on a page, it is not easily suitable for Azimut System zoning content. #}
+
+{% if cmsFilePath is not defined %}
+    {% set cmsFilePath = cmsFileCanonicalPath(cmsFile) %}
+{% endif %}
+
+<article>
+    <h2>{{ cmsFile.title }}</h2>
+
+    {% if cmsFile.mainAttachment != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.mainAttachment,
+            'width': '250px',
+            'height': '140px',
+            'class': 'img-thumbnail pull-left'
+        } %}
+    {% endif %}
+
+    <p>{{ cmsFile.abstract|limit_length(250) }}</p>
+
+    <a href="{{ cmsFilePath }}">{{ 'read.more'|trans }}</a>
+
+    <div class="clearfix"></div>
+</article>

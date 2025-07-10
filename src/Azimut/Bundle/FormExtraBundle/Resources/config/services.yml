@@ -1,0 +1,85 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-11-18 14:17:29
+
+services:
+    azimut_formextrabundle.form_extension.angular:
+        class: Azimut\Bundle\FormExtraBundle\Form\TypeExtension\AngularTypeExtension
+        tags:
+            -
+                name: form.type_extension
+                extended_type: Symfony\Component\Form\Extension\Core\Type\FormType
+
+    azimut_formextrabundle.form_extension.angular_button:
+        class: Azimut\Bundle\FormExtraBundle\Form\TypeExtension\AngularButtonTypeExtension
+        tags:
+            -
+                name: form.type_extension
+                extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType
+
+    azimut_formextrabundle.form_extension.extra_data:
+        class: Azimut\Bundle\FormExtraBundle\Form\TypeExtension\ExtraDataTypeExtension
+        tags:
+            -
+                name: form.type_extension
+                extended_type: Symfony\Component\Form\Extension\Core\Type\FormType
+
+    azimut_formextrabundle.form_extension.i18n:
+        class: Azimut\Bundle\FormExtraBundle\Form\TypeExtension\I18nBaseTypeExtension
+        arguments:
+            - "@validator"
+        tags:
+            -
+                name: form.type_extension
+                extended_type: Azimut\Bundle\FormExtraBundle\Form\Type\I18nBaseType
+
+    azimut_formextrabundle.form_extension.hint:
+        class: Azimut\Bundle\FormExtraBundle\Form\TypeExtension\HintTypeExtension
+        tags:
+            -
+                name: form.type_extension
+                extended_type: Symfony\Component\Form\Extension\Core\Type\FormType
+
+    azimut_formextrabundle.form.entity_hidden:
+        class: Azimut\Bundle\FormExtraBundle\Form\Type\EntityHiddenType
+        arguments:
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_formextrabundle.form.tinymce_config:
+        class: Azimut\Bundle\FormExtraBundle\Form\Type\TinymceConfigType
+        arguments:
+            - "%azimut_form_extra.tinymce.script_url%"
+            - "%azimut_form_extra.tinymce.content_css_url%"
+            - "%azimut_form_extra.tinymce.templates_url%"
+            - "@translator"
+        tags:
+            -
+                name: form.type
+
+    azimut_formextrabundle.form.i18n_base:
+        class: Azimut\Bundle\FormExtraBundle\Form\Type\I18nBaseType
+        arguments: ['%locales%']
+        tags:
+            -
+                name: form.type
+                alias: i18n_base
+
+    azimut_formextrabundle.form.submit_or_cancel:
+        class: Azimut\Bundle\FormExtraBundle\Form\Type\SubmitOrCancelType
+        tags:
+            -
+                name: form.type
+                alias: submit_or_cancel
+
+    azimut_formextrabundle.form.geolocation:
+        class: Azimut\Bundle\FormExtraBundle\Form\Type\GeolocationType
+        tags:
+            -
+                name: form.type
+                alias: geolocation
+
+    Azimut\Bundle\FormExtraBundle\Form\TypeExtension\HelpTextExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }

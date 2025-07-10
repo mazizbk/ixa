@@ -1,0 +1,177 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 10:11:49
+
+mediacenter.app.name: "Mediacenter"
+
+mediacenter.meta.title: "Azimut Mediacenter"
+
+my.library: "My media"
+submitted.library: "Submited Media"
+
+main.declination: "Main declination"
+media.publications: "Media publications"
+no.publication: "No publication"
+
+#media types
+image: "image"
+video: "video"
+text: "text"
+animation: "animation"
+archive: "archive"
+presentation: "presentation"
+audio: "audio"
+spreadsheet: "spreadsheet"
+text: "text"
+other: "other"
+
+#media properties
+name: "name"
+description: "description"
+file: "file"
+creation.date: "creation date"
+type: "type"
+desc: "desc"
+size: "size"
+
+#media image properties
+alternative.text: "alternative text"
+caption: "caption"
+author: "author"
+copyright: "copyright"
+pixel.width: "pixel width"
+pixel.height: "pixel height"
+datetime.original: "Original datetime"
+software: "software"
+device.maker: "device maker"
+device.model: "device model"
+image.orientation: "orientation"
+landscape: "landscape"
+landscape.flipped: "flipped landscape"
+landscape.reverse: "reverse landscape"
+landscape.reverse.flipped: "reverse flipped landscape"
+portrait.flipped: "flipped portrait"
+portrait.reverse: "reverse portait"
+portrait.reverse.flipped: "reverse flipped portrait"
+portrait: "portrait"
+embed.html.video: "Embed HTML video"
+
+favorite: "favorites|favorites"
+recent: "recent|recents"
+trash: "trash"
+all.files: "all files"
+drag.from.desktop.here: "Drag media files from your desktop here"
+your.file.could.not.be.saved: "Your file cannot be saved"
+maybe.your.file.is.too.large: "Maybe your file is too large"
+
+folder: "folder|folders"
+media: "media|media"
+parent.folder: "parent folder"
+declination: "declination|declinations"
+
+search.in: "search in"
+
+save: "save"
+edit: "edit"
+delete: "delete"
+delete.confirmation: "Are you sure?"
+rename: "rename"
+add.to.favorites: "add to favorites"
+
+new: "new"
+in: "in"
+new.media: "new media"
+new.declination: "new declination"
+create.media: "create media"
+update.media: "update media"
+create.declination: "create declination"
+update.declination: "update declination"
+original.file.location: "original location"
+add.files: "add files"
+add.embed.code: "add embed code"
+
+sort.by: "Sort by"
+
+element: "element|elements"
+download: "download"
+
+select.media: "select media"
+select.media.declination: "select media declination"
+
+file.%file_type%.%file_name%.confirm.permanent.delete: "Are you sure you want to permanently delete %file_type% \"%file_name%\""
+
+file.size.exceeded.%max_size%.limit: "File size exceeded %max_size%B limit"
+cannot.save.file.%file_name%.folder.quota.%folder_quota%.overflowed: "Cannot save file, \"%file_name%\" folder's quota of %folder_quota% overflowed"
+cannot.save.file.global.quota.%quota%.overflowed: "Cannot save file, global quota of %quota% overflowed"
+
+notification:
+    warning.dropped.file.%type%.not.supported: "Dropped file object type \"%type%\" is not supported"
+    warning.can.not.move.temp.file: "Can not move temporary file, please wait until file is created on the server."
+    warning.can.not.open.temp.file: "Can not open temporary file, please wait until file is created on the server."
+    success.folder.move: "Folder successfully moved"
+    error.folder.move: "Error while moving folder"
+    success.media.move: "Media successfully moved"
+    error.media.move: "Error while moving media"
+    error.dropped.not.supported: "could not handle dropped element"
+    error.file.%file_path%.get: "Can't access \"%file_path%\""
+    info.media.moved.by.server.in.%folder_name%: "Media has been moved by server, it is now into \"%folder_name%\""
+    info.folder.moved.by.server: "Folder has been moved by server"
+    success.folder.update: "Folder successfully updated"
+    error.folder.update: "Error while updating folder"
+    success.folder.rename: "Folder successfully renamed"
+    error.folder.rename: "Error while renaming folder"
+    info.media.moved.by.server: "Media has been moved by server"
+    success.media.update: "Media successfully updated"
+    error.media.update: "Error while updating media"
+    success.media.rename: "Media successfully renamed"
+    error.media.rename: "Error while renaming media"
+    error.media.create: "Unable to create media"
+    success.folder.delete: "Folder successfully deleted"
+    error.folder.delete: "Unable to delete folder"
+    success.folder.trash: "Folder successfully trashed"
+    success.folder.untrash: "Folder successfully restored"
+    error.folder.untrash: "Unable to restor folder"
+    error.folder.trash: "Unable to trash folder"
+    success.media.delete: "Media successfully deleted"
+    error.media.delete: "Unable to delete media"
+    success.media.trash: "Media successfully trashed"
+    error.media.trash: "Unable to trash media"
+    success.media.untrash: "Media successfully restored"
+    error.media.untrash: "Unable to restore media"
+    error.media.create.inside.another: "I'm afraid I could not create a media inside another one"
+    success.media.create: "Media successfully created"
+    error.media.create: "Unable to create media"
+    error.media.declination.%file_path%.is.not.a.media: "Arg, unfortunately \"%file_path%\" is not a media, so we can't create a new declination here"
+    success.media.declination.update: "Media declination has been successfully saved"
+    error.media.declination.create: "Error while creating media declination"
+    error.media.declination.update: "Error while updating media declination"
+    error.media.declination.delete: "Error while deleting media declination"
+    success.media.declination.delete: "Media declination has been successfully deleted"
+    success.trashbin.delete: "Trash bin successfully emptied"
+    error.trashbin.delete: "Unable to empty trash bin"
+    warning.you.trashed.a.media.linked.to.%count%.elements: "You trashed a media linked to %count% element(s)"
+
+security:
+    media.creation.denied.can.not.write.%folder%: "Unable to create media because you can't write in the %folder% folder"
+    media.update.denied.can.not.write.%folder%: "Unable to update media because you can't write in the %folder% folder"
+    folder.creation.denied.can.not.write.%folder%: "Unable to create folder because you can't write in the %folder% folder"
+    folder.update.denied.can.not.write.%folder%: "Unable to move folder because you can't write in the %folder% folder"
+    folder.%folder1%.update.denied.can.not.write.%folder2%: "Unable to update folder %folder1% because you can't write in the %folder2% folder"
+    folder.%folder1%.deletion.denied.can.not.write.%folder2%: "Unable to delete folder %folder1% because you can't write in the %folder2% folder"
+    no.access.to.any.folder: "You don't have access to any folder"
+
+a.media.must.belong.to.a.folder.or.to.trashbin: "A media must belong to a folder or to the trashbin"
+
+media.has.not.been.saved.are.you.sure.you.want.to.continue: "Media has not been saved, are you sure you want to continue ?"
+media.declination.has.not.been.saved.are.you.sure.you.want.to.continue: "Media declination has not been saved, are you sure you want to continue ?"
+
+byte.unit.symbol: "B"
+
+mediacenter.file.type.hints.message.media:
+    image: 'JPEG, PNG, PNG, TIFF image, PSD, AI, EPS document. (only JPEG, PNG and GIF images are publishable on websites)'
+    animation: 'SWF animation'
+    archive: 'ZIP, 7ZIP, TAR, BZ, BZ2, RAR, DMG archive, etc.'
+    audio: 'Son MP3, AAC, MIDI, OGA, WAV, WEBM audio, 3GPP audio, etc. (only MP3 files are publishable on websites)'
+    presentation: 'PPT, PPTX, ODP presentation'
+    spreadsheet: 'XLS, XLSX, ODS spreadsheet'
+    text: 'PDF, DOC, DOCX, ODT, PUB, plain text document'
+    video: 'MP4, AVI, MPEG, OGV, WEBM, 3GPP video, etc. (only MP4 videos are publishable on websites)'

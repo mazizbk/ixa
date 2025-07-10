@@ -1,0 +1,21 @@
+<table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+    <tr>
+        <td class="attributes_content">
+            <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                {% for attribute in attributes %}
+                <tr>
+                    <td class="attributes_item">
+                        <div class="f-fallback">
+                            {{ attribute|raw }}
+                            {% if not loop.last %}
+                            <br>
+                            <br>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+    </tr>
+</table>

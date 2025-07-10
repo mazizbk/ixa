@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-31 16:41:27
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include 'PageLayout/page_submenu.html.twig' %}
+
+    <div class="row">
+        <div class="col-md-4">
+            {{ renderZone(page, 'left', pagePath, {
+                'cmsFileTemplateName': 'cms_file_summary',
+                'templateOptions': {
+                    'shuffle': true,
+                }
+          }) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ renderZone(page, 'center', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+       </div>
+
+       <div class="col-md-4">
+           {{ renderZone(page, 'right', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+        </div>
+    </div>
+{% endblock %}

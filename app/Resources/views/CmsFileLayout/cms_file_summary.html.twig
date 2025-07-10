@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-29 18:10:30
+#}
+
+{% if cmsFile.canonicalPath is not null %}
+    {% set cmsFilePath = cmsFile.canonicalPath %}
+{% elseif pagePath is not null %}
+    {% set cmsFilePath = pagePath ~ cmsFile.slug %}
+{% endif %}
+
+{% if cmsFilePath is not defined %}
+    {% set cmsFilePath = cmsFileCanonicalPath(cmsFile) %}
+{% endif %}
+
+{% include
+    [
+        'CmsFileLayout/'~cmsFile.cmsFileType~'/summary.html.twig',
+        'CmsFileLayout/default/summary.html.twig',
+    ]
+    with {'cmsFile': cmsFile}
+%}

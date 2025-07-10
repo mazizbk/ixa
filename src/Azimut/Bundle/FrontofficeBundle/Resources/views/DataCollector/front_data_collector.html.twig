@@ -1,0 +1,67 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-01-12 10:39:27
+#}
+
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% if collector.site is defined and collector.site is not null %}
+        {% set icon %}
+            <span class="sf-toolbar-value">AZ System</span>
+        {% endset %}
+
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Site</b>
+                <span>{{ collector.site.name }} <span class="sf-toolbar-status">#{{ collector.site.id }}</span></span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Site template</b>
+                <span>{{ collector.site.template }}</span>
+            </div>
+            {% if collector.cmsFileParentPage is not null %}
+                <div class="sf-toolbar-info-piece">
+                    <b>CMS file's parent page</b>
+                    <span>{{ collector.cmsFileParentPage.name }} <span class="sf-toolbar-status">#{{ collector.cmsFileParentPage.id }}</span></span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>CMS file's parent page layout</b>
+                    <span>{{ collector.cmsFileParentPage.layout.name }} <span class="sf-toolbar-status">#{{ collector.cmsFileParentPage.layout.id }}</span></span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>CMS file's parent page template</b>
+                    <span>{{ collector.cmsFileParentPage.template }}</span>
+                </div>
+            {% endif %}
+            {% if collector.page is not null and collector.page.layout is defined %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Page</b>
+                    <span>{{ collector.page.name }} <span class="sf-toolbar-status">#{{ collector.page.id }}</span></span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>Page layout</b>
+                    <span>{{ collector.page.layout.name }} <span class="sf-toolbar-status">#{{ collector.page.layout.id }}</span></span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>Page template</b>
+                    <span>{{ collector.page.layout.template }}</span>
+                </div>
+            {% endif %}
+            {% if collector.cmsFile is not null %}
+                <div class="sf-toolbar-info-piece">
+                    <b>CMS file</b>
+                    <span>{{ collector.cmsFile.name }} <span class="sf-toolbar-status">#{{ collector.cmsFile.id }}</span></span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>CMS file template</b>
+                    <span>{{ collector.cmsFileTemplate }}</span>
+                </div>
+            {% endif %}
+        {% endset %}
+
+        {# the 'link' value set to 'false' means that this panel doesn't
+           show a section in the web profiler #}
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: false }) }}
+    {% endif %}
+{% endblock %}

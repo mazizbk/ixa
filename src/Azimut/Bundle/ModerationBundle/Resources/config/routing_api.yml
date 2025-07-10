@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-12-06 14:50:25
+
+azimut_moderation_api_cms_file_buffer:
+    type: rest
+    resource: Azimut\Bundle\ModerationBundle\Controller\ApiCmsFileBufferController
+    name_prefix: azimut_moderation_api_

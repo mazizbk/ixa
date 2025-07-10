@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-04 14:55:25
+
+azimut_backoffice_api_backoffice:
+    type: rest
+    resource: Azimut\Bundle\BackofficeBundle\Controller\ApiBackofficeController
+    name_prefix: azimut_backoffice_api_

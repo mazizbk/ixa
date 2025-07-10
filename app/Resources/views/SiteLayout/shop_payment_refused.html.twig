@@ -1,0 +1,17 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-13 15:24:44
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'payment.refused'|trans }}</h1>
+
+    <p>{{ 'sorry.your.payment.has.been.refused'|trans }}</p>
+
+
+    <h3>{{ 'select.another.payment.method'|trans }}</h3>
+
+    {{ render(controller('AzimutShopBundle:Payment:choosePayment', {'request': app.request, 'isEmbed': true})) }}
+{% endblock %}

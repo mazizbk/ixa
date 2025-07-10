@@ -1,0 +1,17 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2015-02-18 11:24:18
+// --------------------------------------------------
+
+.btn:first-letter {
+    text-transform: capitalize;
+}
+
+.btn.btn-loading {
+    &::before {
+        content: "\e031"; // .glyphicon-refresh
+        .glyphicon();
+        .spin();
+        margin-right: 0.358em;
+    }
+}

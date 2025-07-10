@@ -1,0 +1,61 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% extends siteLayout %}
+{% set selectedMenu = 'participation' %}
+{% block bodyContent %}
+    <div class="Dashboard">
+        <div>
+            <div class="Title Title--5">Participation globale <i>{{ campaign.participationsCount }} / {{ campaign.expectedAnswers }}</i></div>
+            {% if campaign.expectedAnswers > 0 %}
+                {% set mainParticipationRatio = (campaign.participationsCount*100/campaign.expectedAnswers)|round %}
+                <div class="progress">
+                    <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ mainParticipationRatio }}%">{{ mainParticipationRatio }}%</div>
+                </div>
+                <br>
+            {% endif %}
+
+            {% for sortingFactor in campaign.sortingFactors %}
+                {% if sortingFactor.values|length>1 %}
+                    <div class="Bloc">
+                        <h2 class="Title Title--5">{{ ixa_sorting_factor_name(sortingFactor) }}</h2>
+                        <div class="Bloc-content">
+
+                            {% for value in sortingFactor.values %}
+                                {% set participants = campaign.sortingFactorValueParticipations(value)|length %}
+                                {{ ixa_sorting_factor_value_name(value) }} (<i>{{ participants }} / {{ value.workforce|default(0) }}</i>)<br>
+                                {% if value.workforce > 0 %}
+                                    {% set ratio = (participants*100/value.workforce)|round %}
+                                    <div class="progress progress--margin-bottom">
+                                        <div class="progress-bar progress-bar-{{ ixa_progress_color(ratio/100) }}" role="progressbar" style="width: {{ ratio }}%">{{ ratio }}%</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div>
+            {% if mainParticipationRatio > 10 and campaign.participationsCount > 0 %}
+
+                <br>
+
+                {% set additionalQuestions = campaign.additionalQuestions([
+                        constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_UNIQUE'),
+                        constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_MULTIPLES'),
+                        constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_TRUE_FALSE'),
+                        constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_SATISFACTION_GAUGE'),
+                ], 'client') %}
+                {% if additionalQuestions|length > 0 %}
+                    <div class="Bloc">
+                        <div class="Bloc-content">
+                            {% for additionalQuestion in additionalQuestions|slice(0,3) %}
+                                {% include ':PageLayout/ixa/_partial:additional_question_results.html.twig' with {'additionalQuestion' : additionalQuestion} only %}
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-04-30 10:52:44
+#}
+
+<header class="header-bar">
+
+    <button aria-expanded="true" class="navbar-toggle" type="button" az-menu-btn="backofficeMainMenu">
+        <span class="sr-only">{{ 'toggle.navigation'|trans }}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+    <header>
+        <a href ng-click="goHome()">
+
+            <img src="{{ asset('bundles/azimutbackoffice/img/logo-azimut.svg') }}" alt="Azimut" class="header-bar-logo" />
+        </a>
+    </header>
+
+    <div class="center hidden-xs-max">
+        {# demo center bar content #}
+    </div>
+
+    <div class="right">
+
+        {# Shortcuts
+        <span class="shortcuts hidden-sm-max">
+            <a href><span class="glyphicon glyphicon-book"></span></a>
+            <a href><span class="glyphicon glyphicon-book"></span></a>
+            <a href><span class="glyphicon glyphicon-book"></span></a>
+        </span>
+        #}
+
+        {# Search engine
+        <form class="form-inline hidden-xs-max">
+            <div class="input-group">
+                <input type="search" class="form-control input" placeholder="Search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+
+        <button class="btn btn-default visible-xs-max-inline-block hidden-xxs-max" type="button"><span class="glyphicon glyphicon-search"></span></button>
+        #}
+
+        {{ include('AzimutBackofficeBundle:Backoffice:locale_switcher.angularjs.twig') }}
+
+        {{ include('AzimutBackofficeBundle:Backoffice:disk_quota.angularjs.twig') }}
+
+        <div class="connected-user">
+            <img src="https://www.gravatar.com/avatar/{{ userGravatarHash }}" alt="" class="avatar" />
+            <span class="username hidden-md-max">{{ user.username }}</span>
+        </div>
+
+        <a href class="icon-btn" id="fullScreenBtn" onclick="fullScreen()"><span class="glyphicon glyphicon-fullscreen"></span></a>
+        {# Parameters
+        <a href class="icon-btn hidden-xs-max"><span class="glyphicon glyphicon-cog"></span></a>
+        #}
+        <a href="{{ path('azimut_security_logout') }}" class="icon-btn"><span class="glyphicon glyphicon-off"></span></a>
+
+    </div>
+
+</header>
+
+<div class="body">
+
+    {% verbatim %}
+
+        <section class="side-panel side-menu-panel collapsable-panel collapsed-size-minimized scrollable-container" id="backofficeMainMenu" az-collapsable-panel="{enableStorage: true}">
+
+            <nav class="scrollable">
+
+                <ul class="nav nav-stacked">
+                    <li ng-repeat="menuItem in backofficeMenu | orderBy:'displayOrder'">
+                        <a href ng-click="openMenuItem(menuItem)" ng-class="{'active': menuItem.active}"><span ng-class="'glyphicon '+menuItem.icon"></span><span class="menu-label"> {{ menuItem.title }}</span></a>
+                    </li>
+                    {% endverbatim %}
+                        {% if 'report_bug' in active_backoffice_apps %}
+                            <li>
+                                <a az-jira-issue-collector href><span class="glyphicon glyphicon glyphicon-pro glyphicon-pro-bug"></span><span class="menu-label"> Report bug</span></a>
+                            </li>
+                        {% endif %}
+                    {% verbatim %}
+                </ul>
+
+            </nav>
+
+            <a href class="collapsable-border-btn">
+                <span class="caret"></span>
+            </a>
+
+        </section>
+
+        <section class="main-panel" ui-view ng-class="backofficeAppStatus.loading?'loading':''"></section>
+
+    {% endverbatim %}
+
+</div>

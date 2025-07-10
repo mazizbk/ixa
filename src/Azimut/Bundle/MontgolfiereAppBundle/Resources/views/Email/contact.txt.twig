@@ -1,0 +1,12 @@
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{{ 'montgolfiere.emails.contact.introduction'|trans({'%name%': campaign.name}) }}
+
+{{ 'montgolfiere.emails.contact.fullname'|trans }} {{ fullName }}
+{{ 'montgolfiere.emails.contact.email'|trans }} {{ email }}
+{{ 'montgolfiere.emails.contact.phone'|trans }} {{ phone }}
+{% if step %}
+{{ 'montgolfiere.emails.contact.question'|trans }} {{ step.theme?step.theme.name[app.request.locale] }} - {{ step.item?step.item.name[app.request.locale] }}
+{% endif %}
+{{ 'montgolfiere.emails.contact.participation'|trans }} {{ url('azimut_montgolfiere_app_backoffice_campaigns_participations_read', {participation: participation.id, id: campaign.id}) }}
+{{ 'montgolfiere.emails.contact.message'|trans }}
+{{ message }}

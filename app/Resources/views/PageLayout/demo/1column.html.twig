@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-31 16:40:56
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include 'PageLayout/page_submenu.html.twig' %}
+
+    {{ renderZone(page, 'center', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+{% endblock %}

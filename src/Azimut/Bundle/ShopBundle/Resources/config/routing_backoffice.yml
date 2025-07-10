@@ -1,0 +1,40 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:43:41
+
+
+#Expose AngularJS views
+azimut_shop_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutShopBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_SHOP']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_shop_backoffice_jsview_order_list:
+    path: /jsviews/order_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutShopBundle:Backoffice:order_list.angularjs.twig'
+        roles: ['APP_SHOP']
+    options:
+        expose: true
+
+azimut_shop_backoffice_jsview_order_form:
+    path: /jsviews/order_form
+    defaults: { _controller: AzimutShopBundle:Backoffice:orderForm }
+    options:
+        expose: true
+
+azimut_shop_backoffice_jsview_order_detail:
+    path: /jsviews/order_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutShopBundle:Backoffice:order_detail.angularjs.twig'
+        roles: ['APP_SHOP']
+    options:
+        expose: true

@@ -1,0 +1,106 @@
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+ * date:    2020-02-06 09:49:35
+ */
+
+.Btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    /*font-weight: 600;*/
+    padding: 1.2rem 3.5rem;
+    margin: 0;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--green);
+    border: none;
+    border-radius: 1rem;
+    transition: color .5s ease, background .5s ease;
+}
+.Btn--fullWidth {
+    width: 100%;
+}
+
+.Btn:hover {
+    text-decoration: none;
+    color: #fff;
+    background: var(--dark-green);
+}
+.Btn:focus {
+    border-color: var(--green);
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.Btn:active {
+    background: #000;
+    box-shadow: none;
+}
+.Btn:focus:active {
+    outline: none;
+}
+
+.Btn--off {
+    background: #fff;
+    color: #aaa;
+    border: 1px solid #c0c0c0;
+}
+
+.BtnGroup .Btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.BtnGroup .Btn:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.BtnGroup .Btn + .Btn {
+    border-left: 1px solid #fff;
+}
+
+.Btn--secondary {
+    line-height: 1;
+    background: none;
+    color: #666;
+}
+
+.Btn--prev::before,
+.Btn--next::after {
+    display: inline-block;
+    color: currentColor;
+    transition: color .5s ease;
+}
+.Btn--prev::before {
+    content: '<<';
+    margin: 0 1rem 0 -1.5rem;
+}
+
+.Btn--next::after {
+    content: '>>';
+    margin: 0 -1.5rem 0 1rem;
+}
+
+.Btn--small {
+    text-transform: none;
+    padding: .5rem 1.6rem;
+    line-height:initial;
+}
+
+.Btn--delete {
+    background-color: #e30000;
+}
+
+.Btn--white {
+    background-color: #fff;
+    color:black;
+}
+
+/*.Btn--prev:hover::before,
+.Btn--next:hover::after {
+    color: currentColor;
+}
+*/
+.Btn--fixed-bottom-right{
+    position:fixed;
+    right:2em;
+    bottom:6rem;
+}

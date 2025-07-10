@@ -1,0 +1,70 @@
+{#
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2014-10-01 10:53:53
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+{% set form_name = userOrGroup ~'_access_right' %}
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.'~form_name~'.submitAction()', 'az-submit-params': 'forms.params.'~form_name, 'az-confirm-dirty-data-state-change': 'forms.params.'~form_name~'.confirmDirtyDataStateChangeMessage'}}) }}
+{% verbatim %}
+
+    <p ng-if="user.isSuperAdmin"><span class="glyphicon glyphicon-king text-danger"></span> SUPERADMIN</p>
+
+    <div ng-if="!user.isSuperAdmin">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{ Translator.trans('security.edituser.access_rights.simple_roles') }}</label>
+            <div class="col-sm-10">
+                <div ng-repeat="role in roles">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="role_{{ $index }}" name="roles[]" az-compound-checkboxes="forms.data.{% endverbatim %}{{ form_name }}{% verbatim %}.roles.roles" az-compound-checkboxes-inherited="forms.inheritedData.{% endverbatim %}{{ form_name }}{% verbatim %}.roles.roles" az-compound-checkboxes-values="roles" ng-value="role.id" />
+                            {{ Translator.trans('roles.'+role.role) }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>{{ Translator.trans('security.edituser.access_rights.applications') }}</h3>
+        <div ng-repeat="appRole in appRoles" ng-init="checked=null;form_name='{% endverbatim %}{{ form_name }}{% verbatim %}'">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="appRole_{{ $index }}" name="appRoles[]" az-compound-checkboxes="forms.data.{% endverbatim %}{{ form_name }}{% verbatim %}.apps" az-compound-checkboxes-inherited="forms.inheritedData.{% endverbatim %}{{ form_name }}{% verbatim %}.apps" az-compound-checkboxes-values="appRoles" ng-value="appRole.id" />
+                    {{ appRole.name }}
+                </label>
+            </div>
+            <div ng-repeat="(className, class) in appRole.classes" ng-if="forms.data.{% endverbatim %}{{ form_name }}{% verbatim %}.apps.indexOf(appRole)>-1 || forms.inheritedData.{% endverbatim %}{{ form_name }}{% verbatim %}.apps.indexOf(appRole)>-1">
+                <div class="well" ng-init="visible=false">
+                    <div>
+                        <div class="roleLine roleHeader">
+                            <div></div>
+                            <div ng-repeat="role in class.roles">
+                                {{ Translator.trans('roles.'+role.role) }}
+                            </div>
+                        </div>
+                        <div class="roleLine">
+                            <div>
+                                <a href ng-click="visible=!visible; visible?loadObjectOfClass(class.namespace):null" class="objectOfClass">
+                                    <span ng-class="{true:'caret', false:'caret caret-vertical'}[visible]"></span>
+                                    <strong>{{ Translator.transChoice(className, 1) }} </strong>
+                                </a>
+                            </div>
+
+                            <div ng-repeat="role in class.roles">
+                                <div class="checkbox">
+                                    <input type="checkbox" az-compound-checkboxes="forms.data.{% endverbatim %}{{ form_name }}{% verbatim %}.classes[class.namespace].roles" az-compound-checkboxes-inherited="forms.inheritedData.{% endverbatim %}{{ form_name }}{% verbatim %}.classes[class.namespace].roles" az-compound-checkboxes-values="classes[class.namespace].roles" ng-value="role.id" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="visible">
+                        <div ng-repeat="obj in objectsOfClass[class.namespace]" ng-init="nestLevel=0">
+                            <div ng-include="'{% endverbatim %}{{ path('azimut_security_backoffice_jsview_access_right_list_children') }}{% verbatim %}'" include-replace></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endverbatim %}
+{{ form_end(form) }}

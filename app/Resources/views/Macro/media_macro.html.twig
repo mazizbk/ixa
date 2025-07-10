@@ -1,0 +1,70 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-10-03 11:33:11
+#}
+
+{% macro figure(type, mediaDeclination, mediaSize, figureClass, isItemprop, mediaAttr = {}) %}
+    <figure itemscope itemtype="http://schema.org/{% if 'image' == type %}ImageObject{% elseif 'video' == type %}VideoObject{% else %}MediaObject{% endif %}" class="Figure Figure-{{ type }} {{ figureClass }}"{% if isItemprop %} itemprop="{{ type }}"{% endif %}>
+        {{ attribute(_self, type, {
+            'mediaDeclination': mediaDeclination,
+            'mediaSize': mediaSize,
+            'attr': mediaAttr|merge({
+                'itemprop': 'contentUrl url',
+            }),
+        }) }}
+        {% if mediaDeclination.media.caption is not null %}
+            {# Note: Google requires description attribute on video #}
+            <figcaption itemprop="description" class="Figure-caption">{{ mediaDeclination.media.caption }}</figcaption>
+        {% endif %}
+        {% if mediaDeclination.media.copyright is not null %}
+            <footer class="Figure-copyright"><small>© <span itemprop="author">{{ mediaDeclination.media.copyright }}</span></small></footer>
+        {% endif %}
+
+        {% if 'video' == type %}
+            <meta itemprop="thumbnailUrl" content="{{ path('azimut_mediacenter_file_proxy_thumb', { 'filepath': mediaDeclination.path, 'size': mediaSize }) }}" />
+            {# Note: Google requires upload date attribute on video #}
+            <meta itemprop="uploadDate" content="{{ mediaDeclination.createdAt|date('Y-m-d\\TH:i:s+02:00') }}" />
+
+            {# Note: Google requires name attribute on video, but Mediacenter is designed to use media name only in backoffice (and it is not translated), uncomment if you want to expose video name #}
+            {# <meta itemprop="name" content="{{ mediaDeclination.media.name }}" /> #}
+        {% endif %}
+    </figure>
+{% endmacro %}
+
+{% macro image(mediaDeclination, mediaSize, attr = {}) %}
+    <img src="{{ path('azimut_mediacenter_file_proxy_thumb', { 'filepath': mediaDeclination.path, 'size': mediaSize }) }}" alt="{{ mediaDeclination.media.altText }}"{{ _self.attributes(attr) }} />
+{% endmacro %}
+
+{% macro video(mediaDeclination, mediaSize, attr = {}) %}
+    <video src="{{ asset(mediaDeclination.webPath) }}" type="video/mp4" controls poster="{{ path('azimut_mediacenter_file_proxy_thumb', { 'filepath': mediaDeclination.path, 'size': mediaSize }) }}"{{ _self.attributes(attr) }}></video>
+{% endmacro %}
+
+{% macro audio(mediaDeclination, attr = {}) %}
+    <audio src="{{ asset(mediaDeclination.webPath) }}" type="audio/mpeg" controls{{ _self.attributes(attr) }}></audio>
+{% endmacro %}
+
+{% macro iframe(mediaDeclination, mediaSize, attr = {}) %}
+    {# Use width and height attributes on wrapper #}
+    {% if attr.width is defined %}
+        {% set width = attr.width %}
+        {% set attr = attr|merge({'width': null}) %}
+    {% endif %}
+    {% if attr.height is defined %}
+        {% set height = attr.height %}
+        {% set attr = attr|merge({'height': null}) %}
+    {% endif %}
+
+    <div style="{% if width is defined %}width:{{ width }};{% endif %}{% if height is defined %}height:{{ height }};{% endif %}">
+        {{ mediaDeclination.embedHtml|replace({'<iframe ': '<iframe' ~ _self.attributes(attr) })|raw }}
+    </div>
+{% endmacro %}
+
+{% macro document(mediaDeclination, attr = {}) %}
+    <a href="{{ asset(mediaDeclination.webPath) }}" download{{ _self.attributes(attr) }}><span class="{{ mediaDeclination.media.cssIcon }} fileicon"></span> {{ mediaDeclination.name }}</a>
+{% endmacro %}
+
+{% macro attributes(attr) -%}
+    {%- for attrName, attrValue in attr if attrValue is not null -%}
+        {{- ' ' -}}{{- attrName }}="{{ attrValue }}"
+    {%- endfor -%}
+{%- endmacro -%}

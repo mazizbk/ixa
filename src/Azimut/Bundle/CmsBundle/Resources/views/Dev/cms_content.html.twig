@@ -1,0 +1,49 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+#}
+
+    <h1>CMS</h1>
+
+    <p>CMS backoffice demo index page.</p>
+
+<h2>All CMS files in database</h2>
+    <ul>
+        {% for cmsFile in cmsFiles %}
+            <li>{{ cmsFile.name }} ({{ cmsFile.cmsFileType }})</li>
+        {% endfor %}
+    </ul>
+
+    <br />
+
+    <h2>Articles</h2>
+    {% for cmsFile in cmsFiles if cmsFile.cmsFileType == 'article' %}
+        <h3>{{ cmsFile.title }}</h3>
+        <i>By {{ cmsFile.author }} on {{ cmsFile.publishStartDateTime|date("F jS \\a\\t g:ia") }}</i><br />
+        <br />
+        {% if cmsFile.mainAttachment != null %}
+        <img src="{{ asset(cmsFile.mainAttachment.mediaDeclination.webPath) }}" alt="" style="width:150px;margin-right:20px;float:left;" />
+        {% endif %}
+        <p>{{ cmsFile.text|render_media_declination_tags|raw }}</p>
+        <div style="clear:both;"></div>
+        <br />
+        Attachments : {{ cmsFile.attachments|length }}.<br />
+        {% for attachment in cmsFile.attachments %}
+            <img src="{{ asset(attachment.mediaDeclination.webPath) }}" alt="" class="img-thumbnail" style="width:50px" /> {{ attachment.mediaDeclination.name }}<br />
+
+        {% endfor %}
+    {% endfor %}
+
+    <br />
+
+    <h2>Contacts</h2>
+
+    {% for cmsFile in cmsFiles if cmsFile.cmsFileType == 'contact' %}
+        <h3>{{ cmsFile.firstName }} {{ cmsFile.lastName }}</h3>
+        Address:<br />
+        {{ cmsFile.address }}<br />
+        {{ cmsFile.zipCode }} {{ cmsFile.country }}<br />
+        <br />
+        Tél: {{ cmsFile.phone }}<br />
+        Email: {{ cmsFile.email }}<br />
+    {% endfor %}

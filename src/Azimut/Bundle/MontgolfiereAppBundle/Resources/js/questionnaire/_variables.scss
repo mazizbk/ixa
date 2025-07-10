@@ -1,0 +1,24 @@
+$workcare-primary: #118553;
+$workcare-secondary: #383838;
+$workcare-tertiary: #F4F4F4;
+$workcare-white: #FFFFFF;
+
+$colors: (
+    'primary': $workcare-primary,
+    'secondary': $workcare-secondary,
+    'tertiary': $workcare-tertiary,
+    'white': $workcare-white
+);
+
+$spacer: 1rem;
+
+$transition-animation: ease-in-out;
+$transition-speed: .5s;
+
+$screen-sm-min: 576px;
+$screen-md-min: 768px;
+$screen-lg-min: 992px;
+$screen-xl-min: 1200px;
+
+$mobile-safe-padding: env(safe-area-inset-bottom, 20px);
+$footer-safe-padding: 20px + 90px; // 20px is the distance from footer to the bottom, 90px is the height of the footer

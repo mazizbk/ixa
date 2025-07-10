@@ -1,0 +1,39 @@
+{# @var subEntity \Azimut\Bundle\MontgolfiereAppBundle\Entity\ClientContact #}
+{# @var entity \Azimut\Bundle\MontgolfiereAppBundle\Entity\Client #}
+{% set activeTab = 'contacts' %}
+{% set client = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Clients/read_base.html.twig' %}
+
+{% block readBody %}
+
+    <header class="header-bar">
+        <div class="right">
+            <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_contacts', {slug: client.slug}) }}">
+                <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.clients.contacts.back_to_list"|trans }}
+            </a>
+        </div>
+    </header>
+
+    {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(form) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.position) }}
+    {{ form_row(form.emailAddress) }}
+    {{ form_row(form.phoneNumber) }}
+    <div class="alert alert-info">
+        {% if subEntity is not defined or not subEntity.frontUser %}
+            {# Creating a new contact, or existing contact with no front user #}
+            {{ 'montgolfiere.backoffice.clients.contacts.head_of_hr_descriptions.new_contact_or_existing_new_account'|trans }}
+        {% else %}
+            {# Editing an existing contact #}
+            {% if subEntity.frontUser.active %}
+                {{ 'montgolfiere.backoffice.clients.contacts.head_of_hr_descriptions.existing_enabled_account'|trans }}
+            {% else %}
+                {{ 'montgolfiere.backoffice.clients.contacts.head_of_hr_descriptions.existing_disabled_account'|trans }}
+            {% endif %}
+        {% endif %}
+    </div>
+    {{ form_row(form.isHeadOfHumanResources) }}
+    {{ form_end(form) }}
+{% endblock %}

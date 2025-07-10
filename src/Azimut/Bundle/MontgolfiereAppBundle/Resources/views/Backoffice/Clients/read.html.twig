@@ -1,0 +1,77 @@
+{% set activeTab = 'sheet' %}
+{# @var client \Azimut\Bundle\MontgolfiereAppBundle\Entity\Client #}
+{% set client = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Clients/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><strong>{{ client.corporateName }}</strong>{% if client.tradingName %} ({{ client.tradingName }}){% endif %}</h4>
+                {{ ('montgolfiere.backoffice.clients.fields.client_type_values.'~client.clientStatus)|trans }}
+            </div>
+            {% if client.filename %}
+                <div class="panel-body" style="text-align: center;">
+                    <img src="{{ path('azimut_montgolfiere_app_backoffice_clients_logo', {'slug': client.slug}) }}" alt="{{ client.corporateName }}" style="max-width: 100%; max-height: 300px;" />
+                </div>
+            {% endif %}
+            <ul class="list-group">
+                {% if client.postalAddress.isFilled %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    {% if client.postalAddress.line1 %}{{ client.postalAddress.line1 }}<br />{% endif %}
+                    {% if client.postalAddress.line2 %}{{ client.postalAddress.line2 }}<br />{% endif %}
+                    {% if client.postalAddress.postalCode or client.postalAddress.city %}
+                        {{ client.postalAddress.postalCode }} {{ client.postalAddress.city }}<br />
+                    {% endif %}
+                    {% if client.postalAddress.country != 'FR' %}{{ client.postalAddress.countryName }}{% endif %}
+                </li>
+                {% endif %}
+                {% if client.workforce %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-user"></i>
+                    {{ 'montgolfiere.backoffice.clients.read.workforce'|transchoice(client.workforce) }}
+                </li>
+                {% endif %}
+                {% if client.legalStatus %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-law-justice"></i>
+                    {{ client.legalStatus }}
+                </li>
+                {% endif %}
+                {% if client.activity %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-factory"></i>
+                    {{ client.activity }}
+                </li>
+                {% endif %}
+                {% if client.nAFCode %}
+                <li class="list-group-item">
+                    {{ 'montgolfiere.backoffice.clients.fields.NAF_code'|trans }} :
+                    {{ client.nAFCode }}
+                </li>
+                {% endif %}
+                {% if client.turnover is not same as(null) %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-money"></i>
+                    {{ client.turnover|number_format(0, ',', ' ') }} €
+                </li>
+                {% endif %}
+                {% if client.website %}
+                <li class="list-group-item">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-globe-af"></i>
+                    <a href="{{ client.website }}" target="_blank">{{ client.website }}</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        {% if client.comments %}
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ 'montgolfiere.backoffice.clients.read.comments'|trans }}</div>
+            <div class="panel-body">{{ client.comments }}</div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

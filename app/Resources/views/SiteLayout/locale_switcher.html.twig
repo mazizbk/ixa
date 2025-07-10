@@ -1,0 +1,20 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-09-01 16:07:44
+#}
+
+{% if locales|length > 1 %}
+    <div class="dropdown hidden-sm-max">
+        <a href id="localeSwitcher" data-toggle="dropdown" aria-expanded="true">
+            {{ app.request.locale|upper }}<b class="caret"></b>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="localeSwitcher">
+            {% for locale in locales %}
+                {% if locale != app.request.locale %}
+                    <li><a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale' : locale})) }}">{{ locale|upper }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

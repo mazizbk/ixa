@@ -1,0 +1,29 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.settings.help_text'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_index') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.settings.back_to_settings"|trans }}
+        </a>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-lg-12">
+                {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('*[data-tinymce-config]').each(function(){
+                var config = $(this).data('tinymce-config');
+                config.mode = "exact";
+                config.elements = this.id;
+                tinyMCE.init(config);
+            });
+        });
+    </script>
+{% endblock body %}

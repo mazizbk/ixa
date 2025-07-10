@@ -1,0 +1,33 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-10-02 11:10:12
+#}
+
+{# NB: not using microdata for the last element (current page) because of Google recommendation : "Each breadcrumb item should appear in order, with the first item representing the top-level page, and the final item representing the parent of the current page" #}
+
+{% if page is defined and (page.parentPage is not null or cmsFile is defined) %}
+    <ul itemscope itemtype="http://schema.org/BreadcrumbList" class="{{ class }}">
+        {% for breadcrumbPage in page.breadcrumb %}
+            {% set hasLink = false %}
+            {% set tagName = 'span' %}
+            {% if breadcrumbPage.layout is defined %}
+                {% set hasLink = true %}
+                {% set tagName = 'a' %}
+            {% endif %}
+            {% set hasMicroData = hasLink and (not loop.last or cmsFile is defined) %}
+
+            <li{% if hasMicroData %} itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"{% endif %}>
+                <{{ tagName }}{% if hasMicroData %} itemprop="item"{% endif %} {% if hasLink %}href="{{ path('azimut_frontoffice', {'path': breadcrumbPage.fullSlug}) }}"{% endif %}>
+                    <span{% if hasMicroData %} itemprop="name"{% endif %}>{{ breadcrumbPage.name }} -- {{hasMicroData}}</span>
+                </{{ tagName }}>
+                {% if hasMicroData %}
+                    <meta itemprop="position" content="{{ loop.index }}" />
+                {% endif %}
+            </li>
+        {% endfor %}
+
+        {% if cmsFile is defined %}
+            <li><span>{{ cmsFile.name }}</span></li>
+        {% endif %}
+    </ul>
+{% endif %}

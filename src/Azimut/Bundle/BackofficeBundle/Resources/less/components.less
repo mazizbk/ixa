@@ -1,0 +1,1106 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+// --------------------------------------------------
+// initial loader (splash screen)
+
+.splash-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: @az-main-color;
+    background: white;
+    z-index: 10000;
+    background: @az-dark-color;
+
+    .spinner {
+        margin: 100px auto;
+        width: 60px;
+        height: 60px;
+        position: relative;
+    }
+
+    // TODO: refactor this with less
+    .spinner-container1 > div, .spinner-container2 > div, .spinner-container3 > div {
+        width: 12px;
+        height: 12px;
+        background-color: #fff;
+
+        border-radius: 100%;
+        position: absolute;
+        -webkit-animation: spinner-bouncedelay 1.2s infinite ease-in-out;
+        animation: spinner-bouncedelay 1.2s infinite ease-in-out;
+        /* Prevent first frame from flickering when animation starts */
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .spinner .spinner-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .spinner-container2 {
+        -webkit-transform: rotateZ(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotateZ(45deg);
+    }
+
+    .spinner-container3 {
+        -webkit-transform: rotateZ(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotateZ(90deg);
+    }
+
+    .spinner-circle1 { top: 0; left: 0; }
+    .spinner-circle2 { top: 0; right: 0; }
+    .spinner-circle3 { right: 0; bottom: 0; }
+    .spinner-circle4 { left: 0; bottom: 0; }
+
+    .spinner-container2 .spinner-circle1 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+    }
+
+    .spinner-container3 .spinner-circle1 {
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    .spinner-container1 .spinner-circle2 {
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+    }
+
+    .spinner-container2 .spinner-circle2 {
+        -webkit-animation-delay: -0.8s;
+        animation-delay: -0.8s;
+    }
+
+    .spinner-container3 .spinner-circle2 {
+        -webkit-animation-delay: -0.7s;
+        animation-delay: -0.7s;
+    }
+
+    .spinner-container1 .spinner-circle3 {
+        -webkit-animation-delay: -0.6s;
+        animation-delay: -0.6s;
+    }
+
+    .spinner-container2 .spinner-circle3 {
+        -webkit-animation-delay: -0.5s;
+        animation-delay: -0.5s;
+    }
+
+    .spinner-container3 .spinner-circle3 {
+        -webkit-animation-delay: -0.4s;
+        animation-delay: -0.4s;
+    }
+
+    .spinner-container1 .spinner-circle4 {
+        -webkit-animation-delay: -0.3s;
+        animation-delay: -0.3s;
+    }
+
+    .spinner-container2 .spinner-circle4 {
+        -webkit-animation-delay: -0.2s;
+        animation-delay: -0.2s;
+    }
+
+    .spinner-container3 .spinner-circle4 {
+        -webkit-animation-delay: -0.1s;
+        animation-delay: -0.1s;
+    }
+
+    .splash-version {
+        color: @az-light-color;
+        text-align: center;
+        font-size: 11px;
+    }
+}
+
+// --------------------------------------------------
+
+.scrollable-container {
+    position: relative;
+
+    > .scrollable {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// --------------------------------------------------
+
+.progress-circle {
+    position: relative;
+    width: 90px;
+    height: 90px;
+
+    path {
+        stroke: @az-main-color;
+        transition: all 0.1s;
+    }
+
+    span {
+        display: block;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        .translateY(-50%);
+        text-align: center;
+    }
+}
+
+// --------------------------------------------------
+
+.tree-list {
+    padding: 12px 0 0 12px;
+    white-space: nowrap;
+
+    &, ul {
+        list-style: none;
+    }
+
+    ul {
+        padding: 0 0 0 20px;
+
+        &.ng-hide-add {
+            .transition(all .5s ease-in-out);
+            max-height: 100vh; // this is for animation purpose only, because browsers won't interpolate height from auto to zero
+            overflow: hidden;
+        }
+        &.ng-hide-add-active {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        &.ng-hide-remove {
+            .transition(all .5s ease-in-out);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        &.ng-hide-remove-active {
+            max-height: 100vh; // this is for animation purpose only, because browsers won't interpolate height from auto to zero
+            opacity: 1;
+        }
+
+    }
+
+    li {
+        padding: 0;
+
+        .glyphicon {
+            color: @az-tree-list-icon-color;
+            margin-right: 0.358em;
+        }
+
+        .list-toggle {
+            display: inline-block;
+            width: 14px;
+        }
+
+        .list-item {
+            display: block;
+
+            &:hover {
+                background: @az-tree-list-selected-item-bg-color;
+            }
+
+            &.selected {
+                background: @az-tree-list-selected-item-bg-color;
+            }
+
+            &.list-item-drag {
+                background: @az-tree-list-drag-item-bg-color;
+            }
+
+            &.list-item-drop:not(.list-item-drag) {
+                color: @az-tree-list-drop-item-color;
+                background: @az-tree-list-drop-item-bg-color;
+                .glyphicon {
+                    color: inherit;
+                }
+            }
+        }
+
+        .list-insert-item {
+            display: block;
+            position: relative;
+            height: 8px;
+            margin: -4px 0 -4px 4px;
+
+            &.list-insert-item-drop {
+
+                color: @az-main-color;
+                height: 16px;
+
+                &::before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 7px;
+                    width: 100%;
+                    border-top: 2px solid @az-main-color;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: -2px;
+                    top: 4px;
+                    display: inline-block;
+                    width: 0;
+                    height: 0;
+                    margin-left: 2px;
+                    vertical-align: middle;
+                    border-left: 4px dashed;
+                    border-top: 4px solid transparent;
+                    border-bottom: 4px solid transparent;
+                }
+            }
+        }
+
+        .list-label {
+            display: inline-block;
+            padding: 2px 0;
+            text-decoration: none;
+            position: relative;
+        }
+
+    }
+
+    .caret {
+        color: @az-tree-list-caret-color;
+    }
+}
+
+// --------------------------------------------------
+
+.thumbnail-grid {
+    .flex-display();
+    .flex-flow(row wrap);
+    .justify-content(space-around);
+    min-height: 20px;
+
+    > * {
+        width: 150px;
+        .flex(0 0 auto);
+        margin: 20px;
+        padding: 5px;
+        text-align: center;
+        box-sizing: content-box;
+        border: 1px solid transparent;
+        position: relative;
+
+        .preview {
+            height: 113px;
+            width: 100%;
+
+            img {
+                max-height: 100%;
+                max-width: 100%;
+                box-shadow: 2px 3px 7px 0px rgba(0, 0, 0, 0.47);
+            }
+
+            &.default {
+                .flex-display();
+                .justify-content(center);
+                .align-items(center);
+                color: @az-thumbnail-grid-preview-color;
+                background: @az-thumbnail-grid-preview-bg-color;
+                #gradient > .radial(@inner-color: @az-thumbnail-grid-preview-bg-gradient-inner-color; @outer-color: @az-thumbnail-grid-preview-bg-gradient-outer-color);
+                box-shadow: 2px 3px 7px 0px rgba(0, 0, 0, 0.47);
+                .glyphicon {
+                    font-size: 1.715em;
+                }
+                .progress-circle path {
+                    stroke: @az-thumbnail-grid-preview-color;
+                }
+            }
+
+            &.folder-preview {
+                width: 97%;
+                height: 97%;
+                position: relative;
+                top: 3%;
+                left: 3%;
+
+                > div {
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    top: -5%;
+                    left: -3%;
+                }
+            }
+        }
+
+        > span {
+            display: block;
+            padding-top: 8px;
+            position: relative;
+
+            > form {
+                position: absolute;
+                top: 3px;
+                width: 100%;
+                height: 100%;
+
+                .form-control {
+                    height: 100%;
+                    padding: 2px 0 0 2px;
+                    resize: none;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.selected {
+            border-color: @az-selected-item-border-color;
+            background: @az-thumbnail-grid-selected-bg-color;
+            box-shadow: 0 2px 6px @az-selected-item-shadow-color;
+
+            .preview {
+                img, &.default {
+                    box-shadow: none;
+                }
+            }
+        }
+
+        &.drag {
+            opacity: 0.7;
+            background-color: @az-thumbnail-grid-drag-bg-color;
+            border-color: @az-thumbnail-grid-drag-border-color;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.36);
+
+            .preview {
+                img, &.default {
+                    box-shadow: none;
+                }
+            }
+        }
+
+        &.drop:not(.drag) {
+            color: @az-thumbnail-grid-drop-color;
+            background-color: @az-thumbnail-grid-drop-bg-color;
+            border-color: @az-thumbnail-grid-drop-border-color;
+            box-shadow: 0 2px 6px rgba(255, 121, 0, 0.36) !important;
+
+            .preview {
+                img, &.default {
+                    box-shadow: none;
+                }
+            }
+        }
+
+        @media (max-width: @screen-xs-max) {
+            margin: 16px 8px;
+        }
+    }
+}
+
+/*
+Flexbox img version, do not currently work in firefox (36.0a.2),
+images larger than taller are stretched instead of beeing sticked
+to bottom (it's like .align-items(n .preview was stretch and no)t
+flex-end)
+ */
+/*
+.thumbnail-grid {
+    .flex-display();
+    .flex-flow(row wrap);
+    .justify-content(space-around);
+
+    > * {
+        width: 170px;
+        margin: 20px;
+        padding: 5px;
+        text-align: center;
+        box-sizing: content-box;
+        border: 1px solid transparent;
+
+        .preview {
+            .flex-display();
+            .justify-content(center);
+            .align-items(flex-end);
+            height: 113px;
+
+            img {
+                .flex( 0 0 auto);
+                max-height: 113px;
+                max-width: 170px;
+                box-shadow: 2px 3px 7px 0px rgba(0, 0, 0, 0.47);
+            }
+        }
+
+        > span {
+            display: block;
+            padding-top: 8px;
+            position: relative;
+
+            > form {
+                position: absolute;
+                top: 10px;
+                width: 100%;
+                height: 100%;
+
+                .form-control {
+                    height: 100%;
+                    padding: 1px 3px;
+                    resize: none;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.selected {
+            border-color: @az-main-color;
+            background: @az-thumbnail-grid-selected-bg-color;
+            box-shadow: 0 2px 6px @az-selected-item-shadow-color;
+
+            .preview img {
+                box-shadow: none;
+            }
+        }
+    }
+}*/
+
+// --------------------------------------------------
+
+.resizable-border {
+    position: absolute;
+    display: block;
+    right: -@az-collapsable-border-btn-height;
+    width: @az-collapsable-border-btn-height;
+    height: 100%;
+    border-width: 2px;
+    border-color: @az-collapsable-border-color;
+    border-left-style: solid;
+    z-index: 900;
+    cursor: ew-resize;
+
+    &.resizable-border-left {
+        right: auto;
+        left: -@az-collapsable-border-btn-height;
+        border-left-style: none;
+        border-right-style: solid;
+    }
+
+    .collapsed & {
+        pointer-events: none;
+    }
+
+    &, &.resizable-border-left {
+        @media (max-width: @screen-xxs-max) {
+            display: none;
+        }
+    }
+}
+
+// --------------------------------------------------
+
+.collapsable-panel {
+
+    background: @az-collapsable-panel-bg-color;
+
+    &.has-labelled-btn > .scrollable > .margin-block {
+        padding-bottom: @az-collapsable-border-labelled-btn-height + 10px;
+    }
+
+    &.collapsed {
+        width: @az-collapsable-border-btn-height !important;
+        .flex-grow(0) !important;
+
+        > .scrollable {
+            width: 0;
+            overflow: hidden;
+        }
+
+        // @media (pointer:coarse) {
+        .coarse-pointer & {
+            width: @az-collapsable-border-btn-height-coarse-pointer !important;
+        }
+
+        &.has-labelled-btn {
+            width: @az-collapsable-border-labelled-btn-height !important;
+        }
+        &.collapsed-size-minimized {
+            width: 50px !important;
+            overflow-x: hidden;
+
+            > .scrollable {
+                width: auto;
+            }
+        }
+        &.collapsed-size-full {
+            width: 0 !important;
+        }
+    }
+
+    &.horizontal-panel {
+        border-bottom: 1px solid @az-collapsable-border-color;
+
+        &.collapsed {
+            width: auto !important;
+            height: @az-collapsable-border-btn-height !important;
+
+            > .scrollable {
+                width: 100%;
+                height: 0;
+            }
+
+            &.has-labelled-btn {
+                height: @az-collapsable-border-labelled-btn-height !important;
+            }
+            &.collapsed-size-minimized {
+                height: 50px !important;
+
+                > .scrollable {
+                    height: 50px;
+                    //overflow-y: hidden;
+                }
+            }
+            &.collapsed-size-full {
+                height: 0 !important;
+            }
+        }
+    }
+
+    @media (max-width: @screen-xxs-max) {
+
+        &.horizontal-panel {
+            border: none;
+        }
+
+        &.collapsed {
+            .flex-grow(0) !important;
+
+
+
+            &, &.has-labelled-btn, &.collapsed-size-minimized, &.collapsed-size-full {
+                width: auto !important;
+            }
+            &, &.horizontal-panel.collapsed-size-full, &.horizontal-panel.collapsed-size-minimized {
+                height: @az-collapsable-border-btn-height !important;
+                // @media (pointer:coarse) {
+                .coarse-pointer & {
+                    width: auto !important;
+                    height: @az-collapsable-border-btn-height-coarse-pointer !important;
+                }
+                &.has-labelled-btn {
+                    height: @az-collapsable-border-labelled-btn-height !important;
+                }
+
+            }
+
+            &.side-menu-panel {
+                height: 0 !important;
+            }
+        }
+        &:not(.side-menu-panel):after {
+            content: ' ';
+            background-color: inherit;
+            height: @az-collapsable-border-btn-height !important;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+
+    }
+}
+
+.collapsable-border-btn {
+    position: absolute;
+    .flex-display();
+    .align-items(center);
+    .justify-content(center);
+    top: 50%;
+    right: 0;
+    width: @az-collapsable-border-btn-width;
+    height: @az-collapsable-border-btn-height;
+    .transform-origin(right top);
+    .transform(rotate(-90deg) translateX(50%) translateY(-100%));
+    color: @az-collapsable-border-btn-color !important;
+    background: @az-collapsable-border-btn-bg-color;
+    cursor: pointer;
+    z-index: 901;
+
+    &:active, &:focus {
+        background: @az-collapsable-border-btn-active-bg-color;
+        outline: none;
+    }
+
+    .caret {
+        margin: 0;
+        color: inherit !important;
+        .rotate(180deg);
+    }
+    &.collapsed .caret {
+        .rotate(0deg);
+    }
+    .glyphicon {
+        color: inherit !important;
+    }
+
+    .has-labelled-btn > & {
+        display: inline-block;
+        width: auto;
+        height: @az-collapsable-border-labelled-btn-height;
+        padding: @az-collapsable-border-labelled-btn-vertical-padding 10px;
+        white-space: nowrap;
+    }
+
+    &.collapsable-border-btn-left {
+        right: auto !important;
+        //left: -@az-collapsable-border-btn-width;
+        left: -1000px; // ie : because overflow is calculated from the original position in ie (before css transform). Without this bug we could use transform only and set left: 0
+
+        //.transform(rotate(-90deg) translateX(50%) translateY(-100%));
+        .transform(translateX(1000px) translateX(-100%) rotate(-90deg) translateX(50%));
+
+        .caret {
+            .rotate(0deg);
+        }
+        &.collapsed .caret {
+            .rotate(180deg);
+        }
+    }
+
+    &.collapsable-border-btn-bottom {
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 0;
+        .transform(translateX(-50%));
+    }
+
+    .collapsed-size-full > & {
+        .transform(rotate(-90deg) translateX(50%));
+
+        &.collapsable-border-btn-left {
+            .transform(translateX(1000px) translateX(-100%) rotate(-90deg) translateX(50%) translateY(-100%));
+        }
+        &.collapsable-border-btn-bottom {
+            bottom: -@az-collapsable-border-btn-height;
+            .transform(translateX(-50%));
+            .coarse-pointer & {
+                bottom: -@az-collapsable-border-btn-height-coarse-pointer;
+            }
+            .has-labelled-btn& {
+                bottom: -(@az-collapsable-border-labelled-btn-height);
+            }
+        }
+    }
+
+    // @media (pointer:coarse) {
+    .coarse-pointer :not(.has-labelled-btn) > & {
+        width: @az-collapsable-border-btn-width-coarse-pointer;
+        height: @az-collapsable-border-btn-height-coarse-pointer !important;
+    }
+
+    @media (max-width: @screen-xxs-max) {
+        top: auto;
+        left: 50% !important;
+        right: auto !important;
+        bottom: 0;
+        .transform(translateX(-50%)) !important;
+        text-align: center;
+        vertical-align: middle;
+
+        .caret {
+            .rotate(180deg);
+        }
+        &.collapsed  .caret {
+            .rotate(0deg);
+        }
+
+        &.collapsable-border-btn-left {
+            bottom: auto;
+            top: 0;
+            left: 50% !important;
+
+            .caret {
+                .rotate(0deg);
+            }
+            &.collapsed .caret {
+                .rotate(180deg);
+            }
+        }
+        &.collapsable-border-btn-bottom {
+            bottom: 0 !important;
+        }
+    }
+}
+
+// --------------------------------------------------
+// in addition to dropdown-menu
+
+.dropdown-menu.context-menu {
+    &.opened {
+        display: block !important;
+    }
+}
+
+// --------------------------------------------------
+
+// visual dropping zone
+.file-drop-zone {
+    .flex-display();
+    .justify-content(center);
+    .align-items(center);
+    .flex-direction(column);
+    margin: 0 20px 10px 20px;
+    padding: 10px;
+    color: @az-drop-zone-color;
+    background: @az-drop-zone-bg-color;
+    border: 1px dashed @az-drop-zone-color;
+
+    .glyphicon {
+        font-size: 3em;
+        top: 0;
+        margin-bottom: 15px;
+        color: inherit;
+    }
+}
+
+// dropping zone as a container
+.droppable-container.dragover {
+    background-color: @az-droppable-container-dragover-bg-color;
+    .file-drop-zone {
+        color: @az-drop-zone-dragover-color;
+        background: @az-drop-zone-dragover-bg-color;
+    }
+}
+
+// --------------------------------------------------
+
+
+
+.widget-popin {
+    display: none;
+    position: fixed;
+    text-align: left;
+    top: @az-bar-height + 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+
+    .root {
+        width: auto;
+        height: auto;
+    }
+
+    .panel {
+        .flex-display();
+        .flex-direction(column);
+        width: 100%;
+        height: 100%;
+
+        .panel-heading {
+            .flex(0 0 auto);
+        }
+
+        .panel-body {
+            .flex(1 1 auto);
+            padding: 0;
+        }
+    }
+}
+
+/*.widget-popin-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+
+    > .widget-popin {
+        display: block;
+        position: absolute;
+    }
+}*/
+
+
+
+// --------------------------------------------------
+// animated splashscreen logo
+
+.animated-azimut-logo {
+    width: 400px;
+    height: 146px;
+    margin: 100px auto 15px auto;
+
+    &.logo-stroke {
+        .cls-1{stroke:#FFFFFF;fill:rgba(255,255,255,0);}
+        .cls-2{stroke:#f76a33;fill:rgba(247, 106, 51, 0);}
+    }
+
+    &.logo-fill-stroke {
+        .cls-1{stroke:#FFFFFF;fill:#FFFFFF;}
+        .cls-2{stroke:#f76a33;fill:#f76a33;}
+    }
+
+    &.logo-fill {
+        .cls-1{stroke:#FFFFFF;fill:rgba(255,255,255,0);}
+        .cls-2{stroke:#f76a33;fill:rgba(247, 106, 51, 0);}
+    }
+
+    &.animated {
+        .cls-1, .cls-2 {
+            transition: all 0.5s ease-in-out 0s;
+        }
+    }
+
+    .cls-1, .cls-2 {
+        stroke-width: 0.5;
+    }
+    .text-baseline {
+        stroke-width: 0.25;
+    }
+
+}
+
+// --------------------------------------------------
+// Zero element loading
+//
+// Just set a "loading" class atribute to display an
+// animated spinner
+
+@utility-loading-speed: 2s;
+@utility-loading-resolution: 20;
+@utility-loading-distance: 15px;
+@utility-loading-radius: 10px;
+@utility-loading-color: @az-main-color;
+
+.loading {
+    position: relative;
+    pointer-events: none;
+    > * {
+        opacity: 0.3;
+    }
+    &::before{
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: @utility-loading-radius solid @utility-loading-color;
+        border-radius: 50%;
+        .animation(loading-animation @utility-loading-speed infinite);
+        z-index: 1000;
+    }
+    &::after{
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: @utility-loading-radius solid @utility-loading-color;
+        border-radius: 50%;
+        .animation(loading-animation2 @utility-loading-speed infinite);
+        z-index: 1000;
+    }
+}
+
+
+.loading-animation(@name, @offset:0) {
+    @keyframes @name {
+        .loading-animation-keyframes(@offset);
+    }
+    @-webkit-keyframes @name {
+        .loading-animation-keyframes(@offset);
+    }
+}
+
+.loading-animation-keyframes(@offset) {
+
+    .loop(@i) when (@i >= 0) {
+        @x: floor(@utility-loading-distance * cos(@offset * pi() + (2 * pi() * @i / @utility-loading-resolution)));
+        @y: floor(@utility-loading-distance * sin(@offset * pi() + (2 * pi() * @i / @utility-loading-resolution)));
+        @percent: round(@i / @utility-loading-resolution * 100%);
+        @scale: round(abs(@i / @utility-loading-resolution - 0.5) * 2 - @offset, 2);
+        @{percent} {
+            transform: translate(@x, @y) scale(@scale);
+        }
+        .loop((@i - 1));
+    }
+    .loop(@utility-loading-resolution);
+
+}
+
+.loading-animation(loading-animation);
+.loading-animation(loading-animation2, 1);
+
+// --------------------------------------------------
+
+.data-not-found-message {
+    padding: 20px;
+    text-align: center;
+}
+
+// --------------------------------------------------
+// Tiny MCE customisation
+
+.mce-i-mediacenter {
+    .glyphicon();
+    font-family: 'Glyphicons Halflings' !important;
+    &:before { content: "\e043"; }  // .glyphicon-book
+
+    .mce-btn-small & {
+        font-size: 12px;
+        text-align: center;
+    }
+}
+
+// --------------------------------------------------
+
+.summary-list {
+    > div {
+        .flex-display();
+        .align-items(center);
+        border-bottom: 1px solid @az-well-border-color;
+    }
+
+    .content {
+        .flex(1 1 auto);
+        padding: 30px;
+
+        &:hover {
+            background: @az-well-bg-color;
+        }
+
+        h2 {
+            font-size: ceil((@font-size-base * 1.25));
+            margin-top: 0;
+        }
+
+        > img {
+            float: left;
+            margin: 4px 20px 20px 0;
+        }
+    }
+
+    .actions {
+        .flex(0 0 auto);
+
+        padding: 10px;
+    }
+}
+
+// --------------------------------------------------
+// JsMap customisation
+
+@mapZoomBarWidth: 26px;
+@mapZoomBodyBarWidth: 10px;
+
+.ylc-map-zoom {
+    width: @mapZoomBarWidth;
+}
+.ylc-map-zoom-btn {
+    width: @mapZoomBarWidth;
+    height: @mapZoomBarWidth;
+    font-size: 20px;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+.ylc-map-zoom-bar {
+    width: @mapZoomBodyBarWidth;
+    left: (@mapZoomBarWidth - @mapZoomBodyBarWidth) / 2;
+    top: @mapZoomBarWidth + (@mapZoomBarWidth - @mapZoomBodyBarWidth) / 2;
+    bottom: @mapZoomBarWidth + (@mapZoomBarWidth - @mapZoomBodyBarWidth) / 2;
+}
+.ylc-map-zoom-cursor {
+    margin: 0 0 -5px -5px;
+    width: 20px;
+    height: 10px;
+}
+
+// --------------------------------------------------
+// Dashboard
+
+.dashboard-grid {
+    .flex-display();
+    .flex-flow(row wrap);
+    .justify-content(space-around);
+    margin: 6px;
+
+    > section {
+        width: 244px;
+        height: 184px;
+        .flex(1 0 auto);
+        .flex-display();
+        .flex-direction(column);
+        margin: 12px;
+        text-align: center;
+        box-sizing: content-box;
+        position: relative;
+        color: #fff;
+        background: #999;
+        border-bottom-right-radius: 10px;
+
+        a, a .glyphicon {
+            color: #fff !important;
+        }
+
+        a:hover, a:hover .glyphicon {
+            color: @az-dark-color !important;
+            text-decoration: none;
+        }
+
+        @media (max-width: @screen-xs-max) {
+            margin: 16px 8px;
+        }
+
+        > section {
+            .flex(1 0 auto);
+            .flex-display();
+            .flex-direction(column);
+            .justify-content(space-around);
+            padding: 10px;
+
+            > .glyphicon {
+                font-size: 3.6em;
+                color: @az-dark-color;
+                display: block;
+            }
+
+            a {
+                * {
+                    vertical-align: middle;
+                }
+                strong {
+                    font-size: 36px;
+                    line-height: 0.85em;
+                }
+            }
+        }
+
+        > footer {
+            .flex(0 0 auto);
+            .flex-display();
+            .justify-content(space-between);
+            padding: 14px;
+
+            background: rgba(0,0,0,.05);
+        }
+
+        &.loading::before, &.loading::after {
+            border-color: #fff;
+        }
+    }
+
+
+}

@@ -1,0 +1,23 @@
+azimut_montgolfiere_personal_area_home:
+    path: /
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:index" }
+
+azimut_montgolfiere_personal_area_profil:
+    path: /profilBee/{token}
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:BEEProfil" }
+
+azimut_montgolfiere_personal_area_participations:
+    path: /participations
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:participations" }
+
+azimut_montgolfiere_personal_area_charter:
+    path: /charte
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:charter" }
+
+azimut_montgolfiere_personal_area_logout:
+    path: /logout
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:logout" }
+
+azimut_montgolfiere_personal_area_opinion:
+    path: /mon-avis
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:PersonalArea:opinionForm" }

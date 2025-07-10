@@ -1,0 +1,16 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% import _self as macros %}
+{% set activeTab = 'segments' %}
+{% set campaign = entity %}
+{% set segments = subEntities %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div id="segmentsApp"></div>
+{% endblock %}
+{% block headerstylesheets %}
+    {{ encore_entry_link_tags('ixa-segments') }}
+{% endblock %}
+{% block footerscripts %}
+    {{ encore_entry_script_tags('ixa-segments') }}
+{% endblock %}

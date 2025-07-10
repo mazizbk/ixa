@@ -1,0 +1,47 @@
+footer.questionnaire-footer {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 20px;
+    width: 100%;
+    pointer-events: none;
+    background: #FFF;
+
+    .actions {
+        text-align: right;
+        padding: 0 10px;
+        position: initial;
+        flex-direction: row;
+        justify-content: center;
+        @include md {
+            justify-content: flex-end;
+        }
+    }
+
+    .workcare-progress-container {
+        color: $workcare-primary;
+        .workcare-progress-text {
+            padding: 0 10px;
+            font-weight: 800;
+            font-size: 1.3em;
+        }
+
+        .workcare-progress {
+            height: 8px;
+            .workcare-progress-bar {
+                height: 8px;
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                div {
+                    height: 8px;
+                    background-color: rgba($workcare-secondary, .27);
+                    border-radius: 5px;
+                    &.complete, > div {
+                        background-color: $workcare-primary;
+                        transition: width $transition-animation $transition-speed;
+                    }
+                }
+            }
+        }
+    }
+}

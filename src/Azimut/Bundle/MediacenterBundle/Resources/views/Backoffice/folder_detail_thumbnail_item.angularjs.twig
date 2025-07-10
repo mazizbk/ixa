@@ -1,0 +1,45 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+
+{% verbatim %}
+
+    <div class="preview" ng-class="{'default': !currentFile.thumb && currentFile.fileType != 'folder', 'loading': !imageLoaded && !currentFile.hasUploadingFile && currentFile.thumb}" ng-style="{'height':thumbHeight+'px'}" ng-init="imageLoaded = false">
+
+        <span ng-class="currentFile.cssIcon" ng-if="!currentFile.thumb && currentFile.fileType == 'media' && !currentFile.hasUploadingFile"></span>
+
+        <div ng-if="!currentFile.thumb && currentFile.fileType == 'folder'" class="preview default folder-preview">
+            <div class="preview default">
+                <span class="glyphicon glyphicon-folder-open"></span>
+            </div>
+        </div>
+
+        <img ng-if="currentFile.thumb" ng-show="imageLoaded" ng-src="{{ Routing.generate('azimut_mediacenter_backoffice_file_proxy_thumb',{ filepath: currentFile.thumb, size: 's' }) }}" az-img-loader="imageLoaded" />
+
+        <az-progress-circle ng-model="currentFile.progress" ng-if="currentFile.hasUploadingFile"></az-progress-circle>
+
+    </div>
+
+    <span ng-show="!currentFile.waitingForUpdate" class="file-name" ng-click="currentFile.editMode=true">
+        <span ng-class="currentFile.cssIcon"></span> {{ currentFile.name }}
+        <form ng-if="currentFile.editMode" ng-init="currentFileNewName = currentFile.name" ng-submit="renameFile(currentFile, currentFileNewName)">
+            <input type="text" class="form-control input-sm"
+                ng-model="currentFileNewName"
+                ui-event="{ blur : 'renameFile(currentFile, currentFileNewName)' }"
+                az-auto-focus="currentFile.editMode"
+            />
+        </form>
+    </span>
+
+    <span ng-if="currentFile.waitingForUpdate" class="file-name">
+        <span class="glyphicon glyphicon-refresh spin"></span> {{ currentFile.name }}
+    </span>
+
+    <ul class="dropdown-menu context-menu" ng-if="'temp' != currentFile.fileType">
+        <li><a href ng-click="trashFile(currentFile)">{% endverbatim %}{{ 'delete'|trans|capitalize }}{% verbatim %}</a></li>
+        <li><a href ng-click="currentFile.editMode=true">{% endverbatim %}{{ 'rename'|trans|capitalize }}{% verbatim %}</a></li>
+        <li><a>{% endverbatim %}{{ 'add.to.favorites'|trans|capitalize }}{% verbatim %}</a></li>
+    </ul>
+
+{% endverbatim %}

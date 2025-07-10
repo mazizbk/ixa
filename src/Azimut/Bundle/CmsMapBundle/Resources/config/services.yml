@@ -1,0 +1,28 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-08-22 12:15:11
+
+services:
+
+    azimut_cmsmap.roles:
+        class: Azimut\Bundle\CmsMapBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_cms_map_roles }
+
+    azimut_cmsmap.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_cmsmap.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\CmsMapBundle\DataFixtures\ORM\LoadCmsFileMapPointData:
+        tags:
+            - { name: doctrine.fixture.orm }

@@ -1,0 +1,15 @@
+{% if cmsFile.secondaryAttachments != null and cmsFile.secondaryAttachments.count > 0 %}
+    <h2>{{ zone.title }}</h2>
+    <div class="reference multiple-items">
+        {% for attachment in cmsFile.secondaryAttachments %}
+        <div class="block-partners">
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': attachment,
+                'width': null,
+                'class': '',
+                'mediaSize': 'm'
+            } %}
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}

@@ -1,0 +1,15 @@
+{% set _bodyClass = 'interior' %}
+{% extends siteLayout %}
+{% block body %}
+    {{ renderZone(page, 'articles', pagePath, {
+        cmsFileTemplateName: 'ixa/homepage_article',
+        orderCmsFilesBy: 'publishStartDateTime DESC',
+        templateName: 'zone_articles',
+        pagination: {
+            paginationNumber: paginationNumber,
+            paginationLimit: 9,
+            showItemCount: false
+        }
+    }) }}
+{% endblock %}
+

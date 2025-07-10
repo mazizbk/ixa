@@ -1,0 +1,40 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{# @var group \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignAnalysisGroup #}
+{% set activeTab = 'analysis_groups' %}
+{% set hasFooterPanel = false %}
+{% set campaign = entity %}
+{% set groups = subEntities %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="pull-right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_analysis_groups_new', {'id': campaign.id}) }}" class="btn btn-default" style="margin-bottom: 20px;">
+            <i class="glyphicon glyphicon-plus"></i>
+            {{ 'montgolfiere.backoffice.campaigns.analysis_groups.new'|trans }}
+        </a>
+    </div>
+    <div class="clearfix"></div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>{{ 'montgolfiere.backoffice.campaigns.analysis_groups.name'|trans }}</th>
+            <th class="icon-column"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for group in groups %}
+        <tr>
+            <td>{{ group.name }}</td>
+            <td class="icon-column">
+                {{ form(deleteForms[group.id]) }}
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_analysis_groups_edit', {'id': campaign.id, 'analysis_group': group.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-pencil"></i></a>
+                <a href="#" onclick="confirm('{{ 'montgolfiere.backoffice.campaigns.analysis_groups.confirmation.group_delete'|trans|e('js') }}') && $(this).siblings('form').submit(); return false;"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

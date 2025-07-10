@@ -1,0 +1,76 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'sheet' %}
+{% set campaign = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="col-md-4 col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><strong>{{ campaign.name }}</strong></h4>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.backoffice.campaigns.fields.client'|trans }} :</strong>
+                    <a href="{{ url('azimut_montgolfiere_app_backoffice_clients_read', {slug: campaign.client.slug}) }}" data-external-app="clients">
+                        {{ campaign.client.corporateName }}
+                        {% if campaign.client.tradingName %}({{ campaign.client.tradingName }}){% endif %}
+                    </a>
+                </li>
+                {% if campaign.startDate and campaign.endDate %}
+                    <li class="list-group-item">
+                        <strong>{{ 'montgolfiere.backoffice.campaigns.read.dates'|trans }} :</strong>
+                        {{ 'montgolfiere.backoffice.campaigns.read.from'|trans }}
+                        {{ campaign.startDate|localizeddate('medium', 'none') }}
+                        {{ 'montgolfiere.backoffice.campaigns.read.to'|trans }}
+                        {{ campaign.endDate|localizeddate('medium', 'none') }}
+                    </li>
+                {% endif %}
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.backoffice.campaigns.fields.expected_answers'|trans }}</strong> :
+
+                    {% if campaign.expectedAnswers == 0 %}
+                        {% set ratio = 0 %}
+                    {% else %}
+                        {% set ratio = (campaign.participationsCount*100/campaign.expectedAnswers)|round(2) %}
+                    {% endif %}
+                    {{ campaign.participationsCount }} / {{ campaign.expectedAnswers }} - {{ ratio }}% <br />
+                    <div class="progress" style="margin-top: 10px;">
+                        <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ min(ratio, 100) }}%"></div>
+                    </div>
+                </li>
+                {% if campaign.hasValidSegment %}
+                    <li class="list-group-item">
+                        <strong>{{ 'montgolfiere.backoffice.campaigns.read.access_url'|trans }}</strong> :
+                        <input type="text" class="form-control" readonly value="{{ url('azimut_montgolfiere_questionnaire_index', {questionnaireToken: campaign.questionnaireToken}) }}" onfocus="this.select()" />
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 col-sm-12">
+        {% for sortingFactor in campaign.sortingFactors %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{ 'montgolfiere.backoffice.campaigns.read.sorting_factor_progress'|trans({'%name%':ixa_sorting_factor_name(sortingFactor)}) }}</h4>
+                </div>
+                <ul class="list-group">
+                    {% for value in sortingFactor.values %}
+                        {% set participants = campaign.sortingFactorValueParticipations(value)|length %}
+                        <li class="list-group-item">
+                            <strong>{{ ixa_sorting_factor_value_name(value) }} :</strong>
+                            {{ participants }} / {{ value.workforce|default(0) }}
+                            {% if value.workforce > 0 %}
+                                {% set ratio = (participants*100/value.workforce)|round(2) %}
+                                - {{ ratio }}%
+                                <div class="progress" style="margin-top: 10px;">
+                                    <div class="progress-bar progress-bar-{{ ixa_progress_color(ratio/100) }}" role="progressbar" style="width: {{ min(ratio, 100) }}%"></div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

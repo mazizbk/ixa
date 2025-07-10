@@ -1,0 +1,41 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+// date:    2018-10-03 14:56:25
+// --------------------------------------------------
+
+.shop-popin-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.4);
+    box-shadow: 6px 6px 10px rgba(0,0,0,.3);
+    z-index: 1000;
+}
+
+.shop-popin {
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+}
+
+.shop-order-steps {
+    list-style: none;
+
+    li {
+        display: inline-block;
+        color: #999;
+    }
+    li+li::before {
+        content: "/";
+        display: inline-block;
+        margin: 0 1em;
+    }
+    li.active {
+        font-weight: bold;
+    }
+}

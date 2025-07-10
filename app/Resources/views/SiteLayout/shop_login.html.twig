@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-04 10:33:03
+#}
+
+{% extends "SiteLayout/login.html.twig" %}
+
+{% block body %}
+    {% include "SiteLayout/shop_order_steps.html.twig" with { 'step': 'login' } %}
+    {{ parent() }}
+{% endblock %}
+
+{% block register_link %}
+    <br />
+    <h4>{{ 'dont.have.account.yet'|trans }}</h4>
+    <a class="btn btn-primary" href="{{ path('azimut_shop_account_register') }}">{{ 'register'|trans }}</a>
+{% endblock %}
+

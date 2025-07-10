@@ -1,0 +1,33 @@
+{% set selectedMenu = 'records' %}
+{% extends '@AzimutMontgolfiereApp/PersonalArea/base.html.twig' %}
+{% block body %}
+    <div class="MainBody-content MainBody-content--small">
+    {% if participations|length == 0 %}
+        <p class="text-center">{{ 'montgolfiere.frontoffice.personal_area.no_participation'|trans }}</p>
+    {% else %}
+        <table class="Table Table--spaceLines Table--striped text-center">
+            <tr>
+                <th>{{ 'montgolfiere.frontoffice.personal_area.participation_number'|trans }}</th>
+                <th>{{ 'montgolfiere.frontoffice.personal_area.participation_date'|trans }}</th>
+                <th>{{ 'montgolfiere.frontoffice.personal_area.status'|trans }}</th>
+                <th></th>
+            </tr>
+        {% for participation in participations %}
+            {% if participation.campaign.endDate > date() %}
+                {% set status = 'campaign_running' %}
+                {% set statusClass = 'green' %}
+            {% else %}
+                {% set status = 'campaign_ended' %}
+                {% set statusClass = '' %}
+            {% endif %}
+            <tr>
+                <td>N° {{ participation.id }}</td>
+                <td>{{ participation.createdAt|date('d/m/Y') }}</td>
+                <td class="{{ statusClass }}"><strong>{{ ('montgolfiere.frontoffice.personal_area.'~ status)|trans }}</strong></td>
+                <td><a href="{{ path('azimut_montgolfiere_personal_area_profil', {'token' : participation.token}) }}"><i class="fa fa-caret-down fa-2x"></i></a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 18:26:35
+#}
+
+{# NB: Form template in not embedded in this file because form_theme _self
+   is not supported when extending a template from a variable #}
+{% form_theme form 'SiteLayout/shop_payment_form_template.html.twig' %}
+
+{{ form_start(form, {'attr': {'action': path('azimut_shop_payment')}}) }}
+    {{ form_widget(form) }}
+    <div class="text-center">
+        <input class="btn btn-success" type="submit" value="{{ 'confirm.order'|trans }}" />
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,30 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-13 10:57:11
+#}
+
+<h1>Demo external payment system</h1>
+
+<p>This is an intermediate page the payment system may present</p>
+
+<p>Current transaction status : {{ transaction.isSuccessfull ? 'success' : 'failed' }}</p>
+
+<p><a href="{{ returnToShopUrl }}">Continue payment process</a></p>
+
+<script>
+    // For demo purpose this function do not retrieve any information from DB nor check
+    // validity of the given informations.
+    // In a real system, this should be done in backend
+
+    function sendCallBackToShop() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{{ callbackUrl }}', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("order_id={{ transaction.orderId}}&amount={{ transaction.amount }}&status={{ transaction.status }}");
+    }
+</script>
+
+
+<p>Click this button to simulate the callback :</p>
+<p><button onclick="sendCallBackToShop()">Send the payment callback</button></p>
+

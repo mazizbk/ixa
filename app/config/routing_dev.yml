@@ -1,0 +1,47 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+_wdt:
+    resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+    prefix:   /_wdt
+
+_profiler:
+    resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+    prefix:   /_profiler
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+    options: { i18n: false }
+
+_main:
+    resource: routing.yml
+
+AzimutDemoBundle:
+    resource: "@AzimutDemoBundle/Resources/config/routing.yml"
+    prefix: /demo
+
+AzimutBackofficeBundleDev:
+    resource: "@AzimutBackofficeBundle/Resources/config/routing_dev.yml"
+    prefix: /admin/backoffice/dev/
+    options: { i18n: false }
+
+AzimutMediacenterBundleDev:
+    resource: "@AzimutMediacenterBundle/Resources/config/routing_dev.yml"
+    prefix: /admin/mediacenter/dev/
+    options: { i18n: false }
+
+AzimutCmsBundleDev:
+    resource: "@AzimutCmsBundle/Resources/config/routing_dev.yml"
+    prefix: /admin/cms/dev/
+    options: { i18n: false }
+
+AzimutFrontofficeBundleDev:
+    resource: "@AzimutFrontofficeBundle/Resources/config/routing_dev.yml"
+    prefix: /admin/frontoffice/dev/
+    options: { i18n: false }
+
+AzimutSecurityBundleDev:
+    resource: "@AzimutSecurityBundle/Resources/config/routing/routing_dev.yml"
+    prefix: /admin/security/dev/
+    options: { i18n: false }

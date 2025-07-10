@@ -1,0 +1,15 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% extends siteLayout %}
+{% set selectedMenu = 'house' %}
+{% block bodyContent %}
+    {% if not campaign.clientAreaAllowHouseView %}
+        <p class="text-center">L'accès à la maison Workcare a été désactivée par un administrateur. Veuillez nous contacter pour en savoir plus.</p>
+    {% elseif campaign.endDate and campaign.endDate is in_the_future %}
+        <p class="text-center">Impossible d'afficher la maison Workcare car la campagne n'est pas terminée.</p>
+    {% elseif not campaign.clientAreaHouseAccessAllowed %}
+        <p class="text-center">Impossible d'afficher la maison Workcare car il n'y a pas assez de réponses.</p>
+    {% else %}
+        {{ form(form) }}
+        {% include '@AzimutMontgolfiereApp/Backoffice/Campaigns/draw_house.html.twig' with {'campaign': campaign, 'participations': campaign.participations, 'form': form, 'data_route' : 'azimut_montgolfiere_app__client_area_campaigns_house_data'} %}
+    {% endif %}
+{% endblock %}

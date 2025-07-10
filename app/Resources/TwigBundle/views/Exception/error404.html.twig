@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-02 12:34:20
+#}
+
+
+{% extends 'Exception/error.html.twig' %}
+
+{% block title %}
+    {{ 'the.page.cannot.be.found'|trans }}
+{% endblock %}
+
+{% block subtitle %}
+    {{ 'the.page.cannot.be.found'|trans|capitalize }}
+{% endblock %}
+
+{% block text %}
+    <a href="{{ url('azimut_frontoffice_home') }}">{{ 'go.to.home.page'|trans }}</a>
+{% endblock %}

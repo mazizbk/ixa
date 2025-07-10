@@ -1,0 +1,60 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-01 10:44:14
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+
+        <div class="left">
+            <div class="form-inline">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search.page_layouts'|trans|capitalize }}{% verbatim %}" />
+            </div>
+        </div>
+
+        <div class="right">
+            <a href ui-sref="backoffice.frontoffice.new_page_layout"><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span> {% endverbatim %}{{ 'page_layout'|trans|capitalize }}{% verbatim %}</a>
+        </div>
+
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="icon-column"></th>
+                            <th az-data-sort-link="pageLayoutsSortDefinitionBuilder" az-data-sort-link-property="name">{% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}</th>
+                            <th class="icon-column"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            ng-repeat="pageLayout in pageLayouts| filter: {name: searchKeywords} | orderBy: natural(pageLayoutsSortDefinitionBuilder.property):pageLayoutsSortDefinitionBuilder.reverse "
+                        >
+                            <td class="icon-column">
+                                <span class="glyphicon glyphicon-file"></span>
+                                <span class="glyphicon glyphicon-add glyphicon-th-large"></span>
+                            </td>
+                            <td><a href ng-click="openPageLayout(pageLayout)">{{ pageLayout.name }}</a></td>
+                            <td class="icon-column">
+                                <a href ng-click="deletePageLayout(pageLayout)" az-confirm-click="Translator.trans('page_layout.%name%.confirm.permanent.delete', {name: pageLayout.name})"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer-bar footer-bar-sm">
+        <div class="right">
+            <az-data-sort-menu ng-model="pageLayoutsSortDefinitionBuilder"></az-data-sort-menu>
+        </div>
+    </footer>
+{% endverbatim %}

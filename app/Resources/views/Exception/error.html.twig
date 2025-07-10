@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-02 15:53:27
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="{{ _charset }}" />
+        <title>{% block title %}{{ 'error'|trans|capitalize }} : {{ status_text }}{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets filter="less,cssrewrite,assetdirectory" package='build' output='css/errors.css'
+                '../app/Resources/less/errors/errors.less'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' />
+    </head>
+    <body>
+        <div>
+            <h1>{{ status_code }}</h1>
+            <h2>{% block subtitle %}{{ status_text|trans({}, 'httperrors') }}{% endblock %}</h2>
+            <br />
+            <p>{% block text %}{{ 'error.occured.sorry.for.inconvenience'|trans }}{% endblock %}</p>
+        </div>
+
+    </body>
+</html>

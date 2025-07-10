@@ -1,0 +1,28 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-12-06 14:50:25
+
+azimut_cms_api_cms_file:
+    type: rest
+    resource: Azimut\Bundle\CmsBundle\Controller\ApiCmsFileController
+    name_prefix: azimut_cms_api_
+
+azimut_cms_api_trash_bin:
+    type: rest
+    resource: Azimut\Bundle\CmsBundle\Controller\ApiTrashBinController
+    name_prefix: azimut_cms_api_
+
+azimut_cms_api_public_cms_file:
+    type: rest
+    resource: Azimut\Bundle\CmsBundle\Controller\ApiPublicCmsFileController
+    name_prefix: azimut_cms_api_public_
+    prefix: /public
+
+azimut_cms_api_comment:
+    type: rest
+    resource: Azimut\Bundle\CmsBundle\Controller\ApiCommentController
+    name_prefix: azimut_cms_api_
+
+azimut_cms_api_product_item:
+    type: rest
+    resource: Azimut\Bundle\CmsBundle\Controller\ApiProductItemController
+    name_prefix: azimut_cms_api_

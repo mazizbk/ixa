@@ -1,0 +1,52 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2015-01-23 15:22:08
+// --------------------------------------------------
+//
+// animate ui-view transitions
+//
+// --------------------------------------------------
+
+.root[ui-view] {
+
+    // ui-view transition when opening system
+    &.ng-enter {
+        //.animation(all .5s ease-in-out);
+        -webkit-transition:all .5s ease-in-out;
+        -moz-transition:all .5s ease-in-out;
+        -o-transition:all .5s ease-in-out;
+        transition:all .5s ease-in-out;
+
+        opacity: 0;
+        -webkit-transform:scale3d(0.5, 0.5, 0.5);
+        -moz-transform:scale3d(0.5, 0.5, 0.5);
+        transform:scale3d(0.5, 0.5, 0.5);
+    }
+
+    &.ng-enter-active {
+        opacity: 1;
+        -webkit-transform:scale3d(1, 1, 1);
+        -moz-transform:scale3d(1, 1, 1);
+        transform:scale3d(1, 1, 1);
+    }
+
+    // ui-view transition when switching from an app to another
+    > .body > .main-panel[ui-view] {
+        &.ng-enter {
+            opacity: 0;
+            .transition(opacity 1s ease-in-out);
+        }
+        &.ng-enter-active {
+            opacity: 1;
+        }
+        &.ng-leave {
+        }
+        &.ng-leave-active {
+        }
+    }
+
+}
+
+
+
+

@@ -1,0 +1,27 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-09 10:14:45
+#}
+
+<section {% if backgroundColor is defined %}style="background-color: {{ backgroundColor }}"{% endif %}>
+    <section>
+        <span class="glyphicon {{ glyphicon }}"></span>
+        <a class="dashboard-grid-info" {% if listEntitiesState is defined %}ui-sref="{{ listEntitiesState }}" ng-click="mainContentLoading()"{% endif %}>
+            <strong>{{ entitiesCount }}</strong> <span>{{ entitiesName }}</span>
+        </a>
+    </section>
+    {% if listEntitiesState is defined or newEntityState is defined %}
+        <footer>
+            {% if listEntitiesState is defined %}
+                <a ui-sref="{{ listEntitiesState }}" ng-click="mainContentLoading()">
+                    <span class="glyphicon glyphicon-list"></span>
+                </a>
+            {% endif %}
+            {% if newEntityState is defined %}
+                <a ui-sref="{{ newEntityState }}" ng-click="mainContentLoading()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            {% endif %}
+        </footer>
+    {% endif %}
+</section>

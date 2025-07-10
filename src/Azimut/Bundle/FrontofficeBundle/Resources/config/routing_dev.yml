@@ -1,0 +1,10 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-01 16:49:55
+
+azimut_frontoffice_dev_index:
+    path: /
+    defaults: { _controller: AzimutFrontofficeBundle:Dev:index }
+
+azimut_frontoffice_zone_cms_file_attachment:
+    path: /frontoffice_zone_cms_file_attachment
+    defaults: { _controller: AzimutFrontofficeBundle:Dev:formZoneCmsFileAttachement }

@@ -1,0 +1,50 @@
+{% extends "AzimutMediacenterBundle:Dev:base.html.twig" %}
+
+{% block media_declination_entity_widget %}
+    {% import "form_div_layout.html.twig" as form %}
+    <p>
+        {{ block('hidden_widget', form) }}
+        <span id="{{ id }}-label"></span>
+        <button class="choose-media-declination" data-target="{{ id }}">Choose media</button>
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    function chooseMediaCenter(callback) {
+        setTimeout(function () {
+            callback(3, "Mon premier gif");
+        }, 1300);
+    };
+
+    $(function () {
+        $(".choose-media-declination").each(function (i, e) {
+            var $button  = $(e);
+            var targetId = $button.attr('data-target');
+            var $target  = $('#' + targetId);
+            var $label  = $('#' + targetId + "-label");
+
+            $button.click(function (event) {
+                $label.text('Choosing...');
+                event.preventDefault();
+                chooseMediaCenter(function (id, label) {
+                    $label.text(label);
+                    $target.attr('value', id);
+                });
+            });
+        });
+    });
+    </script>
+{% endblock %}
+
+
+{% block body %}
+
+    <h1>Test form media</h1>
+
+    {% form_theme form _self %}
+
+    {{ form(form) }}
+
+{% endblock %}

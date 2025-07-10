@@ -1,0 +1,5 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-26 09:51:11
+
+parameters:
+    jms_i18n_routing.loader.class:  Azimut\Bundle\I18nRoutingExtraBundle\Router\AzimutI18nLoader

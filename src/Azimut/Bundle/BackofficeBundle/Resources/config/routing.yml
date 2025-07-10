@@ -1,0 +1,50 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+
+azimut_backoffice_dashboard:
+    path: /
+    defaults: { _controller: AzimutBackofficeBundle:Backoffice:index}
+
+#Expose AngularJS views
+
+azimut_backoffice_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults: { _controller: AzimutBackofficeBundle:Backoffice:main}
+    options:
+        expose: true
+
+azimut_backoffice_backoffice_jsview_dashboard:
+    path: /jsviews/dashboard
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'AzimutBackofficeBundle:Backoffice:dashboard.angularjs.twig'
+        private: true
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_backoffice_backoffice_jsview_debug:
+    path: /jsviews/debug
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'AzimutBackofficeBundle:Backoffice:debug.angularjs.twig'
+    options:
+        expose: true
+
+azimut_backoffice_backoffice_jsview_forbiddden_application:
+    path: /jsviews/forbiddden_application
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'AzimutBackofficeBundle::forbiddden_application.angularjs.twig'
+    options:
+        expose: true
+
+azimut_backoffice_jsview_external_app:
+    path: /jsviews/external_app
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'AzimutBackofficeBundle::external_app.angularjs.twig'
+    options:
+        expose: true

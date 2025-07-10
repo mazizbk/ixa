@@ -1,0 +1,18 @@
+{% set progress_pc = (current_progress*100/total_steps)|round %}
+<div class="workcare-progress-container">
+    <div class="workcare-progress-text">{{ progress_pc }}%</div>
+    <div class="workcare-progress">
+        <div class="workcare-progress-bar" role="progressbar" style="width:100%;"
+             aria-valuenow="{{ progress_pc }}" aria-valuemin="0" aria-valuemax="100"
+             data-current-step="{{ current_progress }}" data-steps="{{ total_steps }}" {% if stepsSize is defined %} data-steps-size="{{ stepsSize|json_encode }}"{% endif %}
+        >
+            {% for separator in steps_separators %}
+                <div {% if separator.complete %}class="complete"{% endif%} style="width: {{ separator.size }}%">
+                    {% if separator.active or separator.inner_size > 0 %}
+                        <div style="width:{{ separator.inner_size }}%" {% if separator.active %}class="active"{% endif %}></div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-10
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.media.submitAction()', 'az-submit-params': 'forms.params.media', 'az-confirm-dirty-data-state-change': 'forms.params.media.confirmDirtyDataStateChangeMessage'}}) }}
+
+    {{ form_row(form.name) }}
+
+    {{ form_row(form.description) }}
+
+
+    {% if form.mediaDeclinations[0].mediaDeclinationType.embedHtml is defined %}
+        {{ form_row(form.mediaDeclinations[0].mediaDeclinationType.isEmbeddedMedia) }}
+
+        <div ng-hide="true == {{ form.mediaDeclinations[0].mediaDeclinationType.isEmbeddedMedia.vars.ng_model }}">
+            {{ form_row(form.mediaDeclinations[0].file) }}
+        </div>
+
+        <div ng-show="true == {{ form.mediaDeclinations[0].mediaDeclinationType.isEmbeddedMedia.vars.ng_model }}">
+            {{ form_row(form.mediaDeclinations[0].mediaDeclinationType.embedHtml) }}
+        </div>
+
+    {% endif %}
+
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}

@@ -1,0 +1,62 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-05 17:53:07
+#}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> {# IE needs this, even my current IE11 - Oo #}
+        <meta name="viewport" content="width=device-width,initial-scale=1,target-densitydpi=device-dpi, minimal-ui" />
+
+        <title>{% block title %}Azimut Backoffice{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {% block stylesheets %}
+            {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='backoffice/css/main_external.css'
+                '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+                '../vendor/azimut/system-assets/daneden/animate.css/animate.css'
+                '@AzimutBackofficeBundle/Resources/less/base.less'
+            %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {# Expose Symfony routes to JS #}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+            {% javascripts filter='?uglifyjs2' package='build' output='backoffice/js/main_external.js'
+                '../vendor/azimut/system-assets/jquery/jquery.min.js'
+                '@AzimutBackofficeBundle/Resources/js/iframe-widget-proxy.js'
+                '@AzimutBackofficeBundle/Resources/js/iframe-mediacenter-tinymce-plugin-proxy.js'
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+    </head>
+
+    <body>
+        {% block flash %}
+            <div class="notifications">
+                {% for type, flash_messages in app.session.flashBag.all %}
+                    {% set flashId = loop.index %}
+                    {% for flash_message in flash_messages %}
+                        <div id="flash-{{ flashId }}" class="alert alert-{% if 'error' == type %}danger{% else %}{{ type }}{% endif %}">
+                            {{ flash_message|nl2br }}
+                            <a href="#" onclick="$('#flash-{{ flashId }}').hide()" class="close-link"><i class="fa fa-close" aria-hidden="true"></i></a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+        <div class="root">
+            <div class="body">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{% set activeTab = 'participations' %}
+{% set hasFooterPanel = true %}
+{% set noMargin = true %}
+{% set campaign = entity %}
+{% set participations = subEntities %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="well">
+        {% form_theme filterForm "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+        {{ form(filterForm, {attr: {class: 'form-force-inline'}}) }}
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="pull-right" style="margin-right: 20px;">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_export', app.request.query.all|merge({'id': campaign.id})) }}" class="btn btn-default" style="margin-bottom: 20px;" target="_blank">
+            <i class="glyphicon glyphicon-pro glyphicon-pro-disk-export"></i>
+            {{ 'montgolfiere.backoffice.campaigns.participations.export'|trans }}
+        </a>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_export_verbatims', app.request.query.all|merge({'id': campaign.id})) }}" class="btn btn-default" style="margin-bottom: 20px;" target="_blank">
+            <i class="glyphicon glyphicon-pro glyphicon-pro-disk-export"></i>
+            {{ 'montgolfiere.backoffice.campaigns.participations.export_verbatims'|trans }}
+        </a>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'montgolfiere.questionnaire.basic_information.last_name'|trans }}</th>
+                {% for sortingFactor in campaign.sortingFactors %}
+                    <th>{{ ixa_sorting_factor_name(sortingFactor) }}</th>
+                {% endfor %}
+                <th>{{ 'montgolfiere.questionnaire.basic_information.segment'|trans }}</th>
+                <th>{{ 'montgolfiere.questionnaire.basic_information.email_address'|trans }}</th>
+                <th>{{ 'montgolfiere.questionnaire.basic_information.phone_number'|trans }}</th>
+                <th>{{ 'montgolfiere.questionnaire.basic_information.gender'|trans }}</th>
+                <th>{{ 'montgolfiere.questionnaire.basic_information.manager_name'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.participations.date'|trans }}</th>
+                <th class="icon-column"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for participation in participations %}
+            <tr{% if participation.archivedAt %} class="warning" {% endif %}>
+                <td>{{ participation.firstName }} {{ participation.lastName }}</td>
+                {% for sortingFactor in campaign.sortingFactors %}
+                    <td>{{ participation.getSortingFactorValue(sortingFactor)?ixa_sorting_factor_value_name(participation.getSortingFactorValue(sortingFactor)) }}</td>
+                {% endfor %}
+                <td>{{ participation.segment.name }}</td>
+                <td>{% if participation.emailAddress %}<a href="mailto:{{ participation.emailAddress }}">{{ participation.emailAddress }}</a>{% endif %}</td>
+                <td>{{ participation.phoneNumber }}</td>
+                <td>{% if participation.gender is not same as(null) %}{{ ('montgolfiere.questionnaire.basic_information.genders.'~participation.gender)|trans }}{% endif %}</td>
+                <td>{{ participation.managerName }}</td>
+                <td>{{ participation.updatedAt|localizeddate }}</td>
+                <td class="icon-column">
+                    {{ form(deleteForms[participation.id]) }}
+                    <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_read', {'id': campaign.id, 'participation': participation.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-eye-open"></i></a>
+                    <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_edit', {'id': campaign.id, 'participation': participation.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-pencil"></i></a>
+                    {% if participation.archivedAt %}
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_unarchive', {id: campaign.id, participation: participation.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-unshare" title="{{ 'montgolfiere.backoffice.campaigns.participations.unarchive'|trans }}"></i></a>
+                    {% else %}
+                        <a href="#" onclick="confirm('{{ 'montgolfiere.backoffice.campaigns.participations.confirmation.participation_delete'|trans|e('js') }}') && $(this).siblings('form').submit(); return false;"><i class="glyphicon glyphicon-trash"></i></a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

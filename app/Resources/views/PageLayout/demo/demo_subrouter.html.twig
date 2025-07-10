@@ -1,0 +1,27 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-09-27 11:10:19
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>Demo subrouter</h1>
+
+    <p>Subrouter path: {% if path is defined %}{{ path }}{% endif %}</p>
+    <p>Holding page path: {{ pagePath }}</p>
+
+    {% if path is not defined %}
+        <p>This is the home of the subrouter</p>
+
+        <a href="{{ pagePath }}demo-subroute">View subrouter content example</a>
+    {% else %}
+        {% if 'demo-subroute' == path %}
+            <ul>
+                {% for cmsFileContact in cmsFileContacts %}
+                    <li>{{ cmsFileContact.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}

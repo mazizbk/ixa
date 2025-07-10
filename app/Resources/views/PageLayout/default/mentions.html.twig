@@ -1,0 +1,58 @@
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center"><h1>{{ pageTitle }}</h1></div>
+        <div id="infosEditeur">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>
+                        {% if page.zone('infos-editeur').title is empty %}
+                            {{ 'mentions.editeur' | trans }}
+                        {% else %}
+                            {{ page.zone('infos-editeur').title }}
+                        {% endif %}
+                    </h2>
+                    {{ renderZone(page, 'infos-editeur', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+                </div>
+                <div class="col-sm-6">
+                    <h2>
+                        {% if page.zone('responsable-publication').title is empty %}
+                            {{ 'mentions.responsable_de_la_publication' | trans }}
+                        {% else %}
+                            {{ page.zone('responsable-publication').title }}
+                        {% endif %}
+                    </h2>
+                    {{ renderZone(page, 'responsable-publication', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>{{ 'mentions.realisation_et_hebergement' | trans }}</h2>
+                    <div class="col-sm-6">
+                        <h3>AZIMUT</h3>
+                        <p>
+                            5 rue de Bretagne<br />
+                            56260 LARMOR PLAGE<br /><br />
+                            Téléphone : 02 97 88 26 26<br />
+                            Site Internet : <a href="https://www.azimut.net" target="_blank">www.azimut.net</a>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="{{ asset('img/logo_azimut.png') }}"  width="200" alt="{{ 'logo.azimut'|trans }}" class="azimut"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {% if page.zone('complements').title is not empty %}
+                        <h2>
+                            {{ page.zone('complements').title }}
+                        </h2>
+                    {% endif %}
+                    {{ renderZone(page, 'complements', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

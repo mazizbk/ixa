@@ -1,0 +1,20 @@
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{% extends "@AzimutMontgolfiereApp/Email/base.txt.twig" %}
+{% block body %}
+{{ 'montgolfiere.emails.participation.intro'|trans }}
+
+{{ 'montgolfiere.emails.participation.greetings'|trans }}
+{{ 'montgolfiere.emails.participation.text1_1'|trans }} {{ 'montgolfiere.emails.participation.text1_2'|trans }} {{ 'montgolfiere.emails.participation.text1_3'|trans }} {{ 'montgolfiere.emails.participation.text1_4'|trans }} {{ 'montgolfiere.emails.participation.text1_5'|trans }}
+
+{{ 'montgolfiere.emails.participation.your_profil'|trans }} : {{ wbe_text.title }}
+{{ wbe_text.text|raw }}
+
+{{ 'montgolfiere.emails.participation.team_advice'|trans }} :
+{{ wbe_text.advice|raw }}
+
+{% if participation.emailAddress and participation.token %}
+{{ 'montgolfiere.emails.participation.know_more'|trans }}
+{{ 'montgolfiere.emails.participation.access_personal_area'|trans }} : {{ url('azimut_montgolfiere_personal_area_profil', {token: participation.token}) }}
+{% endif %}
+
+{% endblock %}

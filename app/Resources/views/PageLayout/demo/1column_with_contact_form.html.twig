@@ -1,0 +1,14 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-28 11:48:21
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+	{% include 'PageLayout/page_submenu.html.twig' %}
+
+    {{ renderZone(page, 'intro', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+
+	{{ render(controller('AzimutFrontofficeCustomBundle:ContactForm:simpleForm', {'originalRequest': app.request})) }}
+{% endblock %}

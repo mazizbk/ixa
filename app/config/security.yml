@@ -1,0 +1,64 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+security:
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        user_provider:
+            id: azimut.user_provider
+        frontoffice_user_provider:
+            id: azimut_frontofficesecurity.user_provider
+
+    encoders:
+        Azimut\Bundle\FrontofficeSecurityBundle\Entity\FrontofficeUser: bcrypt
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            # include /admin and /api
+            # exclude /api/*/public/ wich is plug to frontoffice firewall
+            pattern: ^/([a-z]{2}/)?admin|api/[^/]+/(?!(public/))
+            anonymous: true
+            http_basic:
+                realm: "REST Service Realm"
+            provider: user_provider
+            logout_on_user_change: true
+
+            oauth:
+                resource_owners:
+                    azimut_oauth: azimut_security_oauth2_login
+
+                login_path: /admin/login
+                check_path: /admin/login_check
+                use_referer: true
+                failure_path: /admin/login
+
+                oauth_user_provider:
+                    service: azimut.user_provider
+
+        frontoffice:
+            anonymous: ~
+            logout:
+                path: azimut_frontofficesecurity_logout
+                target: azimut_frontofficesecurity_login
+            logout_on_user_change: true
+            guard:
+                authenticators:
+                    - azimut_frontofficesecurity.form_authenticator
+                provider: frontoffice_user_provider
+            user_checker: Azimut\Bundle\FrontofficeSecurityBundle\Security\UserChecker
+
+    access_control:
+        - { path: "^/([a-z]{2}/)?admin/login", roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/([a-z]{2}/)?admin/connect", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/([a-z]{2}/)?admin", role: IS_AUTHENTICATED_FULLY }
+
+    access_decision_manager:
+        strategy: affirmative
+        allow_if_all_abstain: true

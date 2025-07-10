@@ -1,0 +1,61 @@
+azimut_montgolfiere_app_backoffice_questions_homepage:
+    path:     /
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:index }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_questions_create:
+    path:     /new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:create }
+
+azimut_montgolfiere_app_backoffice_questions_read:
+    path:     /{id}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:read }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_update:
+    path:     /{id}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:update }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_delete:
+    path:     /{id}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_unarchive:
+    path:     /{id}/unarchive
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:unarchive }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_copy:
+    path:     /{id}/copy
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:copy }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_tags:
+    path:     /tags
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:tags }
+
+azimut_montgolfiere_app_backoffice_questions_tags_create:
+    path:     /tags/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:tagCreate }
+
+azimut_montgolfiere_app_backoffice_questions_tags_update:
+    path:     /tags/{id}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:tagUpdate }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_questions_tags_delete:
+    path:     /tags/{id}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeQuestions:tagDelete }
+    methods: DELETE
+    requirements:
+        id: \d+

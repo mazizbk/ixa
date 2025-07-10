@@ -1,0 +1,37 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'house' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="well">
+        {% if form is defined and form is not null%}
+            {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form(form, {attr: {class: 'form-force-inline'}}) }}
+            <span class="pull-right">
+                <a href="#" id="download" class="btn btn-success hidden" style="margin-top: 30px;">{{ 'download'|trans|capitalize }} l'image</a><br /><br />
+                <form method="post" target="_blank" name="download_word" action="{{ path('azimut_montgolfiere_app_backoffice_campaigns_generate_word', {id: campaign.id}) }}">
+                    <input id="download_word_image" name="download_word_image" type="hidden">
+                    <input id="download_word_submit" name="download_word_submit" type="submit" class="btn btn-success hidden" value="{{ 'download'|trans|capitalize }} le document Word">
+                </form>
+            </span>
+
+
+            <div class="clearfix"></div>
+        {% endif %}
+    </div>
+    {% if participations|length == 0 %}
+        <div class="alert alert-warning">Aucune participation ne correspond à vos critères</div>
+    {% else %}
+        {% include '@AzimutMontgolfiereApp/Backoffice/Campaigns/draw_house.html.twig' with {showOptions: true} %}
+    {% endif %}
+    <div id="restitutions-grid">
+        {% for themeAnalysis in themesAnalysis %}
+            {{ include('AzimutMontgolfiereAppBundle:Backoffice/Campaigns:restitution_theme.html.twig') }}
+        {% endfor %}
+    </div>
+    <script>
+        $(".restitution-text textarea").click(function() {
+            $(this).select();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-11-08 14:28:29
+#
+# This form template section has been moved out of shop_delivery.html.twig
+# because form_theme _self is not supported when extending a template from
+# a variable
+#}
+
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% block delivery_choice_widget %}
+    <div {{ block('widget_container_attributes') }}>
+    {%- for child in form %}
+        {{- form_widget(child) -}}
+        {{- form_label(child) -}}
+        {% if form.vars.choices_infos[child.vars.value].image != '' %}
+            <img src="{{ asset(form.vars.choices_infos[child.vars.value].image) }}" alt="" aria-hidden="true" class="pull-left" width="50" />&nbsp;
+        {% endif %}
+        {% if form.vars.choices_infos[child.vars.value].description != '' %}
+            {{ form.vars.choices_infos[child.vars.value].description }}<br />&nbsp;
+        {% endif %}
+        {{ form.vars.choices_infos[child.vars.value].shippingCost|az_shop_price }}<br />
+        <br />
+    {% endfor -%}
+    </div>
+{% endblock %}

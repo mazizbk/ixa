@@ -1,0 +1,55 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-02-25 13:36:51
+#}
+
+{% verbatim %}
+
+    <section class="main-panel">
+
+        <header class="header-bar">
+            <div class="left">
+                <strong>Bug report</strong>
+            </div>
+        </header>
+
+        <section class="body scrollable-container">
+            <div class="scrollable">
+                <div class="margin-block">
+
+                    <form class="well" ng-submit="sendEmailDebug()">
+                        <label for="email">Your email:</label>
+                        <input id="email" name="email" ng-model="email" class="form-control" />
+                        <label for="message">Describe the bug:</label>
+                        <textarea id="message" name="message" ng-model="message" class="form-control" rows="10"></textarea>
+                        <div class="text-center">
+                            <br />
+                            <input type="submit" value="Send bug report" class="btn btn-default" />
+                        </div>
+                    </form>
+
+                    <div class="alert alert-success" ng-show="null != confirmMessageSent">
+                        {{ confirmMessageSent }}
+                    </div>
+
+                    <div class="alert alert-error" ng-if="null != errorMessageSent">
+                        {{ errorMessageSent }}
+                    </div>
+
+                    <div ng-hide="showLog">
+                        <a href ng-click="showLog=true">Show log <span class="caret"></span></a>
+                    </div>
+
+                    <div ng-if="showLog">
+                        <p ng-repeat="line in $log.history.slice().reverse()" ng-class="{'text-danger': line.indexOf('error') == 0, 'text-warning': line.indexOf('warn') == 0, 'text-info': line.indexOf('info') == 0, 'text-muted': line.indexOf('debug') == 0}">
+                            <span class="glyphicon" ng-class="{'glyphicon-exclamation-sign': line.indexOf('error') == 0, 'glyphicon-warning-sign': line.indexOf('warn') == 0, 'glyphicon glyphicon-info-sign': line.indexOf('info') == 0}"></span> {{ line }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+{% endverbatim %}

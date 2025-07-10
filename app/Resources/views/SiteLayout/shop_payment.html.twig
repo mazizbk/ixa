@@ -1,0 +1,16 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 10:46:17
+#}
+
+{# This file is embedded from shop_summary.html.twig #}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include "SiteLayout/shop_order_steps.html.twig" with { 'step': 'payment' } %}
+
+    <h1>{{ 'payment.method'|trans }}</h1>
+
+    {% include "SiteLayout/shop_payment_form.html.twig" %}
+{% endblock %}

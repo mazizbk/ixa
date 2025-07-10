@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:26:35
+#
+#azimut_cmscontact_api_xxx:
+#    type: rest
+#    resource: Azimut\Bundle\CmsContactBundle\Controller\ApiXxxxController
+#    name_prefix: azimut_cmscontact_api_

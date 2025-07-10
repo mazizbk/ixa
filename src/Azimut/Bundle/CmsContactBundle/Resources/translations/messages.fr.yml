@@ -1,0 +1,42 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:26:35
+
+cms_contact.app.name: "Contacts"
+
+cms_contact.meta.title: "Azimut Contacts"
+
+search.contacts: "chercher dans les contacts"
+
+cms_contact.welcome.message: "Selectionnez un contact depuis le panneau latéral"
+
+new.contact: "nouveau contact"
+
+address: "adresse"
+zip.code: "code postal"
+city: "ville"
+country: "pays"
+phone: "téléphone"
+
+contact.%contact_name%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement le contact "%contact_name%"'
+
+notification:
+
+    error.contact.create: "le contact n'a pas pu être créé"
+    success.contact.create: "le contact a été créé avec succès"
+    error.contact.update: "le contact n'a pas pu être mis à jour"
+    success.contact.update: "le contact a été mis à jour avec succès"
+    error.contact.delete: "le contact n'a pas pu être supprimé"
+    success.contact.delete: "le contact a été supprimé avec succès"
+    success.contact.trash: "le contact a été mis à la corbeille avec succès"
+    error.contact.trash: "impossible de mettre le contact à la corbeille"
+    success.contact.untrash: "le contact a été restauré avec succès"
+    error.contact.untrash: "impossible de restaurer le contact"
+    error.contact.%id%.get: "Impossible d'accéder au contact %id%"
+
+roles:
+    VIEW_CONFIDENTIAL: "Voir les données confidentielles"
+
+cms.file.type.contact: contact
+
+# class names translation (for security bundle)
+cmsfilecontact: "contact"

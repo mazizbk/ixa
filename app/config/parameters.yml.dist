@@ -1,0 +1,84 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: system
+    database_user: root
+    database_password: azimut
+    database_version: ~
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_port: 25
+    mailer_password: null
+    sender_address: auto@mailer.azimut.net
+    contact_form_recipient: yoann.lecrom@azimut.net
+    alternative_contact_from_recipient: goulven.salaun@azimut.net
+    moderation_form_recipient: '%contact_form_recipient%'
+    debug_toolbar: true
+    debug_redirects: false
+    node_bin: /usr/bin/node
+    uploads_dir: '%kernel.root_dir%/../uploads'
+    sessions_dir: '%kernel.root_dir%/../var/sessions'
+    after_console_auto_chmod: false # set this to true on production server
+    secret: 2jRvMCThoE4Nji04xbVgRsfF209Wzt5Q5d6Xj5lF
+    locales: [fr, en]
+    locale: fr
+    use_front_url_locale_prefix_if_one_locale: true
+    disk_quota: 500Mo
+    client_id: change_this
+    client_secret: change_this
+    base_url_login: http://login.dev
+    gmap_api_key: change_this
+    recaptcha_public_key: 6LeHOQoUAAAAAKqdjyK0zw-0Gn-sAu5GWLLDq4AC
+    recaptcha_private_key: 6LeHOQoUAAAAACKZD149yjiShFWhftFRXJDey2bj
+    active_backoffice_apps:
+        - mediacenter
+        - cms
+        - frontoffice
+        - security
+    front_cache_max_age: 180 # 3 min
+    front_cache_shared_max_age: 180 # 3 min
+    media_thumb_cache_max_age: 86400 # 24 h
+    media_thumb_cache_shared_max_age: 86400 # 24 h
+    jira_issue_collector_url: 'https://home.azimut.net/jira/s/c26606781a4eb49d28dbf7ee375670ab-T/en_US-6h4w5g/70107/18ccf9a0d6562db95e875794f78e41a7/2.0.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?locale=en-US&collectorId=52de398f'
+    search_engine_max_results: 1000
+    allow_front_user_impersonation: false
+    impersonate_user_token_life_time: 300
+    comment_ratings:
+        1: '1'
+        2: '2'
+        3: '3'
+        4: '4'
+        5: '5'
+    fixtures_frontoffice_sites_gtld: dev
+    shop_statuses_after_validated: []
+    shop_statuses_after_paid: []
+    shop_statuses_after_processed: []
+    shop_statuses_after_cancelled: []
+    shop_standard_delivery_shipping_cost: 850
+    shop_standard_delivery_free_shipping_amount: 8000
+    shop_active_delivery_provider:
+        - azimut_shop.standard_delivery_provider
+        - azimut_shop.demo_relay_package_delivery_provider
+    shop_active_payment_provider:
+        - azimut_shop.payment_demo_provider
+        - azimut_shop.payment_demo_simple_provider
+        - azimut_shop.payment_check_provider
+    shop_check_payment_payable_to: 'Azimut'
+    shop_check_payment_address_name: 'Azimut'
+    shop_check_payment_address_line1: '5 rue de Bretagne'
+    shop_check_payment_address_line2: 'ZA de Kerhoas'
+    shop_check_payment_address_postal_code: '56260'
+    shop_check_payment_address_city: 'Larmor Plage'
+    shop_default_vat_rate: 20
+    shop_sender: 'shop@azimut.net'
+    shop_admin_recipient: 'yoann.lecrom@abstractive.fr'
+    demo_payment_base_url: 'http://system.vm'
+    azimailing_account_id: ~
+    azimailing_group_id: ~
+    azimailing_shortname: ~
+    sentry_dsn: "https://7e90b8291c144fd1b0f0b1c915f73991@sentry.extrazimut.net/38"

@@ -1,0 +1,47 @@
+{% set _bodyClass = 'interior' %}
+{% extends siteLayout %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Mentions légales</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>{{ page.zone('publisher').title }}</h2>
+                {{ renderZone(page, 'publisher', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+            </div>
+            <div class="col-sm-6">
+                <h2>{{ page.zone('publication-manager').title }}</h2>
+                {{ renderZone(page, 'publication-manager', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Réalisation et hébergement</h2>
+                <div class="col-sm-6">
+                    <h3>Azimut</h3>
+                    <p>
+                        5 rue de Bretagne<br />
+                        56260 Larmor-Plage
+                    </p>
+                    <p>
+                        Téléphone : <a href="tel:+33297882626">+33 (0) 2 97 88 26 26</a><br />
+                        Site Internet: <a href="https://www.azimut.net">azimut.net</a>
+                    </p>
+                </div>
+                <div class="col-sm-3">
+                    <img src="{{ asset('img/frontoffice/logo_azimut.png') }}" alt="Logo Azimut" class="img-responsive" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>{{ page.zone('intellectual-property').title }}</h2>
+                {{ renderZone(page, 'intellectual-property', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

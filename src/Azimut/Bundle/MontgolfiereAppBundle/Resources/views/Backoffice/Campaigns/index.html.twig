@@ -1,0 +1,85 @@
+{% set hasCollapsableTopPanel = true %}
+{% set hasFooterPanel = true %}
+{% set campaigns = entities %}
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.campaigns.list.campaigns_list'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_create') }}">
+            <i class="glyphicon glyphicon-plus"></i> {{ "montgolfiere.backoffice.campaigns.list.new_campaign"|trans }}
+        </a>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_opinions_homepage') }}">
+            <i class="glyphicon glyphicon-list"></i> {{ "montgolfiere.backoffice.campaigns.participations.opinions.title"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block collapsablePanel %}
+    {% form_theme filterForm "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(filterForm) }}
+        {{ form_row(filterForm.name) }}
+        <div class="form-group" style="margin: 15px 0 0 0;">
+            {{ form_widget(filterForm.showExpired) }}
+            {{ form_widget(filterForm.showUpcoming) }}
+        </div>
+    {{ form_row(filterForm.perpage) }}
+    {{ form_row(filterForm.buttons) }}
+    {{ form_end(filterForm) }}
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.name'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.client'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.segments'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.start_date'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.end_date'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.campaigns.fields.expected_answers'|trans }}</th>
+                <th class="icon-column"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for campaign in campaigns %}
+                {# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+                <tr>
+                    <td>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_read', {id: campaign.id}) }}"><strong>{{ campaign.name }}</strong></a>
+                    </td>
+                    <td>
+                        <a href="{{ url('azimut_montgolfiere_app_backoffice_clients_read', {slug: campaign.client.slug}) }}" data-external-app="clients">
+                            {{ campaign.client.corporateName }}
+                            {% if campaign.client.tradingName %} ({{ campaign.client.tradingName }}){% endif %}
+                        </a>
+                    </td>
+                    <td>
+                        {% for segment in campaign.segments %}
+                            {{ segment.name }}{% if not loop.last %}<br />{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ campaign.startDate?campaign.startDate|localizeddate('medium', 'short') }}</td>
+                    <td>{{ campaign.endDate?campaign.endDate|localizeddate('medium', 'none') }}</td>
+                    <td>{% if campaign.expectedAnswers == 0 %}
+                            {% set ratio = 0 %}
+                        {% else %}
+                            {% set ratio = (campaign.participationsCount*100/campaign.expectedAnswers)|round(2) %}
+                        {% endif %}
+                        {{ campaign.participationsCount }} / {{ campaign.expectedAnswers }} - {{ ratio }}% <br />
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ ratio }}%"></div>
+                        </div>
+                    </td>
+                    <td class="icon-column">
+                        {{ form(deleteForms[campaign.id]) }}
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_read', {id: campaign.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-eye-open"></i></a>&nbsp;
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_update', {id: campaign.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp;
+                        <a href="#" onclick="confirm('{{ 'montgolfiere.backoffice.campaigns.confirmation.campaign_delete'|trans({'%campaign%':campaign.name})|e('js') }}') && $(this).siblings('form').submit(); return false;"><i class="glyphicon glyphicon-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09-24
+
+azimut_mediacenter_api_folder:
+    type: rest
+    resource: Azimut\Bundle\MediacenterBundle\Controller\ApiFolderController
+    name_prefix: azimut_mediacenter_api_
+
+azimut_mediacenter_api_media:
+    type: rest
+    resource: Azimut\Bundle\MediacenterBundle\Controller\ApiMediaController
+    name_prefix: azimut_mediacenter_api_
+
+azimut_mediacenter_api_media_declination:
+    type: rest
+    resource: Azimut\Bundle\MediacenterBundle\Controller\ApiMediaDeclinationController
+    name_prefix: azimut_mediacenter_api_
+
+azimut_mediacenter_api_trash_bin:
+    type: rest
+    resource: Azimut\Bundle\MediacenterBundle\Controller\ApiTrashBinController
+    name_prefix: azimut_mediacenter_api_

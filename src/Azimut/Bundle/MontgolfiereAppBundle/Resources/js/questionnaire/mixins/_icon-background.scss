@@ -1,0 +1,29 @@
+@mixin icon-with-bg($icon-size) {
+    @each $i in (2, 3, 4) {
+        &:nth-child(#{$i}) {
+            .icon-container {
+                transform: rotate(#{($i - 1) * 90deg});
+                i {
+                    transform: rotate(-#{($i - 1) * 90deg});
+                }
+            }
+        }
+    }
+
+    .icon-container {
+        background: url('../../../img/icon-bg.svg') no-repeat;
+        background-size: cover;
+        margin: 10px 0;
+        flex: 0 0 auto;
+
+        $fa-fw-width: (20em/16); // Copied from fontawesome's variables.scss
+        $icon-size: 2; // fa-"3"x
+        $icon-margin: 20px;
+        height: calc(#{$fa-fw-width} * #{$icon-size} + #{2*$icon-margin});
+        width: calc(#{$fa-fw-width} * #{$icon-size} + #{2*$icon-margin});
+
+        i {
+            margin: $icon-margin;
+        }
+    }
+}

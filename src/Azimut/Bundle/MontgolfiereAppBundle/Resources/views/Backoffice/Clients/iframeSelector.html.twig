@@ -1,0 +1,61 @@
+{% set hasCollapsableTopPanel = true %}
+{% set hasFooterPanel = true %}
+{% set bodyOverflow = true %}
+{% set clients = entities %}
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.clients.list.clients_list'|trans }}</h3></div>
+{% endblock %}
+
+{% block collapsablePanel %}
+    {% form_theme filterForm "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(filterForm) }}
+    {% for key, value in app.request.query.all if value is not iterable %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+    {% endfor %}
+    {{ form_end(filterForm) }}
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.corporate_name'|trans }} ({{ 'montgolfiere.backoffice.clients.fields.trading_name_if_applicable'|trans }})</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.client_type'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.postal_address'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.workforce'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.activity'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.NAF_code'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.fields.turnover'|trans }}</th>
+                <th class="icon-column"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>
+                        <a href="#" onclick="window.parent.postMessage({type: 'select', data: {id: {{ client.id}}, corporateName: '{{ client.corporateName|e('js') }}', tradingName: '{{ client.tradingName|e('js') }}', workforce: {{ client.workforce??0 }}}}, '*')">
+                            <strong>{{ client.corporateName }}</strong>
+                        </a>
+                        {% if client.tradingName %} ({{ client.tradingName }}){% endif %}
+                    </td>
+                    <td>{{ ('montgolfiere.backoffice.clients.fields.client_type_values.'~client.clientStatus)|trans }}</td>
+                    <td>
+                        {{ client.postalAddress.city }}
+                        {% if client.postalAddress.postalCode %} ({{ client.postalAddress.postalCode }}){% endif %}
+                        {% if client.postalAddress.country and client.postalAddress.country != 'FR' %}- {{ client.postalAddress.countryName }}{% endif %}
+                    </td>
+                    <td>{{ client.workforce }}</td>
+                    <td>{{ client.activity }}</td>
+                    <td>{{ client.nAFCode }}</td>
+                    <td>{{ client.turnover|number_format(0, ',', ' ') }} €</td>
+                    <td class="icon-column">
+                        <a href="#" onclick="$(this).parents('tr').find('td:first > a').click();" data-toggle="tooltip" title="{{ 'montgolfiere.backoffice.clients.select_this_client'|trans }}"><i class="glyphicon glyphicon-copy"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

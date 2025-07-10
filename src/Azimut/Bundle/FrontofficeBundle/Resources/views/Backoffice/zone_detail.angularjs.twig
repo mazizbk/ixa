@@ -1,0 +1,43 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-07 15:25:25
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <az-breadcrumb class="left shrink2" breadcrumb="breadcrumb" current-element="zone" open-function="openBreadcrumbElement"></az-breadcrumb>
+    </header>
+
+    <section class="horizontal-panel collapsable-panel has-labelled-btn scrollable-container grow1" az-collapsable-panel="zonePanelParams">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="text-right">
+                    <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+                </div>
+
+                <div ng-include="formZoneTemplateUrl"></div>
+            </div>
+        </div>
+        <a href class="collapsable-border-btn collapsable-border-btn-bottom">
+            <span><span class="glyphicon glyphicon-cog"></span> {% endverbatim %}{{ 'zone.parameters'|trans|capitalize }}{% verbatim %} <span class="caret"></span></span>
+        </a>
+    </section>
+
+    <section class="body scrollable-container" ui-view></section>
+
+    <footer class="footer-bar footer-bar-sm">
+        {% endverbatim %}
+        {% if 'moderation' in active_backoffice_apps %}
+        {% verbatim %}
+            <div class="left" ng-if="waitingCmsFilesBufferCount > 0">
+                <a ui-sref="backoffice.moderation.cms_file_buffer_list({ targetZoneId: zone.id })">{% endverbatim %}{{ 'files.waiting.for.validation'|trans }}{% verbatim %} : {{ waitingCmsFilesBufferCount }}</a>
+            </div>
+        {% endverbatim %}
+        {% endif %}
+        {% verbatim %}
+
+        <div class="right">
+            <a href ng-click="openZonePreview(zone)"><span class="glyphicon glyphicon-eye-open"></span> {% endverbatim %}{{ 'zone.preview'|trans|capitalize }}{% verbatim %}</a>
+        </div>
+    </footer>
+{% endverbatim %}

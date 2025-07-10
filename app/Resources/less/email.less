@@ -1,0 +1,85 @@
+@bg-color: #F4F4F4;
+@logo: '../../../web/img/frontoffice/logo-workcare.png';
+@logo-height: image-height(@logo);
+
+
+html, body {
+    background-color: @bg-color;
+    font-family: Arial, sans-serif;
+    > table {
+        background-color: @bg-color;
+        width: 100%;
+        > tr > td {
+            text-align: center;
+        }
+    }
+}
+
+.top-container {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 570px;
+    .logo {
+        width: 166px;
+        height: 30px;
+        margin: 20px;
+    }
+
+    .logo-text {
+        @font-size: 25pt;
+        font-size: @font-size;
+        color: darken(@bg-color, 50%);
+        padding-right: 10px;
+        text-align: right;
+    }
+
+    .container {
+        background-color: #FFF;
+        border: 1px solid darken(@bg-color, 20%);
+        .border-radius(3px);
+        padding: 30px;
+
+        .text-small {
+            font-size: 75%;
+        }
+        .text-italic {
+            font-style: italic;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .gray {
+            color: darken(@bg-color, 20%);
+        }
+
+        .btn {
+            .border-radius(4px);
+            td {
+                font-family: Arial, sans-serif;
+                font-size:14px;
+                font-weight:bold;
+                a {
+                    font-family: Arial, sans-serif;
+                    color:#ffffff;
+                    display: inline-block;
+                    text-decoration: none;
+                    line-height:44px;
+                    width:240px;
+                    font-weight:bold;
+                }
+            }
+        }
+    }
+}
+
+
+.border-radius (@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius:    @radius;
+    border-radius:         @radius;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}

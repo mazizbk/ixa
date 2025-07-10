@@ -1,0 +1,22 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-18 14:30:12
+
+Azimut\Bundle\CmsBundle\Entity\Comment:
+    exclusion_policy: NONE
+    properties:
+        id:
+            groups: ['list_comments', 'detail_comment']
+        createdAt:
+            groups: ['list_comments', 'detail_comment']
+        cmsFile:
+            groups: ['list_comments', 'detail_comment']
+        userName:
+            groups: ['list_comments', 'detail_comment']
+        userEmail:
+            groups: ['list_comments', 'detail_comment']
+        text:
+            groups: ['list_comments', 'detail_comment']
+        rating:
+            groups: ['list_comments', 'detail_comment']
+        isVisible:
+            groups: ['list_comments', 'detail_comment']

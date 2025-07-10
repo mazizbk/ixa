@@ -1,0 +1,193 @@
+.MainMenu{
+    background:var(--dark-grey);
+    color:#fff;
+}
+.MainMenu-logo{
+    background:var(--green);
+    height:260px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding:2em;
+}
+.MainMenu-logo img{
+    max-width: 100%;
+}
+.MainMenu-list{
+    margin-top:2em;
+}
+a.MainMenu-list-item{
+    display:block;
+    padding:1em;
+    font-weight: 800;
+    color:#fff;
+    font-size: 1.2em;
+}
+a.MainMenu-list-item:hover{
+    text-decoration: none;
+    color:var(--dark-grey);
+    background:white;
+}
+.MainMenu-list-item-icon{
+    color: var(--green);
+    margin-right:0.5em;
+}
+img.MainMenu-list-item-icon{
+    max-width:20px;
+}
+
+.MainMenu--line .MainMenu-list{
+    display:flex;
+    justify-content: center;
+    margin-top:0;
+}
+.MainMenu--line a.MainMenu-list-item{
+    padding:1.8em 1em;
+}
+
+.MainMenu--light{
+    background: white;
+    color:var(--dark-grey);
+}
+.MainMenu--light a.MainMenu-list-item{
+    color:var(--dark-grey);
+    font-weight: bold;
+    border-bottom:5px solid white;
+}
+.MainMenu--light a.MainMenu-list-item:hover
+{
+    text-decoration: none;
+    color:var(--green);
+}
+.MainMenu--light a.MainMenu-list-item--selected
+{
+    color:var(--green);
+    border-bottom:5px solid var(--green);
+}
+
+.MainMenu--lightGrey{
+    background: var(--light-grey);
+    color:var(--dark-grey);
+}
+.MainMenu--lightGrey a.MainMenu-list-item{
+    color:var(--dark-grey);
+    font-weight: bold;
+}
+.MainMenu--lightGrey a.MainMenu-list-item:hover,
+.MainMenu--lightGrey a.MainMenu-list-item--selected
+{
+    text-decoration: none;
+    color:white;
+    background-color: var(--green);
+}
+
+
+/* Burger menu button */
+.MainMenu-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    cursor: pointer;
+    width: 24px;
+    margin: 0 0;
+    padding: 0;
+    border: none;
+    border-bottom: 3px solid #fff;
+    outline-offset: 5px;
+    background: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: padding .5s ease-in-out, background 1.5s ease-out, border-radius .5s ease-in-out, .5s opacity ease, .5s visibility ease, border-color .4s ease-in-out;
+    z-index: 1201;
+}
+.MainMenu--line .MainMenu-btn {
+    right:24px;
+}
+.MainMenu-btn:before {
+    content: "";
+    display: block;
+    margin-bottom: 4px;
+    border-bottom: 3px solid #fff;
+    transition: transform .4s ease-in-out, border-color .4s ease-in-out;
+}
+.MainMenu-btn:after {
+    content: "";
+    display: block;
+    margin-bottom: 4px;
+    border-bottom: 3px solid #fff;
+    transition: transform .4s ease-in-out, border-color .4s ease-in-out;
+}
+.MainMenu--mobileRelative .MainMenu-btn {
+    position: relative;
+    top: 4px;
+    left: 4px;
+    right: auto;
+    margin: 1em;
+    display:none;
+}
+.MainMenu--mobileRelative .MainMenu-btn,
+.MainMenu--mobileRelative .MainMenu-btn:before,
+.MainMenu--mobileRelative .MainMenu-btn:after
+{
+    border-color:var(--dark-grey);
+}
+
+.MainMenu.open .MainMenu-btn {
+    border-color: transparent;
+}
+.MainMenu.open .MainMenu-btn:before {
+    transform: translateY(5px) rotate(-135deg);
+}
+.MainMenu.open .MainMenu-btn:after {
+    transform: translateY(-2px) rotate(135deg);
+}
+.MainMenu.open .MainMenu-list {
+    top: 0;
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+}
+@media (max-width: 620px) {
+    /* Burger menu */
+    .MainMenu-btn {
+        opacity: 1;
+        visibility: visible;
+    }
+    .MainMenu--mobileRelative .MainMenu-btn {
+        display:block;
+    }
+
+    .MainMenu-list{
+        position: fixed;
+        top: -100vh;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--green);
+        z-index: 900;
+        justify-content: center;
+        align-items: stretch;
+        flex-direction: column;
+        display: flex;
+        font-size: 1.6rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: 1s top ease, 1s opacity ease, 1s visibility ease;
+        padding-bottom: 5.2rem; /* space for MainMenu-addon */
+        overflow: auto;
+    }
+    .MainMenu--mobileRelative .MainMenu-list{
+        position:relative;
+        top:auto;
+        background: inherit;
+        display:none;
+        padding-bottom: 0;
+    }
+    .MainMenu--mobileRelative.MainMenu--line a.MainMenu-list-item {
+        padding: 0.5em;
+    }
+    .MainMenu-logo{
+        display:none;
+    }
+
+}

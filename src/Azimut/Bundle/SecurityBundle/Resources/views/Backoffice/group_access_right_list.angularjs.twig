@@ -1,0 +1,19 @@
+{#
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2015-10-08 10:33:53
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+        <div class="left">
+            {{ group.name }} access rights
+        </div>
+    </header>
+
+     <section class="body scrollable-container">
+        <div class="scrollable" ng-include="'{% endverbatim %}{{ path('azimut_security_backoffice_jsview_access_right_list') }}{% verbatim %}'">
+        </div>
+    </section>
+
+{% endverbatim %}

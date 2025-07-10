@@ -1,0 +1,55 @@
+{% extends "AzimutSecurityBundle:Dev:base.html.twig" %}
+
+{% block body %}
+
+    <h1>Test form access right</h1>
+
+    {{ form(form) }}
+
+   <script>
+
+        var roles_select_element = $('#access_right_access_right_type_roles');
+        var roles_select_dom_element = roles_select_element[0];
+
+        var roles_dom_elements = [];
+
+        for(var i=0; i<roles_select_dom_element.options.length; i++) {
+            roles_dom_elements[roles_select_dom_element.options[i].text] = roles_select_dom_element.options[i];
+        }
+
+        $('#access_right_access_right_type_class').change( function() {
+            roles_select_element.empty();
+            var class_name = $('#access_right_access_right_type_class option:selected').text();
+
+            // replace slashes in class_name with underscore to use it in query url
+            class_name = class_name.replace(/\\/g, '_');
+
+            //fetch roles list for class name
+            $.ajax({
+                type: 'GET',
+                url: 'http://system.dev/app_dev.php/api/security/rolesonclasses/' + class_name,
+                dataType: 'json',
+                success: function( class_roles ) {
+                    roles_select_element.empty();
+
+                    for(var i = 0; i < class_roles.roles.length; i++ ) {
+
+                        roles_select_element.append(roles_dom_elements[class_roles.roles[i]]);
+                    }
+                },
+
+                error: function(request,status,message) {
+                    roles_select_element.empty();
+                    console.error('Failed to get roles for class "'+class_name+'" server responded: ',message);
+                }
+
+
+
+            });
+
+        });
+
+
+    </script>
+
+{% endblock %}

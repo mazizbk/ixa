@@ -1,0 +1,1187 @@
+{% set showOptions = showOptions|default(false) %}
+{% if campaign is defined and form is defined and participations is defined %}
+    {% if data_route is not defined %}
+        {% set data_route = 'azimut_montgolfiere_app_backoffice_campaigns_house_data' %}
+    {% endif %}
+    <div style="position: relative">
+        {% if showOptions %}
+            <div style="width: 280px; position: absolute; right: 30px; text-align: right; bottom: 10px">
+                <select id="consensusSettings" class="form-control">
+                    <option value="hide">Cacher les consensus</option>
+                    <option value="show-presence">Afficher la présence de consensus</option>
+                    <option value="show-absence">Afficher l'absence de consensus</option>
+                </select>
+                <br />
+                <label><input type="checkbox" id="alternativeTexts" /> Afficher les textes alternatifs</label><br />
+                <label><input type="checkbox" id="alternativeBlocks" /> Afficher les blocs alternatifs</label><br />
+                <select id="subtitleParticipants" class="form-control">
+                    <option value="count">Afficher le nombre de participants</option>
+                    <option value="ratio">Afficher le pourcentage de participants</option>
+                    <option value="none">Ne pas afficher de participants</option>
+                </select>
+            </div>
+        {% endif %}
+        <canvas id="house" style="width: 100%;display:none;" width="3520" height="2480"></canvas>
+    </div>
+    <script>
+        {% if form is defined and form is not null %}
+        {% if (not form.vars.submitted or form.vars.valid) and participations|length>0 %}
+        $(document).ready(function() {
+            var house = $('#house');
+            house.before('<span id="loading">Chargement de l\'image en cours</span>');
+            var stage = new createjs.Stage("house");
+            setTimeout(function() {
+                stage.update();
+            }, 10000);
+            var consensusTicks = [];
+            var noConsensusTicks = [];
+            var mainTexts = [];
+            var alternativeTexts = [];
+            var mainBlocks = [];
+
+            var legendParts = [];
+            function buildLegend(analysisVersion) {
+                legendParts = [
+                    {
+                        blocks: [
+                            {
+                                min: 0,
+                                max: {{ixa_trends_cuts[0]}},
+                                color: analysisVersion.colors[0]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[0]}},
+                                max: {{ixa_trends_cuts[1]}},
+                                color: analysisVersion.colors[1]
+                            }
+                        ]
+                    },
+                    {
+                        text: 'Vers le manque, l\'insuffisance, le déficit',
+                        arrowDirection: 'left',
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[1]}},
+                                max: {{ixa_trends_cuts[2]}},
+                                color: analysisVersion.colors[2]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[2]}},
+                                max: {{ixa_trends_cuts[3]}},
+                                color: analysisVersion.colors[3]
+                            }
+                        ]
+                    },
+                    {
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[3]}},
+                                max: {{ixa_trends_cuts[4]}},
+                                color: analysisVersion.colors[4]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[4]}},
+                                max: {{ixa_trends_cuts[5]}},
+                                color: analysisVersion.colors[5]
+                            }
+                        ]
+                    },
+                    {
+                        text: 'Zone d\'équilibre',
+                        arrowDirection: 'up',
+                        // FIXME V2 uses 3 blocks
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[5]}},
+                                max: {{ixa_trends_cuts[10]}},
+                                color: analysisVersion.colors[7], // color is 7-8-9
+                                size: 3
+                            }
+                        ]
+                    },
+                    {
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[10]}},
+                                max: {{ixa_trends_cuts[11]}},
+                                color: analysisVersion.colors[11]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[11]}},
+                                max: {{ixa_trends_cuts[12]}},
+                                color: analysisVersion.colors[12]
+                            }
+                        ]
+                    },
+                    {
+                        text: 'Vers l\'excès, l\'inadaptation, le débordement',
+                        arrowDirection: 'right',
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[12]}},
+                                max: {{ixa_trends_cuts[13]}},
+                                color: analysisVersion.colors[13]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[13]}},
+                                max: {{ixa_trends_cuts[14]}},
+                                color: analysisVersion.colors[14]
+                            }
+                        ]
+                    },
+                    {
+                        blocks: [
+                            {
+                                min: {{ixa_trends_cuts[14]}},
+                                max: {{ixa_trends_cuts[15]}},
+                                color: analysisVersion.colors[15]
+                            },
+                            {
+                                min: {{ixa_trends_cuts[15]}},
+                                max: {{ixa_trends_cuts[16]}},
+                                color: analysisVersion.colors[16]
+                            }
+                        ]
+                    }
+                ];
+            }
+
+            // From https://riptutorial.com/html5-canvas/example/18766/render-a-rounded-polygon-
+            function roundedPoly(ctx, points,radius){
+                var i, x, y, len, p1, p2, p3, v1, v2, sinA, sinA90, radDirection, drawDirection, angle, halfAngle, cRadius, lenOut;
+                var asVec = function (p, pp, v) { // convert points to a line with len and normalised
+                    v.x = pp.x - p.x; // x,y as vec
+                    v.y = pp.y - p.y;
+                    v.len = Math.sqrt(v.x * v.x + v.y * v.y); // length of vec
+                    v.nx = v.x / v.len; // normalised
+                    v.ny = v.y / v.len;
+                    v.ang = Math.atan2(v.ny, v.nx); // direction of vec
+                }
+                v1 = {};
+                v2 = {};
+                len = points.length;                         // number points
+                p1 = points[len - 1];                        // start at end of path
+                for (i = 0; i < len; i++) {                  // do each corner
+                    p2 = points[(i) % len];                  // the corner point that is being rounded
+                    p3 = points[(i + 1) % len];
+                    // get the corner as vectors out away from corner
+                    asVec(p2, p1, v1);                       // vec back from corner point
+                    asVec(p2, p3, v2);                       // vec forward from corner point
+                    // get corners cross product (asin of angle)
+                    sinA = v1.nx * v2.ny - v1.ny * v2.nx;    // cross product
+                    // get cross product of first line and perpendicular second line
+                    sinA90 = v1.nx * v2.nx - v1.ny * -v2.ny; // cross product to normal of line 2
+                    angle = Math.asin(sinA);                 // get the angle
+                    radDirection = 1;                        // may need to reverse the radius
+                    drawDirection = false;                   // may need to draw the arc anticlockwise
+                    // find the correct quadrant for circle center
+                    if (sinA90 < 0) {
+                        if (angle < 0) {
+                            angle = Math.PI + angle; // add 180 to move us to the 3 quadrant
+                        } else {
+                            angle = Math.PI - angle; // move back into the 2nd quadrant
+                            radDirection = -1;
+                            drawDirection = true;
+                        }
+                    } else {
+                        if (angle > 0) {
+                            radDirection = -1;
+                            drawDirection = true;
+                        }
+                    }
+                    halfAngle = angle / 2;
+                    // get distance from corner to point where round corner touches line
+                    lenOut = Math.abs(Math.cos(halfAngle) * radius / Math.sin(halfAngle));
+                    if (lenOut > Math.min(v1.len / 2, v2.len / 2)) { // fix if longer than half line length
+                        lenOut = Math.min(v1.len / 2, v2.len / 2);
+                        // ajust the radius of corner rounding to fit
+                        cRadius = Math.abs(lenOut * Math.sin(halfAngle) / Math.cos(halfAngle));
+                    } else {
+                        cRadius = radius;
+                    }
+                    x = p2.x + v2.nx * lenOut; // move out from corner along second line to point where rounded circle touches
+                    y = p2.y + v2.ny * lenOut;
+                    x += -v2.ny * cRadius * radDirection; // move away from line to circle center
+                    y += v2.nx * cRadius * radDirection;
+                    // x,y is the rounded corner circle center
+                    ctx.arc(x, y, cRadius, v1.ang + Math.PI / 2 * radDirection, v2.ang - Math.PI / 2 * radDirection, drawDirection); // draw the arc clockwise
+                    p1 = p2;
+                    p2 = p3;
+                }
+                ctx.closePath();
+            }
+
+            function drawRoof(graphics, position, dimension, radius) {
+                var points = [
+                    {x: position.x,                      y: position.y + dimension.height/2}, // Top Left
+                    {x: position.x + dimension.width/2 , y: position.y},                      // Center
+                    {x: position.x + dimension.width,    y: position.y + dimension.height/2}, // Top Right
+                    {x: position.x + dimension.width,    y: position.y + dimension.height},   // Bottom Right
+                    {x: position.x,                      y: position.y + dimension.height},   // Bottom Left
+                ];
+                roundedPoly(graphics, points, radius);
+            }
+
+            function getColorAtValue(value) {
+                for(var i in legendParts) {
+                    for(var j = 0; j < legendParts[i].blocks.length; j++) {
+                        var block = legendParts[i].blocks[j];
+                        if(block.min <= value && block.max >= value) {
+                            return block.color;
+                        }
+                    }
+                }
+
+                return '#000'; // Fallback that should never happen
+            }
+            function setColor(className){
+                var colorSquare = document.getElementsByClassName(className);
+                for (var i = 0; i < colorSquare.length; ++i) {
+                    colorSquare[i].style.backgroundColor  = getColorAtValue(colorSquare[i].dataset.color);
+                }
+            }
+
+            function hexToRgb(hex) {
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
+            function rgbToHex(red, green, blue) {
+                return '#'+red.toString(16).padStart(2, '0')+green.toString(16).padStart(2, '0')+blue.toString(16).padStart(2, '0');
+            }
+            function drawLegend(stage, analysisVersion) {
+                // Legend config
+                var gradientX = 0, gradientY = analysisVersion.legendY, gradientHeight = 75, originalGradientX = gradientX;
+                var singleBlockWidth = 125, partSeparator = 12;
+
+                // Precompute legend size to center it
+                var allBlocksWidth = legendParts
+                        .map(function(lp) {return lp.blocks;})
+                        .map(function(blocks){return blocks.map(function(block){return block.size??1})})
+                        .map(function(blockSizes){return blockSizes.reduce(function(accumulator, value){return accumulator+value;}, 0);})
+                        .reduce(function(accumulator, value){return accumulator+value;}, 0)
+                    * singleBlockWidth
+                ;
+                var legendWidth = (legendParts.length-1)*partSeparator + allBlocksWidth;
+                gradientX = (stage.canvas.width - legendWidth) / 2;
+
+                var legendBGArrows = new createjs.Shape();
+                var arrowsYOffset = 25, arrowsXOffset = 50, arrowSize = 15;
+                var arrowsY = gradientY + gradientHeight + arrowsYOffset;
+                var lineFirstStart = gradientX - arrowsXOffset;
+                var lineFirstEnd = lineFirstStart + arrowsXOffset + singleBlockWidth * 6 + partSeparator/2;
+                var lineSecondStart = lineFirstEnd + partSeparator * 3;
+                var lineSecondEnd = lineSecondStart + singleBlockWidth * 3 - partSeparator * 2;
+                var lineThirdStart = lineSecondEnd + partSeparator * 3;
+                var lineThirdEnd = lineThirdStart + singleBlockWidth * 6 + partSeparator/2 + arrowsXOffset;
+
+                legendBGArrows
+                    .graphics
+                    .setStrokeStyle(5, 'round')
+                    .beginStroke(analysisVersion.colors[0])
+                    .moveTo(lineFirstStart + arrowSize, arrowsY - arrowSize)
+                    .lineTo(lineFirstStart,             arrowsY)
+                    .lineTo(lineFirstStart + arrowSize, arrowsY + arrowSize)
+
+                    .beginStroke(analysisVersion.colors[analysisVersion.colors.length-1])
+                    .moveTo(lineThirdEnd - arrowSize, arrowsY - arrowSize)
+                    .lineTo(lineThirdEnd,             arrowsY)
+                    .lineTo(lineThirdEnd - arrowSize, arrowsY + arrowSize)
+
+                    .beginLinearGradientStroke(
+                        analysisVersion.colors,
+                        [0, ...{{ ixa_trends_cuts|map(c => c/100)|json_encode }}],
+                        gradientX, gradientY, lineThirdEnd, arrowsY
+                    )
+                    .moveTo(lineFirstStart, arrowsY)
+                    .lineTo(lineFirstEnd, arrowsY)
+
+                    .moveTo(lineSecondStart, arrowsY - arrowSize / 2)
+                    .lineTo(lineSecondStart, arrowsY + arrowSize / 2)
+                    .moveTo(lineSecondStart, arrowsY)
+                    .lineTo(lineSecondEnd, arrowsY)
+                    .moveTo(lineSecondEnd, arrowsY - arrowSize / 2)
+                    .lineTo(lineSecondEnd, arrowsY + arrowSize / 2)
+
+                    .moveTo(lineThirdStart, arrowsY)
+                    .lineTo(lineThirdEnd, arrowsY)
+                ;
+                stage.addChild(legendBGArrows);
+
+                for(var i in legendParts) {
+                    var legendPart = legendParts[i];
+                    var legendPartStartX = gradientX;
+                    for(var j=0; j<legendPart.blocks.length; j++) {
+                        var legendBlock = legendPart.blocks[j];
+                        var legendBlockShape = new createjs.Shape();
+                        var blockWidth = singleBlockWidth * (legendBlock.size??1);
+
+                        legendBlockShape
+                            .graphics
+                            .setStrokeStyle(analysisVersion.legendBorderWidth)
+                            .beginStroke('#000')
+                            .beginFill(legendBlock.color)
+                            .drawRoundRect(gradientX, gradientY, blockWidth-partSeparator, gradientHeight, gradientHeight/3.5)
+                        ;
+                        if(analysisVersion.blocksShadow) {
+                            legendBlockShape.shadow =  new createjs.Shadow('rgba(0, 0, 0, .2)', 10, 10, 15);
+                        }
+                        stage.addChild(legendBlockShape);
+                        gradientX+= blockWidth;
+                    }
+                    var legendPartEndX = gradientX;
+
+                    // Text under each legend section
+                    if(legendPart.text) {
+                        var legendPartText = new createjs.Text(legendPart.text, '35px Carlito', '#38424a');
+                        var legendPartTextMetrics = legendPartText.getMetrics();
+                        legendPartText.x = legendPartStartX + (legendPartEndX - legendPartStartX) / 2 - legendPartTextMetrics.width / 2;
+                        legendPartText.y = gradientY + gradientHeight + 55;
+                        stage.addChild(legendPartText);
+
+                        if(legendPart.arrowDirection && analysisVersion.legendZonesIcons) {
+                            const arrowSize = 32;
+                            drawArrowIcon(stage, legendPart.arrowDirection, arrowSize, legendPartText.x - arrowSize, legendPartText.y + arrowSize/2, '#394A52', '#394A52', '#FFFFFF');
+                        }
+                    }
+
+                    gradientX+= partSeparator;
+                }
+
+                if(analysisVersion.displayLegendTitles) {
+                    gradientX+=150;
+                    var rightGradientSeparator = new createjs.Shape();
+                    rightGradientSeparator
+                        .graphics
+                        .setStrokeStyle(3)
+                        .beginStroke('#666')
+                        .moveTo(gradientX, gradientY - 20)
+                        .lineTo(gradientX, legendPartText.y)
+                    ;
+                    stage.addChild(rightGradientSeparator);
+
+                    drawArrowIcon(stage, 'down', 32, gradientX + 100, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
+                    stage.addChild(
+                        (new createjs.Text("CONSENSUS", "Bold 25px Montserrat", '#394A52'))
+                            .set({
+                                x: gradientX + 125,
+                                y : gradientY - 125,
+                                textAlign: 'left',
+                                textBaseline: "middle",
+                            })
+                    );
+                    const consensusText = (new createjs.Text("La proportion de répondants qui partage cette tendance (Tendances : Nuances bleues, vertes et oranges)", "Italic 23px Montserrat", '#394A52'))
+                        .set({
+                            x: gradientX + 50,
+                            y : gradientY - 80,
+                            textAlign: 'left',
+                            textBaseline: "middle",
+                            lineWidth: 350,
+                            lineHeight: 35
+                        })
+                    ;
+                    stage.addChild(consensusText);
+
+                    let consensusTypesY = consensusText.y + consensusText.getMetrics().height + 15;
+                    for(const consensusDefinition of analysisVersion.consensusDefinitions) {
+                        stage.addChild(...drawConsensus(consensusDefinition, {x: gradientX + 100, y: consensusTypesY}, 16));
+                        stage.addChild(
+                            (new createjs.Text(consensusDefinition.name, '23px Montserrat', '#394A52'))
+                                .set({
+                                    x: gradientX + 100 + 24,
+                                    y: consensusTypesY,
+                                    textAlign: 'left',
+                                    textBaseline: "middle",
+                                })
+                        );
+                        consensusTypesY+= 45;
+                    }
+                }
+
+                // Reset gradientX, we use it to position what's on the left of the gradient
+                gradientX = (stage.canvas.width - legendWidth) / 2;
+                // gradientSeparator is a simple line that separates the legend and the tiny house with foundations/floor/ceiling
+                var gradientSeparator = new createjs.Shape();
+                gradientSeparator
+                    .graphics
+                    .setStrokeStyle(3)
+                    .beginStroke('#666')
+                    .moveTo(gradientX - 150, gradientY - 20)
+                    .lineTo(gradientX - 150, legendPartText.y)
+                ;
+                stage.addChild(gradientSeparator);
+
+                var legendHouseParts = 1 + analysisVersion.structure.items.map(i => i.size ?? 1).reduce((acc, i) => acc + i, 0); // +1 for the roof
+                var
+                    legendHouseWidth = analysisVersion.structure.width, legendHouseMargin = analysisVersion.structure.margin,
+                    legendHouseX = gradientX - 150 - legendHouseWidth - 65, legendHouseY = gradientY - 50,
+                    legendHouseHeight = (analysisVersion.structure.height - legendHouseMargin * (analysisVersion.structure.items.length - 1)) / legendHouseParts,
+                    legendHousePadding = 20
+                ;
+                var legendHouseShadow = analysisVersion.blocksShadow ? new createjs.Shadow('rgba(0, 0, 0, .4)', 5, 10, 7.5) : null;
+                let isRoof = true;
+                let legendCurrentY = legendHouseY;
+                let colors = ["#2EAD72", "#95CEB5"];
+                for(let i in analysisVersion.structure.items) {
+                    const structureItem = analysisVersion.structure.items[i];
+                    if(isRoof) {
+                        stage.addChild(
+                            (new createjs.Shape(
+                                new createjs.Graphics()
+                                    .beginFill(colors[i%2])
+                                    .moveTo(legendHouseX + legendHouseWidth/2,   legendHouseY - legendHouseHeight) // Top center
+                                    .lineTo(legendHouseX + 5,                    legendHouseY) // Left
+                                    .lineTo(legendHouseX + legendHouseWidth - 5, legendHouseY) // Right
+                                    .closePath()
+                            ))
+                            .set({shadow:legendHouseShadow})
+                        );
+                        isRoof = false;
+                    }
+
+                    const height = legendHouseHeight * (structureItem.size ?? 1);
+                    stage.addChild(
+                        (new createjs.Shape(new createjs.Graphics().beginFill(colors[i%2]).drawRoundRect(legendHouseX, legendCurrentY, legendHouseWidth, height, 10)))
+                            .set({shadow:legendHouseShadow}),
+                        (new createjs.Text(structureItem.text, "Bold 30px Montserrat", analysisVersion.structure.color))
+                            .set({
+                                x:legendHouseX+legendHouseWidth/2,
+                                y:legendCurrentY + height/2,
+                                textAlign: 'center',
+                                maxWidth: legendHouseWidth-legendHousePadding,
+                                textBaseline: "middle"
+                            })
+                    );
+                    if (structureItem.legend) {
+                        const structureLegendText = (new createjs.Text(structureItem.legend+" >", "25px Montserrat", analysisVersion.structure.color))
+                            .set({
+                                x:legendHouseX-legendHousePadding,
+                                y:legendCurrentY + height/2,
+                                textAlign: 'right',
+                                textBaseline: "middle",
+                            });
+                        const structureLegendTextMetrics = structureLegendText.getMetrics();
+                        if(structureLegendTextMetrics.lines.length > 1) {
+                            structureLegendText.y-= structureLegendTextMetrics.height/structureLegendTextMetrics.lines.length*(structureLegendTextMetrics.lines.length-1);
+                        }
+                        stage.addChild(structureLegendText);
+                    }
+                    legendCurrentY+= height + legendHouseMargin;
+                }
+
+                if(analysisVersion.displayLegendTitles) {
+                    drawArrowIcon(stage, 'down', 32, legendHouseX - 50, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
+                    stage.addChild(
+                        (new createjs.Text("STRUCTURE", "Bold 25px Montserrat", '#394A52'))
+                            .set({
+                                x: legendHouseX - 10,
+                                y : gradientY - 125,
+                                textAlign: 'left',
+                                textBaseline: "middle",
+                            })
+                    );
+                }
+
+                var logo = new createjs.Bitmap('{{ asset('img/questionnaire/logo-black.svg') }}');
+                logo.visible = false;
+                logo.image.onload = function(){
+                    logo.set({
+                        x: -45,
+                        y: stage.canvas.height - 200,
+                        scale: 0.1,
+                        visible: true
+                    });
+                    stage.update();
+                };
+                stage.addChild(
+                    logo,
+                    (new createjs.Text('Toute reproduction interdite sans autorisation. Copyright '+(new Date).getFullYear()+' SARL Workcare', "25px Carlito", "#000"))
+                        .set({
+                            x: 10,
+                            y: stage.canvas.height - 95,
+                        })
+                );
+
+                stage.update();
+            }
+            function drawBlock(stage, analysis, type, analysisVersion) {
+                var blockShape = new createjs.Shape();
+                var alternateBlockShape = new createjs.Shape();
+                var x = analysis.houseSettings.position.x, y = analysis.houseSettings.position.y, h = analysis.houseSettings.dimension.height, w = analysis.houseSettings.dimension.width;
+                var isRoof = analysis.houseSettings.isRoof;
+                var valuePercent = analysis.hasOwnProperty('workcareAverage')?analysis.workcareAverage:50, textFont, textOffset, blockShadow, blockBorderRadius;
+                switch(type) {
+                    case 'theme':
+                        textFont = analysisVersion.themeBlockFont;
+                        textOffset = 70;
+                        blockShadow = analysisVersion.blocksShadow ? new createjs.Shadow('rgba(0, 0, 0, .2)', 10, 10, 15) : null;
+                        blockBorderRadius = 30;
+                        break;
+                    case 'item':
+                        textFont = analysisVersion.itemBlockFont;
+                        textOffset = 14;
+                        blockShadow = analysisVersion.blocksShadow ? new createjs.Shadow('rgba(0, 0, 0, .2)', 10, 10, 15) : null;
+                        blockBorderRadius = analysisVersion.itemBlockRadius;
+                        break;
+                    default:
+                        throw new Error('Invalid block type '+type);
+                }
+
+                if(isRoof) {
+                    blockShape
+                        .graphics
+                        .beginFill(getColorAtValue(valuePercent))
+                    ;
+                    drawRoof(blockShape.graphics, analysis.houseSettings.position, analysis.houseSettings.dimension, blockBorderRadius);
+
+                    alternateBlockShape
+                        .graphics
+                        .setStrokeStyle(12, 'round')
+                        .beginStroke(getColorAtValue(valuePercent))
+                        .beginFill('#FFFFFF')
+                    ;
+                    alternateBlockShape.visible = false;
+                    drawRoof(alternateBlockShape.graphics, analysis.houseSettings.position, analysis.houseSettings.dimension, blockBorderRadius);
+                }
+                else {
+                    if(type === 'item' && analysisVersion.itemBlockBorder) {
+                        blockShape.graphics.setStrokeStyle(2).beginStroke('#000');
+                    }
+                    blockShape
+                        .graphics
+                        .beginFill(getColorAtValue(valuePercent))
+                        .drawRoundRect(x, y, w, h, blockBorderRadius)
+                    ;
+
+                    alternateBlockShape
+                        .graphics
+                        .setStrokeStyle(12, 'round')
+                        .beginStroke(getColorAtValue(valuePercent))
+                        .beginFill('#FFFFFF')
+                        .drawRoundRect(x, y, w, h, blockBorderRadius)
+                    ;
+                    alternateBlockShape.visible = false;
+                }
+                blockShape.shadow = blockShadow;
+                alternateBlockShape.shadow = blockShadow;
+                stage.addChild(blockShape);
+                stage.addChild(alternateBlockShape);
+
+                var text = new createjs.Text(analysis.name.replace('&amp;', '&').replace('&#039;', '\''), (type === 'item' && analysisVersion.itemsText === 'both' ? 'Bold ' : '')+textFont, colorContrast(getColorAtValue(valuePercent)));
+                text.lineWidth = w - 30;
+                text.textAlign = 'center';
+                var textMetrics = text.getMetrics();
+                text.x = x + w/2;
+                if(analysisVersion.itemsText === 'both') {
+                    text.y = y + textOffset;
+                }
+                else {
+                    text.y = y + h - textMetrics.height - textOffset;
+                }
+                stage.addChild(text);
+                if(type === 'item' && analysis.shortSignification) {
+                    mainTexts.push(text);
+
+                    var shortSignification = new createjs.Text(analysis.shortSignification.replace('&amp;', '&').replace('&#039;', '\''), textFont, colorContrast(getColorAtValue(valuePercent)));
+                    shortSignification.lineWidth = w - 30;
+                    shortSignification.textAlign = 'center';
+                    var textSize = parseInt(textFont.substring(0, 2));
+                    var textFontSpec = textFont.substring(2);
+                    do {
+                        shortSignification.font = textSize+textFontSpec;
+                        var shortSignificationMetrics = shortSignification.getMetrics();
+                        textSize--;
+                    }
+                    while(shortSignificationMetrics.lines.length>1);
+                    shortSignification.font = (textSize-1)+textFontSpec; // For some reason, in consultant area, lines are wrong, so we remove one more pixel
+                    shortSignification.x = x + w/2;
+
+                    if(analysisVersion.itemsText === 'both') {
+                        shortSignification.y = y + textMetrics.height + textOffset;
+                    }
+                    else {
+                        shortSignification.y = y + h - shortSignificationMetrics.height - textOffset;
+                    }
+
+                    shortSignification.visible = analysisVersion.itemsText === 'both';
+                    stage.addChild(shortSignification);
+                    alternativeTexts.push(shortSignification);
+                }
+
+                if(analysis.houseSettings.image && analysis.houseSettings.image.path) {
+                    var imagePosition = analysis.houseSettings.image.position;
+                    var imageRadius = analysisVersion.themeImageRadius;
+                    var imageX = x+w/2;
+                    var imageY = y+h/2 - imageRadius/2;
+                    if(isRoof) {
+                        imageY+= h/8;
+                    }
+                    switch(imagePosition) {
+                        case 'top':
+                            text.y = imageY + imageRadius + 10;
+                            imageY-= imageRadius/2;
+                            break;
+                        case 'left':
+                            text.y = imageY + 10;
+                            text.x+= imageRadius;
+                            imageX-= imageRadius*4;
+                            imageY+= imageRadius/2;
+                            break;
+                        case 'right':
+                            text.y = imageY + 10;
+                            text.x-= imageRadius;
+                            imageX+= imageRadius*4;
+                            imageY+= imageRadius/2;
+                            break;
+                        default:
+                            throw new Error('Unable to position image on '+imagePosition);
+                    }
+
+                    var imageWhiteCircle = new createjs.Shape();
+                    imageWhiteCircle
+                        .graphics
+                        .beginFill("#FFFFFF")
+                        .drawCircle(imageX, imageY, imageRadius)
+                    ;
+                    imageWhiteCircle.shadow = analysisVersion.blocksShadow ? new createjs.Shadow('rgba(0, 0, 0, .2)', 10, 10, 15) : null;
+                    stage.addChild(imageWhiteCircle);
+
+                    var image = new createjs.Bitmap(analysis.houseSettings.image.path);
+                    image.x = imageX-imageRadius;
+                    image.y = imageY-imageRadius;
+                    if(analysis.houseSettings.image.offset) {
+                        image.x+= analysis.houseSettings.image.offset.x;
+                        image.y+= analysis.houseSettings.image.offset.y;
+                    }
+                    image.scale = analysis.houseSettings.image.scale||1;
+                    if(analysisVersion.colorThemeImage) {
+                        // Change image color by applying a filter
+                        var valueRgbColor = hexToRgb(getColorAtValue(valuePercent));
+                        image.filters = [new createjs.ColorFilter(0, 0, 0, 1, valueRgbColor.r, valueRgbColor.g, valueRgbColor.b)];
+                        image.image.onload = (function(image){
+                            return function() {
+                                // Image needs to be cached for filters to work
+                                var size = image.getBounds();
+                                image.cache(0, 0, size.width, size.height);
+                                stage.addChild(image);
+                                stage.update();
+                            };
+                        })(image);
+                    }
+                    else {
+                        stage.addChild(image);
+                        image.image.onload = function() {
+                            stage.update();
+                        };
+                    }
+                }
+
+                //Consensus
+
+                if (analysis.hasOwnProperty('consensus') && analysis.consensus !== null && (type === 'item' || analysisVersion.displayThemesConsensus)) {
+                    const consensus = analysis.consensus.findLastIndex(v => v);
+                    const consensusPosition = {x: 0, y: 0};
+                    switch(analysisVersion.consensusPosition) {
+                        case 'bottom-right':
+                            consensusPosition.x = x + w - 20;
+                            consensusPosition.y = y + h - 20;
+                            break;
+                        case 'top-right':
+                            consensusPosition.x = x + w - 20;
+                            consensusPosition.y = y + 20;
+                            break;
+                    }
+                    if(consensus>-1) {
+                        const consensusCircle = drawConsensus(analysisVersion.consensusDefinitions[consensus], consensusPosition, 10);
+                        stage.addChild(...consensusCircle);
+                        consensusTicks.push(...consensusCircle);
+                    }
+                    else {
+                        // Legacy "v1" unique consensus
+                        var consensusCircle = new createjs.Shape();
+                        consensusCircle
+                            .graphics
+                            .beginFill("#FFF")
+                            .drawCircle(consensusPosition.x, consensusPosition.y, 10)
+                        ;
+                        consensusCircle.visible = false;
+                        stage.addChild(consensusCircle);
+                        noConsensusTicks.push(consensusCircle);
+                    }
+                }
+
+                if(analysis.houseSettings.arrowDirection) {
+                    // Line that goes from a block (a theme) to a group of other blocks (its items)
+                    var linex0, liney0, linex1, liney1, arrowx0, arrowy0, arrowx1, arrowy1, arrowx2, arrowy2;
+
+                    switch(analysis.houseSettings.arrowDirection) {
+                        case 'left':
+                            linex0 = x - 50;
+                            linex1 = linex0 - analysis.houseSettings.arrowLineLength;
+                            liney0 = liney1 = y + h/2 + (analysis.houseSettings.arrowLineOffset || 0);
+
+                            arrowx0 = linex1-10;
+                            arrowy0 = liney0;
+                            arrowx1 = arrowx2 = linex1;
+                            arrowy1 = liney0-10;
+                            arrowy2 = liney0+10;
+
+                            linex0-=10;
+                            break;
+                        case 'right':
+                            linex0 = x + w + 50;
+                            linex1 = linex0 + analysis.houseSettings.arrowLineLength;
+                            liney0 = liney1 = y + h/2 + (analysis.houseSettings.arrowLineOffset || 0);
+
+                            arrowx0 = linex1+10;
+                            arrowy0 = liney0;
+                            arrowx1 = arrowx2 = linex1;
+                            arrowy1 = liney0-10;
+                            arrowy2 = liney0+10;
+
+                            linex0+=10;
+                            break;
+                        case 'down':
+                            linex0 = linex1 = x + w/2 + (analysis.houseSettings.arrowLineOffset || 0);
+                            liney0 = y + h + 30;
+                            liney1 = liney0 + analysis.houseSettings.arrowLineLength;
+
+                            arrowx0 = linex0;
+                            arrowy0 = liney1+10;
+                            arrowx1 = linex0-10;
+                            arrowy1 = arrowy2 = liney1;
+                            arrowx2 = linex0+10;
+
+                            liney0+=10;
+                            break;
+                        default:
+                            throw new Error('Invalid line direction '+analysis.houseSettings.arrowDirection);
+                    }
+                    if(isRoof) {
+                        liney0+= h/4;
+                        liney1+= h/4;
+                        arrowy0+= h/4;
+                        arrowy1+= h/4;
+                        arrowy2+= h/4;
+                    }
+                    var lineShape = new createjs.Shape();
+                    lineShape
+                        .graphics
+                        .setStrokeStyle(2)
+                        .setStrokeDash([10, 10])
+                        .beginStroke(analysisVersion.arrowColor)
+                        .moveTo(linex0, liney0)
+                        .lineTo(linex1, liney1)
+                    ;
+                    stage.addChild(lineShape);
+
+                    if(analysisVersion.arrowMiddleCircle) {
+                        var lineCircle = new createjs.Shape();
+                        lineCircle
+                            .graphics
+                            .beginFill(analysisVersion.arrowColor)
+                            .drawCircle((linex0+linex1)/2, (liney0+liney1)/2, 10)
+                        ;
+                        stage.addChild(lineCircle);
+                    }
+
+                    var lineArrow = new createjs.Shape();
+                    lineArrow
+                        .graphics
+                        .beginFill(analysisVersion.arrowEndType === "fat" ? analysisVersion.arrowColor : null)
+                        .beginStroke(analysisVersion.arrowEndType === "thin" ? analysisVersion.arrowColor : null)
+                        .moveTo(arrowx1, arrowy1)
+                        .lineTo(arrowx0, arrowy0)
+                        .lineTo(arrowx2, arrowy2)
+                    ;
+                    if(analysisVersion.arrowEndType === "fat") {
+                        lineArrow.graphics.closePath();
+                    }
+                    stage.addChild(lineArrow);
+                }
+
+                if(type === 'theme') {
+                    if(analysisVersion.itemsGrouping) {
+                        const groupPadding = 15;
+                        const minX = Math.min(...analysis.items.map(i => i.houseSettings.position.x));
+                        const maxX = Math.max(...analysis.items.map(i => i.houseSettings.position.x + i.houseSettings.dimension.width));
+                        const width = maxX - minX + 2 * groupPadding;
+                        const minY = Math.min(...analysis.items.map(i => i.houseSettings.position.y));
+                        const maxY = Math.max(...analysis.items.map(i => i.houseSettings.position.y + i.houseSettings.dimension.height));
+                        const height = maxY - minY + 2 * groupPadding;
+                        stage.addChild(
+                            new createjs.Shape(
+                                (new createjs.Graphics())
+                                    .beginStroke(analysisVersion.arrowColor)
+                                    .drawRoundRect(minX - groupPadding, minY - groupPadding, width, height, analysisVersion.itemBlockRadius)
+                            )
+                        );
+                    }
+                    mainBlocks.push({
+                        shape: blockShape,
+                        alternateShape: alternateBlockShape,
+                        image: {
+                            shape: imageWhiteCircle,
+                            bitmap: image,
+                        },
+                        texts: [text, shortSignification],
+                        consensusShape: consensusCircle,
+                    });
+                }
+            }
+
+            function drawArrowIcon(stage, direction, size, x, y, borderColor, arrowColor, fillColor) {
+                const arrowSize = size/2;
+                let start, lineEnd, arrowOne, arrowTwo;
+                switch(direction) {
+                    case 'down':
+                        start =    {x: x, y: y - arrowSize/2};
+                        lineEnd =  {x: x, y: y + arrowSize/2};
+                        arrowOne = {x: x - arrowSize/2, y: y};
+                        arrowTwo = {x: x + arrowSize/2, y: y};
+                        break;
+                    case 'up':
+                        start =    {x: x, y: y + arrowSize/2};
+                        lineEnd =  {x: x, y: y - arrowSize/2};
+                        arrowOne = {x: x - arrowSize/2, y: y};
+                        arrowTwo = {x: x + arrowSize/2, y: y};
+                        break;
+                    case 'left':
+                        start =    {x: x + arrowSize/2, y: y};
+                        lineEnd =  {x: x - arrowSize/2, y: y};
+                        arrowOne = {x: x, y: y + arrowSize/2};
+                        arrowTwo = {x: x, y: y - arrowSize/2};
+                        break;
+                    case 'right':
+                        start =    {x: x - arrowSize/2, y: y};
+                        lineEnd =  {x: x + arrowSize/2, y: y};
+                        arrowOne = {x: x, y: y - arrowSize/2};
+                        arrowTwo = {x: x, y: y + arrowSize/2};
+                        break;
+                }
+
+                stage.addChild(
+                    (new createjs.Shape(
+                        new createjs.Graphics()
+                            .beginFill(fillColor)
+                            .setStrokeStyle(4)
+                            .beginStroke(borderColor)
+                            .drawCircle(x, y, size/2)
+                            .endFill()
+                            .beginStroke(arrowColor)
+                            .moveTo(start.x, start.y)
+                            .lineTo(lineEnd.x, lineEnd.y)
+                            .moveTo(arrowOne.x, arrowOne.y)
+                            .lineTo(lineEnd.x, lineEnd.y)
+                            .lineTo(arrowTwo.x, arrowTwo.y)
+                    ))
+                );
+            }
+
+            function drawConsensus(consensusDefinition, position, size) {
+                const shapes = [];
+                if (consensusDefinition.shape === 'circle' || consensusDefinition.shape === 'circle-plus') {
+                    shapes.push(
+                        (new createjs.Shape(
+                            new createjs.Graphics()
+                                .setStrokeStyle(4)
+                                .beginStroke('#394A52')
+                                .beginFill('#FFFFFF')
+                                .drawCircle(position.x, position.y, size)
+                        ))
+                    );
+                }
+                if(consensusDefinition.shape === 'circle-plus') {
+                    shapes.push(
+                        (new createjs.Shape(
+                            new createjs.Graphics()
+                                .setStrokeStyle(2)
+                                .beginStroke('#394A52')
+                                .moveTo(position.x, position.y - size/2)
+                                .lineTo(position.x, position.y + size/2)
+                                .moveTo(position.x - size/2, position.y)
+                                .lineTo(position.x + size/2, position.y)
+                        ))
+                    );
+                }
+
+                return shapes;
+            }
+
+            fetch('{{ path(data_route, {id: campaign.id})|raw }}', {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: new FormData(document.forms['{{ form.vars.name }}'])
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                // Wait for fonts to be loaded before rendering house, since text measurements are to be made
+                return new Promise(res => {
+                    Promise.all([
+                        (new FontFaceObserver('Montserrat')).load(null, 10000),
+                        (new FontFaceObserver('Carlito')).load(null, 10000),
+                        (new FontFaceObserver('Montserrat', {weight: 700})).load(null, 10000)
+                    ]).then(() => res(data));
+                });
+            }).then(function(data) {
+                buildLegend(data.analysisVersion);
+                drawLegend(stage, data.analysisVersion);
+                setColor("restitution-color-square");
+                // Title
+                house.data("title", data.title);
+                house.data("fileName", data.fileName);
+                var titleText = new createjs.Text(data.title, 'Bold 45px Montserrat', '#38424a');
+                var titleTextMetrics = titleText.getMetrics();
+                titleText.x = (stage.canvas.width-titleTextMetrics.width)/2;
+                titleText.y = data.analysisVersion.legendY - 200;
+                stage.addChild(titleText);
+
+                var subtitles = {
+                    count: null,
+                    ratio: null,
+                    none: null
+                };
+                var createSubtitle = function(parts, invisible) {
+                    var text = parts.filter(function(t){return t !== null;}).join(' - ');
+                    var shape = new createjs.Text(text, '40px Montserrat', '#38424a');
+                    var shapeMetrics = shape.getMetrics();
+                    shape.x = (stage.canvas.width-shapeMetrics.width)/2;
+                    shape.y = titleText.y+shapeMetrics.height+10;
+                    shape.visible = !invisible;
+                    stage.addChild(shape);
+
+                    return shape;
+                }
+                var subtitle = null;
+                if(data.date) {
+                    var date = new Date(data.date);
+                    subtitle = date.getFullYear()+'-'+(date.getMonth()<10?'0':'')+date.getMonth()+'-'+(date.getDate()<10?'0':'')+date.getDate();
+                }
+                subtitles.count = createSubtitle(['Nombre de répondants : '+data.participants, subtitle], false);
+                subtitles.ratio = (data.expectedParticipants && data.participants) ? createSubtitle(['Taux de participation : '+Math.round(data.participants*100/data.expectedParticipants)+'%', subtitle], true) : null;
+                subtitles.none = createSubtitle([subtitle], true);
+                if(!subtitles.ratio) {
+                    $('#subtitleParticipants > option[value=ratio]')
+                        .attr('disabled', true)
+                        .css('backgroundColor', '#DEDEDE')
+                    ;
+                }
+
+                for(const themeAnalysis of data.themesAnalysis) {
+                    if(!themeAnalysis.hasOwnProperty('houseSettings')) {
+                        continue;
+                    }
+                    drawBlock(stage, themeAnalysis, 'theme', data.analysisVersion);
+                    for(const itemAnalysis of themeAnalysis.items) {
+                        if(!itemAnalysis.hasOwnProperty('houseSettings')) {
+                            continue;
+                        }
+                        drawBlock(stage, itemAnalysis, 'item', data.analysisVersion);
+                    }
+                }
+                stage.update();
+
+                house
+                    .siblings('span')
+                    .remove()
+                    .end()
+                    .show()
+                ;
+                $('#download')
+                    .removeClass('hidden')
+                    .click(function(e){
+                        e.preventDefault();
+
+                        var elem = window.document.createElement('a');
+                        elem.href = house.get(0).toDataURL('image/png');
+                        elem.download = house.data('fileName')+'.png';
+                        document.body.appendChild(elem);
+                        elem.click();
+                        document.body.removeChild(elem);
+                    });
+                $("#download_word_submit").removeClass("hidden").click(function(){
+                    var formData = new FormData(document.forms['{{ form.vars.name }}']);
+                    $form = $(this.form);
+                    $form.find('input[type=hidden][name!=download_word_image]').remove();
+                    for(var pair of formData.entries()) {
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = pair[0];
+                        input.value = pair[1];
+                        $form.append(input);
+                    }
+                    $("#download_word_image").val(house.get(0).toDataURL('image/png'));
+                });
+                $('#consensusSettings').change(function() {
+                    for(var i in consensusTicks) {
+                        consensusTicks[i].visible = this.value === 'show-presence';
+                    }
+                    for(var j in noConsensusTicks) {
+                        noConsensusTicks[j].visible = this.value === 'show-absence';
+                    }
+                    stage.update();
+                }).val('show-presence').trigger('change');
+                if(data.analysisVersion.itemsText === 'choice') {
+                    $('#alternativeTexts').change(function() {
+                        for(var i in mainTexts) {
+                            mainTexts[i].visible = !this.checked;
+                        }
+                        for(var j in alternativeTexts) {
+                            alternativeTexts[j].visible = this.checked;
+                        }
+                        stage.update();
+                    }).attr('checked', true).trigger('change');
+                }
+                else {
+                    $('#alternativeTexts').parent().hide();
+                }
+                $('#alternativeBlocks').change(function(){
+                    for(var i in mainBlocks) {
+                        var block = mainBlocks[i];
+                        block.shape.visible = !this.checked;
+                        block.alternateShape.visible = this.checked;
+                        if(block.image.shape && block.image.bitmap && block.image.bitmap.filters && block.image.bitmap.filters[0]) {
+                            var color = !this.checked ? block.image.shape.graphics._fill.style : rgbToHex(block.image.bitmap.filters[0].redOffset, block.image.bitmap.filters[0].greenOffset, block.image.bitmap.filters[0].blueOffset);
+                            if(this.checked) {
+                                block.image.shape.graphics._fill.style = color;
+                                if(block.consensusShape) {
+                                    block.consensusShape.graphics._fill.style = color;
+                                }
+                                block.image.bitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 255, 255, 255)];
+                            }
+                            else {
+                                block.image.shape.graphics._fill.style = '#FFF';
+                                if(block.consensusShape) {
+                                    block.consensusShape.graphics._fill.style = '#FFF';
+                                }
+                                var colorRGB = hexToRgb(color);
+                                block.image.bitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, colorRGB.r, colorRGB.g, colorRGB.b)];
+                            }
+                            block.image.bitmap.updateCache();
+                            for(var j in block.texts) {
+                                var text = block.texts[j];
+                                if(!text) {
+                                    continue;
+                                }
+                                text.color = this.checked ? '#000' : colorContrast(color);
+                            }
+                        }
+                    }
+                    stage.update();
+                });
+                $('#subtitleParticipants').change(function() {
+                    for(var [name, shape] of Object.entries(subtitles)) {
+                        if(shape) {
+                            shape.visible = name === this.value;
+                        }
+                    }
+                    stage.update();
+                });
+            });
+        });
+
+        function mix(color1, color2, weight) {
+            if(color1[0] === '#') {
+                color1 = color1.substring(1);
+            }
+            if(color2[0] === '#') {
+                color2 = color2.substring(1);
+            }
+
+            function d2h(d) { return d.toString(16); }  // convert a decimal value to hex
+            function h2d(h) { return parseInt(h, 16); } // convert a hex value to decimal
+
+            weight = (typeof(weight) !== 'undefined') ? weight : 50; // set the weight to 50%, if that argument is omitted
+
+            let color = '#';
+
+            for (let i = 0; i <= 5; i += 2) {
+                // loop through each of the 3 hex pairs—red, green, and blue
+                const v1 = h2d(color1.substring(i, i+2)); // extract the current pairs
+                const v2 = h2d(color2.substring(i, i+2));
+                // combine the current pairs from each source color, according to the specified weight
+                let val = d2h(Math.floor(v2 + (v1 - v2) * (weight / 100.0)));
+
+                while (val.length < 2) {
+                    val = '0' + val;
+                } // prepend a '0' if val results in a single digit
+
+                color += val; // concatenate val to our new color string
+            }
+
+            return color; // PROFIT!
+        }
+
+
+        // Bootstrap methods
+        const luminanceList = [.0008, .001, .0011, .0013, .0015, .0017, .002, .0022, .0025, .0027, .003, .0033, .0037, .004, .0044, .0048, .0052, .0056, .006, .0065, .007, .0075, .008, .0086, .0091, .0097, .0103, .011, .0116, .0123, .013, .0137, .0144, .0152, .016, .0168, .0176, .0185, .0194, .0203, .0212, .0222, .0232, .0242, .0252, .0262, .0273, .0284, .0296, .0307, .0319, .0331, .0343, .0356, .0369, .0382, .0395, .0409, .0423, .0437, .0452, .0467, .0482, .0497, .0513, .0529, .0545, .0561, .0578, .0595, .0612, .063, .0648, .0666, .0685, .0704, .0723, .0742, .0762, .0782, .0802, .0823, .0844, .0865, .0887, .0908, .0931, .0953, .0976, .0999, .1022, .1046, .107, .1095, .1119, .1144, .117, .1195, .1221, .1248, .1274, .1301, .1329, .1356, .1384, .1413, .1441, .147, .15, .1529, .1559, .159, .162, .1651, .1683, .1714, .1746, .1779, .1812, .1845, .1878, .1912, .1946, .1981, .2016, .2051, .2086, .2122, .2159, .2195, .2232, .227, .2307, .2346, .2384, .2423, .2462, .2502, .2542, .2582, .2623, .2664, .2705, .2747, .2789, .2831, .2874, .2918, .2961, .3005, .305, .3095, .314, .3185, .3231, .3278, .3325, .3372, .3419, .3467, .3515, .3564, .3613, .3663, .3712, .3763, .3813, .3864, .3916, .3968, .402, .4072, .4125, .4179, .4233, .4287, .4342, .4397, .4452, .4508, .4564, .4621, .4678, .4735, .4793, .4851, .491, .4969, .5029, .5089, .5149, .521, .5271, .5333, .5395, .5457, .552, .5583, .5647, .5711, .5776, .5841, .5906, .5972, .6038, .6105, .6172, .624, .6308, .6376, .6445, .6514, .6584, .6654, .6724, .6795, .6867, .6939, .7011, .7084, .7157, .7231, .7305, .7379, .7454, .7529, .7605, .7682, .7758, .7835, .7913, .7991, .807, .8148, .8228, .8308, .8388, .8469, .855, .8632, .8714, .8796, .8879, .8963, .9047, .9131, .9216, .9301, .9387, .9473, .956, .9647, .9734, .9823, .9911, 1];
+
+        function contrastRatio(background, foreground = '#FFFFFF') {
+            const l1 = luminance(background);
+            const l2 = luminance(opaque(background, foreground));
+
+            return l1 > l2 ? ((l1+.05)/(l2+.05)) : ((l2+.05)/(l1+.05));
+        }
+
+        function colorContrast(background, colorContrastDark = '#000000', colorContrastLight = '#FFFFFF', minContrastRatio = 4.5) {
+            const foregrounds = [colorContrastLight, colorContrastDark, '#FFFFFF', '#000000'];
+            let maxRatio = 0;
+            let maxRatioColor = null;
+
+            for(const color of foregrounds) {
+                const contrastRatioRes = contrastRatio(background, color);
+                if(contrastRatioRes > minContrastRatio) {
+                    return color;
+                }
+                else if(contrastRatioRes > maxRatio) {
+                    maxRatio = contrastRatioRes;
+                    maxRatioColor = color;
+                }
+            }
+
+            console.warn(`Found no color leading to ${minContrastRatio}:1 contrast ratio against ${background}...`);
+
+            return maxRatioColor;
+        }
+
+        function luminance(color) {
+            if(color[0] === '#') {
+                color = color.substring(1);
+            }
+            const rgb = {
+                r: parseInt(color.substring(0, 2), 16),
+                g: parseInt(color.substring(2, 4), 16),
+                b: parseInt(color.substring(4, 6), 16),
+            };
+
+            rgb.r = (rgb.r/255) < .03928 ? ((rgb.r/255)/12.92) : luminanceList[rgb.r];
+            rgb.g = (rgb.g/255) < .03928 ? ((rgb.g/255)/12.92) : luminanceList[rgb.g];
+            rgb.b = (rgb.b/255) < .03928 ? ((rgb.b/255)/12.92) : luminanceList[rgb.b];
+
+            return rgb.r * .2126 + rgb.g * .7152 + rgb.b * .0722;
+        }
+
+        function opaque(background, foreground) {
+            if(background[0] === '#') {
+                background = background.substring(1);
+            }
+            if(foreground[0] === '#') {
+                foreground = foreground.substring(1);
+            }
+
+            const foregroundOpacity = foreground.length === 8 ? parseInt(foreground.substring(6, 8), 16) : 255;
+
+            return mix(foreground, background, Math.floor(foregroundOpacity * 100 / 255));
+        }
+
+        function shadeColor(color, weight) {
+            return mix('#000000', color, weight);
+        }
+
+        {% endif %}
+        {% endif %}
+    </script>
+{% endif %}

@@ -1,0 +1,35 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-10
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'form_params.media.submitAction()', 'az-submit-params': 'form_params.media', 'az-confirm-dirty-data-state-change': 'forms.params.media.confirmDirtyDataStateChangeMessage'}}) }}
+    <div class="well">
+        {{ form_widget(form) }}
+    </div>
+{{ form_end(form) }}
+
+
+<a href="#" id="media-form-add-media-declination">Add declination</a>
+
+<script>
+    $(document).ready(function() {
+        $('#media-form-add-media-declination').click(function() {
+            var declinationsCount = $("#media_mediaDeclinations > .form-group").size();
+
+            var declinationList = $('#media_mediaDeclinations');
+
+            var newWidget = declinationList.attr('data-prototype');
+
+            newWidget = newWidget.replace(/__name__label__/g, declinationsCount);
+            newWidget = newWidget.replace(/__name__/g, declinationsCount);
+
+            var newDiv = $(newWidget);
+            newDiv.appendTo($('#media_mediaDeclinations'));
+
+            return false;
+        });
+    })
+</script>

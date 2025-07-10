@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-04 14:48:52
+#}
+
+{% extends 'SiteLayout/shop_register.html.twig' %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block login_link %}
+    <a href="{{ path('azimut_shop_account_login') }}">{{ 'login'|trans }}</a>
+{% endblock %}

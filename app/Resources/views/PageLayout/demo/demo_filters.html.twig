@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-06-13 11:10:41
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        <p>For filters with user inputs, see example on layout "azimut - products"</p>
+
+        <h2>Permanent filter on entity</h2>
+        <h3>Display articles with title containing "article 1"</h3>
+        {{ renderZone(page, 'news_title_filter', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+        <hr />
+
+        <h2>Permanent filter in subentity</h2>
+        <h3>Display articles having a comment with a rating >= 3</h3>
+        {{ renderZone(page, 'news_comments_rating_filter', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+        <hr />
+
+        <h2>Permanent filter in subentity translation</h2>
+        <h3>Display products associated to another product containing "interactive" in its name</h3>
+        {{ renderZone(page, 'products_associated_products_filter', pagePath, {'cmsFileTemplateName': 'cms_file_summary'}) }}
+    </div>
+{% endblock %}

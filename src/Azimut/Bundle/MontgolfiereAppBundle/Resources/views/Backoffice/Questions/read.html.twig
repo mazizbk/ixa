@@ -1,0 +1,134 @@
+{# @var question \Azimut\Bundle\MontgolfiereAppBundle\Entity\Question #}
+{% set activeTab = 'sheet' %}
+{% set question = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Questions/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><strong>{{ question.question|raw }}</strong></h4>
+                {% for tag in question.tags %}
+                    <span class="label label-default" style="background-color: #{{ tag.color }}">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+            <ul class="list-group">
+                {% if question.type is constant('TYPE_SLIDER_VALUE', question) %}
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.backoffice.questions.fields.theme'|trans }} :</strong>
+                    {{ question.item.theme.name[app.request.locale] }}
+                </li>
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.backoffice.questions.fields.position'|trans }} :</strong>
+                    {{ question.item.name[app.request.locale] }}
+                </li>
+                {% else %}
+                    <li class="list-group-item">
+                        <strong>{{ ('montgolfiere.backoffice.questions.types.'~question.type)|trans }}</strong>
+                    </li>
+                {% endif %}
+                {% if question.leftLabel %}
+                    <li class="list-group-item">
+                        <strong>{{ 'montgolfiere.backoffice.questions.fields.left_label'|trans }} :</strong>
+                        {{ question.leftLabel|raw }}
+                    </li>
+                {% endif %}
+                {% if question.centerLabel %}
+                    <li class="list-group-item">
+                        <strong>{{ 'montgolfiere.backoffice.questions.fields.center_label'|trans }} :</strong>
+                        {{ question.centerLabel|raw }}
+                    </li>
+                {% endif %}
+                {% if question.rightLabel %}
+                    <li class="list-group-item">
+                        <strong>{{ 'montgolfiere.backoffice.questions.fields.right_label'|trans }} :</strong>
+                        {{ question.rightLabel|raw }}
+                    </li>
+                {% endif %}
+                <li class="list-group-item">
+                    <strong>{{ 'montgolfiere.backoffice.questions.fields.skippable'|trans }} :</strong>
+                    {{ ('montgolfiere.backoffice.questions.fields.'~(question.canBeSkipped?'yes':'no'))|trans }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>{{ 'montgolfiere.backoffice.questions.fields.question'|trans }}</h4>
+            </div>
+            <div class="panel-body">{{ question.question|raw }}</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>{{ 'montgolfiere.backoffice.questions.fields.description'|trans }}</h4>
+            </div>
+            <div class="panel-body">{{ question.description|raw }}</div>
+        </div>
+        {% if question.type is constant('TYPE_SLIDER_VALUE', question) %}
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>{{ 'montgolfiere.backoffice.questions.read.flat_representation'|trans }}</h4></div>
+                <div class="panel-body">
+                    <div id="flat-representation" disabled="disabled"></div>
+                </div>
+            </div>
+        {% elseif question.type is constant('TYPE_CHOICES_MULTIPLES', question) or question.type is constant('TYPE_CHOICES_UNIQUE', question) %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{ 'montgolfiere.backoffice.questions.fields.possible_values'|trans }}</h4>
+                </div>
+                <ul class="list-group">
+                    {% set possibleValues = question.possibleValues|extractPossibleValues %}
+                    {% for possibleValue in possibleValues %}
+                        <li class="list-group-item">{{ possibleValue.value is defined?possibleValue.value~' : ' }}{{ possibleValue.label }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if question.type is not constant('TYPE_SLIDER_VALUE', question) %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>{{ 'montgolfiere.backoffice.questions.fields.tooltip'|trans }}</h4></div>
+            <div class="panel-body">{{ question.tooltip|raw }}</div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block footerscripts %}
+    {{ parent() }}
+    {% if question.type is constant('TYPE_SLIDER_VALUE', question) %}
+    <script>
+        $(document).ready(function(){
+            var container = document.getElementById('flat-representation');
+            var sizes = [];
+            sizes = {{ question.valuesDistribution|json_encode|raw }};
+
+            var start = Array.from(sizes);
+            start.splice(0, 0, 0); // Add zero at the start
+            start.splice(18, 2); // Remove values between 7 and 10
+            start.splice(14, 3); // Remove values between 3 and 7
+            start.splice(11, 2); // Remove values between 0 and 3
+            start.splice(8, 2); // Remove values between -3 and 0
+            start.splice(4, 3); // Remove values between -7 and -3
+            start.splice(1, 2); // Remove values between -10 and -7
+
+            noUiSlider.create(container, {
+                start: start,
+                margin: 5,
+                connect: (new Array(start.length+1)).fill(true),
+                format: {
+                    to: Math.round,
+                    from: function(a){return a;}
+                },
+                range: {
+                    'min': [  0 ],
+                    'max': [ 1000 ]
+                },
+                disabled: true,
+                tooltips: true
+            });
+        });
+    </script>
+    {% endif %}
+{% endblock %}

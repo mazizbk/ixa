@@ -1,0 +1,11 @@
+{% extends '@AzimutMontgolfiereApp/PersonalArea/base.html.twig' %}
+{% block mainMenu %}{% endblock %}
+{% block mainHeader %}{% endblock %}
+{% block body %}
+    {% if error is defined %}
+        <br><br>
+        <p class="text-center">
+            {{ ('montgolfiere.frontoffice.personal_area.'~ error)|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

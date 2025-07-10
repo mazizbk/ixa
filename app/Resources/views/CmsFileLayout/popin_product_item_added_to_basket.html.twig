@@ -1,0 +1,30 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-03 15:09:59
+#}
+
+{% if site.hasShop %}
+    <div id="shopProductAddedToBasket" class="shop-popin-container" style="display: none">
+        <div class="shop-popin">
+            <p>{{ 'product.has.been.added.to.basket'|trans }}</p>
+            <a class="btn btn-default" onclick="$('#shopProductAddedToBasket').hide()">{{ 'continue.shopping'|trans }}</a>&nbsp;
+            <a class="btn btn-success" href="{{ path('azimut_shop_basket_index') }}">{{ 'order.now'|trans }}</a>
+        </div>
+    </div>
+
+    <div id="shopProductNotAddedToBasket" class="shop-popin-container" style="display: none">
+        <div class="shop-popin">
+            <p class="text-danger">{{ 'product.has.not.been.added.to.basket'|trans }}</p>
+            <p id="shopProductNotAddedToBasketMessage"></p>
+            <a class="btn btn-default" onclick="$('#shopProductNotAddedToBasket').hide()">{{ 'continue.shopping'|trans }}</a>&nbsp;
+            <a class="btn btn-success" href="{{ path('azimut_shop_basket_index') }}">{{ 'order.now'|trans }}</a>
+        </div>
+    </div>
+
+    <div id="shopProductAddToBasketError" class="shop-popin-container" style="display: none">
+        <div class="shop-popin">
+            <p>{{ 'an.error.occured.while.adding.product.to.basket'|trans }}</p>
+            <a class="btn btn-default" onclick="$('#shopProductAddToBasketError').hide()">{{ 'close'|trans }}</a>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-31 16:41:27
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include 'CmsFileLayout/cms_file_detail.html.twig' with {'cmsFile': cmsFile} %}
+{% endblock %}

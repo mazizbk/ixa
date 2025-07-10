@@ -1,0 +1,220 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2013-11-13 17:08:24
+
+parameters:
+    azimut_security.role_provider_chain.class: Azimut\Bundle\SecurityBundle\AccessRoles\RoleProviders
+    azimut_voter_class: "Azimut\\Bundle\\SecurityBundle\\Security\\Voter"
+
+services:
+
+    azimut_security.acl_resolver:
+        class: Azimut\Bundle\SecurityBundle\Acl\AclResolver
+        arguments:
+            - "@doctrine"
+
+    azimut_security.acl_service:
+        class: Azimut\Bundle\SecurityBundle\Acl\AclService
+        arguments:
+            - "@azimut_security.acl_resolver"
+            - "@doctrine"
+
+    azimut_security.role_provider_chain:
+        class: "%azimut_security.role_provider_chain.class%"
+        arguments:
+            - []
+
+    azimut_security.roles:
+        class: Azimut\Bundle\SecurityBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%', '%locales%']
+        tags:
+            - { name: role_provider, alias: azimut_security_roles }
+
+    azimut_security.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_security.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    azimut_security.access_right_service:
+        class: Azimut\Bundle\SecurityBundle\AccessRights\AccessRightService
+        arguments:
+            - "@doctrine"
+            - "@azimut_security.role_provider_chain"
+
+    azimut_security.twig.acl_extension:
+        class: Azimut\Bundle\SecurityBundle\Twig\SecurityAclExtension
+        tags:
+            - { name: twig.extension }
+
+    form.type_extension.security:
+        class: Azimut\Bundle\SecurityBundle\Form\Extension\SecurityTypeExtension
+        arguments:
+            - "@security.authorization_checker"
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+    azimut_security.canonicalizer:
+        class: Azimut\Bundle\SecurityBundle\Services\Canonicalizer
+        public: false
+
+    azimut_security.token_generator:
+        class: Azimut\Bundle\SecurityBundle\Services\TokenGenerator
+
+    azimut.user_manager:
+        class: Azimut\Bundle\SecurityBundle\Services\UserManager
+        public: true
+        arguments:
+            - "@azimut_security.canonicalizer"
+            - "@doctrine.orm.entity_manager"
+            - "Azimut\\Bundle\\SecurityBundle\\Entity\\User"
+
+    azimut.user_repository:
+        class: Azimut\Bundle\SecurityBundle\Entity\Repository\UserRepository
+        factory: ["@azimut.user_manager", "getRepository"]
+        arguments:
+            - "Azimut\\Bundle\\SecurityBundle\\Entity\\User"
+
+    azimut.user_provider:
+        class: Azimut\Bundle\SecurityBundle\Provider\UserProvider
+        arguments: ["@doctrine", "@azimut_login_oauth_client"]
+
+    azimut.group_repository:
+        class: Azimut\Bundle\SecurityBundle\Entity\Repository\GroupRepository
+        factory: ["@azimut.group_manager", "getRepository"]
+        arguments:
+            - "Azimut\\Bundle\\SecurityBundle\\Entity\\Group"
+
+    azimut.group_manager:
+        class: Azimut\Bundle\SecurityBundle\Services\GroupManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "Azimut\\Bundle\\SecurityBundle\\Entity\\Group"
+
+    azimut_security.form.access_right:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightType
+        arguments:
+            - "@doctrine"
+            - "@azimut_security.role_provider_chain"
+            - "@azimut_security.access_right_service"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.user_access_right:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\UserAccessRightType
+        arguments:
+            - "@azimut_security.role_provider_chain"
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.group_access_right:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\GroupAccessRightType
+        arguments:
+            - "@azimut_security.role_provider_chain"
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.access_right_class:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightClassType
+        arguments:
+            - "@azimut_security.role_provider_chain"
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.access_right_roles:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightRolesType
+        arguments:
+            - "@azimut_security.access_right_service"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.access_right_app_roles:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightAppRolesType
+        arguments:
+            - "@azimut_security.access_right_service"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.access_right_object:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightObjectType
+        arguments:
+            - "@azimut_security.role_provider_chain"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.access_right_acl:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AccessRightAclType
+        arguments:
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_security.form.acl:
+        class: Azimut\Bundle\SecurityBundle\Form\Type\AclType
+        arguments:
+             - "@doctrine"
+        tags:
+             -
+                name: form.type
+
+    azimut_security.authentication_listener:
+        class: Azimut\Bundle\SecurityBundle\EventListener\AuthenticationListener
+        arguments:
+            - "@security.token_storage"
+            - "%twig.exception_listener.controller%"
+        tags:
+          - { name: kernel.event_subscriber }
+
+    azimut_security.filter:
+        class: Azimut\Bundle\SecurityBundle\Services\SecurityFilter
+        public: true
+        arguments:
+            - "@jms_serializer"
+            - "@security.token_storage"
+            - "@security.authorization_checker"
+            - "@azimut.user_manager"
+            - "@security.access.decision_manager"
+
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\SecurityBundle\DataFixtures\ORM\LoadAccessRightRoleData:
+        arguments: ['@azimut_security.access_right_service']
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\SecurityBundle\DataFixtures\ORM\LoadAclData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut_security.acl_service'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\SecurityBundle\DataFixtures\ORM\LoadUserData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut.group_manager'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\SecurityBundle\DataFixtures\ORM\LoadInitAdminUserData:
+        arguments:
+        - '@azimut.user_manager'
+        tags:
+        - { name: doctrine.fixture.orm }

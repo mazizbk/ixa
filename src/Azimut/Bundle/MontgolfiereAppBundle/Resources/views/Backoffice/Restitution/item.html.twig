@@ -1,0 +1,46 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/Restitution/base.html.twig" %}
+
+{% block innerBody %}
+    <h3>Lecture</h3>
+    {% form_theme updateForm "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(updateForm) }}
+    <table class="table table-striped table-bordered table-hover table-condensed" style="width: {{ (colors|length+1)*150 }}px;max-width:none;">
+        <thead>
+        <tr>
+            <th>Item</th>
+            {% for trend in trends %}
+            <th style="background-color: {{ colors[trend] }}"></th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name[app.request.locale] }}</td>
+            {% for trend in trends %}
+            <td style="background-color: {{ colors[trend] }}">{{ form_widget(updateForm[item.id~'_trend_'~trend].shortSignification, {attr:{class:'input-sm'}}) }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h3>Signification</h3>
+    {% for item in items %}
+        <h4>{{ item.name[app.request.locale] }}</h4>
+        {% for trend in trends %}
+            {{ form_widget(updateForm[item.id~'_trend_'~trend].longSignification, {attr:{'data-long-signification': item.id}}) }}
+        {% endfor %}
+    {% endfor %}
+    {{ form_widget(updateForm) }}
+    <input type="submit" class="btn btn-default" value="Enregistrer" />
+    {{ form_end(updateForm) }}
+
+    <script>
+        $(document).ready(function() {
+            $('[data-long-signification]').keyup(function() {
+                var $this = $(this);
+                $('[data-long-signification='+$this.data('long-signification')+']').not(this).val($this.val());
+            });
+        });
+    </script>
+{% endblock %}

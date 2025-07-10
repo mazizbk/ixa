@@ -1,0 +1,195 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+AzimutBackofficeBundle:
+    resource: "@AzimutBackofficeBundle/Resources/config/routing.yml"
+    prefix: /admin
+
+AzimutBackofficeBundleApi:
+    type: rest
+    resource: "@AzimutBackofficeBundle/Resources/config/routing_api.yml"
+    prefix: /api/backoffice
+    options: { i18n: false }
+
+AzimutMediacenterBundle:
+    resource: "@AzimutMediacenterBundle/Resources/config/routing.yml"
+    prefix: /mediacenter
+
+AzimutMediacenterBundleFileProxy:
+    resource: "@AzimutMediacenterBundle/Resources/config/routing_file_proxy.yml"
+    prefix: /
+
+AzimutMediacenterBundleAdmin:
+    resource: "@AzimutMediacenterBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/mediacenter
+
+AzimutMediacenterBundleApi:
+    type: rest
+    resource: "@AzimutMediacenterBundle/Resources/config/routing_api.yml"
+    prefix: /api/mediacenter
+    options: { i18n: false }
+
+AzimutCmsBundle:
+    resource: "@AzimutCmsBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/cms
+
+AzimutCmsBundleApi:
+    type: rest
+    resource: "@AzimutCmsBundle/Resources/config/routing_api.yml"
+    prefix: /api/cms
+    options: { i18n: false }
+
+AzimutCmsContactBundle:
+    resource: "@AzimutCmsContactBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/cmscontact
+
+#AzimutCmsContactBundleApi:
+#    type: rest
+#    resource: "@AzimutCmsContactBundle/Resources/config/routing_api.yml"
+#    prefix: /api/cmscontact
+#    options: { i18n: false }
+
+AzimutCmsMapBundle:
+    resource: "@AzimutCmsMapBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/cmsmap
+
+AzimutCmsMapBundleApi:
+    type: rest
+    resource: "@AzimutCmsMapBundle/Resources/config/routing_api.yml"
+    prefix: /api/cmsmap
+    options: { i18n: false }
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+AzimutFrontofficeBackofficeBundle:
+    resource: "@AzimutFrontofficeBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/frontoffice
+
+AzimutFrontofficeBundleApi:
+    resource: "@AzimutFrontofficeBundle/Resources/config/routing_api.yml"
+    prefix: /api/frontoffice
+    type: rest
+    options: { i18n: false }
+
+AzimutSecurityBackofficeBundle:
+    resource: "@AzimutSecurityBundle/Resources/config/routing/routing_backoffice.yml"
+    prefix: /admin/security
+
+AzimutSecurityBundleApi:
+    resource: "@AzimutSecurityBundle/Resources/config/routing/routing_api.yml"
+    prefix: /api/security
+    type: rest
+    options: { i18n: false }
+
+AzimutSecurityBundle:
+    resource: "@AzimutSecurityBundle/Resources/config/routing/routing.yml"
+    prefix: /admin
+
+AzimutFrontofficeSecurityBundle:
+    resource: "@AzimutFrontofficeSecurityBundle/Resources/config/routing.yml"
+    prefix: /
+
+AzimutFrontofficeSecurityBundleBackoffice:
+    resource: "@AzimutFrontofficeSecurityBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/frontofficesecurity
+
+AzimutFrontofficeSecurityBundleApi:
+    resource: "@AzimutFrontofficeSecurityBundle/Resources/config/routing_api.yml"
+    prefix: /api/frontofficesecurity
+    type: rest
+    options: { i18n: false }
+
+AzimutModerationBundleBackoffice:
+    resource: "@AzimutModerationBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/moderation
+
+AzimutModerationBundleApi:
+    type: rest
+    resource: "@AzimutModerationBundle/Resources/config/routing_api.yml"
+    prefix: /api/moderation
+    options: { i18n: false }
+
+azimut_montgolfiere_app:
+    resource: "@AzimutMontgolfiereAppBundle/Resources/config/routing_backoffice.yml"
+    prefix:   /admin/montgolfiere
+
+AzimutShopBundleBackoffice:
+    resource: "@AzimutShopBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/shop
+
+AzimutShopBundleApi:
+    resource: "@AzimutShopBundle/Resources/config/routing_api.yml"
+    prefix: /api/shop
+    type: rest
+    options: { i18n: false }
+
+# This demo routes should be removed at install
+AzimutDemoAngularJsBundleBackoffice:
+    resource: "@AzimutDemoAngularJsBundle/Resources/config/routing_backoffice.yml"
+    prefix: /admin/demoangularjs
+
+azimut_montgolfiere_questionnaire:
+    resource: "@AzimutMontgolfiereAppBundle/Resources/config/routing_questionnaire.yml"
+    prefix:   /releveixa/{questionnaireToken}
+    requirements:
+        questionnaireToken: "[A-Za-z0-9]{40}"
+
+azimut_montgofliere_validate_account:
+    path: /compte/{token}
+    defaults:
+        _controller: "AzimutMontgolfiereAppBundle:Account:validate"
+    requirements:
+        token: "[\\da-f]{20}"
+    options:
+        i18n: false
+
+azimut_montgolfiere_client_area:
+    resource: "@AzimutMontgolfiereAppBundle/Resources/config/routing_clientarea.yml"
+    prefix:   /clientarea
+
+azimut_montgolfiere_consultant_area:
+    resource: "@AzimutMontgolfiereAppBundle/Resources/config/routing_consultantarea.yml"
+    prefix:   /consultantarea
+
+azimut_montgolfiere_personal_area:
+    resource: "@AzimutMontgolfiereAppBundle/Resources/config/routing_personalarea.yml"
+    prefix: /espace-personnel
+
+AzimutDemoExternalAppBundle:
+    resource: "@AzimutDemoExternalAppBundle/Resources/config/routing.yml"
+    prefix: /admin/demoexternalapp
+
+azimut_demo_payment:
+    resource: "@AzimutDemoPaymentBundle/Resources/config/routing.yml"
+    prefix: /demo_payment
+
+# end demo routes
+
+remove_trailing_slash:
+    path: /{url}
+    defaults: { _controller: AzimutFrontofficeBundle:Front:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET]
+    options: {i18n: false}
+
+azimut_root_admin_redirect:
+    path: /admin
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: "/%locale%/admin/"
+        permanent: true
+    options: {i18n: false}
+
+AzimutShopBundleFrontoffice:
+    resource: "@AzimutShopBundle/Resources/config/routing.yml"
+    prefix: /
+
+# This route should always be in the end, because it contains a route matching everything
+AzimutFrontofficeBundle:
+    resource: "@AzimutFrontofficeBundle/Resources/config/routing.yml"
+    prefix: /

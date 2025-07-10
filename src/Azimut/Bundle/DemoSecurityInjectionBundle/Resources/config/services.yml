@@ -1,0 +1,43 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2014-05-21 10:10:57
+
+services:
+
+    demo_security_injection.roles:
+        class: Azimut\Bundle\DemoSecurityInjectionBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_demo_security_injection_roles }
+
+    demo_security_injection.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@demo_security_injection.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\DemoSecurityInjectionBundle\DataFixtures\ORM\LoadAccessRightClassData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut_security.access_right_service'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\DemoSecurityInjectionBundle\DataFixtures\ORM\LoadAccessRightObjectData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut.group_manager'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\DemoSecurityInjectionBundle\DataFixtures\ORM\LoadDemoEntityData:
+        tags:
+            - { name: doctrine.fixture.orm }

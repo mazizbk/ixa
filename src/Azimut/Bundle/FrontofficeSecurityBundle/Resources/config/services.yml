@@ -1,0 +1,46 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-04 09:19:30
+
+services:
+    azimut_frontofficesecurity.user_provider:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\Security\FrontofficeUserProvider
+        arguments: ['@doctrine']
+
+    azimut_frontofficesecurity.roles:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%', '%allow_front_user_impersonation%']
+        tags:
+            - { name: role_provider, alias: azimut_frontofficesecurity_roles }
+
+    azimut_frontofficesecurity.form_authenticator:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\Security\FormAuthenticator
+        arguments: ["@security.password_encoder", "@router", "@translator"]
+
+    azimut_frontofficesecurity.frontoffice_user_subscriber:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\EventListener\Doctrine\FrontofficeUserSubscriber
+        arguments: ["@security.password_encoder"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_frontofficesecurity.form.type.frontoffice_user:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\Form\Type\FrontofficeUserType
+        arguments: ["%azimut_frontoffice_security.frontoffice_user_roles%"]
+        tags:
+            - { name: form.type }
+
+    azimut_frontofficesecurity.page_voter:
+        class:  Azimut\Bundle\FrontofficeSecurityBundle\Security\FrontofficePageVoter
+        tags:
+            - { name: security.voter }
+        public: false
+        arguments: ["@session"]
+
+    azimut_frontofficesecurity.mailer:
+        class: Azimut\Bundle\FrontofficeSecurityBundle\Service\Mailer
+        arguments: ["@mailer", "@templating", "@translator", "%sender_address%", '@Azimut\Bundle\MontgolfiereAppBundle\Util\EmailCSSInliner']
+
+    Azimut\Bundle\FrontofficeSecurityBundle\DataFixtures\ORM\LoadFrontofficeUserData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeSecurityBundle\Security\UserChecker: ~

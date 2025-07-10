@@ -1,0 +1,13 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-09-17 12:03:27
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'member.area'|trans|capitalize }}</h1>
+
+    <p>{{ 'hello.%name%'|trans({'%name%': app.user.fullname}) }},</p>
+    <p>{{ 'welcome.to.member.area'|trans|capitalize }}.</p>
+{% endblock %}

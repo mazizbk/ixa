@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-26 10:08:40
+#}
+
+<p>{{ 'email.shop.thank.you'|trans }},</p>
+<p>{{ 'email.shop.your.order.has.been.registered'|trans }}.</p>
+<p>{{ 'email.shop.order.number'|trans }}: <a href="{{ order.site.uri ~ path('azimut_shop_user_order_show', { 'orderNumber': order.number }) }}">{{ order.number }}</a>.</p>
+<br />
+{% include 'SiteLayout/shop_order_products_list.html.twig' %}

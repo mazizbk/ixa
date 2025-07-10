@@ -1,0 +1,228 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    <div class="basic-infos">
+        {% set i = 0 %}
+        {% set stepsSize = {} %}
+        {% form_theme form _self %}
+        {{ form_start(form) }}
+
+        {% set manualInputs = ['_token', 'firstName', 'lastName', 'phoneNumber', 'emailAddress',] %}
+        {% for name, input in form %}
+            {% if name not in manualInputs %}
+                {{ form_row(input) }}
+                {% set stepsSize = stepsSize|merge({(i): 1}) %}
+                {% set i = i + 1 %}
+            {% endif %}
+        {% endfor %}
+        {% if form.firstName is defined or form.lastName is defined or form.phoneNumber is defined %}
+            {% set groupedSteps = (form.firstName is defined?1:0) + (form.lastName is defined?1:0) + (form.phoneNumber is defined?1:0) %}
+            {% set hasError =
+                (form.firstName is defined?form.firstName.vars.errors|length > 0:false) or
+                (form.lastName is defined?form.lastName.vars.errors|length > 0:false) or
+                (form.phoneNumber is defined?form.phoneNumber.vars.errors|length > 0:false)
+            %}
+            <div data-steps="{{ groupedSteps }}" class="question-container{% if hasError %} has-error{% endif %}">
+                <div class="text-center">
+                    <h2>{{ 'montgolfiere.questionnaire.basic_information.personal_infos'|trans }}</h2>
+                </div>
+                {% if form.firstName is defined %}
+                    {{ form_row(form.firstName, {removeContinue: true, noCenter: true, tinyLabel: true, optionalAfterWidget: true}) }}
+                {% endif %}
+                {% if form.lastName is defined %}
+                    {{ form_row(form.lastName, {removeContinue: true, noCenter: true, tinyLabel: true, optionalAfterWidget: true}) }}
+                {% endif %}
+                {% if form.phoneNumber is defined %}
+                    {{ form_row(form.phoneNumber, {removeContinue: true, noCenter: true, tinyLabel: true, optionalAfterWidget: true}) }}
+                {% endif %}
+                <div class="text-center continue-container">
+                    <a href="#" class="btn btn-primary" data-action="next" data-target=".basic-infos > form" aria-hidden="true" tabindex="{{ (form.firstName??form.lastName??form.phoneNumber).vars.attr.tabindex }}">{{ 'montgolfiere.questionnaire.question.continue'|trans }}</a>
+                </div>
+                {% set stepsSize = stepsSize|merge({(i): groupedSteps}) %}
+                {% set i = i + 1 %}
+            </div>
+        {% endif %}
+        {% if form.emailAddress is defined %}
+            <div{% if form.emailAddress.vars.errors|length > 0 %} class="has-error"{% endif %}>
+                {% set beforeWidget %}
+                    <p>{{ 'montgolfiere.questionnaire.basic_information.email_address_text1'|trans|raw }}</p>
+                    <p>{{ 'montgolfiere.questionnaire.basic_information.email_address_text2'|trans }}</p>
+                {% endset %}
+                {{ form_row(form.emailAddress, {beforeWidget: beforeWidget}) }}
+            </div>
+            {% set stepsSize = stepsSize|merge({(i): 1}) %}
+            {% set i = i + 1 %}
+        {% endif %}
+        <div>
+            <div class="text-center block-center">
+                <h1 class="fs-200">{{ 'montgolfiere.questionnaire.basic_information.thank_you.title'|trans }}</h1>
+                <div class="text-center block-center" style="max-width: 600px;">
+                    <p>{{ 'montgolfiere.questionnaire.basic_information.thank_you.text1'|trans|raw }}</p>
+                    <p>{{ 'montgolfiere.questionnaire.basic_information.thank_you.text2'|trans }}</p>
+                </div>
+                <input type="submit" class="btn btn-primary" value="{{ 'montgolfiere.questionnaire.basic_information.thank_you.start'|trans }}" tabindex="-10" />
+            </div>
+        </div>
+        {{ form_row(form._token, {attr:{'data-step-ignore':'true'}}) }}
+        {{ form_end(form) }}
+    </div>
+    <footer class="questionnaire-footer">
+        <div class="actions">
+            <span class="fa-stack fa-lg disabled" data-action="previous" data-target=".basic-infos > form" data-disabled="first" tabindex="0">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-arrow-alt-left fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+            <span class="fa-stack fa-lg{% if form.children[(form.children|keys|first)].vars.required %} disabled{% endif %}" data-action="next" data-target=".basic-infos > form" data-disabled="noskip-or-last" tabindex="0">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-arrow-alt-right fa-stack-1x fa-inverse fa-fw"></i>
+            </span>
+        </div>
+        {% include "@AzimutMontgolfiereApp/Questionnaire/progress.html.twig" %}
+    </footer>
+{% endblock %}
+
+{% block end_javascripts %}
+    {{ parent() }}
+    <script>
+        var affectations = JSON.parse('{{ affectations|json_encode|raw }}');
+        var container = document.querySelector(".basic-infos > form");
+        var errorChildren = container.querySelectorAll(':scope > .has-error');
+        if(errorChildren.length > 0) {
+            var containerChildren = Array.from(container.children);
+            var errorIndexes = Array.from(errorChildren).map(function(child) {
+                return containerChildren.indexOf(child);
+            });
+            var firstErrorIndex = Math.min(...errorIndexes);
+            changeSection(firstErrorIndex, container);
+        }
+
+        function unsetInput(el) {
+            el.querySelectorAll('input').forEach(function(input){
+                input.checked = false;
+                input.parentElement.classList.remove('checked');
+            });
+        }
+    </script>
+{% endblock %}
+
+{# Form customization #}
+
+{% use "bootstrap_3_horizontal_layout.html.twig" with choice_widget as base_choice_widget, checkbox_radio_label as base_checkbox_radio_label, radio_widget as base_radio_widget %}
+{% use "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" %}
+
+{% block form_row %}
+    {% set forceContinue = forceContinue|default(false) %}
+    {% set removeContinue = removeContinue|default(false) %}
+    {% set disableLabel = disableLabel|default(false) %}
+    {% set beforeWidget = beforeWidget|default('') %}
+    {% set noCenter = noCenter|default(false) %}
+    {% set tinyLabel = tinyLabel|default(false) %}
+    {% set optionalAfterWidget = optionalAfterWidget|default(false) %}
+    <div{% if not valid %} class="has-error"{% endif %}>
+        <div class="{% if not noCenter %}text-center {% endif %}question-container">
+            {% if not disableLabel %}
+                {% set labelTag = tinyLabel?'label':'h2' %}
+                <{{ labelTag }} for="{{ form.vars.id }}">
+                    {% if form.vars.translation_domain is not same as(false) and not (name matches '`^sorting_factor_\\d+$`') %}
+                        {{ form.vars.label|trans({}, form.vars.translation_domain) }}
+                    {% else %}
+                        {{ form.vars.label }}
+                    {% endif %}
+                    {% if form.vars.required %}*{% endif %}
+                </{{ labelTag }}>
+                {% if not optionalAfterWidget and not form.vars.required %}
+                    <p class="text-primary">{{ 'montgolfiere.questionnaire.basic_information.facultative'|trans }}</p>
+                {% endif %}
+                {% if form.vars.help is defined %}
+                    <p class="text-heading fs-125" style="color:#999">
+                        {% if form.vars.help_translation_domain is not defined or form.vars.help_translation_domain is not same as(false) %}
+                            {{ form.vars.help|trans({}, form.vars.help_translation_domain) }}
+                        {% else %}
+                            {{ form.vars.help }}
+                        {% endif %}
+                    </p>
+                {% endif %}
+            {% endif %}
+            {{ beforeWidget|raw }}
+            {{- form_widget(form) -}}
+            {% if optionalAfterWidget and not form.vars.required %}
+                <p class="help-block text-primary">{{ 'montgolfiere.questionnaire.basic_information.facultative'|trans }}</p>
+            {% endif %}
+            {{- form_errors(form) -}}
+
+            {% if forceContinue and not removeContinue %}
+                <div class="continue-container">
+                    <a href="#" class="btn btn-primary" data-action="next" data-target=".basic-infos > form" tabindex="-10">{{ 'montgolfiere.questionnaire.question.continue'|trans }}</a>
+                </div>
+            {% elseif not form.vars.required and not removeContinue %}
+                <div class="continue-container">
+                    <a href="#" class="btn btn-primary" data-action="next" data-target=".basic-infos > form" onclick="unsetInput(this.parentElement.parentElement)" aria-hidden="true" tabindex="-10">{{ 'montgolfiere.questionnaire.question.skip_question'|trans }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block text_row %}
+    {% set forceContinue = true %}
+    {{ block('form_row') }}
+{% endblock %}
+{#{% block text_widget %}#}
+{#    <div class="text-widget">#}
+{#        {{ block('form_label') }}#}
+{#        {{ block('form_widget') }}#}
+{#    </div>#}
+{#{% endblock %}#}
+{% block email_widget %}
+    {% set type = 'email' %}
+    <div class="text-widget">
+        {{ block('form_label') }}
+        {{ block('form_widget') }}
+    </div>
+{% endblock %}
+{% block form_label %}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        {%- if translation_domain is same as(false) -%}
+            {{- label -}}
+        {%- else -%}
+            {{- label|trans({}, translation_domain) -}}
+        {%- endif -%}
+        {%- if required -%}*{%- endif -%}&nbsp;&colon;
+        </{{ element|default('label') }}>
+    {%- endif -%}
+{% endblock %}
+{% block choice_widget %}
+    <div class="choice-container">
+        {{ block('base_choice_widget') }}
+    </div>
+{% endblock %}
+{% block checkbox_radio_label %}
+    {% if form.parent.vars.attr['data-tabindex'] is defined %}
+        {%- set label_attr = label_attr|merge({tabindex: form.parent.vars.attr['data-tabindex']}) -%}
+    {% endif %}
+    {% if checked %}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' checked')|trim}) -%}
+    {% endif %}
+    {{ block('base_checkbox_radio_label') }}
+{% endblock %}
+{% block radio_widget %}
+    {% set attr = attr|merge({'data-container':'.basic-infos > form', tabindex: -1}) %}
+    {{ block('base_radio_widget') }}
+{% endblock %}

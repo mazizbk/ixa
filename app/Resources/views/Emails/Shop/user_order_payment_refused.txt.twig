@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-26 10:08:40
+#}
+
+{{ 'email.hello'|trans }},
+
+{{ 'email.shop.order.payment.refused.at.%domain%'|trans({ '%domain%': domain }) }}.
+
+{{ 'email.shop.order.number'|trans }}: {{ order.number }}.

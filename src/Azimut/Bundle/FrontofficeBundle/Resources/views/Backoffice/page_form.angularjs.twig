@@ -1,0 +1,74 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-07 09:31:56
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.page.submitAction()', 'az-submit-params': 'forms.params.page', 'az-confirm-dirty-data-state-change': 'forms.params.page.confirmDirtyDataStateChangeMessage'}}) }}
+
+
+    {{ form_row(form.type) }}
+
+    {{ form_row(form.menuTitle) }}
+
+    {% if form.differentPageTitle is defined %}
+        {{ form_row(form.differentPageTitle) }}
+
+        <div ng-show="true == {{ form.differentPageTitle.vars.ng_model }}">
+            {{ form_row(form.pageTitle) }}
+        </div>
+    {% endif %}
+
+    {% if form.pageSubtitle is defined %}
+        {{ form_row(form.pageSubtitle) }}
+    {% endif %}
+
+    <div class="form-group">
+
+        {{ form_label(form.slug) }}
+
+        {{ form_row(form.autoSlug) }}
+
+        {# show slug preview only if autoSlug checkbox is checked #}
+        <span ng-hide="false == {{ form.autoSlug.vars.ng_model }}">
+
+            {% verbatim %}
+                <div ng-show="formLocale == locale || null == formLocale" ng-repeat="locale in locales">
+
+                    <p class="form-control-static" data-form-i18n="{{ locale }}">
+                        <span class="badge">{{ locale|uppercase }}</span>
+                        <span ng-bind="slugAutoValue[locale]"></span>
+                    </p>
+
+                </div>
+            {% endverbatim %}
+        </span>
+
+        <div ng-show="false == {{ form.autoSlug.vars.ng_model }}">
+            {{ form_widget(form.slug) }}
+        </div>
+    </div>
+
+    {% if 'placeholder' != type and 'link' != type %}
+        {{ form_row(form.autoMetas) }}
+
+        <div ng-show="false == {{ form.autoMetas.vars.ng_model }}">
+            {{ form_row(form.metaTitle) }}
+            {{ form_row(form.metaDescription) }}
+        </div>
+    {% endif %}
+
+    {% if 'link' == type %}
+
+        <label>{{ form_row(form.pageType.linkType[0]) }}</label>
+        {{ form_widget(form.pageType.targetPage, {'attr': {'ng-disabled': "'internal' != forms.data.page['pageType']['linkType']" }}) }}
+
+        <label>{{ form_row(form.pageType.linkType[1]) }}</label>
+        {{ form_widget(form.pageType.url, {'attr': {'ng-disabled': "'external' != forms.data.page['pageType']['linkType']" }}) }}
+
+    {% endif %}
+
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}

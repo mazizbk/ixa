@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-09-08 12:20:24
+
+media.name.cannot.be.longer.than._limit_.characters: "Media name cannot be longer than {{ limit }} characters"
+folder.name.cannot.be.longer.than._limit_.characters: "Folder name cannot be longer than {{ limit }} characters"
+media.declination.name.cannot.be.longer.than._limit_.characters: "Media declination name cannot be longer than {{ limit }} characters"
+embed.html.must.contain.iframe: "Embed code must contain iframe tag"

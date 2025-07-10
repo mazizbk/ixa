@@ -1,0 +1,114 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+
+services:
+
+    azimut_cms.roles:
+        class: Azimut\Bundle\CmsBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_cms_roles }
+
+    azimut_cms.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_cms.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    azimut.services.media_declination_tag_parser:
+        class: Azimut\Bundle\CmsBundle\Services\MediaDeclinationTagParser
+        arguments: ["@doctrine", "@router", "%liip_imagine.filter_sets%"]
+
+    azimut_cms.cms_file_doctrine_event_subscriber:
+        class: Azimut\Bundle\CmsBundle\EventListener\Doctrine\CmsFileSubscriber
+        arguments: ["@azimut.services.media_declination_tag_parser"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_cms.cmsfile_manager:
+        class: Azimut\Bundle\CmsBundle\Services\CmsFileManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@router'
+            - '%locales%'
+            - '@azimut_frontoffice.search_engine_provider_chain'
+
+    #form type services
+    azimut_cms.form.cms_file:
+        class: Azimut\Bundle\CmsBundle\Form\Type\CmsFileType
+        arguments:
+            - "@doctrine"
+        tags:
+            - { name: form.type }
+
+    azimut_cms.form.comment:
+        class: Azimut\Bundle\CmsBundle\Form\Type\CommentType
+        arguments:
+            - "%azimut_cms.comment_ratings%"
+        tags:
+            - { name: form.type }
+
+    # This serializer checks if query parameter "nounicode" is passed, and if so disables escaping unicode chars during serialization
+    azimut_cms.services.serializer:
+        class: Azimut\Bundle\CmsBundle\Services\Serializer
+        arguments:
+            - '@jms_serializer.serializer'
+            - '@jms_serializer.json_serialization_visitor'
+            - '@request_stack'
+            - '@jms_serializer.serialization_context_factory'
+            - '@jms_serializer.deserialization_context_factory'
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidMainAttachmentValidator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidComplementaryAttachment1Validator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidComplementaryAttachment2Validator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidComplementaryAttachment3Validator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidComplementaryAttachment4Validator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Validator\Constraints\HasValidSecondaryAttachmentsValidator:
+        arguments: ['@translator']
+        tags:
+            - { name: validator.constraint_validator }
+
+    Azimut\Bundle\CmsBundle\Command\RepairCmsFileMediaDeclinationAttachmentLink:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: console.command }
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\CmsBundle\DataFixtures\ORM\LoadCmsFileArticleData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\CmsBundle\DataFixtures\ORM\LoadCmsFileEventData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\CmsBundle\DataFixtures\ORM\LoadCmsFileProductData:
+        tags:
+            - { name: doctrine.fixture.orm }

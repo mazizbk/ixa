@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Maintenance</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+            body {
+                width: 530px;
+                margin: 100px auto;
+                font-family: Arial, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h2>Service temporary unavailable</h2>
+        <p>The website is down for <%= reason ? reason : "maintenance" %><br />
+        as of <%= Time.now.strftime("%H:%M") %> (France UTC+1).</p>
+        <p>It'll be back <%= deadline ? "at "+deadline : "shortly" %>.</p>
+
+        <br />
+
+        <h2>Service temporairement indisponible</h2>
+        <p>Le site est fermé pour raison de <%= reason ? reason : "maintenance" %><br />
+        à partir de <%= Time.now.strftime("%Hh%M") %> (France UTC+1).</p>
+        <p>Il sera de nouveau opérationnel <%= deadline ? "à "+deadline : "bientôt" %>.</p>
+
+    </body>
+</html>

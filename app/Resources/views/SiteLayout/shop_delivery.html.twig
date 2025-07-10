@@ -1,0 +1,21 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-11-08 11:51:09
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% include "SiteLayout/shop_order_steps.html.twig" with { 'step': 'delivery' } %}
+
+    {# NB: Form template in not embedded in this file because form_theme _self
+       is not supported when extending a template from a variable #}
+    {% form_theme form 'SiteLayout/shop_delivery_form_template.html.twig' %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="text-center">
+            <input class="btn btn-success" type="submit" value="{{ 'valider'|trans }}" />
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

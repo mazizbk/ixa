@@ -1,0 +1,78 @@
+$('#contact-btn,[data-toggle="contact-modal"]').on('click', function(e){
+    e.preventDefault();
+    $('#modal-contact')
+        .data('contactType', this.dataset.contactType)
+        .data('onFinish', this.dataset.contactFinish)
+        .modal('show')
+    ;
+});
+var modalContact = $('#modal-contact')
+    .on('show.bs.modal', function(){
+        $(this)
+            .find('button[type=submit]').show().end()
+            .find('div.alert').remove().end()
+            .find('form').show()
+                .find('textarea[name=message]').val('').end()
+                .find('[name="contact-type"]').val($(this).data('contactType')).end()
+            .end()
+            .find('*[data-contact-type][data-contact-type!="'+$(this).data('contactType')+'"]')
+                .hide()
+                .find('input,textarea')
+                    .prop('disabled', true)
+                .end()
+            .end()
+            .find('*[data-contact-type="'+$(this).data('contactType')+'"]')
+                .show()
+                .find('input,textarea')
+                    .prop('disabled', false)
+                .end()
+            .end()
+        ;
+    })
+    .find('form').on('submit', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+
+        if(!this.reportValidity()) {
+            return false;
+        }
+
+        var action = $this.attr('action');
+        var method = $this.attr('method');
+        var data = $this.serialize();
+
+        $this.find('fieldset').prop('disabled', true);
+        modalContact.find('button[type=submit]').text('{{ 'montgolfiere.questionnaire.question.contact.sending'|trans }}');
+
+        $[method](action, data).success(function(){
+            modalContact.find('button[type=submit]').hide();
+            $this.hide().after('<div class="alert alert-success">{{ 'montgolfiere.questionnaire.question.contact.success'|trans }}</div>');
+            var onFinish = modalContact.data('onFinish');
+            if(onFinish) {
+                modalContact.on('hide.bs.modal', function(){
+                    eval(onFinish);
+                });
+            }
+        }).fail(function(r){
+            alert(r.responseText);
+        }).always(function(){
+            $this.find('fieldset').prop('disabled', false);
+            modalContact.find('button[type=submit]').text('{{ 'montgolfiere.questionnaire.question.contact.send'|trans }}');
+        });
+
+        return false;
+    })
+    .end().find('button[type=submit]').on('click', function(e) {
+        e.preventDefault();
+        $(this).parents('.modal').find('form').trigger('submit');
+
+        return false;
+    })
+    .end()
+;
+
+var $emailOrPhone = modalContact.find('input[type=email],input[type=tel]').prop('required', true).on('input', function() {
+    $emailOrPhone.each(function() {
+        $(this).prop('required', $emailOrPhone.not(this).val().length === 0);
+    });
+});

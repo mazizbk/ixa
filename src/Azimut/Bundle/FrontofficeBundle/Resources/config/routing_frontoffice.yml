@@ -1,0 +1,17 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-03-16 15:25:44
+
+# NB: frontoffice route types takes their locales from "locales" config parameter
+# (This is injected by FrontRouteLoader)
+
+# This route allows the locale prefix to have no trailing slash
+azimut_frontoffice_home:
+    path: ""
+    defaults: { _controller: "AzimutFrontofficeBundle:Front:index", "path": "" }
+
+azimut_frontoffice:
+    path: "{path}"
+    requirements: { path: ".*" }
+    defaults: { _controller: "AzimutFrontofficeBundle:Front:index" }
+    options:
+        expose: true

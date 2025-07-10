@@ -1,0 +1,39 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-05 17:05:20
+#}
+
+<script>
+    function showFormLocale(locale) {
+        $('[form-i18n-switch]').removeClass('btn-primary');
+        $('[form-i18n-switch]').removeClass('active');
+        $('[form-i18n-switch]').addClass('btn-default');
+
+        if (null == locale) {
+            $('[form-i18n-row]').show();
+            $('[form-i18n-switch="all"]').removeClass('btn-default');
+            $('[form-i18n-switch="all"]').addClass('btn-primary');
+            $('[form-i18n-switch="all"]').addClass('active');
+        }
+        else {
+            $('[form-i18n-row]').hide();
+            $('[form-i18n-row="' + locale + '"]').show();
+            $('[form-i18n-switch="' + locale + '"]').removeClass('btn-default');
+            $('[form-i18n-switch="' + locale + '"]').addClass('btn-primary');
+            $('[form-i18n-switch="' + locale + '"]').addClass('active');
+        }
+        return false;
+    }
+
+    $(document).ready(function() {
+        showFormLocale('{{ app.request.locale|upper }}');
+    });
+</script>
+
+<div class="btn-group">
+    {% for locale in locales %}
+        <a href onclick="return showFormLocale('{{ locale|upper }}')" class="btn {% if locale == app.request.locale %}btn-primary active{% else %}btn-default{% endif %}" form-i18n-switch="{{ locale|upper }}">{{ locale|upper }}</a>
+    {% endfor %}
+    <a href onclick="return showFormLocale()" class="btn btn-default" form-i18n-switch="all">{{ 'all'|trans }}</a>
+</div>
+

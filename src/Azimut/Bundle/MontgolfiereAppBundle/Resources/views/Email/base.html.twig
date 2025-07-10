@@ -1,0 +1,69 @@
+{% apply inline_css(encore_entry_css_source('emails')) %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <title></title>
+    <style type="text/css" rel="stylesheet" media="all">{{ encore_entry_css_source('emails-noinline') }}</style>
+    <!--[if mso]>
+    <style type="text/css">
+    .f-fallback  {
+        font-family: Arial, sans-serif;
+    }
+    </style>
+    <![endif]-->
+</head>
+<body>
+<span class="preheader">{% block preheader %}{% endblock %}</span>
+<table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+    <tr>
+        <td align="center">
+            <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                    <td class="email-masthead">
+                        {% block beforeLogo %}{% endblock %}
+                        <img src="{{ absolute_url(asset('img/questionnaire/logo-green.png')) }}" alt="Workcare" class="email-masthead_logo" width="113" height="20" />
+                        {% block afterLogo %}{% endblock %}
+                    </td>
+                </tr>
+                <!-- Email Body -->
+                {% block bodyContainer %}
+                <tr>
+                    <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+                        <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                            <!-- Body content -->
+                            <tr>
+                                <td class="content-cell">
+                                    <div class="f-fallback">
+                                        {% block body %}{% endblock %}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {% endblock %}
+                <tr>
+                    <td class="email-footer" width="100%" cellpadding="0" cellspacing="0">
+                        <table  align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                            <tr>
+                                <td class="content-cell" align="center">
+                                    {% block footer %}
+                                        <img src="{{ absolute_url(asset('img/questionnaire/logo-white.png')) }}" alt="Workcare" class="email-masthead_logo" width="113" height="20" />
+                                    {% endblock %}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+{% endapply %}

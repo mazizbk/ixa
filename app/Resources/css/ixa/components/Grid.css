@@ -1,0 +1,387 @@
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+ * date:    2019-06-20 15:46:17
+ */
+
+/* Grid flexbox fallback */
+.Grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem;
+    overflow: hidden;
+    --grid-columns: 1;
+}
+.Grid > * {
+    width: calc(100%/var(--grid-columns) - 2rem);
+    margin: 1rem;
+}
+.Grid--marginBottom {
+    margin-bottom: 15rem;
+}
+.Grid--verticalCenter{
+    align-items: center;
+}
+@supports (display: grid) {
+    .Grid {
+        --grid-columns: 1;
+        display: grid;
+        grid-gap: 1rem;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+        margin: 0;
+    }
+    .Grid > * {
+        width: auto;
+        margin: 0;
+    }
+    .Grid.Grid--noGap {
+        grid-gap: 0;
+    }
+    .Grid.Grid--smallGap {
+        grid-gap: 2rem;
+    }
+    .Grid.Grid--bigGap {
+        grid-gap: 4rem;
+    }
+}
+.Grid--2 {
+    --grid-columns: 2;
+}
+.Grid--2--1-2 {
+    --grid-columns: 2;
+}
+.Grid--2--1-2 > *:first-child {
+    width: 33%;
+    margin-right: 2rem;
+}
+.Grid--2--1-2 > *:last-child {
+    flex: 1;
+}
+@supports (display: grid) {
+    .Grid--2--1-2 {
+        grid-template-columns: 1fr 2fr;
+    }
+    .Grid--2--1-2 > *:first-child,
+    .Grid--2--1-2 > *:last-child {
+        width: auto;
+        margin: 0;
+    }
+}
+
+.Grid--2--2-1 {
+    --grid-columns: 2;
+}
+.Grid--2--2-1 > *:first-child {
+    width: 66%;
+    margin-right: 2rem;
+}
+.Grid--2--2-1 > *:last-child {
+    flex: 1;
+}
+@supports (display: grid) {
+    .Grid--2--2-1 {
+        grid-template-columns: 2fr 1fr;
+    }
+    .Grid--2--2-1 > *:first-child,
+    .Grid--2--2-1 > *:last-child {
+        width: auto;
+        margin: 0;
+    }
+}
+
+.Grid--2--1-4 {
+    --grid-columns: 2;
+}
+.Grid--2--1-4 > *:first-child {
+    width: 20%;
+    margin-right: 2rem;
+}
+.Grid--2--1-4 > *:last-child {
+    flex: 1;
+}
+@supports (display: grid) {
+    .Grid--2--1-4 {
+        grid-template-columns: 1fr 4fr;
+    }
+    .Grid--2--1-4 > *:first-child,
+    .Grid--2--1-4 > *:last-child {
+        width: auto;
+        margin: 0;
+    }
+}
+
+.Grid--3 {
+    --grid-columns: 3;
+}
+.Grid--4 {
+    --grid-columns: 4;
+}
+.Grid--5 {
+    --grid-columns: 5;
+}
+.Grid--padding {
+    padding: 1rem;
+}
+@media (max-width: 1260px) {
+    /* 1 column at size L */
+    .Grid--l-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--l-1.Grid--2--1-2 > *:first-child,
+    .Grid--l-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size L */
+    .Grid--l-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size L */
+    .Grid--l-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+@media (max-width: 1080px) {
+    /* 1 column at size M */
+    .Grid--m-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--m-1.Grid--2--1-2 > *:first-child,
+    .Grid--m-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size M */
+    .Grid--m-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size M */
+    .Grid--m-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+@media (max-width: 960px) {
+    /* 1 column at size S */
+    .Grid--s-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--s-1.Grid--2--1-2 > *:first-child,
+    .Grid--s-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size S */
+    .Grid--s-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size S */
+    .Grid--s-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+@media (max-width: 900px) {
+    /* 1 column at size XS */
+    .Grid--xs-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--xs-1.Grid--2--1-2 > *:first-child,
+    .Grid--xs-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size XS */
+    .Grid--xs-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size XS */
+    .Grid--xs-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+@media (max-width: 620px) {
+    /* 1 column at size XXS */
+    .Grid--xxs-noGrid {
+        display: block;
+    }
+    .Grid--xxs-noGrid.Grid--2--1-2 > *,
+    .Grid--xxs-noGrid.Grid--2--2-1 > * {
+        width: auto;
+        margin-right: 1em;
+    }
+    .Grid--xxs-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--xxs-order-1 {
+        order:1;
+    }
+    .Grid--xxs-order-2 {
+        order:2;
+    }
+    .Grid--xxs-1.Grid--2--1-2 > *:first-child,
+    .Grid--xxs-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size XS */
+    .Grid--xxs-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size XS */
+    .Grid--xxs-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+@media (max-width: 320px) {
+    /* 1 column at size XXXS */
+    .Grid--xxxs-noGrid {
+        display: block;
+    }
+    .Grid--xxxs-noGrid.Grid--2--1-2 > *,
+    .Grid--xxxs-noGrid.Grid--2--2-1 > * {
+        width: auto;
+        margin-right: 1em;
+    }
+    .Grid--xxxs-1 {
+        --grid-columns: 1;
+        grid-template-columns: 1fr;
+    }
+    .Grid--xxxs-1.Grid--2--1-2 > *:first-child,
+    .Grid--xxxs-1.Grid--2--2-1 > *:first-child {
+        width: auto;
+        margin-right: 0;
+    }
+    /* 2 columns at size XS */
+    .Grid--xxxs-2 {
+        --grid-columns: 2;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+    /* 3 columns at size XS */
+    .Grid--xxxs-3 {
+        --grid-columns: 3;
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+    }
+}
+
+.Grid--marginBottom {
+    margin-bottom: 2rem;
+}
+
+
+/* IE 10-11 */
+
+@media all and (-ms-high-contrast:none)
+{
+    .Grid > * {
+        width: calc(100% - 2.01rem);
+    }
+    .Grid--2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    .Grid--3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+    .Grid--4 > * {
+        width: calc(100%/4 - 2.01rem);
+    }
+    .Grid--5 > * {
+        width: calc(100%/5 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 1260px) {
+    /* 1 column at size L */
+    .Grid--l-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size L */
+    .Grid--l-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size L */
+    .Grid--l-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 1080px) {
+    /* 1 column at size M */
+    .Grid--m-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size M */
+    .Grid--m-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size M */
+    .Grid--m-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 960px) {
+    /* 1 column at size S */
+    .Grid--s-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size S */
+    .Grid--s-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size S */
+    .Grid--s-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 900px) {
+    /* 1 column at size XS */
+    .Grid--xs-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size XS */
+    .Grid--xs-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size XS */
+    .Grid--xs-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 620px) {
+    /* 1 column at size XXS */
+    .Grid--xxs-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size XXS */
+    .Grid--xxs-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size XXS */
+    .Grid--xxs-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}
+@media all and (-ms-high-contrast:none) and (max-width: 320px) {
+    /* 1 column at size XXXS */
+    .Grid--xxxs-1 > * {
+        width: calc(100% - 2.01rem);
+    }
+    /* 2 columns at size XXXS */
+    .Grid--xxxs-2 > * {
+        width: calc(100%/2 - 2.01rem);
+    }
+    /* 3 columns at size XXXS */
+    .Grid--xxxs-3 > * {
+        width: calc(100%/3 - 2.01rem);
+    }
+}

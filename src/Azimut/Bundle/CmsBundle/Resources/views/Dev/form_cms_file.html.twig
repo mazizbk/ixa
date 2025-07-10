@@ -1,0 +1,63 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-20 16:26:46
+#}
+
+{% extends "AzimutCmsBundle:Dev:base.html.twig" %}
+
+{% block body %}
+
+    <h1>Test form cmsFile</h1>
+
+    {{ form(form) }}
+
+    {% if allowAddAttachments is defined and true == allowAddAttachments %}
+        <a href="#" id="cmsFile-form-add-cmsFile-attachment">Add attachment</a>
+
+        <script>
+            $(document).ready(function() {
+
+
+                $('#cmsFile-form-add-cmsFile-attachment').click(function() {
+                    var attachmentsCount = $("#cmsFileAttachments > div").size();
+
+                    var attachmentList = $('#cmsFileAttachments');
+
+                    var newWidget = attachmentList.attr('data-prototype');
+
+                    newWidget = newWidget.replace(/__name__label__/g, attachmentsCount);
+                    newWidget = newWidget.replace(/__name__/g, attachmentsCount);
+
+                    var newDiv = $(newWidget);
+                    newDiv.appendTo($('#cmsFileAttachments'));
+
+                    return false;
+                });
+            })
+        </script>
+    {% endif %}
+
+    <hr />
+
+    {% if form.folder is defined %}
+    Errors on folder: {{ form_errors(form.folder) }}
+    {% endif %}
+
+    <hr />
+
+    {% if createdCmsFile %}
+        <b>New cmsFile created:</b><br />
+        Name: {{ createdCmsFile.name }}<br />
+        Title: {{ createdCmsFile.title }}<br />
+        Type: {{ createdCmsFile.cmsFileType }}<br />
+        text: {{ createdCmsFile.text }}<br />
+
+        {% for attachment in createdCmsFile.attachments %}
+            <br /><b>attachment {{ loop.index }}</b><br />
+            {#Name: {{ attachment.name }}<br />#}
+        {% endfor %}
+
+    {% endif %}
+
+
+{% endblock %}

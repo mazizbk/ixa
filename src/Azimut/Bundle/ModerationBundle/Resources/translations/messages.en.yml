@@ -1,0 +1,37 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 11:48:48
+
+moderation.app.name: "Moderation"
+moderation.meta.title: "Azimut Moderation"
+
+contents: "contents"
+
+suggest: "Suggest"
+validate: "Validate"
+
+suggest.article: "Suggest an article"
+
+your.suggestion.has.been.recorded: "Your suggestion has been recorded"
+
+cms.file.buffer.%file_name%.confirm.permanent.delete: 'Are you sure you want to permanently delete file "%file_name%"'
+
+target:
+    page: "Target page"
+    zone: "Target zone"
+
+notification:
+    error.cms_file_buffer.%id%.get: "Can't access buffer file %id%"
+    success.file.validate: "File successfully validated"
+    error.file.validate: "File could not be validated"
+
+email:
+    your.content.suggestion: "Your content suggestion"
+    your.content.suggestion.at.%domain%.has.been.recorded: "Your content suggestion at \"%domain%\" has been recorded"
+    your.content.suggestion.has.been.validated: "Your content suggestion has been validated"
+    your.content.suggestion.at.%domain%.has.been.validated: "Your content suggestion at \"%domain%\" has been validated"
+    new.content.suggestion: "New content suggestion"
+    a.new.content.suggestion.has.been.recorded.at.%domain%: "A new content suggestion has been recorded at \"%domain%\""
+
+files.waiting.for.validation: "Files waiting for validation"
+
+cms.file.buffer.has.not.been.saved.are.you.sure.you.want.to.continue: "File has not been saved, are you sure you want to continue ?"

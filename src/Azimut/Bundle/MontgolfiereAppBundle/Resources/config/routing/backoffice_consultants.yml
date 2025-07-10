@@ -1,0 +1,24 @@
+azimut_montgolfiere_app_backoffice_consultants_homepage:
+    path:     /
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeConsultants:index }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_consultants_create:
+    path:     /new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeConsultants:create }
+
+azimut_montgolfiere_app_backoffice_consultants_update:
+    path:     /{id}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeConsultants:update }
+
+azimut_montgolfiere_app_backoffice_consultants_delete:
+    path:     /{id}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeConsultants:delete }
+    methods: DELETE
+
+azimut_montgolfiere_app_backoffice_consultants_impersonate:
+    path:     /{id}/impersonate
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeConsultants:impersonate }
+    methods: GET
+

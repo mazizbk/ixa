@@ -1,0 +1,16 @@
+{% extends ":Emails:base.html.twig" %}
+{% block subject %}{{ 'montgolfiere.emails.account_creation.subject'|trans }}{% endblock %}
+{% block body %}
+    <p>{{ 'montgolfiere.emails.account_creation.greetings'|trans({'%firstname%': account.firstName, '%lastname%': account.lastName}) }}</p>
+    <p>
+        {{ 'montgolfiere.emails.account_creation.line1'|trans({'%firstname%': app.user.firstName, '%lastname%': app.user.lastName}) }}<br />
+        {{ 'montgolfiere.emails.account_creation.line2'|trans }}<br />
+        {{ 'montgolfiere.emails.account_creation.line3'|trans }}
+    </p>
+    {% include ":Emails:btn.html.twig" with {url: url('azimut_montgofliere_validate_account', {token: account.confirmEmailToken}), label: 'montgolfiere.emails.account_creation.button_label'|trans} %}
+    <p>{{ 'montgolfiere.emails.account_creation.line4'|trans|raw }}</p>
+    <p class="text-small gray">
+        {{ 'montgolfiere.emails.account_creation.email_reason'|trans }}<br />
+        {{ 'montgolfiere.emails.account_creation.contact'|trans }} <a href="mailto:{{ reply_to }}">{{ reply_to }}</a>.
+    </p>
+{% endblock %}

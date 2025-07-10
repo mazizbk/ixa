@@ -1,0 +1,40 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.settings.app_name'|trans }}</h3></div>
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-xs-6 col-md-3 text-center">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_help_texts') }}" class="thumbnail">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-question-sign" style="font-size: 500%"></i><br />
+                    {{ 'montgolfiere.backoffice.settings.help_text'|trans }}
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 text-center">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_restitution') }}" class="thumbnail">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-file-cloud" style="font-size: 500%"></i><br />
+                    {{ 'montgolfiere.backoffice.settings.restitution_settings'|trans }}
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 text-center">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_themes') }}" class="thumbnail">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-show-big-thumbnails" style="font-size: 500%"></i><br />
+                    {{ 'montgolfiere.backoffice.settings.themes_settings'|trans }}
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 text-center">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_wbe_texts') }}" class="thumbnail">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-nameplate" style="font-size: 500%"></i><br />
+                    {{ 'montgolfiere.backoffice.settings.wbe_texts.settings_link'|trans }}
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3 text-center">
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_tooltips') }}" class="thumbnail">
+                    <i class="glyphicon glyphicon-pro glyphicon-pro-exclamation-sign" style="font-size: 500%"></i><br />
+                    {{ 'montgolfiere.backoffice.settings.tooltips'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ pageTitle??'Montgolfière Management' }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,target-densitydpi=device-dpi, minimal-ui" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='backoffice/css/montgolfiere_main.css'
+        '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+        '@no_ui_slider_css'
+        '@bootstrap_datepicker_css'
+        '@pivottable_css'
+        '@AzimutBackofficeBundle/Resources/less/base.less'
+        '../app/Resources/css/ixa/fonts.css'
+        '@AzimutMontgolfiereAppBundle/Resources/less/backoffice.less'
+        '../node_modules/air-datepicker/dist/css/datepicker.min.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {#other CSS files won't work without assetdirectory but int-tel-input breaks it... #}
+    {% stylesheets filter='less,cssrewrite' package='build' output='backoffice/css/montgolfiere_telinput.css'
+        '@intl_tel_input_css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% block headerstylesheets %}{% endblock headerstylesheets %}
+    {% javascripts filter='?uglifyjs2' package='build' output='backoffice/js/montgolfiere_main.js'
+        '../vendor/azimut/system-assets/jquery/jquery.min.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/dist/js/bootstrap.min.js'
+        '@intl_tel_input_js'
+        '@no_ui_slider_js'
+        '@bootstrap_datepicker_js'
+        '@papaparse_js'
+        '@pivottable_js'
+        '@d3_js'
+        '@easeljs_js'
+        '@fontfaceobserver'
+        '@AzimutMontgolfiereAppBundle/Resources/js/base.js'
+        '../node_modules/moment/min/moment.min.js'
+        '../node_modules/air-datepicker/dist/js/datepicker.min.js'
+        '../node_modules/air-datepicker/dist/js/i18n/datepicker.en.js'
+        '../node_modules/air-datepicker/dist/js/i18n/datepicker.fr.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}?locales={{ app.request.locale }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+</head>
+<body class="montgolfiereapp{{ bodyOverflow is defined and bodyOverflow?' overflow' }}">
+<div class="root">
+    <div class="body">
+        <section class="main-panel">
+            <section class="main-panel">
+                <header class="header-bar">
+                    {% block header %}{% endblock header %}
+                </header>
+                {% if hasCollapsableTopPanel is defined and hasCollapsableTopPanel %}
+                    <section class="horizontal-panel collapsable-panel search-engine">
+                        <div class="margin-block">
+                            {% block collapsablePanel %}{% endblock collapsablePanel %}
+                        </div>
+                    </section>
+                {% endif %}
+                <section class="body scrollable-container">
+                    <div class="scrollable">
+                        {% block tab %}{% endblock %}
+                        {% for type, messages in app.session.flashBag.all %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ type=='error'?'danger':type }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% block body %}{% endblock body %}
+                    </div>
+                </section>
+                {% if hasFooterPanel is defined and hasFooterPanel %}
+                    <footer class="footer-bar footer-bar-sm">
+                        {% block footer %}
+                            <div class="left">
+                                {{ 'montgolfiere.backoffice.common.filter_results'|transchoice((entities??subEntities).getTotalItemCount) }}
+                                {% if isFilteredView %}{{ 'montgolfiere.backoffice.common.filtered_view'|trans }}{% endif %}
+                                {{ knp_pagination_render(entities??subEntities) }}
+                            </div>
+                        {% endblock footer %}
+                    </footer>
+                {% endif %}
+            </section>
+        </section>
+    </div>
+</div>
+{% block footerscripts %}{% endblock %}
+</body>
+</html>

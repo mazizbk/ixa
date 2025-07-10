@@ -1,0 +1,24 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:55:41
+
+#Expose AngularJS views
+azimut_cmscontact_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsContactBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_CMS_CONTACT']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_cmscontact_backoffice_jsview_contact_detail:
+    path: /jsviews/contact_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsContactBundle:Backoffice:contact_detail.angularjs.twig'
+        roles: ['APP_CMS_CONTACT']
+    options:
+        expose: true

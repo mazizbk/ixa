@@ -1,0 +1,41 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-18 11:09:42
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            <div class="form-inline">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search'|trans|capitalize }}{% verbatim %}" />
+            </div>
+        </div>
+
+        <div class="right">
+            <a href ng-click="openNewProductItem()" ng-if="null != file">
+                <span class="glyphicon glyphicon-pro glyphicon-pro-package"></span> <span class="glyphicon glyphicon-add glyphicon-plus-sign"></span> {% endverbatim %}{{ 'product.item'|trans|capitalize }}{% verbatim %}
+            </a>
+        </div>
+    </header>
+
+    <section class="body" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+        <div class="margin-block" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+            <div ng-repeat="productItem in filteredProductItems = (productItems | orderBy: natural('id'):true | filter: {$: searchKeywords })" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a href ng-click="openProductItem(productItem)"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href ng-click="deleteProductItem(productItem)" az-confirm-click="Translator.trans('product.item.%name%.confirm.permanent.delete', { name: productItem.name })"><span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                    <strong>{{ productItem.name }}</strong>
+                </div>
+
+                <div class="panel-body">
+                    {{ productItem.price|azShopPrice }}<br />
+                    <p class="nl2br">{{ productItem.text }}</p>
+                </div>
+            </div>
+
+            <p class="data-not-found-message" ng-if="0 == filteredProductItems.length"><span class="glyphicon glyphicon-info-sign"></span> {% endverbatim %}{{ 'no.product.item.found'|trans|capitalize }}{% verbatim %}</p>
+        </div>
+    </section>
+{% endverbatim %}

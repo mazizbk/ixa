@@ -1,0 +1,49 @@
+azimut_montgolfiere_app_backoffice_settings_index:
+    path: /
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsController::indexAction }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_settings_restitution:
+    path: /restitution
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsRestitution:index }
+
+azimut_montgolfiere_app_backoffice_settings_restitution_theme:
+    path: /restitution/theme/{id}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsRestitution:theme }
+
+azimut_montgolfiere_app_backoffice_settings_restitution_items:
+    path: /restitution/items
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsRestitution:item }
+
+azimut_montgolfiere_app_backoffice_settings_help_texts:
+    path: /help
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsController::helpTextAction }
+
+azimut_montgolfiere_app_backoffice_settings_themes:
+    path: /themes
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsThemesController::index }
+
+azimut_montgolfiere_app_backoffice_settings_theme_edit:
+    path: /themes/{id}
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsThemesController::edit }
+
+azimut_montgolfiere_app_backoffice_settings_theme_move:
+    path: /themes/{id}/move
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsThemesController::move }
+
+azimut_montgolfiere_app_backoffice_settings_theme_image:
+    path: /themes/{id}/image
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsThemesController::image }
+
+azimut_montgolfiere_app_backoffice_settings_theme_item_edit:
+    path: /themes/{id}/item/{item}
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsThemesController::editItem }
+
+azimut_montgolfiere_app_backoffice_settings_wbe_texts:
+    path: /wbe
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsWBEController::index }
+
+azimut_montgolfiere_app_backoffice_settings_tooltips:
+    path: /tooltips
+    defaults: { _controller: Azimut\Bundle\MontgolfiereAppBundle\Controller\SettingsTooltipsController::index }

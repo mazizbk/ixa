@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 10:21:16
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'check.payment'|trans }}</h1>
+
+    <p>{{ 'please.send.us.a.check.payable.to.%name%'|trans({'%name%': checkPayableTo}) }}</p>
+    <p>{{ 'amount'|trans }} : {{ order.totalAmount|az_shop_price }}</p>
+    <p>{{ 'to.the.following.address'|trans }} : </p>
+    <blockquote>
+        {{ addressName }}<br />
+        {{ addressLine1 }}<br />
+        {% if addressLine2 %}
+            {{ addressLine2 }}<br />
+        {% endif %}
+        {{addressPostalCode }} {{ addressCity }}<br />
+    </blockquote>
+    <p>{{ 'specifying.your.order.number.on.the.back.of.the.check'|trans }} :</p>
+    <blockquote>
+        {{ 'order.number'|trans }} : {{ order.number }}
+    </blockquote>
+{% endblock %}

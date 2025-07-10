@@ -1,0 +1,124 @@
+{% set _bodyClass = 'home' %}
+{% extends siteLayout %}
+{% block header %}
+    <div class="header">
+        <img src="{{ asset('img/frontoffice/logo-ixa.png') }}" alt="Logo entreprise Ixa" />
+
+        <div class="punchline">
+            {{ renderZone(page, 'header', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+
+            <p>
+                <a href="{{ path('azimut_frontoffice_home', {'_fragment':'contact'}) }}" class="btn">Discutons de votre projet</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid clearfix" id="demarche-ixa">
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1" style="padding-bottom: 5em;">
+                <div class="embed-responsive embed-responsive-16by9">
+                    {{ renderZone(page, 'ixa-approach-video', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+                </div>
+            </div>
+            <div class="col-lg-4 col-lg-offset-1">
+                <h2>{{ page.zone('ixa-approach').title }}</h2>
+
+                {{ renderZone(page, 'ixa-approach', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+
+                <p>
+                    <a href="{{ path('azimut_frontoffice_home', {'_fragment':'contact'}) }}" class="btn">Contactez-nous</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div id="pourquoi-faire" class="accent-background" data-offset="0">
+        <h2>Pourquoi faire ?</h2>
+        <div class="blocks">
+                {{ renderZone(page, 'why-do', pagePath, {cmsFileTemplateName: 'block/summary_ixa_homepage'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="container clearfix" style="margin-top: 50px;" id="qui-sommes-nous">
+        <div class="row">
+            <div class="col-sm-6 sm-center">
+                {{ renderZone(page, 'who-we-are-image', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateOptions: {width: null, mediaSize: 'm'}}) }}
+            </div>
+            <div class="col-sm-6">
+
+                <h2>{{ page.zone('who-we-are').title }}</h2>
+
+                {{ renderZone(page, 'who-we-are', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div id="parallax" class="single-text-box">
+        {{ renderZone(page, 'our-role', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateOptions: {titleLevel: 3}}) }}
+    </div>
+
+    <div class="container-fluid clearfix" style="margin: 100px 0 150px 0;" id="comment-ca-marche">
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 col-md-12">
+                <div class="boxes wow fadeInLeft">
+                    <div class="element">
+                        <img src="{{ asset('img/frontoffice/accent/gauge.svg') }}"><p>Mesurer</p>
+                    </div>
+                    <div class="element">
+                        <img src="{{ asset('img/frontoffice/accent/magnifier.svg') }}"><p>Comparer</p>
+                    </div>
+                    <div class="element">
+                        <img src="{{ asset('img/frontoffice/accent/check.svg') }}"><p>Agir</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-lg-offset-1 col-md-12">
+                <h2>{{ page.zone('how-it-works').title }}</h2>
+
+                {{ renderZone(page, 'how-it-works', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateName: 'zone_simple'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="accent-background quote-box single-text-box">
+        {{ renderZone(page, 'our-ambition', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateOptions: {titleLevel: 3}}) }}
+    </div>
+
+    <div class="text-center title-margin" id="articles">
+        <h2>{{ page.zone('articles').title }}</h2>
+    </div>
+    <div class="articles-container">
+        <div class="articles">
+            {{ renderZone(page, 'articles', pagePath, {cmsFileTemplateName: 'ixa/homepage_article', orderCmsFilesBy: 'publishStartDateTime DESC', templateName: 'zone_simple'}) }}
+        </div>
+        <div class="text-center">
+            <a href="{{ path('azimut_frontoffice', {path: findPageByTemplate('ixa/articles.html.twig').fullSlug}) }}">Tous nos articles &rarr;</a>
+        </div>
+    </div>
+
+    <div class="slider" id="references">
+        {{ renderZone(page, 'clients', pagePath, {cmsFileTemplateName: 'ixa/homepage_clients', templateName: 'zone_simple'}) }}
+    </div>
+
+    <div class="contact-form" id="contact">
+        {{ renderZoneForm(page, 'contact_form') }}
+    </div>
+{% endblock %}
+
+{% block endjavascripts %}
+    <script>
+        $(document).ready(function(){
+            $('.multiple-items').slick({
+                infinite: true,
+                dots: true,
+                slidesToShow: 5,
+                slidesToScroll: 3,
+                autoplay: true,
+                autoplaySpeed: 5000
+            });
+        });
+    </script>
+{% endblock %}

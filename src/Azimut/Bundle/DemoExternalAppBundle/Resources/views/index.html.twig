@@ -1,0 +1,91 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-09 16:09:35
+#}
+
+{% extends 'AzimutBackofficeBundle:BackofficeExternalApp:base_external_app.html.twig' %}
+
+{% form_theme formMediacenter 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{% block title %}My external app{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='demo-external-app/css/main.css'
+        '@AzimutDemoExternalAppBundle/Resources/less/base.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <section class="main-panel">
+        {# If you don't need side panel, just remove the section #}
+        <section class="side-panel scrollable-container">
+            <div class="scrollable">
+                <div class="margin-block">
+                    My external app side panel
+                </div>
+            </div>
+        </section>
+        <section class="main-panel">
+            {# If you don't need header bar, just remove the section #}
+            <header class="header-bar">
+                <div class="left">My external app header</div>
+            </header>
+            <section class="body scrollable-container">
+                <div class="scrollable">
+                    <div class="margin-block">
+                        <h1>This is an external app demo.</h1>
+
+                        <ul>
+                            <li><a href="{{ path('azimut_demo_external_app_catch_all', {'slug': 'demo-slug'}) }}">/demo-slug</a></li>
+                            <li><a href="{{ path('azimut_demo_external_app_catch_all', {'slug': 'demo-slug'}) }}?demoparam=demo">/demo-slug?demoparam=demo</a></li>
+                            <li><a href="{{ path('azimut_demo_external_app_catch_all', {'slug': 'demo-slug/deep-slug'}) }}">/demo-slug/deep-slug</a></li>
+                        </ul>
+
+                        <h3>Demo form with Mediacenter widget plugged in</h3>
+                        <div class="well">
+                            {{ form(formMediacenter) }}
+                        </div>
+
+                        <br /><hr />
+
+                        <h3>Demo form with translations</h3>
+
+                        <div class="text-right">
+                            {% include 'AzimutBackofficeBundle:BackofficeExternalApp:external_app_form_locale_switcher.html.twig' %}
+                        </div>
+                        <br />
+                        <div class="well">
+                            {% form_theme formBasic 'AzimutBackofficeBundle::backoffice_external_app_form_theme.html.twig' %}
+                            {{ form_start(formBasic) }}
+                                {{ form_widget(formBasic) }}
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            {{ form_end(formBasic) }}
+                        </div>
+
+                        <h3>Demo CmsFile Article</h3>
+
+                        <div class="text-right">
+                            {% include 'AzimutBackofficeBundle:BackofficeExternalApp:external_app_form_locale_switcher.html.twig' %}
+                        </div>
+                        <br />
+                        <div class="well">
+                            {% form_theme cmsFileArticleForm 'AzimutBackofficeBundle::backoffice_external_app_form_theme.html.twig' %}
+                            {{ form_start(cmsFileArticleForm) }}
+                                {{ form_widget(cmsFileArticleForm) }}
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            {{ form_end(cmsFileArticleForm) }}
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            {# If you don't need footer bar, just remove the section #}
+            <footer class="footer-bar footer-bar-sm">
+                <div class="left">My external app footer</div>
+            </footer>
+        </section>
+    </section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-10-30 16:52:50
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+
+        {% if page is defined %}
+            <header>
+                <h1>{{ page.pageTitle }}</h1>
+                {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+            </header>
+        {% endif %}
+
+        {{ renderZone(page, 'intro', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+        {{ renderZone(page, 'products', pagePath, {
+            'cmsFileTemplateName': 'cms_file_summary',
+            'pagination': {
+                'paginationNumber': paginationNumber,
+                'paginationLimit': 5,
+                'showItemCount': true
+            }
+        }) }}
+    </div>
+{% endblock %}

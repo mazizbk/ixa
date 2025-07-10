@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-09 11:25:26
+#}
+
+{% include 'AzimutBackofficeBundle:Backoffice:dashboard_entity_shortcut.angularjs.twig' with {
+    'backgroundColor': '#ff8f2e',
+    'glyphicon': 'glyphicon-book',
+    'entitiesName': 'media'|transchoice(mediaCount),
+    'entitiesCount': mediaCount,
+    'listEntitiesState': 'backoffice.mediacenter',
+} %}

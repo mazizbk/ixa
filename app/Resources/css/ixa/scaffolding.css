@@ -1,0 +1,153 @@
+:root {
+    --green: #118553;
+    --dark-green: #147a51;
+    --dark-grey: #383838;
+    --light-grey: #F4F4F4;
+}
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: normal;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+    color: #4D4F5C;
+    background-color: white;
+    width: 100%;
+}
+
+.MainContainer {
+    position: relative;
+    overflow: hidden;
+    display:flex;
+    min-height:100vh;
+}
+.MainContainer > *{
+    flex:1 1 auto;
+}
+.MainContainer > *:first-child{
+    flex:0 0 260px;
+}
+@media (max-width: 620px) {
+    .MainContainer > *:first-child {
+        flex: 0;
+    }
+}
+
+.Dashboard{
+    display:flex;
+}
+.Dashboard > *{
+    flex:2;
+}
+.Dashboard > *:first-child{
+    margin-right:3em;
+    flex:3;
+}
+@media (max-width: 620px) {
+    .Dashboard{
+        flex-direction: column;
+    }
+    .Dashboard > *:first-child{
+        margin-right:0;
+    }
+}
+
+.PageContent {
+    padding-bottom: 3rem;
+}
+
+.Page--inner .PageContent {
+    overflow: hidden;
+}
+
+button, input, optgroup, select, textarea {
+
+}
+
+a {
+    color: var(--dark-green);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.glyphicon {
+    color: #647593;
+    margin-right: 10px;
+    vertical-align: bottom;
+}
+
+*[onclick] {
+    cursor: pointer;
+}
+
+hr {
+    margin: 3rem 0;
+    border: 1px solid #f2f2f2;
+}
+audio{
+    width:80%;
+}
+
+/*
+@media (max-width: 1680px) {
+    html {
+        font-size: 54.7%;
+    }
+}
+
+@media (max-width: 540px) {
+    html {
+        font-size: 46.875%;
+    }
+}
+*/
+
+header {
+    margin-bottom: 2rem;
+}
+.richtext figure {
+    text-align: right;
+    margin: 0 auto;
+}
+
+.richtext figure.media-pullRight {
+    margin-left: 2rem;
+}
+
+.richtext figure.media-pullLeft {
+    margin-right: 2rem;
+}
+
+.green{
+    color:var(--green);
+}
+
+.Figure-copyright,
+.Figure-caption {
+    text-align: right;
+    font-size: 0.86em;
+}
+
+.Figure-image img{
+    max-width: 100%;
+}
+
+@media (max-width: 540px) {
+    figure{
+        margin: 0 auto;
+    }
+}

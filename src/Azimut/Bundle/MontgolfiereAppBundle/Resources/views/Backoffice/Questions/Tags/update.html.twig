@@ -1,0 +1,23 @@
+{% set hasCollapsableTopPanel = false %}
+{% set hasFooterPanel = false %}
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.questions.tags.header_update'|trans({"%name%": tag.name}) }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_tags') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.questions.tags.back_to_tags"|trans }}
+        </a>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.questions.tags.back_to_questions"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="scrollable">
+        <div class="margin-block">
+            {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.clients.read.header'|trans({"%name%": client.corporateName}) }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.clients.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <header class="header-bar header-bar-tabs">
+        <ul class="nav nav-tabs">
+            <li{% if activeTab == 'sheet' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_read', {'slug': client.slug}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-handshake"></i>
+                    {{ 'montgolfiere.backoffice.clients.read.tabs.sheet'|trans }}
+                </a>
+            </li>
+            <li{% if activeTab == 'edit' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_update', {'slug': client.slug}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-pencil"></i>
+                    {{ 'montgolfiere.backoffice.clients.read.tabs.edit'|trans }}
+                </a>
+            </li>
+            <li{% if activeTab == 'contacts' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_contacts', {'slug': client.slug}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-user"></i>
+                    {{ 'montgolfiere.backoffice.clients.read.tabs.contacts'|trans }}
+                </a>
+            </li>
+        </ul>
+    </header>
+    <div class="scrollable">
+        <div{% if noMargin is not defined or not noMargin %} class="margin-block"{% endif %}>
+            {% block readBody %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

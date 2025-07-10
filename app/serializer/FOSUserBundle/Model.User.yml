@@ -1,0 +1,11 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2014-02-04 17:30:04
+
+FOS\UserBundle\Model\User:
+    exclusion_policy: ALL
+    properties :
+      email :
+        expose  : true
+        groups  : [user]
+      enabled :
+        expose  : true

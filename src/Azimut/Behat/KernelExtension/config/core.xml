@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="azimut.kernel_factory" class="Azimut\Behat\KernelExtension\KernelFactory">
+            <argument>%azimut.kernel_factory.app_dir%</argument>
+        </service>
+
+        <service id="azimut.kernel_aware_initializer" class="Azimut\Behat\KernelExtension\Initializer\KernelAwareInitializer">
+            <argument type="service" id="azimut.kernel_factory" />
+            <tag name="behat.context.initializer" />
+        </service>
+    </services>
+</container>

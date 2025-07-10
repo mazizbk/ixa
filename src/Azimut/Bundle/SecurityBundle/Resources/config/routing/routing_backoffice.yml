@@ -1,0 +1,142 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 16:41:45
+
+#Expose AngularJS views
+azimut_security_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_SECURITY']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_user_list:
+    path: /jsviews/user_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:user_list.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_user_detail:
+    path: /jsviews/user_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:user_detail.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_user_form:
+    path: /jsviews/user_form
+    defaults: { _controller: AzimutSecurityBundle:Backoffice:userForm }
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_user_update_form:
+    path: /jsviews/user_update_form
+    defaults: { _controller: AzimutSecurityBundle:Backoffice:userUpdateForm }
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_group_form:
+    path: /jsviews/group_form
+    defaults: { _controller: AzimutSecurityBundle:Backoffice:groupForm }
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_group_update_form:
+    path: /jsviews/group_update_form
+    defaults: { _controller: AzimutSecurityBundle:Backoffice:groupUpdateForm }
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_new_user:
+    path: /jsviews/new_user
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:new_user.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_new_group:
+    path: /jsviews/new_group
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:new_group.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_group_list:
+    path: /jsviews/group_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:group_list.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_group_detail:
+    path: /jsviews/group_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:group_detail.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_user_access_right_list:
+    path: /jsviews/user_access_right_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:user_access_right_list.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_access_right_list_user:
+    path: /jsviews/access_right_list_user
+    defaults:
+        _controller: AzimutSecurityBundle:Backoffice:userAccessRightForm
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_access_right_list_group:
+    path: /jsviews/access_right_list_group
+    defaults:
+        _controller: AzimutSecurityBundle:Backoffice:groupAccessRightForm
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_group_access_right_list:
+    path: /jsviews/group_access_right_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:group_access_right_list.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_access_right_list_children:
+    path: /jsviews/access_right_list_children
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:access_right_list_children.angularjs.twig'
+        roles: ['APP_SECURITY']
+    options:
+        expose: true
+
+azimut_security_backoffice_jsview_forbidden:
+    path: /jsviews/forbidden
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'AzimutSecurityBundle:Backoffice:forbidden.angularjs.twig'
+    options:
+        expose: true

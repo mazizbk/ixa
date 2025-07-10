@@ -1,0 +1,96 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 12:12:09
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+        <div class="left">
+            <div class="form-inline">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search.files'|trans|capitalize }}{% verbatim %}" />
+            </div>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" ng-if="files.length>0">
+                    <thead>
+                        <tr>
+                            <th class="icon-column"></th>
+                            <th>
+                                {% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'type'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'target.page'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'target.zone'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'domain'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'email'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th class="icon-column"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            ng-repeat="file in filteredFiles = (files | filter: { name: searchKeywords, type: cmsFileBufferType, targetZoneId: targetZoneId } | orderBy: natural('id'):true)"
+                        >
+                            <td class="icon-column">
+                                <span class="glyphicon glyphicon-file"></span>
+                            </td>
+                            <td>
+                                <a href
+                                    ng-click="openFile(file)"
+                                    drag="file" drag-style="drag" drag-type="cmsfile"
+                                >
+                                    {{ file.name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ Translator.transChoice('cms.file.type.' + file.cmsFileBufferType, 1) }}
+                            </td>
+                            <td>
+                                {{ file.targetPagePath }}
+                            </td>
+                            <td>
+                                {{ file.targetZoneName }}
+                            </td>
+                            <td>
+                                {{ file.domainName }}
+                            </td>
+                            <td>
+                                <span ng-if="!file.user">{{ file.userEmail }}</span>
+                                <a href ng-click="openUser(file.user.id)" ng-if="file.user">{{ file.userEmail }}&nbsp;<span class="glyphicon glyphicon-user"></span></a>
+                            </td>
+                            <td class="icon-column">
+                                <a href ng-click="deleteFile(file)" az-confirm-click="Translator.trans('cms.file.buffer.%file_name%.confirm.permanent.delete', { file_name: file.name })"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                        <tr ng-if="filteredFiles.length == 0">
+                            <td class="icon-column">
+                            </td>
+                            <td colspan="3">
+                                {% endverbatim %}{{ 'no.cmsfile.available'|trans|capitalize }}{% verbatim %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="data-not-found-message" ng-if="0 == files.length"><span class="glyphicon glyphicon-info-sign"></span> {% endverbatim %}{{ 'no.cmsfile.found'|trans|capitalize }}{% verbatim %}</p>
+
+        </div>
+    </section>
+
+{% endverbatim %}

@@ -1,0 +1,161 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+#}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}"
+    ng-app="azimutBackoffice"
+    ng-init="
+        {% block angularjs_ng_init %}
+            locale='{{ app.request.locale }}';
+            locales=[{% for locale in locales %}'{{ locale }}'{% if not loop.last %},{% endif %}{% endfor %}];
+            userId={{ userId }};
+            gmap_api_key='{{ gmap_api_key }}';
+            comment_ratings=[{% for comment_rating in comment_ratings %}'{{ comment_rating }}'{% if not loop.last %},{% endif %}{% endfor %}];
+            jira_issue_collector_url='{{ jira_issue_collector_url }}'
+        {% endblock %}
+    "
+>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> {# IE needs this, even my current IE11 - Oo #}
+        <meta name="viewport" content="width=device-width,initial-scale=1,target-densitydpi=device-dpi, minimal-ui" />
+
+        <title ng-bind="pageTitle || 'Azimut Backoffice'">{% block title %}Azimut Backoffice{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='backoffice/css/main.css'
+            '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+            '../vendor/azimut/system-assets/daneden/animate.css/animate.css'
+            '../vendor/azimut/system-assets/ylc/ylcJsMap/ylcJsMap.css'
+            '@AzimutBackofficeBundle/Resources/less/base.less'
+            '@backoffice_css_files'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        <script>
+            {# Startup error detection script #}
+            (function() {
+                window.azimut = {
+                    hasInitialError: false
+                };
+
+                window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+
+                    // only display first error thrown
+                    if(!window.azimut.hasInitialError) {
+
+                        document.getElementById('azimutBackofficeLoaderSpinner').style.display = 'none';
+
+                        var messageDiv = document.createElement("div");
+                        messageDiv.className = 'margin-block text-center';
+
+                        messageDiv.innerHTML =
+                            '<b>{{ 'error.occurred.during.initialization'|trans }}</b><br /><br />'+
+                            '<small><a href="#" onclick="this.style.display=\'none\';this.nextSibling.style.display=\'block\'">{{ 'view.details'|trans }} <b class="caret"></b></a>'+
+                            '<div class="text-left" style="display:none;">errorMsg: '+ errorMsg + '<br />Script: ' + url + '<br />Line: ' + lineNumber + '<br />Column: ' + column + '<br />StackTrace: ' +  errorObj +'</div><small>';
+
+                        document.getElementById('azimutBackofficeLoader').appendChild(messageDiv);
+
+                    }
+
+                    window.azimut.hasInitialError = true;
+                }
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="azimutBackofficeLoader" class="splash-loader">
+            {% include 'AzimutBackofficeBundle:Backoffice:azimut_logo_animation.html.twig' %}
+
+            <div class="spinner" id="azimutBackofficeLoaderSpinner">
+                <div class="spinner-container spinner-container1">
+                    <div class="spinner-circle1"></div>
+                    <div class="spinner-circle2"></div>
+                    <div class="spinner-circle3"></div>
+                    <div class="spinner-circle4"></div>
+                </div>
+                <div class="spinner-container spinner-container2">
+                    <div class="spinner-circle1"></div>
+                    <div class="spinner-circle2"></div>
+                    <div class="spinner-circle3"></div>
+                    <div class="spinner-circle4"></div>
+                </div>
+                <div class="spinner-container spinner-container3">
+                    <div class="spinner-circle1"></div>
+                    <div class="spinner-circle2"></div>
+                    <div class="spinner-circle3"></div>
+                    <div class="spinner-circle4"></div>
+                </div>
+            </div>
+
+            <p class="splash-version">{{ version }}</p>
+        </div>
+
+        <div ui-view class="root"></div>
+
+        {# Expose Symfony routes to JS #}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+        {# Expose Symfony translations to JS #}
+        <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+        <script src="{{ url('bazinga_jstranslation_js') }}?locales={{ app.request.locale }}"></script>
+
+        {% javascripts filter='?uglifyjs2' package='build' output='backoffice/js/main.js'
+            '../vendor/azimut/system-assets/jquery/jquery.min.js'
+            '../vendor/azimut/system-assets/angularjs/angular.min.js'
+            '../vendor/azimut/system-assets/angular-ui/bootstrap/ui-bootstrap.min.js'
+            '../vendor/azimut/system-assets/angular-ui/bootstrap/ui-bootstrap-tpls.min.js'
+            '../vendor/azimut/system-assets/angular-ui/ui-router/angular-ui-router.min.js'
+            '../vendor/azimut/system-assets/angular-ui/ui-utils/ui-utils.min.js'
+            '../vendor/azimut/system-assets/angularjs/angular-animate.min.js'
+            '../vendor/azimut/system-assets/twitter/bootstrap/dist/js/bootstrap.min.js'
+            '../vendor/azimut/system-assets/ylc/ylcJsMap/ylcJsMap.min.js'
+            '@AzimutBackofficeBundle/Resources/js/backoffice.js'
+            '@AzimutBackofficeBundle/Resources/angularjs/BackofficeApp.js'
+            '@AzimutBackofficeBundle/Resources/angularjs/Controller/*.js'
+            '@AzimutBackofficeBundle/Resources/angularjs/Directive/*.js'
+            '@AzimutBackofficeBundle/Resources/angularjs/Service/*.js'
+            '@AzimutBackofficeBundle/Resources/angularjs/Filter/*.js'
+            '@backoffice_js_files'
+            '../node_modules/moment/min/moment.min.js'
+            '../node_modules/air-datepicker/dist/js/datepicker.min.js'
+            '../node_modules/air-datepicker/dist/js/i18n/datepicker.en.js'
+            '../node_modules/air-datepicker/dist/js/i18n/datepicker.fr.js'
+            '../node_modules/air-datepicker/dist/js/i18n/datepicker.es.js'
+            '../node_modules/air-datepicker/dist/js/i18n/datepicker.de.js'
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script>
+            console.info('Azimut System {{ version }}');
+
+            {# Detect unsupported browsers #}
+            (function() {
+                if(!window.FormData) {
+
+                    window.azimut.hasInitialError = true;
+
+                    document.getElementById('azimutBackofficeLoaderSpinner').style.display = 'none';
+
+                    var messageDiv = document.createElement("div");
+                    messageDiv.className = 'margin-block text-center';
+
+                    messageDiv.innerHTML =
+                        '<b>'+Translator.trans('error.browser.not.supported')+'</b><br /><br />'+
+                        '<small>'+Translator.trans('error.browser.not.supported.help.comment')+'</small><br />'+
+                        '<small>'+Translator.trans('error.browser.not.supported.help.browser.advise.firefox')+' <a href="http://www.firefox.com">www.firefox.com</a></small>';
+
+                    document.getElementById('azimutBackofficeLoader').appendChild(messageDiv);
+
+                    // kill application
+                    delete angular;
+                }
+            })();
+        </script>
+    </body>
+</html>

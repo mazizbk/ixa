@@ -1,0 +1,23 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-12-30 16:30:39
+###########################################################
+#
+# Simpler version of file_detail view, to be used when
+# embedding edition from another template
+#
+#}
+
+{% verbatim %}
+    <div class="scrollable">
+        <div class="margin-block" ng-class="{'block-readonly': false === fileEditIsGranted}">
+            <div class="pull-right">
+                <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div ng-include="formFileTemplateUrl"></div>
+        </div>
+    </div>
+{% endverbatim %}

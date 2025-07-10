@@ -1,0 +1,53 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+imports:
+    - { resource: config.yml }
+
+framework:
+    validation:
+        cache: validation.doctrine_cache.filesystem
+
+doctrine:
+    orm:
+        metadata_cache_driver:
+            cache_provider: metadata_cache
+        query_cache_driver:
+            cache_provider: query_cache
+#        result_cache_driver: apc
+
+doctrine_cache:
+  providers:
+    metadata_cache:
+      file_system:
+        directory: "%kernel.cache_dir%/doctrine/metadata_cache"
+    query_cache:
+      file_system:
+        directory: "%kernel.cache_dir%/doctrine/query_cache"
+    validation_cache:
+      file_system:
+        directory: "%kernel.cache_dir%/doctrine/validation_cache"
+
+services:
+    validation.doctrine_cache.filesystem:
+        class: \Symfony\Component\Validator\Mapping\Cache\DoctrineCache
+        arguments:
+            - "@doctrine_cache.providers.validation_cache"
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+            formatter: colored_formatter
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+
+assetic:
+    filters:
+        less:
+            node_paths: ["node_modules"]
+            compress: true

@@ -1,0 +1,32 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2014-01-31 11:30:04
+
+azimut_security_api_user:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiUserController
+    name_prefix: azimut_security_api_
+
+azimut_security_api_group:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiGroupController
+    name_prefix: azimut_security_api_
+
+azimut_security_api_access_rights:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiAccessRightsController
+    name_prefix: azimut_security_api_
+
+azimut_security_api_public_access_roles:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiPublicAccessRoleController
+    name_prefix: azimut_security_api_
+
+azimut_security_api_access_roles:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiAccessRoleController
+    name_prefix: azimut_security_api_
+
+azimut_security_api_object:
+    type: rest
+    resource: Azimut\Bundle\SecurityBundle\Controller\ApiObjectController
+    name_prefix: azimut_security_api_

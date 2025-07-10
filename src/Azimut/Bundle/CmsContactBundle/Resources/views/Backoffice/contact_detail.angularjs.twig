@@ -1,0 +1,43 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-11-03 16:55:37
+#}
+
+{% verbatim %}
+
+<header class="header-bar">
+
+        <div class="right shrink0">
+
+            <a href ui-sref="backoffice.cmscontact.edit_contact({ file_id: contact.id})"><span class="glyphicon glyphicon-edit"></span> {% endverbatim %}{{ 'edit'|trans|capitalize }}{% verbatim %}</a>
+
+            <a href ng-click="deleteContact(contact)" az-confirm-click="Translator.trans('contact.%contact_name%.confirm.permanent.delete', {contact_name: contact.getName($scope.locale)})"><span class="glyphicon glyphicon-trash"></span> {% endverbatim %}{{ 'delete'|trans|capitalize }}{% verbatim %}</a>
+
+        </div>
+
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well">
+
+                    <h3>{{ contact.getName($scope.locale) }}</h3>
+
+                    <p ng-if="contact.address">
+                        {{ contact.address }}<br />
+                        {{ contact.zipCode }} {{ contact.city }} <span ng-if="contact.country"> - {{ contact.country }} </span>
+                    </p>
+
+                    <p ng-if="contact.phone"><span class="glyphicon glyphicon-phone"></span> {{ contact.phone }}</p>
+
+                    <p ng-if="contact.email"><span class="glyphicon glyphicon-envelopeglyphicon glyphicon-envelope"></span> {{ contact.email }}</p>
+
+                    <p ng-if="contact.birthday"><span class="glyphicon glyphicon-pro glyphicon-pro-birthday-cake"></span> {{ contact.birthday }}</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endverbatim %}

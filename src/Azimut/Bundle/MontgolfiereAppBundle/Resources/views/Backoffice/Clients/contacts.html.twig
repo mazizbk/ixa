@@ -1,0 +1,68 @@
+{# @var subEntities \Azimut\Bundle\MontgolfiereAppBundle\Entity\ClientContact[] #}
+{# @var entity \Azimut\Bundle\MontgolfiereAppBundle\Entity\Client #}
+{% set activeTab = 'contacts' %}
+{% set client = entity %}
+{% set noMargin = true %}
+{% import _self as macros %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Clients/read_base.html.twig' %}
+
+{% block readBody %}
+
+    <header class="header-bar">
+        <div class="right">
+            <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_contacts_new', {slug: client.slug}) }}">
+                <i class="glyphicon glyphicon-plus"></i> {{ "montgolfiere.backoffice.clients.contacts.new_contact"|trans }}
+            </a>
+        </div>
+    </header>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'montgolfiere.backoffice.clients.contacts.read.name'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.contacts.fields.position'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.contacts.fields.email_address'|trans }}</th>
+                <th>{{ 'montgolfiere.backoffice.clients.contacts.fields.phone_number'|trans }}</th>
+                <th class="icon-column"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contact in subEntities %}
+            <tr>
+                <td>
+                    <strong>{{ contact.firstName }} {{ contact.lastName }}</strong>
+                    {% if contact.isHeadOfHumanResources %}
+                        <i class="glyphicon glyphicon-briefcase" data-toggle="tooltip" title="{{ 'montgolfiere.backoffice.clients.contacts.read.is_head_of_hr'|trans }}"></i>
+                    {% endif %}
+                </td>
+                <td>{{ contact.position }}</td>
+                <td>{% if contact.emailAddress %}<a href="mailto:{{ contact.emailAddress }}">{{ contact.emailAddress }}</a>{% endif %}</td>
+                <td>{% if contact.phoneNumber %}{{ macros.displayPhoneNumber(contact.phoneNumber) }}{% endif %}</td>
+                <td class="icon-column">
+                    {{ form(deleteForms[contact.id]) }}
+                    {% if contact.isHeadOfHumanResources %}
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_contacts_impersonate', {slug: entity.slug, contact: contact.id}) }}" target="_blank">
+                            <i class="glyphicon glyphicon-pro glyphicon-pro-user-key" data-toggle="tooltip" title="{{ 'montgolfiere.backoffice.clients.contacts.read.impersonate'|trans }}"></i>
+                        </a>
+                    {% else %}
+                        <a href="#" class="invisible">
+                            <i class="glyphicon glyphicon-pro glyphicon-pro-user-key"></i>
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('azimut_montgolfiere_app_backoffice_clients_contacts_update', {slug: client.slug, contact: contact.id}) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="#" onclick="confirm('{{ 'montgolfiere.backoffice.clients.contacts.confirmation.contact_delete'|trans({'%name%':contact.firstName~' '~contact.lastName})|e('js') }}') && $(this).siblings('form').submit(); return false;"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% macro displayPhoneNumber(phoneNumber) %}
+    <a href="{{ phoneNumber|phone_number_format(constant('\\libphonenumber\\PhoneNumberFormat::RFC3966')) }}">
+        {% set format = phoneNumber.countryCode==33?'NATIONAL':'INTERNATIONAL' %}
+        {{- phoneNumber|phone_number_format(constant('\\libphonenumber\\PhoneNumberFormat::'~format)) -}}
+    </a>
+{% endmacro %}

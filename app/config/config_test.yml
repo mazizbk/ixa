@@ -1,0 +1,31 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        enabled: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+security:
+    firewalls:
+        main:
+            http_basic: ~
+
+parameters:
+    mediacenter_fixtures_dir: '%kernel.root_dir%/../src/Azimut/Bundle/MediacenterBundle/Resources/fixtures'
+    azimut_voter_class: "Azimut\\Bundle\\SecurityBundle\\Tests\\Mock\\Security\\Voter"
+    locales:
+        - fr
+        - en

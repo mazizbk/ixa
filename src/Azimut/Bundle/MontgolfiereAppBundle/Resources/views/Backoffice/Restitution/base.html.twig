@@ -1,0 +1,14 @@
+{% set activeTab = 'restitution' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Restitution/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="well">
+        <strong>Par thème :</strong>
+        {% for theme in themes %}
+            <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_restitution_theme', {id: theme.id}) }}">{{ theme.name[app.request.locale] }}</a>{% if not loop.last %} - {% endif %}
+        {% endfor %}
+        <br />
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_restitution_items') }}"><strong>Par item</strong></a>
+    </div>
+    {% block innerBody %}{% endblock innerBody %}
+{% endblock %}

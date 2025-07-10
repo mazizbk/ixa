@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-26 12:30:39
+#}
+
+<p>{{ 'email.hello'|trans }},</p>
+
+<p>{{ 'email.shop.a.new.order.has.been.placed'|trans }}.</p>
+
+<p>{{ 'email.shop.order.number'|trans }}: {{ order.number }}.</p>
+
+<p>{{ 'total.price'|trans|capitalize }} ({{ 'excl.vat'|trans }}) : {{ order.totalPreTaxAmount|az_shop_price }}</p>
+
+<p>{{ 'total.price'|trans|capitalize }} ({{ 'incl.vat'|trans }}) : {{ order.totalAmount|az_shop_price }}</p>
+
+<br />
+
+{% include 'SiteLayout/shop_order_products_list.html.twig' %}

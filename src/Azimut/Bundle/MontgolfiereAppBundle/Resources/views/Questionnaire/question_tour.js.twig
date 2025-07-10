@@ -1,0 +1,104 @@
+var tourOptions =  {
+    options : {
+        darkLayerPersistence : true,
+        next : 'Suivant',
+        prev : 'Précédent',
+        finish : 'C\'est parti !'
+    },
+    tips : [
+        {
+            title : 'Rester spontané',
+            image: false,
+            description : 'Le but est de positionner <strong>spontanément</strong> le curseur le long du demi-cercle pour déterminer votre vécu de travail.',
+            selector : '.knob-container',
+            x: 50,
+            y: 50,
+            offx : 0,
+            offy : 0,
+            position : 'top',
+            onSelected : false
+        },
+        {
+            title : 'Partir de l\'équilibre',
+            image: false,
+            description : 'Le curseur est au milieu <strong>par défaut</strong>. Plus une situation vous semblera déséquilibrée, ' +
+                'plus vous éloignerez le curseur de cette <strong style="color:#49AF54">zone verte &laquo;&nbsp;idéale&nbsp;&raquo;</strong>.',
+            selector : '.knob-container',
+            x: 50,
+            y: 50,
+            offx : 0,
+            offy : 0,
+            position : 'top',
+            onSelected : false
+        },
+        {
+            title : 'Choisir une &laquo;&nbsp;température&nbsp;&raquo;',
+            image: false,
+            description : 'Selon <strong>votre ressenti</strong> de l\'ambiance :<br />' +
+                '<strong style="color:#68258F">Froid :</strong> Insuffisant - Manque<br />' +
+                '<strong style="color:#49AF54">Tempérée :</strong> &Eacute;quilibre - Confort<br />' +
+                '<strong style="color:#D6582B">Chaud :</strong> Inadapté - Excessif',
+            selector : '.knob-container',
+            x: 50,
+            y: 50,
+            offx : 0,
+            offy : 0,
+            position : 'top',
+            onSelected : false
+        },
+        {
+            title : 'En cas d\'hésitation',
+            image: false,
+            description : 'Choisissez <strong>le coté qui impacte le plus votre travail quotidien</strong>. ' +
+                'Les situations à gauche et à droite ne sont pas forcément incompatibles ou contradictoires.',
+            selector : '.knob-container',
+            x: 50,
+            y: 50,
+            offx : 0,
+            offy : 0,
+            position : 'top',
+            onSelected : false
+        },
+        {
+            title : 'Privilégier la nuance',
+            image: false,
+            description : 'Le demi-cercle propose une <strong>multitude de réponses</strong>. Les extrêmes indiquent une situation grave voir insupportable.',
+            selector : '.knob-container',
+            x: 50,
+            y: 50,
+            offx : 0,
+            offy : 0,
+            position : 'top',
+            onSelected : false
+        },
+        {
+            title : 'Besoin d\'aide ?',
+            image: false,
+            description : 'Appuyez sur &laquo; <i class="fas fa-info fa-fw"></i> &raquo; pour en savoir plus sur la question.',
+            selector : '.tooltip-container',
+            x: 50,
+            y: 0,
+            offx : -170,
+            offy : 20,
+            position : 'bottom',
+            onSelected : false
+        },
+        {
+            title : 'Besoin d\'aide ?',
+            image: false,
+            description : '&laquo; <i class="fas fa-question fa-fw"></i> &raquo; répond aux questions globales sur la démarche.<br />' +
+                '&laquo; <i class="fas fa-envelope fa-fw"></i> &raquo; permet de nous écrire directement <small>(confidentiel)</small>',
+            selector : '.actions',
+            x: 50,
+            y: 0,
+            offx : -73,
+            offy : 0,
+            position : 'bottom',
+            onSelected : false
+        }
+    ]
+};
+ProductTourJS.init(tourOptions);
+{% if show_tutorial %}
+ProductTourJS.start();
+{% endif %}

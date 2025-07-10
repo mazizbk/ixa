@@ -1,0 +1,116 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    {% set sections = 2 + (participation is ixa_wbe_low_score ? 1 : 0) %}
+    <div class="congrats">
+        <div id="scrollable-container" style="width:{{ 100 * sections }}vw">
+            {% if participation is ixa_wbe_low_score %}
+            <section>
+                <div class="left">
+                    <div class="image" id="low_wbe"></div>
+                </div>
+                <div class="content">
+                    <h1>{{ 'montgolfiere.questionnaire.results.low_score_title'|trans }}</h1>
+                    <div id="alert">
+                        <p>
+                            {{ 'montgolfiere.questionnaire.results.low_score_text1'|trans }}
+                        </p>
+                        <p>
+                            {{ 'montgolfiere.questionnaire.results.low_score_text2'|trans|raw }}
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-primary" data-toggle="contact-modal" data-contact-type="low-score" data-contact-finish="changeSection(1, document.querySelector('#scrollable-container'))">{{ 'montgolfiere.questionnaire.results.yes'|trans }}</a>
+                            <a href="#" class="btn btn-primary" data-action="next" data-target="#scrollable-container">{{ 'montgolfiere.questionnaire.results.no'|trans }}</a>
+                        </p>
+                        <p>
+                            {{ 'montgolfiere.questionnaire.results.low_score_text3'|trans }}
+                            <a href="mailto:{{ contact_address }}">{{ contact_address }}</a>.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+            {% endif %}
+            <section>
+                <div class="left">
+                    <div class="image" id="bee_score"></div>
+                </div>
+                <div class="content">
+                    <h1>{{ 'montgolfiere.questionnaire.results.bee_profile_title'|trans }}</h1>
+                    <p><strong>{{ 'montgolfiere.questionnaire.results.bee_profile_text1'|trans }}</strong></p>
+                    <ul>
+                        <li>{{ 'montgolfiere.questionnaire.results.bee_profile_definition1'|trans }}</li>
+                        <li>{{ 'montgolfiere.questionnaire.results.bee_profile_definition2'|trans }}</li>
+                        <li>{{ 'montgolfiere.questionnaire.results.bee_profile_definition3'|trans }}</li>
+                        <li>{{ 'montgolfiere.questionnaire.results.bee_profile_definition4'|trans }}</li>
+                        <li><a href="https://workcare.fr/faq/" target="_blank">{{ 'montgolfiere.questionnaire.results.bee_profile_definition5'|trans }}</a></li>
+                    </ul>
+                    <p>
+                        {% if participation.emailAddress %}
+                            {{ 'montgolfiere.questionnaire.results.bee_profile_text2'|trans }} {{ participation.emailAddress }}<br />
+                        {% endif %}
+                        {{ 'montgolfiere.questionnaire.results.bee_profile_text3'|trans }}
+                    </p>
+                    <form action="#">
+                        <div class="form-group">
+                            <label for="email">{{ 'montgolfiere.questionnaire.results.modals.email.your_email_address'|trans }}</label>
+                            <input type="email" id="email" class="form-control" value="{{ participation.emailAddress }}" placeholder="jean.martin@orange.fr" />
+                        </div>
+                    </form>
+                    <a href="#" class="btn btn-primary" onclick="submitEmailForm(this); return false;">Envoyer</a>
+                    <a href="#" class="btn btn-primary" data-action="next" data-target="#scrollable-container">Non merci</a>
+                </div>
+            </section>
+            <section>
+                <div class="left">
+                    <div class="image" id="thanks"></div>
+                </div>
+                <div class="content">
+                    <h1>{{ 'montgolfiere.questionnaire.results.thank_you'|trans }}</h1>
+                    <h2>
+                        {{ 'montgolfiere.questionnaire.results.participation_saved'|trans }}
+                    </h2>
+                    <p>
+                        {# Stop trying to make a close button work. Browsers refuses that tabs closes themselves, and even if they are some workarounds from time to time, they are not supported and will stop working eventually #}
+                        <a href="{{ path('azimut_montgolfiere_questionnaire_index', {'questionnaireToken': campaign.questionnaireToken}) }}" class="btn btn-primary">{{ 'montgolfiere.questionnaire.results.close'|trans }}</a>
+                        <br /><br />
+                        {{ 'montgolfiere.questionnaire.results.you_may_now_close_your_browser'|trans }}
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    {% include "@AzimutMontgolfiereApp/Questionnaire/contact_modal.html.twig" %}
+{% endblock %}
+{% block end_javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('.modal').modal({show:false});
+            $('[data-toggle=tooltip]').tooltip();
+
+            {% include "@AzimutMontgolfiereApp/Questionnaire/contact_modal.js.twig" %}
+        });
+
+        function submitEmailForm(el) {
+            if($(el).hasClass('active')) {
+                return;
+            }
+            $(el)
+                .addClass('active')
+                .blur()
+                .text('Envoi en cours...')
+            ;
+            $.post('{{ path('azimut_montgolfiere_questionnaire_email', {questionnaireToken: campaign.questionnaireToken}) }}', {email: $('#email').val()}).then(function() {
+                $('#wbe_email').text($('#email').val());
+                $('#wbe_sent').show();
+                changeSection(1, document.querySelector('#scrollable-container'));
+            }).fail(function(e) {
+                alert(e.responseText);
+            }).always(function() {
+                $(el).removeClass('active').text('{{ 'montgolfiere.questionnaire.results.modals.email.submit'|trans }}');
+            });
+        }
+    </script>
+{% endblock %}

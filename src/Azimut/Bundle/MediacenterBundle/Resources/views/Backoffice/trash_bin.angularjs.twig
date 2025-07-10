@@ -1,0 +1,77 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-09-18 15:25:13
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="form-inline">
+            <div class="input-group">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search'|trans|capitalize }}{% verbatim %}" />
+            </div>
+        </div>
+
+        <div class="right shrink0">
+            <a href
+                ng-click="emptyTrashBin()"
+                ng-class="{'disabled': folders.length + medias.length < 1}"
+                az-confirm-click="Translator.trans('trashbin.confirm.permanent.delete.of.%element_count%', {element_count: (folders.length + medias.length)})"
+                az-confirm-click-condition="folders.length + medias.length > 0"
+            ><span class="glyphicon glyphicon-trash"></span>{% endverbatim %} {{ 'empty.trashbin'|trans|capitalize }}{% verbatim %}</a>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="table-responsive" ng-if="medias.length > 0 || folders.length > 0">
+                <table class="table table-striped table-hover">
+                    <thead class="hidden-xxs-max">
+                        <tr>
+                            <th class="icon-column"></th>
+                            <th ng-click="toggleOrderFilesBy('name')">
+                                {% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}
+                                <span class="sort-icon" ng-class="{'selected': orderFilesBy == 'name'}">
+                                    <span class="caret" ng-class="{'caret-inverse': orderFilesReverse && orderFilesBy == 'name'}"></span>
+                                </span>
+                            </th>
+                            <th ng-click="toggleOrderFilesBy('id')" class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'original.file.location'|trans|capitalize }}{% verbatim %}
+                                <span class="sort-icon" ng-class="{'selected': orderFilesBy == 'id'}">
+                                    <span class="caret" ng-class="{'caret-inverse': orderFilesReverse && orderFilesBy == 'id'}"></span>
+                                </span>
+                            </th>
+                            <th ng-click="toggleOrderFilesBy('mediaType')" class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'type'|trans|capitalize }}{% verbatim %}
+                                <span class="sort-icon" ng-class="{'selected': orderFilesBy == 'mediaType'}">
+                                    <span class="caret" ng-class="{'caret-inverse': orderFilesReverse && orderFilesBy == 'mediaType'}"></span>
+                                </span>
+                            </th>
+                            <th ng-click="toggleOrderFilesBy('trashedDate')" class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'trashed.date'|trans|capitalize }}{% verbatim %}
+                                <span class="sort-icon" ng-class="{'selected': orderFilesBy == 'trashedDate'}">
+                                    <span class="caret" ng-class="{'caret-inverse': orderFilesReverse && orderFilesBy == 'trashedDate'}"></span>
+                                </span>
+                            </th>
+                            <th class="icon-column"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            ng-repeat="currentFile in folders | filter:{name:searchKeywords} | orderBy: natural(orderFilesBy):orderFilesReverse"
+                            ng-click="selectFile(currentFile)"
+                            ng-class="{'active': currentFile == selectedFile}"
+                            ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_trash_bin_item') }}{% verbatim %}'"
+                        ></tr>
+                        <tr
+                            ng-repeat="currentFile in medias | filter:{name:searchKeywords} | orderBy: natural(orderFilesBy):orderFilesReverse"
+                            ng-click="selectFile(currentFile)"
+                            ng-class="{'active': currentFile == selectedFile}"
+                            ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_trash_bin_item') }}{% verbatim %}'"
+                        ></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="data-not-found-message" ng-if="0 == folders.length + medias.length"><span class="glyphicon glyphicon-info-sign"></span> {% endverbatim %}{{ 'this.trashbin.is.empty'|trans|capitalize }}{% verbatim %}</p>
+        </div>
+    </section>
+{% endverbatim %}

@@ -1,0 +1,524 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+// --------------------------------------------------
+// communs
+.main-panel {
+    .flex(1 1 auto);
+    .flex-display();
+}
+.header-bar, .footer-bar {
+    .flex-display();
+    height: @az-bar-height;
+    .flex(0 0 auto);
+    .align-items(center);
+    padding: 0 round(@az-bar-height/6);
+    white-space: nowrap;
+
+    .left, .center, .right {
+        .flex-display();
+        .flex(1 1 auto);
+        .align-items(inherit);
+
+        > * {
+            margin: round(@az-bar-height/6);
+        }
+    }
+    .center {
+        .justify-content(center);
+    }
+    .right {
+        .justify-content(flex-end);
+    }
+    .input-group {
+        max-width: 200px;
+    }
+    .form-control, .btn {
+        padding: 4px 10px;
+        height: 30px;
+    }
+    .dropdown-menu .form-control {
+        height: auto;
+    }
+    .icon-btn {
+        line-height: 0.8em;
+        border-radius: @border-radius-base;
+        margin: 0;
+        padding: round(@az-bar-height/6)-1;
+        border: 1px solid transparent;
+        .glyphicon {
+            top: 0;
+        }
+        &:active, &:focus {
+            border-color: @az-root-header-color;
+            outline: none;
+        }
+    }
+
+    @media (max-height: 400px) {
+        height: round(@az-bar-height*2/3);
+        font-size: @font-size-small;
+    }
+
+    // add-on to the bootstrap form-inline without the min-width: @screen-sm-min
+    // (bootstrap do not not provide mixin for this, so we need to copy it all :/)
+    .form-inline {
+        // Inline-block all the things for "inline"
+        .form-group {
+          display: inline-block;
+          margin-bottom: 0;
+          vertical-align: middle;
+        }
+
+        // In navbar-form, allow folks to *not* use `.form-group`
+        .form-control {
+          display: inline-block;
+          width: auto; // Prevent labels from stacking above inputs in `.form-group`
+          vertical-align: middle;
+        }
+
+        // Make static controls behave like regular ones
+        .form-control-static {
+          display: inline-block;
+        }
+
+        .input-group {
+          display: inline-table;
+          vertical-align: middle;
+
+          .input-group-addon,
+          .input-group-btn,
+          .form-control {
+            width: auto;
+          }
+        }
+
+        // Input groups need that 100% width though
+        .input-group > .form-control {
+          width: 100%;
+        }
+
+        .control-label {
+          margin-bottom: 0;
+          vertical-align: middle;
+        }
+
+        // Remove default margin on radios/checkboxes that were used for stacking, and
+        // then undo the floating of radios and checkboxes to match.
+        .radio,
+        .checkbox {
+          display: inline-block;
+          margin-top: 0;
+          margin-bottom: 0;
+          vertical-align: middle;
+
+          label {
+            padding-left: 0;
+          }
+        }
+        .radio input[type="radio"],
+        .checkbox input[type="checkbox"] {
+          position: relative;
+          margin-left: 0;
+        }
+
+        // Re-override the feedback icon.
+        .has-feedback .form-control-feedback {
+          top: 0;
+        }
+    }
+}
+
+.footer-bar-sm {
+    height: @az-bar-height/2;
+    padding: 0 round(@az-bar-height/12);
+
+    .left, .center, .right {
+        > * {
+            margin: 0 round(@az-bar-height/12);
+        }
+    }
+}
+
+.header-bar-tabs {
+    padding: 8px 0 0;
+    border-bottom: none !important;
+
+
+    > .nav-tabs {
+        width: 100%;
+        .flex-display();
+
+        > li {
+            .flex(1 1 auto);
+            float: none;
+            text-align: center;
+
+            &:first-child {
+                margin-left: 5%;
+            }
+            &:last-child {
+                margin-right: 5%;
+            }
+
+            ul.dropdown-menu {
+                // 2px is from Boostrap's margin-right on .nav-tabs li a
+                width: ~"calc(100% - 2px)";
+            }
+        }
+    }
+}
+
+.side-panel {
+    .flex(0 0 auto);
+    width: 200px;
+    color: @az-root-side-panel-color;
+    background: @az-root-side-panel-bg-color;
+
+    @media (max-width: @screen-xxs-max) {
+        .flex(1 1 auto);
+        width: auto !important;
+        height: 25vh; // webkits and ie need a height to enable css transition on it
+    }
+}
+
+.body {
+    .flex(1 0 auto);
+}
+
+// --------------------------------------------------
+// 1st level elements
+
+.root {
+    .flex-display();
+    .flex-direction(column);
+    height: 100%;
+    width: 100%;
+
+    > .header-bar {
+        color: @az-root-header-color;
+        background: @az-root-header-bg-color;
+
+        header {
+            text-align: center;
+            .flex(0 0 auto);
+
+            .header-bar-logo {
+                height: 34px;
+                margin-right: 10px;
+
+                @media (max-width: @screen-xs-max) {
+                    height: 30px;
+                }
+
+                @media (max-width: @screen-xxs-max) {
+                    height: 20px;
+                }
+
+                @media (max-width: 310px) {
+                    display: none;
+                }
+            }
+        }
+
+        .form-control {
+            color: @az-root-header-input-color;
+            background: @az-root-header-input-bg-color;
+            border-color: @az-root-header-btn-bg-color;
+        }
+        .btn-default {
+            color: @az-main-color;
+            background: @az-root-header-btn-bg-color;
+            border-color: @az-root-header-btn-bg-color;
+
+            &:active, &:focus {
+                background: darken(@az-root-header-btn-bg-color, 30);
+            }
+        }
+        .navbar-toggle {
+            border-color: none;
+
+            &:active, &:focus {
+                border: 1px solid @az-root-header-color;
+            }
+            .icon-bar {
+                background-color: @az-main-color;
+            }
+        }
+
+        a {
+            color: @az-root-header-link-color;
+
+            &:hover {
+                color: @az-main-color;
+            }
+        }
+        .shortcuts {
+            > * {
+                margin: round(@az-bar-height/12);
+            }
+            a {
+                color: @az-main-color;
+            }
+        }
+
+        .disk-quota {
+            .glyphicon {
+                color: @az-main-color;
+            }
+            .progress {
+                width: 116px;
+                height: 8px;
+                margin: 0;
+                background-color: @az-root-header-progress-bg-color;
+            }
+        }
+
+        .connected-user {
+            .avatar {
+                width: 30px;
+                height: 30px;
+                border: 2px solid @az-root-header-img-border-color;
+            }
+            .username {
+                margin-left: 5px;
+            }
+        }
+
+        .glyphicon-off {
+            color: @az-root-header-logout-color;
+        }
+    }
+
+    > .body {
+        .flex-display();
+        position: relative;
+
+        > .main-panel {
+            position: relative;
+            overflow-x: auto;
+
+            a {
+                color: @az-main-link-color;
+
+                &.btn-primary {
+                    color: @btn-primary-color;
+                }
+
+                .glyphicon {
+                    color: @az-main-link-icon-color;
+                }
+                .glyphicon-add {
+                    color: @az-main-link-color;
+                }
+                .glyphicon-overlay {
+                    color: white !important;
+                }
+            }
+            .dropdown-menu li.active a {
+                color: #fff;
+                .glyphicon {
+                    color: #fff;
+                }
+            }
+            .breadcrumb a {
+                color: @az-breadcrumb-link-color;
+            }
+            .breadcrumb-up-btn .glyphicon {
+                color: @az-breadcrumb-up-btn-color;
+            }
+
+            .notifications {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                z-index: 1500;
+
+                i:first-letter {
+                    text-transform: capitalize;
+                }
+            }
+
+            .external-app-iframe {
+                width: 100%;
+                height: 100%;
+            }
+
+            @media (max-width: @screen-xxs-max) {
+                .flex-direction(column);
+                overflow: hidden;
+
+                .external-app-iframe {
+                    flex: 1 1 auto;
+                }
+            }
+        }
+
+        > .side-panel {
+            color: @az-root-side-panel-color;
+            background: @az-root-side-panel-bg-color;
+
+            .collapsable-border-btn {
+                background: @az-root-side-panel-collapsable-border-btn-bg-color;
+                &:active, &:focus {
+                    background: @az-root-side-panel-collapsable-border-btn-active-bg-color;
+                }
+            }
+
+            &.side-menu-panel {
+                @root-side-menu-panel-width: 180px;
+                width: @root-side-menu-panel-width;
+
+                a {
+                    color: @az-root-side-panel-color;
+                }
+                a .glyphicon {
+                    color: @az-main-color;
+                }
+
+                .nav {
+                    margin: 12px 0;
+                    width: @root-side-menu-panel-width;
+
+                    > li > a {
+                        padding: 10px @az-collapsable-border-btn-height 10px 18px;
+                        .flex-display();
+                        .align-items(center);
+
+                        &:hover, &:active, &:focus, &.active {
+                            background-color: @root-side-menu-nav-link-hover-bg;
+                        }
+                        > span {
+                            .flex-display();
+                            .flex(1 1 auto);
+                        }
+                        .glyphicon {
+                            top: 0;
+                            .flex(0 0 auto);
+                            margin-right: 18px;
+                        }
+                    }
+                }
+
+                &.collapsed {
+                    .nav .menu-label {
+                        height: @line-height-computed;
+                        overflow: hidden;
+                    }
+                }
+
+                @media (max-width: @screen-xs-max) {
+                    &.collapsed {
+                        width: 0 !important;
+                    }
+                    .collapsable-border-btn {
+                        display: none;
+                    }
+                }
+
+                @media (max-width: @screen-xxs-max) {
+                    .flex(0 1 auto);
+                    width: auto !important;
+                    height: 70vh;
+
+                    &.collapsed {
+                        width: auto !important;
+                    }
+
+                    .nav {
+                        width: auto;
+                    }
+                }
+            }
+        }
+        @media (max-width: @screen-xxs-max) {
+            .flex-direction(column);
+        }
+
+    }
+
+    > .footer-bar {
+        color: @az-root-header-color;
+        background: @az-root-header-bg-color;
+    }
+}
+
+// --------------------------------------------------
+// 2nd level elements
+
+.root > .body > .main-panel {
+
+    background-color: @az-app-body-bg-color;
+
+    > .side-panel {
+        color: @az-app-side-panel-color;
+        background: @az-app-side-panel-bg-color;
+    }
+
+    > .main-panel {
+        .flex-direction(column);
+        min-width: 400px;
+
+        > .header-bar {
+            color: @az-app-bar-color;
+            background: @az-app-bar-bg-color;
+
+            .breadcrumb {
+                white-space: normal;
+                height: @line-height-computed;
+                overflow: hidden;
+            }
+
+            &:nth-of-type(even) {
+                background-color: @az-app-bar-even-bg-color;
+            }
+            &:nth-of-type(even):last-of-type {
+                border-bottom: 1px solid @az-app-bar-bg-color;
+            }
+        }
+
+        > .horizontal-panel {
+            .flex(0 0 auto);
+            height: 200px;
+            height: 20vh; // BUG: in IE11, interpolation from vh unit to px unit causes a white flash in screen (probably a reflow)
+        }
+
+        > .body {
+            background: @az-app-body-bg-color;
+
+            .caret {
+                color: @az-app-body-caret-color;
+            }
+        }
+
+        > .footer-bar {
+            color: @az-app-bar-color;
+            background: @az-app-bar-bg-color;
+
+            .glyphicon {
+                top: 1px;
+            }
+            a .glyphicon {
+                color: @az-main-link-color;
+            }
+
+            &:nth-of-type(odd):not(:only-of-type) {
+                background-color: @az-app-bar-even-bg-color;
+            }
+            &:nth-of-type(odd):first-of-type:not(:only-of-type) {
+                border-top: 1px solid @az-app-bar-bg-color;
+            }
+        }
+
+        > .footer-bar-sm {
+            font-size: @font-size-small;
+        }
+
+        @media (max-width: @screen-xs-max) {
+            min-width: 200px; // edge case where vh unit not supported
+            min-height: 40vh;
+        }
+    }
+}

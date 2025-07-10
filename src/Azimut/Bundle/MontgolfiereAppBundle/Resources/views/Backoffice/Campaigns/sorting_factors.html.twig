@@ -1,0 +1,17 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'sorting_factors' %}
+{% set hasFooterPanel = false %}
+{% set campaign = entity %}
+{% set sortingFactors = subEntities %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div id="app" campaign-id="{{ campaign.id }}" allowed-languages-str="{{ campaign.allowedLanguages|join(',') }}"></div>
+{% endblock %}
+
+{% block headerstylesheets %}
+    {{ encore_entry_link_tags('ixa-sorting-factors') }}
+{% endblock %}
+{% block footerscripts %}
+    {{ encore_entry_script_tags('ixa-sorting-factors') }}
+{% endblock %}

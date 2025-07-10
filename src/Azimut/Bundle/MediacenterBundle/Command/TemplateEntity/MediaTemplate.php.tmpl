@@ -1,0 +1,66 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:   2014-08-01
+ */
+
+namespace Azimut\Bundle\MediacenterBundle\Entity;
+
+use Azimut\Bundle\MediacenterBundle\Entity\Media;
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+use Azimut\Bundle\DoctrineExtraBundle\Translation\TranslationProxy;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="mediacenter_media_%media_type_lowercase%")
+ *
+ * @DynamicInheritanceSubClass(discriminatorValue="%media_type_lowercase%")
+ */
+class Media%media_type_capitalize% extends Media
+{
+    protected static $mimeTypes = Array(
+        '#^%media_type_lowercase%/.*#'
+    );
+
+    /**
+     * @ORM\Column(type="string", length=150)
+     * @Groups({"detail_media"})
+     */
+    protected $myField;
+
+    public static function getMediaType() {
+        return '%media_type_lowercase%';
+    }
+
+    public function getMyField() {
+        return $this->myField;
+    }
+
+    public function setMyField($myField) {
+        $this->myField = $myField;
+        return $this;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @Groups({"detail_media"})
+     */
+    public function getMyTranslatedField($locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+
+        return $proxy->getMyTranslatedField();
+    }
+
+    public function setMyTranslatedField($myTranslatedField, $locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+        $proxy->setMyTranslatedField(ucfirst($myTranslatedField));
+
+        return $this;
+    }
+
+}

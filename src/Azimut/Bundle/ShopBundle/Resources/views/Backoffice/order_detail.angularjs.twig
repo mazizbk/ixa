@@ -1,0 +1,151 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-17 09:38:41
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'order'|trans }}{% verbatim %} <span ng-bind="order.number ? order.number : '[' + Translator.trans('basket').toLowerCase() + '] #' + order.id"></span>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable margin-block">
+
+            <b>{% endverbatim %}{{ 'order.date'|trans }}{% verbatim %}:</b>  {{ order.orderDate|date:'dd/MM/yyyy' }}<br />
+            <b>{% endverbatim %}{{ 'status'|trans }}{% verbatim %}:</b>  {{ orderStatuses[order.status] }}<br />
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="well">
+                        <b>{% endverbatim %}{{ 'billing.address'|trans }}{% verbatim %}</b><br /><br />
+                        <p>
+                            {{ order.billingAddress.firstName }} {{ order.billingAddress.lastName }}<br />
+                            {{ order.billingAddress.line1 }}<br />
+                            <span ng-if="null != order.billingAddress.line2">{{ order.billingAddress.line2 }}<br /></span>
+                            {{ order.billingAddress.postalCode }} {{ order.billingAddress.city }}<br />
+                            {{ order.billingAddress.country }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="well">
+                        <b>{% endverbatim %}{{ 'delivery.address'|trans }}{% verbatim %}</b><br /><br />
+                        <p>
+                            {{ order.deliveryAddress.firstName }} {{ order.deliveryAddress.lastName }}<br />
+                            {{ order.deliveryAddress.line1 }}<br />
+                            <span ng-if="order.deliveryAddress.line2">{{ order.deliveryAddress.line2 }}<br /></span>
+                            {{ order.deliveryAddress.postalCode }} {{ order.deliveryAddress.city }}<br />
+                            {{ order.deliveryAddress.country }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover" ng-if="order.orderItems.length > 0">
+                    <thead>
+                        <tr>
+                            <th>
+                                {% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'quantity'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'price'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'total.price'|trans|capitalize }}{% verbatim %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="orderItem in order.orderItems">
+                            <td>
+                                {{ orderItem.name }}
+                            </td>
+                            <td>
+                                {{ orderItem.quantity }}
+                            </td>
+                            <td>
+                                {{ orderItem.price|azShopPrice }}
+                            </td>
+                            <td>
+                                {{ orderItem.quantity * orderItem.price|azShopPrice }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{% endverbatim %}{{ 'shipping.cost'|trans|capitalize }}{% verbatim %}</td>
+                            <td>{{ order.shippingCost|azShopPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>{% endverbatim %}{{ 'total.price'|trans|capitalize }} ({{ 'excl.vat'|trans }}){% verbatim %}</b></td>
+                            <td><b>{{ order.totalPreTaxAmount|azShopPrice }}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>{% endverbatim %}{{ 'total.price'|trans|capitalize }} ({{ 'incl.vat'|trans }}){% verbatim %}</b></td>
+                            <td><b>{{ order.totalAmount|azShopPrice }}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <b>{% endverbatim %}{{ 'client.comment'|trans }}{% verbatim %} :</b>  <p class="nl2br">{{ order.clientComment }}</p>
+
+            <b>{% endverbatim %}{{ 'delivery.method'|trans }}{% verbatim %} :</b> {{ order.deliveryProviderName }}<br />
+
+            <b>{% endverbatim %}{{ 'payment.method'|trans }}{% verbatim %} :</b> {{ order.paymentProviderName }}<br />
+
+            <br />
+
+            <div class="well" ng-include="formOrderTemplateUrl"></div>
+
+            <br />
+
+            <div class="table-responsive" ng-if="order.deliveryTrackings.length > 0">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                {% endverbatim %}{{ 'tracking.code'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'label'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'shipping.date'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'delivery.date'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th>
+                                {% endverbatim %}{{ 'status'|trans|capitalize }}{% verbatim %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="deliveryTracking in order.deliveryTrackings">
+                            <td>
+                                {{ deliveryTracking.code }}
+                            </td>
+                            <td>
+                                {{ deliveryTracking.label }}
+                            </td>
+                            <td>
+                                {{ deliveryTracking.shippingDate|date: 'dd/MM/yyyy' }}
+                            </td>
+                            <td>
+                                {{ deliveryTracking.deliveryDate|date: 'dd/MM/yyyy' }}
+                            </td>
+                            <td>
+                                {{ deliveryTracking.isDelivered ? '{% endverbatim %}{{ 'delivered'|trans }}{% verbatim %}' : '{% endverbatim %}{{ 'delivery.in.process'|trans }}{% verbatim %}' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

@@ -1,0 +1,10 @@
+{{ 'montgolfiere.emails.account_creation.greetings'|trans({'%firstname%': account.firstName, '%lastname%': account.lastName}) }}
+
+{{ 'montgolfiere.emails.account_creation.line1'|trans({'%firstname%': app.user.firstName, '%lastname%': app.user.lastName}) }}
+{{ 'montgolfiere.emails.account_creation.line2'|trans }}
+{{ 'montgolfiere.emails.account_creation.line3'|trans }}
+
+    {{ url('azimut_montgofliere_validate_account', {token: account.confirmEmailToken}) }}
+
+{{ 'montgolfiere.emails.account_creation.email_reason'|trans }}
+{{ 'montgolfiere.emails.account_creation.contact'|trans }} {{ reply_to }}.

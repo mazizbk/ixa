@@ -1,0 +1,24 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 17:26:47
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutDemoAngularJs'} %}
+    {% block content %}
+        {% verbatim %}
+
+            <div class="margin-block">
+                side panel content<br />
+                <br />
+
+                <a href ui-sref="backoffice.demoangularjs.demo_substate({ myParam: 'my-value' })">
+                    Go to demo state
+                </a>
+            </div>
+
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

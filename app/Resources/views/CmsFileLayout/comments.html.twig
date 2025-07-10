@@ -1,0 +1,56 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-27 11:02:11
+#}
+
+{# Note: comments are considered as review if displayCommentRatings is set to true #}
+
+{% if displayComments %}
+    <section>
+        <h2>{{ 'comments'|trans|capitalize }}</h2>
+
+        {% if displayCommentRatings and cmsFile.ratings|length > 0 %}
+            <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+               {{ 'rating'|trans }} : <span itemprop="ratingValue">{{ cmsFile.averageRating }}</span>/<span itemprop="bestRating">{{ max(comment_ratings) }}</span> (<span itemprop="reviewCount">{{ cmsFile.ratings|length }}</span> {{ 'ratings'|trans }})<br />
+
+            </div>
+        {% endif %}
+
+        {% for comment in cmsFile.comments %}
+            <article itemprop="{% if displayCommentRatings %}review{% else %}comment{% endif %}" itemscope itemtype="{% if displayCommentRatings %}https://schema.org/Review{% else %}https://schema.org/Comment{% endif %}" class="panel panel-default">
+                <header class="panel-heading">
+                    <h5 itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ comment.username }}</span></h5>
+                    <time itemprop="datePublished" datetime="{{ comment.createdAt|date('Y-m-d\\TH:i:s+02:00') }}">{{ comment.createdAt|date('d/m/Y') }}</time>
+                </header>
+                <div class="panel-body">
+                    <p itemprop="{% if displayCommentRatings %}reviewBody{% else %}text{% endif %}">{{ comment.text|nl2br }}</p>
+                    {% if displayCommentRatings and comment.rating %}
+                        <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                <meta itemprop="ratingValue" content="{{ comment.rating }}" />
+                                <meta itemprop="bestRating" content="{{ max(comment_ratings) }}" />
+                                {{ 'rating'|trans }} : {{ comment_ratings[comment.rating] }}<br />
+                            </span>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+
+        <div class="panel {% if isCommentSaved %}panel-success{% else %}panel-default{% endif %}" id="newComment">
+            <div class="panel-heading"><h5>{{ 'new.comment'|trans }}</h5></div>
+            <div class="panel-body">
+                {% if isCommentSaved %}
+                    <p>{{ 'your.comment.has.been.saved'|trans }}.</p>
+                    {% if page.site.isCommentModerationActive %}
+                        <p>{{ 'your.comment.will.be.visible.once.validated.by.admin'|trans }}.</p>
+                    {% endif %}
+                {% else %}
+                    {% form_theme commentForm 'bootstrap_3_layout.html.twig' %}
+                    {{ form_start(commentForm, {'attr': {'action': '#newComment' }}) }}
+                        {{ form_widget(commentForm) }}
+                        <input type="submit" class="btn btn-primary" value="{{ 'post.comment'|trans }}" />
+                    {{ form_end(commentForm) }}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endif %}

@@ -1,0 +1,44 @@
+{% block form_label_class -%}
+    col-sm-4
+{%- endblock form_label_class %}
+{% block form_group_class -%}
+    col-sm-8
+{%- endblock form_group_class %}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form is not rootform %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><i class="fas fa-exclamation-circle"></i> {{ error.message }}</li>
+        {%- endfor -%}
+        </ul>
+        {% if form is not rootform %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
+
+{% block button_widget %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' btn btn-primary')|trim}) %}
+    {{ block('button_widget', 'bootstrap_base_layout.html.twig') }}
+{% endblock %}
+
+{% block buttons_widget %}
+    <div class="{% if centered %}text-center {% endif %}buttons">
+        {{ block('form_widget') }}
+    </div>
+{% endblock buttons_widget %}
+
+{% block button_link_row %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' btn btn-primary')|trim}) %}
+    <a href="{{ path(route, routeParams) }}" class="{{ attr.class }}">{% if icon %}<i class="glyphicon glyphicon-{{ icon }}"></i> {% endif %}{{ text|trans }}</a>
+{% endblock button_link_row %}
+
+{% block submit_row -%}
+    {% spaceless %}
+        {% if form.parent.vars['nested'] is defined and form.parent.vars['nested'] == true %}
+            {{ form_widget(form) }}
+        {% else %}
+            {{ block('button_row') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock submit_row %}

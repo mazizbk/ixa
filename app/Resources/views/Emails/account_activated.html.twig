@@ -1,0 +1,14 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-30 16:55:01
+#}
+
+{{ 'email.hello'|trans }},
+
+{{ 'email.your.account.at.%domain%.has.been.activated'|trans({ '%domain%': domain }) }}.
+
+{{ 'email.your.login'|trans }}: {{ user.email }}
+
+{{ 'email.to.log.in.follow.this.link'|trans }}: <a href="{{ absolute_url(path('azimut_frontofficesecurity_login')) }}">{{ 'email.log.in'|trans }}</a>
+
+{{ 'email.if.you.dont.know.password.use.lost.password'|trans }} : <a href="{{ absolute_url(path('azimut_frontofficesecurity_lost_password')) }}">{{ 'email.lost.password'|trans }}</a>

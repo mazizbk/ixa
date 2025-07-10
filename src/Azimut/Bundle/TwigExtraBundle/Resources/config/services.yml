@@ -1,0 +1,9 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-29 11:50:15
+
+services:
+    azimut_twigextra.azimut_app_extension:
+        class: Azimut\Bundle\TwigExtraBundle\Twig\AppExtension
+        arguments: ["@azimut.services.media_declination_tag_parser","@property_accessor","@request_stack", '@doctrine']
+        tags:
+            - { name: twig.extension }

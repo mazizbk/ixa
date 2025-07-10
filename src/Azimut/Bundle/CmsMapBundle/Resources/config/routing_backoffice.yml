@@ -1,0 +1,24 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-08-22 12:11:54
+
+#Expose AngularJS views
+azimut_cmsmap_backoffice_jsview_main:
+    path: /jsviews/main
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsMapBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_CMS_MAP']
+        ##Cache template :
+        #maxAge: 86400
+        #sharedMaxAge: 86400
+    options:
+        expose: true
+
+azimut_cmsmap_backoffice_jsview_map_detail:
+    path: /jsviews/map_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsMapBundle:Backoffice:map_detail.angularjs.twig'
+        roles: ['APP_CMS_MAP']
+    options:
+        expose: true

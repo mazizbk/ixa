@@ -1,0 +1,45 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2015-09-21 14:02:30
+// --------------------------------------------------
+
+@import "original-bootstrap.less";
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+img[data-media-declination-type="video"] {
+    border: 1px solid #999;
+    background: #e5e5e5 url('../../../web/bundles/azimutmediacenter/img/videoPreview.png') no-repeat center;
+}
+
+img[data-media-declination-type="generic_embed_html"] {
+    border: 1px solid #999;
+    background: #e5e5e5 url('../../../web/bundles/azimutmediacenter/img/otherEmbedHtmlPreview.png') no-repeat center;
+}
+
+.media-pullLeft {
+    float: left;
+    max-width: 50%;
+    margin: 0 20px 20px 0;
+}
+
+.media-pullRight {
+    float: right;
+    max-width: 50%;
+    margin: 0 0 20px 20px;
+}
+
+.twitter-tweet {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 1em;
+}
+.twitter-tweet p:first-child {
+    margin-top: 0;
+}

@@ -1,0 +1,28 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-09-17 16:20:53
+#}
+
+{% if options.shuffle is defined and true == options.shuffle %}
+    {% set paginatedCmsFiles = paginatedCmsFiles|shuffle %}
+{% endif %}
+
+{% if zone.title %}
+    <h{{ options.titleLevel??1 }} class="zone-title">{{ zone.title }}</h{{ options.titleLevel??1 }}>
+{% endif %}
+
+{% include 'ZoneLayout/filters.html.twig' %}
+
+{% if isPaginationActive and showItemCount %}
+    <div>
+        {{ 'there.are.%nb%.elements'|trans({'%nb%': paginatedCmsFiles.getTotalItemCount}) }}
+    </div>
+{% endif %}
+
+{% for cmsFile in paginatedCmsFiles %}
+    {% include 'CmsFileLayout/'~cmsFileTemplateName~'.html.twig' with { 'cmsFile': cmsFile, 'pagePath':  pagePath} %}
+{% endfor %}
+
+{% if isPaginationActive %}
+    {{ knp_pagination_render(paginatedCmsFiles) }}
+{% endif %}

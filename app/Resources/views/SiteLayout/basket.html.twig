@@ -1,0 +1,78 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-03 09:27:27
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'basket'|trans }}</h1>
+
+    {% if basket.orderItems|length == 0 %}
+        <p>{{ 'there.is.no.product.in.your.basket'|trans }}</p>
+    {% else %}
+        <div class="table-responsive table-bordered">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ 'name'|trans|capitalize }}
+                        </th>
+                        <th>
+                            {{ 'quantity'|trans|capitalize }}
+                        </th>
+                        <th>
+                            {{ 'price'|trans|capitalize }}
+                        </th>
+                        <th>
+                            {{ 'total.price'|trans|capitalize }} ({{ 'incl.vat'|trans }})
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orderItem in basket.orderItems %}
+                        <tr id="basketOrderItem{{ orderItem.id }}">
+                            <td>
+                                {{ orderItem.name }}
+                            </td>
+                            <td>
+                                {# Display quantity form field if order item is not a discount #}
+                                {% if orderItem.price >= 0 %}
+                                    <div class="form-inline">
+                                        <div class="input-group">
+                                            <a class="input-group-addon btn btn-default" data-basket-decrease-item-quantity="basketOrderItemQuantity{{ orderItem.id }}">-</a>
+                                            <input type="text" size="4" class="form-control" value="{{ orderItem.quantity }}" data-basket-update-item-quantity-url="{{ path('azimut_shop_api_patch_updatebasketitemquantity', { id: orderItem.id }) }}" data-target-total-price="basketOrderItemTotalPrice{{ orderItem.id }}" id="basketOrderItemQuantity{{ orderItem.id }}" />
+                                            <a class="input-group-addon btn btn-default" data-basket-increase-item-quantity="basketOrderItemQuantity{{ orderItem.id }}">+</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ orderItem.price|az_shop_price }}
+                            </td>
+                            <td>
+                                <span id="basketOrderItemTotalPrice{{ orderItem.id }}">{{ (orderItem.quantity * orderItem.price)|az_shop_price }}</span>
+                            </td>
+                            <td>
+                                {% if true == orderItem.isDeletable %}
+                                    <a class="btn btn-default" data-basket-delete-item-target="basketOrderItem{{ orderItem.id }}" data-basket-delete-item-url="{{ path('azimut_shop_api_delete_basketitem', { id: orderItem.id }) }}"><span class="glyphicon glyphicon-trash"></span><span class="sr-only">{{ 'delete'|trans }}</span></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td><b>{{ 'total.price'|trans|capitalize }} ({{ 'incl.vat'|trans }})</b></td>
+                        <td><b id="basketTotalPrice">{{ basket.totalAmount|az_shop_price }}</b></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-success" href="{{ path('azimut_shop_account_login') }}">{{ 'order.now'|trans }}</a>
+
+        {% include 'SiteLayout/basket_popins.html.twig' %}
+    {% endif %}
+{% endblock %}

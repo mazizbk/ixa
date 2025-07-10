@@ -1,0 +1,15 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+
+services:
+    azimut_backoffice.domain_events_collector_doctrine_event_subscriber:
+        class: Azimut\Bundle\BackofficeBundle\EventListener\Doctrine\DomainEventsCollectorSubscriber
+        arguments: ['@event_dispatcher']
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_backoffice.domain_events_dispatcher_event_subscriber:
+        class: Azimut\Bundle\BackofficeBundle\EventListener\DomainEventsDispatcherSubscriber
+        arguments: ['@azimut_backoffice.domain_events_collector_doctrine_event_subscriber']
+        tags:
+            - { name: kernel.event_subscriber }

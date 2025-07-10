@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-12-21 16:09:09
+#}
+
+{% verbatim %}
+
+    <div class="margin-block" ng-if="0 == page.zones.length">
+        <p class="text-center">{% endverbatim %}{{ 'this.page.has.no.editable.content'|trans|capitalize }}{% verbatim %}</p>
+    </div>
+
+    <div ng-if="page.zones.length>0" class="margin-block">
+
+        <p class="text-center"><b>{% endverbatim %}{{ 'select.a.zone.to.edit.its.content'|trans|capitalize }}{% verbatim %} :</b></p>
+
+        <div id="azimutFrontofficePagePreview" ng-if="layoutPreviewUrl" ng-include="layoutPreviewUrl" az-include-fallback="layoutDefaultPreviewUrl"></div>
+
+    </div>
+
+    <div ng-if="!layoutPreviewUrl && page.zones.length > 0">
+        <strong>Zones :</strong>
+        <ul>
+            <li ng-repeat="zone in page.zones">
+                <a href ng-click="openZone(zone)">{{ zone.name }}</a>
+            </li>
+        </ul>
+    </div>
+
+{% endverbatim %}

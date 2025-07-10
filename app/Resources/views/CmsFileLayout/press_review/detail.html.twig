@@ -1,0 +1,23 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-03-31 14:54:00
+#}
+
+<article>
+    <h1>{{ cmsFile.title }}</h1>
+
+    {% if cmsFile.mainAttachment != null %}
+        <div class="image-zone">
+            {% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': cmsFile.mainAttachment,
+                'width': '',
+                'height': '',
+                'class': ''
+            } %}
+        </div>
+    {% endif %}
+
+    <p>{{ cmsFile.text|render_media_declination_tags|raw }}</p>
+
+    <div class="clearfix"></div>
+</article>

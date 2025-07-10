@@ -1,0 +1,44 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 16:19:44
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+
+        <az-breadcrumb ng-if="showBreadcrumb" class="left shrink2" breadcrumb="breadcrumb" current-element="currentFile" open-function="openBreadcrumbElement"></az-breadcrumb>
+
+        <div ng-if="!showBreadcrumb" class="left">
+            {{ fileName }}
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well">
+                    <b>{% endverbatim %}{{ 'email'|trans|capitalize }}{% verbatim %} : </b>{{ file.userEmail }}
+                    <br />
+                    <b>{% endverbatim %}{{ 'target.page'|trans|capitalize }}{% verbatim %} : </b>{{ file.targetPagePath }}
+                    <br />
+                    <b>{% endverbatim %}{{ 'target.zone'|trans|capitalize }}{% verbatim %} : </b>{{ file.targetZoneName }}
+                    <br />
+                    <b>{% endverbatim %}{{ 'domain'|trans|capitalize }}{% verbatim %} : </b>{{ file.domainName }}
+                    <br />
+
+                    <span ng-if="file.filePath">
+                        <b>{% endverbatim %}{{ 'file'|trans|capitalize }}{% verbatim %} : </b>{{ file.filePath }}
+                    </span>
+
+                    <img ng-src="{{ imgSrc }}" ng-if="imgSrc" class="az-moderation-preview-img" alt="" /><br />
+                    <br />
+                    <br />
+
+                    <div ng-include="formFileTemplateUrl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endverbatim %}

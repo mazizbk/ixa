@@ -1,0 +1,19 @@
+azimut_montgolfiere_app_backoffice_clients:
+    prefix: /clients
+    resource: 'routing/backoffice_clients.yml'
+
+azimut_montgolfiere_app_backoffice_questions:
+    prefix: /questions
+    resource: 'routing/backoffice_questions.yml'
+
+azimut_montgolfiere_app_backoffice_campaigns:
+    prefix: /campaigns
+    resource: 'routing/backoffice_campaigns.yml'
+
+azimut_montgolfiere_app_backoffice_settings:
+    prefix: /settings
+    resource: 'routing/backoffice_settings.yml'
+
+azimut_montgolfiere_app_backoffice_consultants:
+    prefix: /consultants
+    resource: 'routing/backoffice_consultants.yml'

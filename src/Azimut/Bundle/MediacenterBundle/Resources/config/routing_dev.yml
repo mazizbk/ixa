@@ -1,0 +1,30 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-22 09:49:04
+
+azimut_mediacenter_dev_index:
+    path: /
+    defaults: { _controller: AzimutMediacenterBundle:Dev:index }
+
+azimut_mediacenter_dev_form_media:
+    path: /form_media
+    defaults: { _controller: AzimutMediacenterBundle:Dev:formMedia }
+
+azimut_mediacenter_dev_form_media_simple:
+    path: /form_media_simple
+    defaults: { _controller: AzimutMediacenterBundle:Dev:formMediaSimple }
+
+azimut_mediacenter_dev_media_selection:
+    path: /media_selection
+    defaults: { _controller: AzimutMediacenterBundle:Dev:testMediaSelection }
+
+azimut_mediacenter_dev_form_media_with_one_declination:
+    path: /form_media_with_one_declination
+    defaults: { _controller: AzimutMediacenterBundle:Dev:formMediaWithOneDeclination }
+
+azimut_mediacenter_dev_form_media_with_declinations:
+    path: /form_media_with_declinations
+    defaults: { _controller: AzimutMediacenterBundle:Dev:formMediaWithDeclinations }
+
+azimut_mediacenter_dev_form_media_declination:
+    path: /form_media_declination
+    defaults: { _controller: AzimutMediacenterBundle:Dev:formMediaDeclination }

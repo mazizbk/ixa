@@ -1,0 +1,118 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-07-29 18:16:41
+#}
+
+<article itemscope itemtype="http://schema.org/Article">
+    <meta itemprop="mainEntityOfPage" content="{{ absolute_url(path('azimut_frontoffice', {'path': page.fullSlug})) }}{{ cmsFile.slug }}">
+    <header>
+        <h1 itemprop="name headline">{{ cmsFile.title }}</h1>
+        <b>{{ 'author'|trans|capitalize }} : <span itemprop="author">{{ cmsFile.author }}</span></b><br />
+        <time itemprop="datePublished" datetime="{{ cmsFile.publishStartDatetime|date('Y-m-d\\TH:i:s+02:00') }}">{{ cmsFile.publishStartDatetime|localizeddate('full')|capitalize }}</time><br />
+        <time itemprop="dateModified" datetime="{{ cmsFile.updatedAt|date('Y-m-d\\TH:i:s+02:00') }}" />
+    </header>
+
+    {% if cmsFile.mainAttachment != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.mainAttachment,
+            'width': '300px',
+            'height': '168px',
+            'class': 'img-thumbnail',
+            'displayCaption': true,
+            'isItemprop': true
+        } %}
+    {% endif %}
+
+    {# Uncomment if article has text independant abstract #}
+    {# <p itemprop="description">{{ cmsFile.abstract }}</p> #}
+
+    {# {% if cmsFile.complementaryAttachment1 != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.complementaryAttachment1,
+            'width': '300px',
+            'height': '168px'
+        } %}
+    {% endif %}
+    {% if cmsFile.complementaryAttachment2 != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.complementaryAttachment2,
+            'width': '300px',
+            'height': '168px'
+        } %}
+    {% endif %}
+    {% if cmsFile.complementaryAttachment3 != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.complementaryAttachment3,
+            'width': '300px',
+            'height': '168px'
+        } %}
+    {% endif %}
+    {% if cmsFile.complementaryAttachment4 != null %}
+        {% include 'CmsFileLayout/media_attachment.html.twig' with {
+            'attachment': cmsFile.complementaryAttachment4,
+            'width': '300px',
+            'height': '168px'
+        } %}
+    {% endif %} #}
+
+    <div itemprop="articleBody">
+        <p>{{ cmsFile.text|render_media_declination_tags|raw }}</p>
+
+        <div class="clearfix"></div>
+
+        <br />
+
+        {% for attachment in cmsFile.secondaryAttachments %}
+
+            {% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': attachment,
+                'width': '150px',
+                'height': '84px',
+                'class': 'img-thumbnail'
+            } %}
+
+        {% endfor %}
+    </div>
+
+    <span itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="{{ site.publisherName }}">
+        <span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="{{ siteLogoPath }}">
+        </span>
+    </span>
+
+    <div class="clearfix"></div>
+
+    {% include 'CmsFileLayout/comments.html.twig' %}
+</article>
+
+<br />
+
+{% if cmsFile.hasRelatedArticles %}
+    <aside class="">
+        <h2>{{ 'related.articles'|trans|capitalize }}</h2>
+        <div class="">
+            {% for article in cmsFile.relatedArticles if article.hasTranslation(app.request.locale) %}
+                {% include 'CmsFileLayout/article/summary.html.twig' with { 'cmsFile': article } %}
+            {% endfor %}
+        </div>
+    </aside>
+{% endif %}
+
+{% if cmsFileNeighoursZoneName is defined %}
+    <nav class="text-center">
+        {% set neighboursCmsFileInZone = neighboursCmsFileInZone(page, cmsFileNeighoursZoneName, cmsFile, app.request.locale) %}
+
+        {% if neighboursCmsFileInZone.previous %}
+            <a href="{{ path('azimut_frontoffice', {'path': page.fullSlug ~ '/' ~ neighboursCmsFileInZone.previous.slug}) }}" class="prev pull-left">{{ 'previous'|trans|capitalize }}</a>
+        {% endif %}
+
+        <a href="./">{{ 'all.news'|trans }}</a>
+
+        {% if neighboursCmsFileInZone.next %}
+            <a href="{{ path('azimut_frontoffice', {'path': page.fullSlug ~ '/' ~ neighboursCmsFileInZone.next.slug}) }}" class="next pull-right">{{ 'next'|trans|capitalize }}</a>
+        {% endif %}
+    </nav>
+{% else %}
+    <p class="text-center"><a href="./">{{ 'all.news'|trans }}</a></p>
+{% endif %}

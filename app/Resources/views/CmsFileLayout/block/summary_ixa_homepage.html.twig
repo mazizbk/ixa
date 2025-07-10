@@ -1,0 +1,18 @@
+<div class="block">
+    <div class="img-container">
+        {% if cmsFile.mainAttachment != null %}
+            {% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': cmsFile.mainAttachment,
+                'width': '',
+                'height': '',
+                'class': '',
+                'displayUploadLink' : false,
+            } %}
+        {% endif %}
+    </div>
+
+
+    <h4>{{ cmsFile.title }}</h4>
+
+    <div class="rich-text">{{ cmsFile.text|render_media_declination_tags|raw }}</div>
+</div>

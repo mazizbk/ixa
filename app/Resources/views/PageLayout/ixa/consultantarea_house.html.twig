@@ -1,0 +1,29 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% extends ':SiteLayout/ixa:consultant_area.html.twig' %}
+{% set selectedMenu = 'house' %}
+{% block bodyContent %}
+    {% if not campaign.consultantAreaAllowHouseView %}
+        <p class="text-center">L'accès à la maison Workcare a été désactivée par un administrateur. Veuillez nous contacter pour en savoir plus.</p>
+    {% else %}
+        <div class="well">
+            {% if form is defined and form is not null%}
+                {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+                {{ form(form, {attr: {class: 'form-inline'}}) }}
+                <div class="clearfix"></div>
+                <div class="text-right">
+                    <a href="#" id="download" class="Btn Btn--small hidden pull-right" style="margin-left: 15px;">{{ 'download'|trans|capitalize }} l'image</a>
+                    <form method="post" target="_blank" name="download_word" action="{{ path('azimut_montgolfiere_app__consultant_area_campaigns_generate_word', {id: campaign.id}) }}">
+                        <input id="download_word_image" name="download_word_image" type="hidden">
+                        <input id="download_word_submit" name="download_word_submit" type="submit" class="Btn Btn--small hidden" value="{{ 'download'|trans|capitalize }} le document Word">
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            {% endif %}
+        </div>
+        {% if participations|length == 0 %}
+            <div class="alert alert-warning">Aucune participation ne correspond à vos critères</div>
+        {% else %}
+            {% include '@AzimutMontgolfiereApp/Backoffice/Campaigns/draw_house.html.twig' with {showOptions: true, 'campaign': campaign, 'participations': participations, 'form': form, 'data_route' : 'azimut_montgolfiere_app__consultant_area_campaigns_house_data'} %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

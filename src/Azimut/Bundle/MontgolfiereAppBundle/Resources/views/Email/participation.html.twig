@@ -1,0 +1,94 @@
+{% extends '@AzimutMontgolfiereApp/Email/base.html.twig' %}
+
+{% block bodyContainer %}
+    <tr>
+        <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            <h1 class="text-center">{{ 'montgolfiere.emails.participation.greetings'|trans }}</h1>
+                            <p>{{ 'montgolfiere.emails.participation.intro'|trans|raw }}</p>
+                            <p>{{ 'montgolfiere.emails.participation.text1_1'|trans|raw }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="email-body email-body-dark" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            <h1 class="text-center">{{ 'montgolfiere.emails.participation.your_profil'|trans|raw }}</h1>
+                            <p>{{ 'montgolfiere.emails.participation.text1_2'|trans|raw }}</p>
+                            <p>{{ 'montgolfiere.emails.participation.text1_3'|trans|raw }}</p>
+                            <p>{{ 'montgolfiere.emails.participation.text1_4'|trans|raw }}</p>
+                            <p>{{ 'montgolfiere.emails.participation.text1_5'|trans|raw }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {% if participation.token %}
+    <tr>
+        <td class="email-body email-body-grey" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            {% include "@AzimutMontgolfiereApp/Email/helpers/button.html.twig" with {
+                                action: url('azimut_montgolfiere_personal_area_profil', {token: participation.token}),
+                                text: "montgolfiere.emails.participation.access_personal_area"|trans,
+                                color: "green"
+                            } only %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            <ul>
+                                <li>Si vous le souhaitez, vous pourrez donner votre avis sur le profil BEE. Pour cela, rendez-vous directement sur <a href="{{ url('azimut_montgolfiere_personal_area_profil', {token: participation.token}) }}">votre espace personnel</a> et cliquez sur « <b>donner votre avis</b> ».<br><br></li>
+                                <li>Si vous avez des questions concernant la démarche et l’utilisation de vos données, vous pouvez consulter <b>la FAQ</b> à partir de <a href="{{ url('azimut_montgolfiere_personal_area_profil', {token: participation.token}) }}">votre espace personnel</a> ou bien en <a href="https://workcare.fr/faq/">cliquant ici</a>.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td class="email-body email-body-grey" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
+                <tr>
+                    <td class="content-cell" align="center">
+                        <div class="f-fallback">
+                            <p><b>{{ 'montgolfiere.emails.participation.any_question'|trans }}</b></p>
+                            <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+{% endblock %}
+
+{% block beforeLogo %}
+    <img src="{{ absolute_url(asset('img/questionnaire/wbe-logo.png')) }}" alt="Indice Bee" class="email-masthead_logo" width="158" height="82" />
+{% endblock %}

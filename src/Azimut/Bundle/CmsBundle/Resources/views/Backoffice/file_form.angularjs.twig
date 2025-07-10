@@ -1,0 +1,44 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-12-10 14:28:44
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+<script src="{{ asset('js-vendor/tinymce/jquery.tinymce.min.js') }}"></script>
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.cms_file.submitAction()', 'az-submit-params': 'forms.params.cms_file', 'az-confirm-dirty-data-state-change': 'forms.params.cms_file.confirmDirtyDataStateChangeMessage', ' az-confirm-dirty-data-state-change-ignore-substates-of': 'forms.params.cms_file.confirmDirtyDataStateChangeIgnoreSubstatesOf'}}) }}
+    {% if form.autoMetas is defined %}
+        {{ form_row(form.cmsFileType) }}
+        {{ form_row(form.autoMetas) }}
+
+        <div ng-show="!{{ form.autoMetas.vars.ng_model }}">
+            {{ form_row(form.metaTitle) }}
+            {{ form_row(form.metaDescription) }}
+        </div>
+    {% endif %}
+{{ form_end(form) }}
+
+<az-mediacenter-widget><div class="main-panel" ui-view="mediacenter-widget"></div></az-mediacenter-widget>
+
+
+{#
+<div class="azimutBackofficeWidget azimutBackofficeFullWidget modal fade" id="azimutMediacenterWidget" tabindex="-1" role="dialog" aria-hidden="true">
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                            <strong class="modal-title">Media center</strong>
+                        </div>
+
+                    <div class="modal-body">
+
+                        MODAL CONTENT
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+        #}

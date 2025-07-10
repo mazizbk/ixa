@@ -1,0 +1,16 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-16 10:53:17
+#}
+
+<p>{{ 'email.hello'|trans }},</p>
+<p>{{ 'email.account.created.for.you.at.%domain%'|trans({ '%domain%': domain }) }}.</p>
+<p>{{ 'email.your.login'|trans }}: {{ user.email }}</p>
+
+{% if pending %}
+    <p>{{ 'email.your.account.will.be.activated.after.validation'|trans }}.</p>
+{% else %}
+    <p>{{ 'email.to.log.in.follow.this.link'|trans }}: <a href="{{ absolute_url(path('azimut_frontofficesecurity_login')) }}">{{ 'email.log.in'|trans }}</a></p>
+
+    <p>{{ 'email.if.you.dont.know.password.use.lost.password'|trans }} : <a href="{{ absolute_url(path('azimut_frontofficesecurity_lost_password')) }}">{{ 'email.lost.password'|trans }}</a></p>
+{% endif %}

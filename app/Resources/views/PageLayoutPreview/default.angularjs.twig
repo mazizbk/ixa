@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-11 12:22:59
+#}
+
+{% verbatim %}
+    <ul>
+        <li ng-repeat="zone in page.zones">
+            <a href ng-click="openZone(zone)" ng-bind="('zone_names.' + zone.name != Translator.trans('zone_names.' + zone.name)) && Translator.trans('zone_names.' + zone.name) || zone.name"></a>
+        </li>
+    </ul>
+{% endverbatim %}

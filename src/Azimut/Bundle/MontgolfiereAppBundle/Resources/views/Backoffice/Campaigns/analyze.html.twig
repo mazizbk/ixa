@@ -1,0 +1,137 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% set activeTab = 'analyze' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <style>
+        .pvtTable {margin: 0 auto;}
+    </style>
+
+    <div id="pivot" style="margin-bottom: 20px;"></div>
+
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default btn-xs">
+            <input type="radio" name="rows" autocomplete="off" value="theme"> {{ 'montgolfiere.backoffice.questions.fields.theme'|trans }}
+        </label>
+        <label class="btn btn-default btn-xs active">
+            <input type="radio" name="rows" autocomplete="off" checked value="questions"> {{ 'montgolfiere.backoffice.questions.fields.position'|trans }}
+        </label>
+    </div>
+
+    <div class="btn-group" data-toggle="buttons">
+        {% for sortingFactor in campaign.sortingFactors %}
+            <label class="btn btn-default btn-xs active">
+                <input type="checkbox" name="cols" autocomplete="off" checked value="{{ ixa_sorting_factor_name(sortingFactor) }}"> {{ ixa_sorting_factor_name(sortingFactor) }}
+            </label>
+        {% endfor %}
+    </div>
+
+    <script>
+        function replaceLabelsByIcons() {
+            $('#pivot').find('td').each(function(i, el){
+                var $el = $(el);
+                $el.html(
+                    $(el).text()
+                        .replace('LEFT', '<strong>&#11013;</strong>')
+                        .replace('RIGHT', '<strong>&#11157;</strong>')
+                );
+            })
+        }
+        $(document).ready(function(){
+            $.pivotUtilities.locales.fr.localeStrings.totals = 'Moyennes';
+            var tpl = $.pivotUtilities.aggregatorTemplates;
+            Papa.parse('{{ path('azimut_montgolfiere_app_backoffice_campaigns_analyze_raw', {id: campaign.id}) }}', {
+                download: true,
+                skipEmptyLines: true,
+                complete: function(parsed) {
+                    var options = {
+                        rows: ['{{ 'montgolfiere.backoffice.questions.fields.theme'|trans }}', '{{ 'montgolfiere.backoffice.questions.fields.position'|trans }}'],
+                        cols: $('input[name=cols]').filter(':checked').map(function(i, el) {return $(el).val();}).toArray(),
+                        aggregator: function(data, rowKey, colKey) {
+                            {#
+                             Multiple things:
+                             * Values are computed and shown using absolute values
+                             * However we need to know if we're more in the negative or positive space
+                             * For that, a few "hacks" are required :
+                               * Push method is modified so it captures the real (not absolute) value and adds it to the total variable
+                               * Format method is modified so it adds LEFT or RIGHT at the end of the string
+                                 * However, the myTotal variable is not normally available to `format`, so we have to bind an anonymous function
+                               * After the pivot table is rendered, `replaceLabelsByIcons` is manually called and replaces LEFT and RIGHT with icons
+                             #}
+
+                            var originalAggregator = tpl.average()(['abs'])(data, rowKey, colKey);
+                            var oldPush = originalAggregator.push;
+                            originalAggregator.total = 0;
+                            originalAggregator.push = function(record){
+                                var value = record.value===''?0:parseFloat(record.value);
+                                this.total+= value;
+                                oldPush.call(originalAggregator, record);
+                            };
+
+                            var oldFormat = originalAggregator.format;
+                            originalAggregator.format = (function(aggreg, value) {
+                                return oldFormat(value)+((aggreg.total>=0?' RIGHT':' LEFT'));
+                            }).bind(oldFormat, originalAggregator);
+
+                            return originalAggregator;
+                        },
+                        renderer: $.pivotUtilities.renderers.Heatmap,
+                        rendererOptions: {
+                            heatmap: {
+                                colorScaleGenerator: function() {
+                                    return d3.scale.linear()
+                                        .domain([10, 0])
+                                        .range(["#5cb85c", "#d9534f"])
+                                    ;
+                                }
+                            }
+                        },
+                        derivedAttributes: {
+                            abs: function(participation) {
+                                if(participation['value'] === '') {
+                                    return 10;
+                                }
+                                return 10-Math.abs(participation['value']);
+                            }
+                        },
+                        sorters: {
+                            {% set themesLabels = [] %}
+                            {% set positionLabels = [] %}
+                            {% for theme in themes %}
+                                {% set themesLabels = themesLabels|merge([theme.name[app.request.locale]]) %}
+                                {% for item in theme.items %}
+                                    {% set positionLabels = positionLabels|merge([item.name[app.request.locale]]) %}
+                                {% endfor %}
+                            {% endfor %}
+
+                            '{{ 'montgolfiere.backoffice.questions.fields.theme'|trans }}': $.pivotUtilities.sortAs({{ themesLabels|json_encode|raw }}),
+                            '{{ 'montgolfiere.backoffice.questions.fields.position'|trans }}': $.pivotUtilities.sortAs({{ positionLabels|json_encode|raw }})
+                        }
+                    };
+
+                    $('#pivot').pivot(parsed.data, options, '{{ app.request.locale }}');
+                    replaceLabelsByIcons();
+                    $('input[name=rows]')
+                        .change(function() {
+                            var rows = ['{{ 'montgolfiere.backoffice.questions.fields.theme'|trans }}'];
+                            if($(this).val() === 'questions') {
+                                rows.push('{{ 'montgolfiere.backoffice.questions.fields.position'|trans }}');
+                            }
+                            options.rows = rows;
+                            $('#pivot').pivot(parsed.data, options, '{{ app.request.locale }}');
+                            replaceLabelsByIcons();
+                        })
+                    ;
+                    var cols = $('input[name=cols]')
+                        .change(function() {
+                            options.cols = cols.filter(':checked').map(function(i, el) {return $(el).val();}).toArray();
+                            $('#pivot').pivot(parsed.data, options, '{{ app.request.locale }}');
+                            replaceLabelsByIcons();
+                        })
+                    ;
+
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:57:56
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutCmsContact'} %}
+    {% block content %}
+        {% verbatim %}
+
+            <div class="margin-block">
+                <form>
+                    <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search.contacts'|trans|capitalize }}{% verbatim %}" />
+                </form>
+            </div>
+
+            <div class="text-center">
+                <a href ui-sref="backoffice.cmscontact.new_contact()" >
+                    <span class="glyphicon glyphicon-plus-sign"></span> {% endverbatim %}{{ 'new.contact'|trans }}{% verbatim %}
+                </a>
+            </div>
+
+            <ul class="tree-list">
+                <li
+                    ng-repeat-start="contact in (orderedContacts = (contacts | filter: {name: searchKeywords} | orderBy: 'name'))"
+                    ng-show="$first || orderedContacts[$index-1].name.charAt(0) != contact.getName($scope.locale).charAt(0)"
+                >
+                    <strong>{{ contact.getName($scope.locale).charAt(0) }}</strong>
+                </li>
+                <li ng-repeat-end>
+                    <span class="list-item">
+                        <span class="list-toggle">&nbsp;</span>
+                        <a href ng-click="openContact(contact)"><span class="glyphicon glyphicon-pro glyphicon-pro-vcard"></span> {{ contact.getName($scope.locale) }}</a>
+                    </span>
+                </li>
+            </ul>
+
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''">
+    <section class="body scrollable-container">
+        <div class="well" style="max-width:370px;margin:50px auto">
+            <div class="text-center">
+                <p>{{ 'cms_contact.welcome.message'|trans }}</p>
+            </div>
+        </div>
+    </section>
+</section>

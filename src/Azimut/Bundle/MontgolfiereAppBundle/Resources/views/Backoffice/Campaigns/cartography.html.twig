@@ -1,0 +1,26 @@
+{% set activeTab = 'cartography' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+
+{% block readBody %}
+    <div class="well">
+        {% if form is defined and form is not null%}
+            {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form(form, {attr: {class: 'form-force-inline'}}) }}
+
+            <div class="clearfix"></div>
+        {% endif %}
+    </div>
+    <div>{{ 'montgolfiere.backoffice.campaigns.cartography.participations'|transchoice(participations|length) }}</div>
+    {% if participations|length > 0 %}
+        <h2 class="pull-left">{{ 'montgolfiere.backoffice.campaigns.cartography.preview'|trans }}</h2>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_cartography_export', app.request.query.all|merge({format: 'xlsx', id: campaign.id})) }}"
+           class="btn btn-primary pull-right" target="_blank">{{ 'montgolfiere.backoffice.campaigns.cartography.export'|trans }}</a>
+        <div class="clearfix"></div>
+
+        <iframe
+                src="{{ path('azimut_montgolfiere_app_backoffice_campaigns_cartography_export', app.request.query.all|merge({format: 'html', id: campaign.id})) }}"
+                style="border: none; width: 100%; height: 500px;"
+                onload="$(this).height( $(this).contents().outerHeight() );"
+        ></iframe>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,72 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:   2015-07-28
+ */
+
+namespace Azimut\Bundle\CmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+use Azimut\Bundle\DoctrineExtraBundle\Translation\TranslationProxy;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cms_cmsfile_%cms_file_type_lowercase%")
+ *
+ * @DynamicInheritanceSubClass(discriminatorValue="%cms_file_type_lowercase%")
+ * @ORM\Entity(repositoryClass="Azimut\Bundle\CmsBundle\Entity\Repository\CmsFileRepository")
+ */
+class CmsFile%cms_file_type_capitalize% extends CmsFile
+{
+    /**
+     * @ORM\OneToMany(targetEntity="AccessRightCmsFile%cms_file_type_capitalize%", mappedBy="cmsfile%cms_file_type_lowercase%")
+     */
+    protected $accessRights;
+
+    /**
+     * @ORM\Column(type="string", length=150)
+     * @Groups({"detail_cms_file"})
+     */
+    protected $myField;
+
+    public static function getCmsFileType()
+    {
+        return '%cms_file_type_lowercase%';
+    }
+
+    public function getName($locale = null)
+    {
+        return $this->getMyField($locale);
+    }
+
+    public function getMyField() {
+        return $this->myField;
+    }
+
+    public function setMyField($myField) {
+        $this->myField = $myField;
+        return $this;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @Groups({"detail_cms_file"})
+     */
+    public function getMyTranslatedField($locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+
+        return $proxy->getMyTranslatedField();
+    }
+
+    public function setMyTranslatedField($myTranslatedField, $locale = null)
+    {
+        $proxy = new TranslationProxy($this, $locale);
+        $proxy->setMyTranslatedField(ucfirst($myTranslatedField));
+
+        return $this;
+    }
+}

@@ -1,0 +1,8 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-08-22 12:05:33
+
+azimut_cmsmap_api_public_map_point:
+    type: rest
+    resource: Azimut\Bundle\CmsMapBundle\Controller\ApiPublicMapPointController
+    name_prefix: azimut_cmsmap_api_public_
+    prefix: /public

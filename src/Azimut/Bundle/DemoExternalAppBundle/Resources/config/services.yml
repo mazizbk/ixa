@@ -1,0 +1,10 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-09 14:45:13
+
+services:
+
+    azimut_demoexternalapp.roles:
+        class: Azimut\Bundle\DemoExternalAppBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_demoexternalapp_roles }

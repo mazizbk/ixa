@@ -1,0 +1,9 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-29 10:20:44
+
+this.domain.name.already.exists: "This domain name already exists"
+zone.max.attachments.reached: "zone's max file content count reached"
+this.is.not.a.valid.domain.name: "This is not a valid domain name"
+children.pages.are.not.allowed.on.this.page: "Children p ages are not allowed on this page"
+this.redirection.already.exists.in.site: "This redirection already exists in site"
+unique.password.incorrect: "Mot de passe incorrect"

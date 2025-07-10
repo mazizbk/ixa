@@ -1,0 +1,10 @@
+<div class="restitution-item">
+    <h4>{{ themeAnalysis.name }}</h4>
+    {% for item in themeAnalysis.items %}
+        <div class="restitution-color-square" data-color="{{ item.workcareAverage }}" style="width: 2vw; height: 2vw;"></div>
+    {% endfor %}
+    <div class="restitution-text">
+        <h5 class="restitution-text-title">Tendance :</h5> <textarea readonly class="form-control" rows="3">{{ themeAnalysis.restitution?themeAnalysis.restitution.trendText }}</textarea>
+        <h5 class="restitution-text-title">Plan d'action :</h5> <textarea readonly class="form-control" rows="3">{{ themeAnalysis.restitution?themeAnalysis.restitution.actionPlanText }}</textarea>
+    </div>
+</div>

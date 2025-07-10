@@ -1,0 +1,36 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{# @var participation \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignParticipation #}
+{# @var segment \Azimut\Bundle\MontgolfiereAppBundle\Entity\CampaignSegment #}
+{% set activeTab = 'participations' %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Campaigns/read_base.html.twig' %}
+{% set participation = subEntity %}
+{% set campaign = entity %}
+{% set segment = participation.segment %}
+{% import _self as macros %}
+
+{% block readBody %}
+    <div class="pull-right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_read', {'id': campaign.id, participation: participation.id}) }}" class="btn btn-default" style="margin-bottom: 20px;">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+            {{ 'montgolfiere.backoffice.campaigns.participations.back_to_participation'|trans }}
+        </a>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations', {'id': campaign.id}) }}" class="btn btn-default" style="margin-bottom: 20px;">
+            <i class="glyphicon glyphicon-arrow-left"></i>
+            {{ 'montgolfiere.backoffice.campaigns.participations.back_to_list'|trans }}
+        </a>
+    </div>
+    <div class="clearfix"></div>
+
+    {% set configurableFields = campaign.fieldsStatus|keys %}
+    {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(form) }}
+    {% for field in form %}
+        {{ form_row(field) }}
+    {% endfor %}
+    {% for error in form.vars.errors %}
+        <div class="alert alert-danger">
+            {{ error.cause.propertyPath }} : {{ error.message }}
+        </div>
+    {% endfor %}
+    {{ form_end(form) }}
+{% endblock %}

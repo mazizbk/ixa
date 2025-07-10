@@ -1,0 +1,25 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 10:58:50
+#
+# This form template section has been moved out of shop_payment.html.twig
+# because form_theme _self is not supported when extending a template from
+# a variable
+#}
+
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% block payment_choice_widget %}
+    <div {{ block('widget_container_attributes') }}>
+    {%- for child in form %}
+        {{- form_widget(child) -}}
+        {{- form_label(child) -}}
+        {% if form.vars.choices_infos[child.vars.value].image != '' %}
+            <img src="{{ asset(form.vars.choices_infos[child.vars.value].image) }}" alt="" aria-hidden="true" class="pull-left" height="20" />&nbsp;
+        {% endif %}
+        {% if form.vars.choices_infos[child.vars.value].description != '' %}
+            {{ form.vars.choices_infos[child.vars.value].description }}<br />
+        {% endif %}
+    {% endfor -%}
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{# @var cmsFile \Azimut\Bundle\CmsBundle\Entity\CmsFileArticle #}
+
+{% set bgImage = cmsFile.mainAttachment and cmsFile.mainAttachment.mediaDeclination.mediaDeclinationType == 'image' ? path('azimut_mediacenter_file_proxy_thumb', { 'filepath': cmsFile.mainAttachment.mediaDeclination.path, 'size': 'm' }) %}
+
+<article class="article" style="background: linear-gradient(rgba(0, 0, 0, .50), rgba(0, 0, 0, .50)){% if bgImage %},url({{ bgImage }}) center center / cover no-repeat{% endif %}">
+    <p>{{ cmsFile.publishStartDateTime|localizeddate(locale=app.request.locale, timeFormat='none') }}</p>
+    <h3>{{ cmsFile.title }}</h3>
+    <p>{{ cmsFile.abstract|strip_media_declination_tags|limit_length(250) }}</p>
+    <p><a href="{{ cmsFileCanonicalPath(cmsFile, page.site, app.request.locale) }}" class="btn">Lire la suite</a></p>
+</article>

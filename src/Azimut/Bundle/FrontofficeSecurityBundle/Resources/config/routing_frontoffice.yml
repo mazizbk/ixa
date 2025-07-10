@@ -1,0 +1,55 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-03-16 15:47:17
+
+# NB: frontoffice route types takes their locales from "locales" config parameter
+# (This is injected by FrontRouteLoader)
+
+azimut_frontofficesecurity_login:
+    path: /login
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:login
+
+azimut_frontofficesecurity_logout:
+    path: /logout
+    options: { i18n: false }
+
+azimut_frontofficesecurity_lost_password:
+    path: /lost-password
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:lostPassword
+
+azimut_frontofficesecurity_password_reset:
+    path: /password-reset/{token}
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:passwordReset
+
+azimut_frontofficesecurity_register:
+    path: /register
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:register
+
+azimut_frontofficesecurity_edit_profile:
+    path: /profile
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:editProfile
+
+azimut_frontofficesecurity_change_password:
+    path: /change-password
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:passwordChange
+
+azimut_frontofficesecurity_confirm_email:
+    path: /confirm-email/{token}
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:confirmEmail
+
+azimut_frontofficesecurity_impersonate:
+    path: /impersonate/{token}
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:impersonate
+    options: { i18n: false }
+
+azimut_frontofficesecurity_home:
+    path: /member
+    defaults:
+        _controller: AzimutFrontofficeSecurityBundle:Login:home

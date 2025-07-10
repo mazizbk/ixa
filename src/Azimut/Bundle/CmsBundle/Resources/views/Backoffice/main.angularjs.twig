@@ -1,0 +1,48 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutCms'} %}
+    {% block content %}
+        {% verbatim %}
+
+            <ul class="tree-list">
+
+                <li>
+                    <span class="list-item">
+                        <span class="list-toggle">&nbsp;</span>
+                        <a href ng-click="openFileList()"class="list-label"><span class="glyphicon glyphicon-file"></span> {% endverbatim %}{{ 'cms.all.files'|trans|capitalize }}{% verbatim %}</a>
+                    </span>
+
+                    <ul>
+                        <li ng-repeat="type in availableFileTypes | orderBy: 'translatedName'">
+                            <span class="list-item">
+                                <span class="list-toggle">&nbsp;</span>
+                                <a href ng-click="openFileList(type.name)" class="list-label"><span class="glyphicon glyphicon-file"></span> {{ Translator.transChoice('cms.file.type.' + type.name, 1)|capitalize }}</a>
+                            </span>
+                        </li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <span
+                        drop="trashBin" drop-style="list-item-drop" drop-accept-type="cmsfile"
+                        class="list-item"
+                    >
+                        <span class="list-toggle">&nbsp;</span>
+                        <span class="list-label" ng-click="openTrashBin()">
+                            <span class="glyphicon glyphicon-trash"></span> {% endverbatim %} {{ 'trash'|trans|capitalize }}{% verbatim %}
+                        </span>
+                    </span>
+                </li>
+
+            </ul>
+
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

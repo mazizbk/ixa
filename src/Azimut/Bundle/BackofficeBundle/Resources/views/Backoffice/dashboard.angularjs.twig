@@ -1,0 +1,44 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-04-30 10:41:12
+#}
+
+<section class="main-panel" ng-class="isMainContentLoading?'loading':''">
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="dashboard-grid">
+                {% if 'cms' in active_backoffice_apps %}
+                    {{ render(controller('AzimutCmsBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'frontoffice' in active_backoffice_apps %}
+                    {{ render(controller('AzimutFrontofficeBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'mediacenter' in active_backoffice_apps %}
+                    {{ render(controller('AzimutMediacenterBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'security' in active_backoffice_apps %}
+                    {{ render(controller('AzimutSecurityBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'cms_contact' in active_backoffice_apps %}
+                    {{ render(controller('AzimutCmsContactBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'cms_map' in active_backoffice_apps %}
+                    {{ render(controller('AzimutCmsMapBundle:Dashboard:widgets')) }}
+                {% endif %}
+                {% if 'moderation' in active_backoffice_apps %}
+                    {{ render(controller('AzimutModerationBundle:Dashboard:widgets')) }}
+                {% endif %}
+                <section>
+                    <section>
+                        <p>
+                            <b>Besoin d'aide ?</b><br />
+                            <br />
+                            <a href="tel:+33297882626">02 97 88 26 26</a><br />
+                            <a href="mailto:support@azimut.net">support@azimut.net</a>
+                        </p>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>

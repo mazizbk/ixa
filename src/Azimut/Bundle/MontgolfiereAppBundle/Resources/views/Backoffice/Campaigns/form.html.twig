@@ -1,0 +1,88 @@
+{% set closeAll = closeAll|default(false) %}
+{% set chevron = closeAll ? 'right' : 'down' %}
+{{ form_start(form) }}
+    <fieldset>
+        <legend style="cursor:pointer"><i class="glyphicon glyphicon-chevron-{{ chevron }}"></i> Paramètres de base</legend>
+        {{ form_row(form.name) }}
+        {% if form.client is defined %}
+            {{ form_row(form.client) }}
+        {% endif %}
+        {{ form_row(form.startDate) }}
+        {{ form_row(form.endDate) }}
+        {% for locale in entity.allowedLanguages %}
+            {{ form_row(form['introduction_'~locale]) }}
+        {% endfor %}
+        {% for locale in entity.allowedLanguages %}
+            {{ form_row(form['opening_message_'~locale]) }}
+        {% endfor %}
+        {{ form_row(form.expectedAnswers) }}
+        {{ form_row(form.allowedLanguages) }}
+        <div class="form-group">
+            <label class="control-label">Options</label>
+            {{ form_widget(form.useNewGauge) }}
+            {{ form_label(form.useNewGauge) }}
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend style="cursor:pointer"><i class="glyphicon glyphicon-chevron-{{ chevron }}"></i> Paramètre des champs</legend>
+        {% for field in form if field.vars.name starts with 'fieldstatus_' %}
+            {{ form_row(field) }}
+        {% endfor %}
+        {{ form_row(form.allowOtherGender) }}
+    </fieldset>
+    <fieldset>
+        <legend style="cursor:pointer"><i class="glyphicon glyphicon-chevron-{{ chevron }}"></i> Espace client</legend>
+        {{ form_row(form.additionalQuestionsAvailableForClient) }}
+        {{ form_row(form.clientAreaAllowHouseView) }}
+    </fieldset>
+    <fieldset>
+        <legend style="cursor:pointer"><i class="glyphicon glyphicon-chevron-{{ chevron }}"></i> Consultants</legend>
+        {{ form_row(form.consultants) }}
+        {{ form_row(form.additionalQuestionsAvailableForConsultant) }}
+        {{ form_row(form.questionsAvailableForConsultantVerbatimExport) }}
+        {{ form_row(form.consultantAreaAllowHouseView) }}
+        {{ form_row(form.consultantAreaAllowCartographyView) }}
+    </fieldset>
+{{ form_end(form) }}
+
+<script>
+    $(document).ready(function(){
+        $('*[data-tinymce-config]').each(function(){
+            var config = $(this).data('tinymce-config');
+            config.mode = "exact";
+            config.elements = this.id;
+            tinyMCE.init(config);
+        });
+        $('.datetimepicker').datepicker({
+            language: 'fr',
+            dateFormat: 'dd/mm/yyyy',
+            timeFormat: 'hh:ii',
+            timepicker: true,
+            onSelect: function() {
+                element.trigger('change');
+            }
+        });
+        $('legend').click(function() {
+            const icon = this.querySelector('i');
+            if(!icon) {
+                return;
+            }
+            if(icon.classList.contains('glyphicon-chevron-right')) {
+                $(this).parent().find('div').slideDown();
+            }
+            else {
+                $(this).parent().find('div').slideUp();
+            }
+            icon.classList.toggle('glyphicon-chevron-right');
+            icon.classList.toggle('glyphicon-chevron-down');
+        }).each(function() {
+            const icon = this.querySelector('i');
+            if(!icon) {
+                return;
+            }
+            if(icon.classList.contains('glyphicon-chevron-right')) {
+                $(this).parent().find('div').slideUp();
+            }
+        });
+    });
+</script>

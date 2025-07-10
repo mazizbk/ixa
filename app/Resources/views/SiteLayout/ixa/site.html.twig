@@ -1,0 +1,145 @@
+{% set siteLogoPath = asset('img/frontoffice/logo-ixa.png') %}
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Workcare{% endblock %}</title>
+
+    {% if site.metaNoIndex or page is defined and page.metaNoIndex %}
+        <meta name="robots" content="noindex, nofollow" />
+    {% endif %}
+
+    {% if page is defined and page.pageType == 'alias' %}
+        <link href="{{ path('azimut_frontoffice', {'path': page.pageContent.fullSlug}) }}" rel="canonical" />
+    {% endif %}
+
+    {% stylesheets filter='less' package='build' output='layout/css/montgolfiere_front.css'
+        '@slick_css'
+        '@font_awesome_css'
+        '@pivottable_css'
+        '@AzimutMontgolfiereAppBundle/Resources/less/fontawesome-migration.less'
+        '@AzimutMontgolfiereAppBundle/Resources/less/frontoffice.less'
+        '@AzimutMontgolfiereAppBundle/Resources/less/frontoffice_responsive.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts package='build' output='layout/js/montgolfiere_front.js'
+        '@jquery_js'
+        '@slick_js'
+        '@papaparse_js'
+        '@pivottable_js'
+        '@d3_js'
+        '@fontfaceobserver'
+        '../vendor/azimut/system-assets/twitter/bootstrap/js/transition.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/js/collapse.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body{% if _bodyClass is defined %} class="{{ _bodyClass }}"{% endif %}>
+
+<header id="top">
+    {# FIXME Responsive #}
+    <div id="menu-bar">
+        <div class="right">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="menu menu-collapse">
+            <ul class="inline">
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'demarche-ixa'}) }}">La démarche iXa</a></li>
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'pourquoi-faire'}) }}">Pourquoi faire ?</a></li>
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'qui-sommes-nous'}) }}">Qui sommes-nous ?</a></li>
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'comment-ca-marche'}) }}">Comment ça marche ?</a></li>
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'articles'}) }}">Articles</a></li>
+                <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'contact'}) }}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="floating">
+            <ul class="inline">
+                {% set clientAreaUrl = is_granted('IS_AUTHENTICATED_REMEMBERED')?path('azimut_frontoffice', {path: findPageByTemplate('ixa/clientarea.html.twig').fullSlug}):path('azimut_frontofficesecurity_login') %}
+                <li><a href="{{ clientAreaUrl }}">Espace client</a></li>
+            </ul>
+        </div>
+    </div>
+    {% block header %}
+    {% endblock %}
+</header>
+
+<div id="floating-menu">
+    <ul class="inline">
+        <li>
+            <a href="{{ path('azimut_frontoffice_home', {'_fragment':'contact'}) }}">Contactez-nous</a>
+        </li>
+        <li class="blue">
+            <a href="{{ clientAreaUrl }}" title="Espace client"><img src="{{ asset('img/frontoffice/user.svg') }}" alt="" /></a>
+        </li>
+    </ul>
+</div>
+
+{% block body %}
+{% endblock %}
+
+<a id="top-page" class="fa fas fa-chevron-up" aria-hidden="true" href="#top"></a>
+
+<footer>
+    <div class="footer">
+        <div class="ixa-logo">
+            <img src="{{ asset('img/frontoffice/logo-workcare.png') }}" alt="Logo entreprise Workcare" />
+            <p>21, rue Jean-françois de Surville<br />56290 PORT-LOUIS</p>
+        </div>
+        <ul class="inline">
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'demarche-ixa'}) }}">La démarche iXa</a></li>
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'pourquoi-faire'}) }}">Pourquoi faire ?</a></li>
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'qui-sommes-nous'}) }}">Qui sommes-nous ?</a></li>
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'comment-ca-marche'}) }}">Comment ça marche ?</a></li>
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'articles'}) }}">Articles</a></li>
+            <li><a href="{{ path('azimut_frontoffice_home', {'_fragment':'contact'}) }}">Contact</a></li>
+            <li><a href="{{ clientAreaUrl }}">Espace client</a></li>
+        </ul>
+    </div>
+
+    <div class="right-menu">
+        <ul class="inline">
+            {% set legalPage = findPageByTemplate('ixa/legal.html.twig') %}
+            <li><a href="{{ path('azimut_frontoffice', {'path': legalPage.fullSlug}) }}">Mentions légales</a></li>
+            <li><a href="https://www.azimut.net">© Azimut - Créateur de solutions numériques</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function(){
+        $('#top-page').on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop:0}, {duration: 500, easing: 'swing'});
+        });
+
+        $('a[href^="#"], a[href^="{{ path('azimut_frontoffice_home') }}#"]').on('click', function(e){
+            var href = $(this).attr('href');
+            href = href.split('#');
+            href = href[href.length-1];
+            var scrollTo = $('#'+href);
+            if(scrollTo.length === 0) {
+                return;
+            }
+            e.preventDefault();
+            $('.menu-collapse').collapse('hide');
+            $('html, body').animate({
+                scrollTop: scrollTo[0].offsetTop-(scrollTo.data('offset')!==undefined?scrollTo.data('offset'):20)
+            }, {duration: 500, easing: 'swing'});
+        });
+    });
+</script>
+{% block endjavascripts %}
+
+{% endblock %}
+
+</body>
+</html>

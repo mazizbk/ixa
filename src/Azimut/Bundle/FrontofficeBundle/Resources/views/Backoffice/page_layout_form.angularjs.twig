@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-01 10:43:47
+#}
+
+{% form_theme form with ['AzimutBackofficeBundle::backoffice_form_theme.html.twig', _self] %}
+
+{% block _page_layout_zoneDefinitions_entry_widget %}
+    {% if form.parent is not null %}
+        <div class="well clearfix">
+            {{ form_widget(form) }}
+        </div>
+    {% endif%}
+{% endblock %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.page_layout.submitAction()', 'az-submit-params': 'forms.params.page_layout', 'az-confirm-dirty-data-state-change': 'forms.params.page_layout.confirmDirtyDataStateChangeMessage'}}) }}
+    {{ form_widget(form) }}
+{{ form_end(form) }}

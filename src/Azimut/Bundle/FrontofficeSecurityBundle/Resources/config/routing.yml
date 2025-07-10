@@ -1,0 +1,6 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-04 09:19:30
+
+azimut_frontofficesecurity_frontoffice:
+    resource: "@AzimutFrontofficeSecurityBundle/Resources/config/routing_frontoffice.yml"
+    type: azimut_frontoffice

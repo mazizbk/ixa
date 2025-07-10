@@ -1,0 +1,223 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-17 12:20:28
+#}
+
+{% use "form_div_layout.html.twig" %}
+
+{% block entity_js_widget %}
+{% spaceless %}
+    {% if label is empty %}
+        {% set label = name|humanize|lower %}
+    {% endif %}
+
+    {% if button_label is not defined %}
+        {% set button_label = 'choose'|trans({}, translation_domain)|capitalize ~' : '~ label|trans({}, translation_domain) %}
+    {% endif %}
+
+    {% if remove_button_label is not defined %}
+        {% set remove_button_label = 'remove'|trans({}, translation_domain)|capitalize %}
+    {% endif %}
+
+    {% if wrapper_attr is not defined %}
+        {% set wrapper_attr = [] %}
+    {% endif %}
+
+    {% if buttons_wrapper_attr is not defined %}
+        {% set buttons_wrapper_attr = [] %}
+    {% endif %}
+
+    {% if button_attr is not defined %}
+        {% set button_attr = {'class': ''} %}
+    {% endif %}
+    {% set button_attr = button_attr|merge({
+        'id': id ~ '-button',
+        'class': 'entity-js-browse-button ' ~ button_attr['class'],
+        'data-target': id
+    }) %}
+
+    {% if label_attr is not defined %}
+        {% set label_attr = [] %}
+    {% endif %}
+    {% set label_attr = label_attr|merge({'id': id~'-label'}) %}
+
+    {% if remove_button_attr is not defined %}
+        {% set remove_button_attr = {'class': ''} %}
+    {% endif %}
+    {% set remove_button_attr = remove_button_attr|merge({
+        'id': id ~ '-remove-button',
+        'class': 'entity-js-remove-button ' ~ remove_button_attr['class'],
+        'data-target': id
+    }) %}
+
+    {% set attributes = wrapper_attr %}
+    <div {{ block('entity_js_widget_attributes') }}>
+
+        {{ block('hidden_widget') }}
+
+        {% set attributes = label_attr %}
+        <input type="text" readonly="readonly" {{ block('entity_js_widget_attributes') }} />
+
+        {% set attributes = buttons_wrapper_attr %}
+        <span {{ block('entity_js_widget_attributes') }}>
+
+                {% set attributes = remove_button_attr %}
+                <button type="button" {{ block('entity_js_widget_attributes') }}>{{ remove_button_label|raw }}</button>
+
+                {% set attributes = button_attr %}
+                <button type="button" {{ block('entity_js_widget_attributes') }}>{{ button_label }}</button>
+        </span>
+
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+
+{% block entity_js_widget_attributes %}
+{% spaceless %}
+{% for attrname, attrvalue in attributes %}
+    {{ attrname }}="{{ attrvalue }}"
+{% endfor %}
+{% endspaceless %}
+{% endblock %}
+
+
+{% block tinymce_config_widget %}
+{% spaceless %}
+    {% if configs is defined %}
+
+        {% if script_url is defined %}
+            <script>
+                if(0 == $(document).find('head script[src="{{ asset(script_url) }}"]').length) {
+                    var scriptElt = document.createElement("script");
+                    scriptElt.src = "{{ asset(script_url) }}";
+                    $("head").append(scriptElt);
+                }
+            </script>
+        {% endif %}
+
+        {% if configs.script_url is defined %}
+            {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='tinymce_content_css.css'
+                '@tinymce_css_content'
+            %}
+                {% set configs = configs|merge({
+                    "content_css": asset_url
+                }) %}
+            {% endstylesheets %}
+        {% endif %}
+
+
+        {% if configs.script_url is defined %}
+            {% set configs = configs|merge({
+                "script_url": asset(configs.script_url),
+            }) %}
+        {% endif %}
+
+        {% set attr = attr|merge({'data-tinymce-config': configs|json_encode|raw}) %}
+
+
+        {{ block('textarea_widget') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock tinymce_config_widget %}
+
+{% block form_row %}
+{% spaceless %}
+    <div
+        {% if attr['data-form-i18n'] is defined %}
+            data-form-i18n-row="{{ attr['data-form-i18n'] }}"
+        {% endif %}
+        {% if form_row_class is defined %}class="{{form_row_class}}"{% endif %}
+        {% if form_row_attr is defined %}
+        {% for attrname, attrvalue in form_row_attr %} {{ attrname }}="{{ attrvalue }}"
+        {% endfor %}
+        {% endif %}
+    >
+        {% if 'checkbox' in form.vars.block_prefixes or 'radio' in form.vars.block_prefixes %}
+
+            {% if required -%}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {%- endif %}
+            {% if label is empty -%}
+                {%- if label_format is not empty -%}
+                    {% set label = label_format|replace({
+                        '%name%': name,
+                        '%id%': id,
+                    }) %}
+                {%- else -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+            {%- endif -%}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+
+            {{- form_widget(form) -}} {{ label|trans({}, translation_domain) }}</label>
+            {{- form_errors(form) -}}
+        {% else %}
+            {{- form_label(form) -}}
+            {{- form_errors(form) -}}
+            {{- form_widget(form) -}}
+        {% endif %}
+    </div>
+{% endspaceless %}
+{{- block('form_hint') -}}
+{% endblock form_row %}
+
+{%- block form_hint -%}
+    {% if form.vars.hint is defined %}
+        <p id="{{ id }}_hint" class="{{ form_hint_class|default('') }}">{{ translation_domain is same as(false) ? form.vars.hint : form.vars.hint|trans({}, translation_domain) }}</p>
+    {% endif %}
+{%- endblock form_hint -%}
+
+{% block submit_or_cancel_widget %}
+{% spaceless %}
+    {% set label_submit = label %}
+    {% set attr_submit = attr %}
+    <div class="text-center">
+
+        {% set attr = attr_cancel %}
+        {% set label = cancel_label %}
+        {{ block('button_widget') }}
+
+        &nbsp;
+
+        {% set attr = attr_submit %}
+        {% set label = label_submit %}
+        {{ block('submit_widget') }}
+
+    </div>
+{% endspaceless %}
+{% endblock submit_or_cancel_widget %}
+
+{% block geolocation_widget %}
+    <az-gmap-picker
+        id="gmap-picker-{{ id }}"
+        latitude-id="{{ id ~ '_latitude' }}"
+        longitude-id="{{ id ~ '_longitude' }}"
+        zoom="7"
+    >
+        {{- form_widget(form) -}}
+    </az-gmap-picker>
+{% endblock geolocation_widget %}
+
+{% block map_point_position_widget %}
+    <div az-map-point-picker
+        id="{{ id~'-jsmap' }}"
+        class="ylc-js-map ylc-js-map-edit"
+        data-map-svg-src="{{ asset('img/maps/map.svg') }}"
+        {# data-map-img-src="{{ asset('img/maps/map.png') }}" #}
+        data-map-svg-native-width="1920"
+        data-map-svg-native-height="1080"
+        data-map-initial-zoom="1"
+        data-map-max-zoom="4"
+        data-map-min-zoom="1"
+        data-map-edit-x-id="{{ id ~ '_x' }}"
+        data-map-edit-y-id="{{ id ~ '_y' }}"
+        style="height: 400px"
+    ></div>
+
+    <p>Double click on map to set position</p>
+
+    {{- form_widget(form) -}}
+
+    <script>$('#{{ id~'-jsmap' }}').ylcJsMap()</script>
+{% endblock map_point_position_widget %}

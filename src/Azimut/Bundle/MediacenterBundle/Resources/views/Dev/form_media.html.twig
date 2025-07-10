@@ -1,0 +1,60 @@
+{% extends "AzimutMediacenterBundle:Dev:base.html.twig" %}
+
+{% block body %}
+
+    <h1>Test form media</h1>
+
+    {{ form(form) }}
+
+    {% if allow_add_declinations %}
+        <a href="#" id="media-form-add-media-declination">Add declination</a>
+
+        <script>
+            $(document).ready(function() {
+
+
+                $('#media-form-add-media-declination').click(function() {
+                    var declinations_count = $("#media_media_declinations > div").size();
+
+                    var declination_list = $('#media_media_declinations');
+
+                    var newWidget = declination_list.attr('data-prototype');
+
+                    newWidget = newWidget.replace(/__name__label__/g, declinations_count);
+                    newWidget = newWidget.replace(/__name__/g, declinations_count);
+
+                    var newDiv = $(newWidget);
+                    newDiv.appendTo($('#media_media_declinations'));
+
+                    return false;
+                });
+            })
+        </script>
+    {% endif %}
+
+    <hr />
+
+    {% if form.folder is defined %}
+    Errors on folder: {{ form_errors(form.folder) }}
+    {% endif %}
+
+    <hr />
+
+    {% if created_media %}
+        <b>New media created:</b><br />
+        Name: {{ created_media.name }}<br />
+        Description: {{ created_media.description }}<br />
+        Type: {{ created_media.mediaType }}<br />
+        Alt text: {{ created_media.altText }}<br />
+
+        {% for declination in media.declinations %}
+            <br /><b>declination {{ loop.index }}</b><br />
+            Name: {{ declination.name }}<br />
+            Type: {{ declination.media_declination_type }}<br />
+            Path: {{ declination.path }}<br />
+        {% endfor %}
+
+    {% endif %}
+
+
+{% endblock %}

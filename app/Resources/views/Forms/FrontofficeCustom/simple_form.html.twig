@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-28 10:42:35
+#}
+
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{{ form_start(form) }}
+    {% if messageSent is defined and true == messageSent %}
+        <p>{{ 'your.message.has.been.sent'|trans }}</p>
+    {% endif %}
+{{ form_end(form) }}

@@ -1,0 +1,6 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+demo_welcome_route:
+    path: /
+    defaults: { _controller: AzimutDemoBundle:Hello:index}

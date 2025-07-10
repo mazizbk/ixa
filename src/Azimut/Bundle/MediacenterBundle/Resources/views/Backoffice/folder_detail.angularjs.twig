@@ -1,0 +1,216 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <az-breadcrumb class="left shrink2" breadcrumb="breadcrumb" current-element="currentFile" open-function="openFile"></az-breadcrumb>
+
+        <div class="right">
+            <!-- search filters -->
+            <form class="dropdown">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search.in'|trans|capitalize }}{% verbatim %} {{currentFile.name}}" />
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-form" id="searchFiltersDropdown">
+                    {% endverbatim %}{#
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" />
+                            Include subfolders
+                         </label>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">All tags</option>
+                            <option value="1">My tag 1</option>
+                            <option value="2">My tag 2</option>
+                        </select>
+                    </div>
+                    #}{% verbatim %}
+
+                    <div class="form-group">
+                        <select ng-model="searchFilterType" class="form-control">
+                            <option value="">{% endverbatim%}{{ 'all.files'|trans|capitalize }}{% verbatim %}</option>
+                            <option value="folder">{% endverbatim%}{{ 'folder'|transchoice(2)|capitalize }}{% verbatim %}</option>
+                            <option ng-repeat="availableMediaType in availableMediaTypes" value="{{ availableMediaType.name }}">{{ availableMediaType.name }}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+            <!-- end search filters -->
+        </div>
+
+        <div class="right shrink0">
+            <!-- create new commands -->
+            <a href ng-click="addFolder(currentFile)"><span class="glyphicon glyphicon-folder-open"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span><span class="hidden-sm-max"> {% endverbatim %}{{ 'folder'|transchoice(1)|capitalize }}{% verbatim %}</span></a>
+
+            <span class="dropdown">
+                <a aria-expanded="false" href data-toggle="dropdown" role="button" id="mediaCreateDropdown">
+                    <span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span><span class="hidden-sm-max"> {% endverbatim %}{{ 'media'|transchoice(1)|capitalize }}{% verbatim %}</span> <b class="caret"></b>
+                </a>
+
+                <div aria-labelledby="mediaCreateDropdown" role="menu" class="dropdown-menu dropdown-menu-right dropdown-menu-form">
+                    {% endverbatim %}
+                        {{ render(controller('AzimutMediacenterBundle:Backoffice:simpleMediaForm')) }}
+                        <br />
+                        <div class="text-center" ng-init="showEmbedHtmlForm=false">
+                            <a href ng-click="showEmbedHtmlForm = true"><span class="glyphicon glyphicon-pro glyphicon-pro-embed-close"></span> {{ 'add.embed.code'|trans|capitalize }}</a>
+                        </div>
+
+                        <div ng-show="showEmbedHtmlForm">
+                            {{ render(controller('AzimutMediacenterBundle:Backoffice:embedHtmlMediaForm')) }}
+                        </div>
+                    {% verbatim %}
+                </div>
+
+                {% endverbatim %}{# Links to full media creation form by type (replaced by simple media form)
+                <ul aria-labelledby="mediaCreateDropdown" role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="availableMediaType in availableMediaTypes">
+                        <a href ng-click="newMedia(currentFile,availableMediaType.id)">
+                        <span ng-class="availableMediaType.cssIcon"></span> {{ availableMediaType.name }}
+                        </a>
+                    </li>
+                </ul>
+                #}{% verbatim %}
+            </span>
+            <!-- end create new commands -->
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div
+            class="scrollable droppable-container"
+            drop="currentFile"
+            drop-style="dragover"
+            az-infinite-scroll="displayMoreMedias"
+            az-infinite-scroll-distance="200"
+        >
+            <div class="thumbnail-grid" ng-if="mediaTemplateView == 'thumbnails'">
+                <div
+                    ng-show="searchFilterType=='folder' || !searchFilterType"
+                    ng-repeat="currentFile in currentFile.subfolders | filter:{name:searchKeywords} | orderBy: natural(filesSortDefinitionBuilder.property):filesSortDefinitionBuilder.reverse"
+                    ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_detail_thumbnail_item') }}{% verbatim %}'"
+                    dropdown-right-click-toggle
+                    ng-right-click="selectFile(currentFile)"
+                    drag="currentFile" drag-style="drag" drag-type="mediacenterfile"
+                    drop="currentFile" drop-style="drop" drop-accept-type="mediacenterfile"
+                    az-drag-cancel="currentFile.editMode"
+                    ng-click="selectFile(currentFile)"
+                    ng-dblclick="openFile(currentFile)"
+                    ng-class="{'selected': currentFile == selectedFile, 'waiting': currentFile.waitingForUpdate}"
+                    ng-style="{'width':thumbWidth+'px'}"
+                ></div>
+
+                <div
+                    ng-hide="searchFilterType=='folder'"
+                    ng-repeat="currentFile in currentFile.medias | filter:{name:searchKeywords,mediaType:searchFilterType} | orderBy: natural(filesSortDefinitionBuilder.property):filesSortDefinitionBuilder.reverse | limitTo: mediasDisplayLimit"
+                    ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_detail_thumbnail_item') }}{% verbatim %}'"
+                    dropdown-right-click-toggle
+                    ng-right-click="selectFile(currentFile)"
+                    drag="currentFile" drag-style="drag" drag-type="mediacenterfile"
+                    az-drag-cancel="currentFile.editMode"
+                    ng-click="selectFile(currentFile)"
+                    ng-dblclick="openFile(currentFile)"
+                    ng-class="{'selected': currentFile == selectedFile, 'waiting': currentFile.waitingForUpdate}"
+                    ng-style="{'width':thumbWidth+'px'}"
+                ></div>
+            </div>
+
+            <div class="table-responsive" ng-if="mediaTemplateView == 'table'">
+                <table class="table table-striped table-hover">
+                    <thead class="hidden-xxs-max">
+                        <tr>
+                            <th class="icon-column"></th>
+                            <th az-data-sort-link="filesSortDefinitionBuilder" az-data-sort-link-property="name">{% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}</th>
+                            <th az-data-sort-link="filesSortDefinitionBuilder" az-data-sort-link-property="id" class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'creation.date'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            <th az-data-sort-link="filesSortDefinitionBuilder" az-data-sort-link-property="mediaType" class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'type'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            {% endverbatim %}{#
+                            <th class="hidden-xxs-max">
+                                {% endverbatim %}{{ 'size'|trans|capitalize }}{% verbatim %}
+                            </th>
+                            #}{% verbatim %}
+                            <th class="icon-column">
+                                <a href="" class="hidden-xxs-max"><span class="glyphicon glyphicon-plus"></span></a>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr
+                            ng-show="searchFilterType=='folder' || !searchFilterType"
+                            ng-repeat="currentFile in currentFile.subfolders | filter:{name:searchKeywords} | orderBy: natural(filesSortDefinitionBuilder.property):filesSortDefinitionBuilder.reverse"
+                            ng-click="selectFile(currentFile)"
+                            ng-dblclick="openFile(currentFile)"
+                            ng-class="{'selected': currentFile == selectedFile}"
+                            ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_detail_table_item') }}{% verbatim %}'"
+                            drag="currentFile" drag-style="drag" drag-type="mediacenterfile"
+                            drop="currentFile" drop-style="drop" drop-accept-type="mediacenterfile"
+                        ></tr>
+                        <tr
+                            ng-hide="searchFilterType=='folder'"
+                            ng-repeat="currentFile in currentFile.medias | filter:{name:searchKeywords,mediaType:searchFilterType} | limitTo: mediasDisplayLimit | orderBy: natural(filesSortDefinitionBuilder.property):filesSortDefinitionBuilder.reverse"
+                            ng-click="selectFile(currentFile)"
+                            ng-class="{'selected': currentFile == selectedFile}"
+                            ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_detail_table_item') }}{% verbatim %}'"
+                            drag="currentFile" drag-style="drag" drag-type="mediacenterfile"
+                        ></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="file-drop-zone">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                {% endverbatim %}{{ 'drag.from.desktop.here'|trans }}{% verbatim %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-bar" ng-class="!widgetMode?'footer-bar-sm':''">
+        <div ng-show="selectedFile" class="left no-overflow">
+            <span ng-if="selectedFile.fileType=='media'" ng-class="selectedFile.cssIcon"></span>
+
+            <span ng-if="selectedFile.fileType=='folder'" class="glyphicon glyphicon-folder-open"></span>
+
+            <span>{{ selectedFile.name }}</span>
+
+            <span ng-if="selectedFilePublicationsCount">| {% endverbatim %}{{ 'publications'|trans|capitalize }}{% verbatim %} : {{ selectedFilePublicationsCount }}</span>
+
+            <span ng-if="undefined != selectedFile.size">| {{ selectedFile.size|azFileSize:'{% endverbatim %}{{ 'byte.unit.symbol'|trans }}{% verbatim %}' }}</span>
+
+            <span ng-if="undefined != selectedFile.pixelWidth">| {{ selectedFile.pixelWidth }}x{{ selectedFile.pixelHeight }}px</span>
+
+            <span ng-if="widgetMode"><a href ng-click="widgetSelectMedia(selectedFile)" class="btn btn-small btn-primary" ng-show="selectedFile.fileType=='media'">{% endverbatim %}{{ 'select.media'|trans|capitalize }}{% verbatim %}</a></span>
+        </div>
+
+        <div ng-hide="selectedFile" class="left">
+            {{ nbFilesInCurrentFolder }} {{ Translator.transChoice('element',nbFilesInCurrentFolder) }}
+        </div>
+
+        <div class="right">
+
+            <az-data-sort-menu ng-model="filesSortDefinitionBuilder"></az-data-sort-menu>
+
+            <span class="separator"></span>
+
+            <a href ng-click="setListView(150)"><span class="glyphicon glyphicon-list"></span></a>
+
+            <a href ng-click="setThumbailView(150)"><span class="glyphicon glyphicon-th"></span></a>
+
+            <a href ng-click="setThumbailView(300)"><span class="glyphicon glyphicon-th-large"></span></a>
+        </div>
+    </footer>
+{% endverbatim %}

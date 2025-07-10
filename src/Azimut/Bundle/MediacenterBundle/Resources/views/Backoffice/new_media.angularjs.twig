@@ -1,0 +1,23 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-10-15
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'new.media'|trans|capitalize }}{% verbatim %} {{ formdata.media.type }} {% endverbatim %}{{ 'in'|trans }}{% verbatim %} {{ folder.name }}
+        </div>
+        <div class="right shrink0">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formMediaTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

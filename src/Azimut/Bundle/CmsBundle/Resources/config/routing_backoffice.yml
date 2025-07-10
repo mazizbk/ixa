@@ -1,0 +1,199 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06-25
+
+azimut_cms_backoffice_file_preview:
+    path: /preview/{id}
+    defaults:
+        _controller: AzimutCmsBundle:Backoffice:filePreview
+    options:
+        expose: true
+
+#Expose AngularJS views
+azimut_cms_backoffice_jsview_main:
+    path: /jsviews/browser
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:main.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_file_list:
+    path: /jsviews/file_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:file_list.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_new_file:
+    path: /jsviews/new_file
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:new_file.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_file_form:
+    path: /jsviews/file_form/{type}
+    defaults: { _controller: AzimutCmsBundle:Backoffice:fileForm }
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_file_detail:
+    path: /jsviews/file_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:file_detail.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_file_detail_embedded:
+    path: /jsviews/file_detail_embedded
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:file_detail_embedded.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_content_template_article_summary:
+    path: /jsviews/content_template_article_summary
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:article_summary.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_widget_select_file:
+    path: /jsviews/widget_select_file
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:widget_select_file.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_widget_select_file_list:
+    path: /jsviews/widget_select_file_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:widget_select_file_list.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_widget_select_new_file:
+    path: /jsviews/widget_new_file
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:widget_select_new_file.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_widget_edit_file:
+    path: /jsviews/widget_edit_file
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:widget_edit_file.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_FRONTOFFICE']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_widget_edit_file_detail:
+    path: /jsviews/widget_edit_file_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:widget_edit_file_detail.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_trash_bin:
+    path: /jsviews/trash_bin
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:trash_bin.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_trash_bin_item:
+    path: /jsviews/trash_bin_item
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:trash_bin_item.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_comment_form:
+    path: /jsviews/comment_form_{action}
+    defaults: { _controller: AzimutCmsBundle:Backoffice:commentForm }
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_comment_list:
+    path: /jsviews/comment_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:comment_list.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_MODERATION']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_comment_detail:
+    path: /jsviews/comment_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:comment_detail.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_MODERATION']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_new_comment:
+    path: /jsviews/new_comment
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:new_comment.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_MODERATION']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_product_item_form:
+    path: /jsviews/product_item_form_{action}
+    defaults: { _controller: AzimutCmsBundle:Backoffice:productItemForm }
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_product_item_list:
+    path: /jsviews/product_item_list
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:product_item_list.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_SHOP']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_product_item_detail:
+    path: /jsviews/product_item_detail
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:product_item_detail.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_SHOP']
+    options:
+        expose: true
+
+azimut_cms_backoffice_jsview_new_product_item:
+    path: /jsviews/new_product_item
+    defaults:
+        _controller: AzimutSecurityBundle:Template:template
+        template: 'AzimutCmsBundle:Backoffice:new_product_item.angularjs.twig'
+        roles: ['APP_CMS', 'APP_CMS_*', 'APP_SHOP']
+    options:
+        expose: true

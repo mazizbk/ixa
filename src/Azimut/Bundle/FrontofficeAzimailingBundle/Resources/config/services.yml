@@ -1,0 +1,26 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-10-23 15:32:27
+
+services:
+    Azimut\Bundle\FrontofficeAzimailingBundle\Form\Type\SubscriptionType:
+        arguments:
+            - "%azimailing_account_id%"
+            - "%azimailing_group_id%"
+        tags:
+            - { name: form.type }
+
+    azimut_frontoffice_azimailing.azimailing_driver:
+        class: Azimut\Bundle\FrontofficeAzimailingBundle\Service\AzimailingDriver
+        arguments:
+            - "%azimailing_account_id%"
+            - "%azimailing_group_id%"
+            - "%azimailing_shortname%"
+
+    twig.extension.azimailing:
+        class: Azimut\Bundle\FrontofficeAzimailingBundle\Twig\Extension\AzimailingExtension
+        arguments:
+            - '@azimut_frontoffice_azimailing.azimailing_driver'
+            - '@templating'
+            - '@form.factory'
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,11 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-10-23 18:26:02
+#}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{{ form_start(form, { 'attr': { 'class': 'form-inline' } }) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-default">{{ 'subscribe'|trans }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,124 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+services:
+
+    azimut_mediacenter.roles:
+        class: Azimut\Bundle\MediacenterBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_mediacenter_roles }
+
+    azimut_mediacenter.access_right_voter:
+        class: "%azimut_voter_class%"
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_mediacenter.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    azimut_mediacenter.file_upload_event_subscriber:
+        class: Azimut\Bundle\MediacenterBundle\EventListener\FileUploadSubscriber
+        arguments:
+            - "@azimut_mediacenter.disk_quota_manager"
+            - "@translator"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    azimut_mediacenter.media_declination_doctrine_event_subscriber:
+        class: Azimut\Bundle\MediacenterBundle\EventListener\Doctrine\MediaDeclinationSubscriber
+        arguments:
+            - "%uploads_dir%"
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_mediacenter.media_declination_image_doctrine_event_subscriber:
+        class: Azimut\Bundle\MediacenterBundle\EventListener\Doctrine\MediaDeclinationImageSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_mediacenter.disk_quota_manager:
+        class: Azimut\Bundle\MediacenterBundle\Service\DiskQuotaManager
+        arguments: ['%disk_quota%','@doctrine']
+
+    ## form type services ##
+
+    azimut_mediacenter.form.media:
+        class: Azimut\Bundle\MediacenterBundle\Form\Type\MediaType
+        arguments:
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_mediacenter.form.media_from_file:
+        class: Azimut\Bundle\MediacenterBundle\Form\Type\MediaFromFileType
+        arguments:
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    azimut_mediacenter.form.simple_media:
+        class: Azimut\Bundle\MediacenterBundle\Form\Type\SimpleMediaType
+        arguments:
+            - "@doctrine"
+            - "@event_dispatcher"
+        tags:
+            -
+                name: form.type
+
+    azimut_mediacenter.form.media_from_embed_html:
+        class: Azimut\Bundle\MediacenterBundle\Form\Type\MediaFromEmbedHtmlType
+        arguments:
+            - "@doctrine"
+        tags:
+            -
+                name: form.type
+
+    #form types for media declination
+
+    azimut_mediacenter.form.media_declination:
+        class: Azimut\Bundle\MediacenterBundle\Form\Type\MediaDeclinationType
+        arguments:
+            - "@doctrine"
+            - "@event_dispatcher"
+        tags:
+            -
+                name: form.type
+
+    azimut_mediacenter.validation_group_resolver:
+        class: Azimut\Bundle\MediacenterBundle\Service\MediacenterValidationGroupResolver
+
+    Azimut\Bundle\MediacenterBundle\Command\RecomputeFoldersSizeCommand:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: console.command }
+
+    Azimut\Bundle\MediacenterBundle\Command\DisplayFoldersSizeCommand:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: console.command }
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\MediacenterBundle\DataFixtures\ORM\LoadFolderData:
+            tags:
+                - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\MediacenterBundle\DataFixtures\ORM\LoadMediaImageData:
+            tags:
+                - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\MediacenterBundle\DataFixtures\ORM\LoadMediaVideoData:
+            tags:
+                - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\MediacenterBundle\DataFixtures\ORM\LoadInitFolderData:
+        tags:
+        - { name: doctrine.fixture.orm }
+

@@ -1,0 +1,60 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 09:49:49
+
+backoffice.meta.title: "Azimut Backoffice"
+backoffice.app.name: "Azimut Backoffice"
+
+dashboard.app.name: "Dashboard"
+
+toggle.navigation: "Toggle navigation"
+logo.azimut: "Azimut Logo"
+
+dashboard: "Dashboard"
+dashboard.meta.title: "Azimut Dashboard"
+
+dashboard.introduction.text1: "Welcome to your administration area."
+dashboard.introduction.text2: "To begin, select an application from the left menu."
+
+title: "title"
+name: "name"
+type: "type"
+
+add: "add"
+remove: "remove"
+
+all: "all"
+
+form.error.invalid.data: "Invalid data, please check fields values"
+
+form.error.required: "required"
+
+choose: "choose"
+replace.file: "replace file"
+
+updating: "updating"
+
+invalid.form.please.check.form.values: "invalid form. Please check form values."
+
+empty.trashbin: "Empty trashbin"
+trashed.date: "deletion date"
+this.trashbin.is.empty: "This trashbin is empty"
+
+browse: browse
+
+trashbin.confirm.permanent.delete.of.%element_count%: "Are you sure you want to permanently delete %element_count% element(s)?"
+
+yes: "Yes"
+no: "No"
+
+error.occurred.during.initialization: "Error occurred during initialization"
+view.details: "View details"
+
+error.browser.not.supported: "Sorry, your browser is not supported by Azimut System"
+error.browser.not.supported.help.comment: "Please update your browser or install a new one."
+error.browser.not.supported.help.browser.advise.firefox: "Consider installing Firefox :"
+
+backoffice.forbidden.application.message: "Sorry, you don't have access to this application"
+
+dirty.data.on.state.are.you.sure.you.want.to.leave: "You have unsaved data in this page, are you sure you wan't to leave the page ?"
+
+action.not.allowed: "You are not allowed to perform this action"

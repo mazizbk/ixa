@@ -1,0 +1,17 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-01-18 09:43:11
+#}
+
+<div itemscope itemtype="http://schema.org/WebSite">
+    <meta itemprop="url" content="{{ absolute_url(path('azimut_frontoffice', {'path': ''})) }}"/>
+    <form itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction" action="{{ path('azimut_frontoffice', {'path': 'search'|trans}) }}" method="get" class="navbar-form">
+        <meta itemprop="target" content="{{ path('azimut_frontoffice', {'path': 'search'|trans}) }}?query={query}"/>
+        <div class="input-group">
+            <input itemprop="query-input" name="query" class="form-control" placeholder="{{ 'search'|trans|capitalize }}" required />
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+    </form>
+</div>

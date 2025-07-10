@@ -1,0 +1,24 @@
+{% extends "@AzimutMontgolfiereApp/Backoffice/base.html.twig" %}
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.settings.themes_settings'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_index') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.settings.back_to_settings"|trans }}
+        </a>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>{{ 'montgolfiere.backoffice.settings.themes.item.edit_title'|trans({'%name%': theme.name[app.request.locale]??theme.name['fr']}) }}</h1>
+                {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_themes') }}" class="btn btn-warning">{{ 'montgolfiere.backoffice.common.cancel'|trans }}</a>
+                <input type="submit" class="btn btn-primary" value="{{ 'montgolfiere.backoffice.common.save'|trans }}" />
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-04-18 16:36:27
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        {% endverbatim %}{{ 'comment'|trans|capitalize }}{% verbatim %} #{{ comment.id }}
+    </header>
+
+    <section class="body" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+        <div class="margin-block" ng-class="{'scrollable': true !== disableBodyScroll}">
+            <div class="well" ng-include="formCommentTemplateUrl"></div>
+        </div>
+    </section>
+{% endverbatim %}

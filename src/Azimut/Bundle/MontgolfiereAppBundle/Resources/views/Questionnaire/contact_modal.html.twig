@@ -1,0 +1,49 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-contact">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-contact-type="contact">{{ 'montgolfiere.questionnaire.question.contact.title'|trans }}</h4>
+                <h4 class="modal-title" data-contact-type="low-score">{{ 'montgolfiere.questionnaire.results.modals.low_score.title'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+                <p data-contact-type="contact">{{ 'montgolfiere.questionnaire.question.contact.introduction'|trans }}</p>
+                <p data-contact-type="low-score">{{ 'montgolfiere.questionnaire.results.modals.low_score.introduction'|trans }}</p>
+                {% if participation.firstName or participation.lastName or participation.emailAddress or participation.phoneNumber %}
+                    <p>{{ 'montgolfiere.questionnaire.question.contact.introduction2'|trans }}</p>
+                {% endif %}
+                <p>{{ 'montgolfiere.questionnaire.question.contact.introduction_email_or_phone'|trans }}</p>
+                <form action="{{ path('azimut_montgolfiere_questionnaire_contact', {questionnaireToken: campaign.questionnaireToken}) }}" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="contact-name">{{ 'montgolfiere.questionnaire.question.contact.full_name'|trans }}</label>
+                            {% set _fullName = participation.firstName %}
+                            {% if _fullName and participation.lastName %}
+                                {% set _fullName = _fullName~' ' %}
+                            {% endif %}
+                            {% set _fullName = _fullName~participation.lastName %}
+                            <input type="text" class="form-control" id="contact-name" name="name" value="{{ _fullName }}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">{{ 'montgolfiere.questionnaire.question.contact.email'|trans }}</label>
+                            <input type="email" class="form-control" id="contact-email" name="email" value="{{ participation.emailAddress }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone">{{ 'montgolfiere.questionnaire.question.contact.phone_number'|trans }}</label>
+                            <input type="tel" class="form-control" id="contact-phone" name="phone" value="{{ participation.phoneNumber }}" />
+                        </div>
+                        <div class="form-group" data-contact-type="contact">
+                            <label for="contact-message">{{ 'montgolfiere.questionnaire.question.contact.your_message'|trans }}</label>
+                            <textarea class="form-control" id="contact-message" name="message" rows="10" required></textarea>
+                        </div>
+                    </fieldset>
+                    <input type="hidden" name="contact-type" value="" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'montgolfiere.backoffice.common.close'|trans }}</button>
+                <button type="submit" class="btn btn-primary">{{ 'montgolfiere.questionnaire.question.contact.send'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

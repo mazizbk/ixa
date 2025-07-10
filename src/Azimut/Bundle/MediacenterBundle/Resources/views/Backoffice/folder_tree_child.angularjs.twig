@@ -1,0 +1,48 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+
+{# First level items (libraries) #}
+{% verbatim %}
+    <span
+        ng-if="!file.parentFile"
+        drop="file" drop-style="list-item-drop" drop-accept-type="mediacenterfile"
+        class="list-item"
+    >
+        <span class="list-toggle" ng-if="file.subfolders.length>0" ng-click="file.showSubfolders=!file.showSubfolders">
+            <span ng-model="file.showSubfolders" ng-class="{true:'caret', false:'caret caret-vertical'}[file.showSubfolders]"></span>
+        </span>
+        <span ng-if="file.subfolders.length==0" class="list-toggle">&nbsp;</span>
+
+        <span class="list-label" ng-click="openFile(file)" ng-class="{'selected': file == currentFile}"><span class="glyphicon glyphicon-book"></span> {{file.name}}</span>
+
+    </span>
+{% endverbatim %}
+
+{# Second level and more items (folders) #}
+{% verbatim %}
+    <span
+        ng-if="file.parentFile"
+        drag="file" drag-style="list-item-drag" drag-type="mediacenterfile"
+        drop="file" drop-style="list-item-drop" drop-accept-type="mediacenterfile"
+        class="list-item"
+    >
+        <span class="list-toggle" ng-if="file.subfolders.length>0" ng-click="file.showSubfolders=!file.showSubfolders">
+            <span ng-model="file.showSubfolders" ng-class="{true:'caret', false:'caret caret-vertical'}[file.showSubfolders]"></span>
+        </span>
+        <span ng-if="file.subfolders.length==0" class="list-toggle">&nbsp;</span>
+
+        <span class="list-label" ng-click="openFile(file)" ng-class="{'selected': file == currentFile}"><span class="glyphicon glyphicon-folder-open"></span> {{file.name}}</span>
+
+    </span>
+
+    <ul ng-show="file.showSubfolders">
+        <li
+            ng-repeat="file in file.subfolders"
+            ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_tree_child') }}{% verbatim %}'"
+        >
+        </li>
+    </ul>
+{% endverbatim %}
+

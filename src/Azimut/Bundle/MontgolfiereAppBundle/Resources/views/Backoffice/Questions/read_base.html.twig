@@ -1,0 +1,37 @@
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.questions.read.header'|trans({"%question%": question.label}) }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_copy', {'id': question.id}) }}">
+            <i class="glyphicon glyphicon-duplicate"></i> {{ "montgolfiere.backoffice.questions.list.copy"|trans }}
+        </a>
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.questions.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <header class="header-bar header-bar-tabs">
+        <ul class="nav nav-tabs">
+            <li{% if activeTab == 'sheet' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_read', {id: question.id}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-handshake"></i>
+                    {{ 'montgolfiere.backoffice.questions.read.tabs.sheet'|trans }}
+                </a>
+            </li>
+            <li{% if activeTab == 'edit' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_update', {id: question.id}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-pencil"></i>
+                    {{ 'montgolfiere.backoffice.questions.read.tabs.edit'|trans }}
+                </a>
+            </li>
+        </ul>
+    </header>
+    <div class="scrollable">
+        <div{% if noMargin is not defined or not noMargin %} class="margin-block"{% endif %}>
+            {% block readBody %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

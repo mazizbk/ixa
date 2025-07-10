@@ -1,0 +1,39 @@
+.basic-infos {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: $mobile-safe-padding;
+
+    form {
+        display: flex;
+        flex-direction: row;
+        height: calc(100vh - 100px);
+        transition: margin-left $transition-animation $transition-speed;
+        padding-bottom: 100px;
+        &.no-animation{
+            transition:none;
+        }
+        > div {
+            height: 100vh;
+            width: 100vw;
+            flex-shrink: 0;
+            padding: 35px;
+            overflow-y: auto;
+            @include md {
+                padding: 70px;
+            }
+            .question-container {
+                margin: 0 auto;
+                height: calc(100% - (#{$footer-safe-padding} + #{$mobile-safe-padding}));
+                flex-direction: column;
+                @include md {
+                    max-width: 40vw;
+                    height: calc(100% - #{$footer-safe-padding});
+                }
+            }
+        }
+    }
+    .continue-container {
+        margin: 20px 0;
+    }
+}

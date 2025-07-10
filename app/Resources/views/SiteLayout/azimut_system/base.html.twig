@@ -1,0 +1,51 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-10 15:13:59
+#}
+
+{% extends 'SiteLayout/base.html.twig' %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='layout/azimut_system/css/main.css'
+        '../app/Resources/less/original-bootstrap.less'
+        '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+        '../app/Resources/less/commun.less'
+        '../app/Resources/less/azimut_system/base.less'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block head_javascripts %}{% endblock %}
+
+{% block htmlBody %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">{{ site.title }}</a>
+            </div>
+
+            {{ knp_menu_render(menu('main'), {
+                'currentClass': 'active',
+                'template': 'AzimutBackofficeBundle::knp_menu.html.twig',
+                'rootClass': 'nav navbar-nav'
+            }) }}
+
+            <div class="navbar-right navbar-text">
+                {% include 'SiteLayout/user_info.html.twig' %}
+            </div>
+
+        </div>
+    </div>
+
+    {% block body %}{% endblock %}
+
+{% endblock %}

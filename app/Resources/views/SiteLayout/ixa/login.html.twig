@@ -1,0 +1,27 @@
+{% set _bodyClass = 'interior' %}
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="MainBody-content text-center">
+            {% if error %}
+                <div class="alert alert-danger">{{ error|trans }}</div>
+            {% endif %}
+            {% for type, messages in app.session.flashBag.all %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type=='error'?'danger':type }}">{{ message }}</div>
+            {% endfor %}
+            {% endfor %}
+
+            {% form_theme form 'bootstrap_3_layout.html.twig' %}
+            {{ form_start(form, { 'attr': { class : 'Form--classic Form--column', action: path(loginPath|default('azimut_frontofficesecurity_login')) } } ) }}
+            {{ form_widget(form) }}
+            <div class="form-group">
+                <br>
+                <button type="submit" class="Btn">{{ 'login'|trans }}</button>
+                <div>
+                    <a href="{{ path('azimut_frontofficesecurity_lost_password') }}" class="btn">{{ 'lost.password'|trans }}</a>
+                </div>
+            </div>
+            {{ form_end(form) }}
+    </div>
+{% endblock %}

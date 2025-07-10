@@ -1,0 +1,316 @@
+azimut_montgolfiere_app_backoffice_campaigns_homepage:
+    path:     /
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaigns:index }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_themes:
+    path:     /{id}/themes
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:getThemes }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_questions:
+    path:     /{id}/questions
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:getQuestions }
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_create:
+    path:     /new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaigns:create }
+
+azimut_montgolfiere_app_backoffice_campaigns_read:
+    path:     /{id}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaigns:read }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_update:
+    path:     /{id}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaigns:update }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_delete:
+    path:     /{id}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaigns:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_segments:
+    path:     /{id}/segments
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:list }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_segments_new:
+    path:     /{id}/segments/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:create }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_segments_update:
+    path:     /{id}/segments/{segment}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:update }
+    requirements:
+        id: \d+
+        segment: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_segments_delete:
+    path:     /{id}/segments/{segment}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_camapigns_segment_step_create:
+    path:     /{id}/segment/{segment}/step
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:createStep }
+    methods: POST
+
+azimut_montgolfiere_app_backoffice_camapigns_segment_step_update:
+    path:     /{id}/segment/{segment}/step/{step}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:updateStep }
+    methods: PATCH
+
+azimut_montgolfiere_app_backoffice_camapigns_segment_step_delete:
+    path:     /{id}/segment/{segment}/step/{step}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSegments:deleteStep }
+    methods: DELETE
+
+azimut_montgolfiere_app_backoffice_campaigns_participations:
+    path:     /{id}/participations
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:list }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_export:
+    path:     /{id}/participations/export
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:export }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_export_verbatims:
+    path:     /{id}/participations/export_verbatims
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:exportVerbatims }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_read:
+    path:     /{id}/participations/{participation}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:read }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_edit:
+    path:     /{id}/participations/{participation}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:update }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_delete:
+    path:     /{id}/participations/{participation}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_send_wbe:
+    path:     /{id}/participations/{participation}/sendwbe
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:sendEmailWBE }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_block_wbe:
+    path:     /{id}/participations/{participation}/blockwbe
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:blockWBE }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_participations_unarchive:
+    path:     /{id}/participations/{participation}/unarchive
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsParticipations:unarchive }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_opinions_homepage:
+    path:     /opinions
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsOpinions:index }
+
+azimut_montgolfiere_app_backoffice_campaigns_opinions_read:
+    path:     /opinions/{id}
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsOpinions:read }
+    requirements:
+        opinion: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_opinions_delete:
+    path:     /opinions/{id}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsOpinions:delete }
+    methods: DELETE
+    requirements:
+        opinion: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analyze:
+    path:     /{id}/analyze
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalyze:index }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analyze_raw:
+    path:     /{id}/analyze/raw
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalyze:rawData }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_cartography:
+    path:     /{id}/cartography
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsCartography:index }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_cartography_export:
+    path:     /{id}/cartography/export
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsCartography:export }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_house:
+    path:     /{id}/house
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsHouse:index }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_house_data:
+    path:     /{id}/house/data
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsHouse:data }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_generate_word:
+    path:     /{id}/house/get_word_document
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsHouse:generateWordDocument }
+    methods: POST
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors:
+    path:     /{id}/sorting_factors
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:list }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_new:
+    path:     /{id}/sorting_factors/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:create }
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_edit:
+    path:     /{id}/sorting_factors/{sorting_factor}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:update }
+    methods: PUT
+    requirements:
+        id: \d+
+        sorting_factor: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_delete:
+    path:     /{id}/sorting_factors/{sorting_factor}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+        sorting_factor: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_value_new:
+    path:     /{id}/sorting_factors/{sorting_factor}/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:addValue }
+    methods: POST
+    requirements:
+        id: \d+
+        sorting_factor: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_value_edit:
+    path:     /{id}/sorting_factors/{sorting_factor}/{value}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:editValue }
+    methods: PUT|PATCH
+    requirements:
+        id: \d+
+        sorting_factor: \d+
+        value: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_sorting_factors_value_delete:
+    path:     /{id}/sorting_factors/{sorting_factor}/{value}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsSortingFactors:deleteValue }
+    methods: DELETE
+    requirements:
+        id: \d+
+        sorting_factor: \d+
+        value: \d+
+    options:
+        expose: true
+
+azimut_montgolfiere_app_backoffice_campaigns_automatic_affectations:
+    path:    /{id}/automatic_affectations
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAutomaticAffectations:list }
+    methods: GET
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_automatic_affectations_save:
+    path:    /{id}/automatic_affectations
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAutomaticAffectations:save }
+    methods: POST
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analysis_groups:
+    path:     /{id}/analysis_groups
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalysisGroups:list }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analysis_groups_new:
+    path:     /{id}/analysis_groups/new
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalysisGroups:create }
+    requirements:
+        id: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analysis_groups_edit:
+    path:     /{id}/analysis_groups/{analysis_group}/edit
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalysisGroups:update }
+    requirements:
+        id: \d+
+        participation: \d+
+
+azimut_montgolfiere_app_backoffice_campaigns_analysis_groups_delete:
+    path:     /{id}/analysis_groups/{analysis_group}/delete
+    defaults: { _controller: AzimutMontgolfiereAppBundle:BackofficeCampaignsAnalysisGroups:delete }
+    methods: DELETE
+    requirements:
+        id: \d+
+        participation: \d+

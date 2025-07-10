@@ -1,0 +1,7 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-10 10:56:04
+
+azimut_frontofficesecurity_api_user:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeSecurityBundle\Controller\ApiFrontofficeUserController
+    name_prefix: azimut_frontofficesecurity_api_

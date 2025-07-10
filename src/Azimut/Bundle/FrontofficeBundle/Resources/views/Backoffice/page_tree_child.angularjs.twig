@@ -1,0 +1,49 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-05 15:49:27
+#}
+
+{% verbatim %}
+
+<span
+    drag="page" drag-style="list-item-drag"
+    drop="page" drop-style="list-item-drop"
+    class="list-item"
+    ng-class="{'inactive': !page.active}"
+>
+
+    <span ng-if="page.childrenPages.length>0" class="list-toggle" ng-click="page.showChildren=!page.showChildren">
+        <span ng-model="page.showChildren" ng-class="{true:'caret', false:'caret caret-vertical'}[page.showChildren]"></span>
+    </span>
+    <span ng-if="page.childrenPages.length==0" class="list-toggle">&nbsp;</span>
+
+    <span
+        class="list-label"
+        ng-click="openPage(page)"
+        ng-class="{'selected': menu == currentElement}"
+        dropdown-right-click-toggle
+    >
+            <span class="glyphicon glyphicon-file" ng-class="{'inactive': !page.showInMenu}"></span> {{ page.name }}
+            {% endverbatim %}
+                {% if is_granted('SUPER_ADMIN') %}
+                    <span class="DEBUG" style="font-size:0.5em;color:#999;">[<span ng-bind="page.displayOrder"></span>]</span>
+                {% endif %}
+            {% verbatim %}
+            <ul class="dropdown-menu context-menu">
+                <li><a href ng-click="deletePage(page)" az-confirm-click="Translator.trans('page.%name%.confirm.permanent.delete', {name: page.name})">{% endverbatim%}{{ 'delete'|trans|capitalize }}{% verbatim %}</a></li>
+            </ul>
+    </span>
+
+</span>
+
+<ul ng-show="page.showChildren" ng-class="{'inactive': !page.active}">
+    <li><span class="list-insert-item" ng-init="reorderParams={insertAfterPage: {displayOrder: 0, parentElement: page}}" drop="reorderParams" drop-style="list-insert-item-drop"></span></li>
+    <li
+        ng-repeat-start="page in page.childrenPages | orderBy:'displayOrder'"
+        ng-include="'{% endverbatim %}{{ path('azimut_frontoffice_backoffice_jsview_page_tree_child') }}{% verbatim %}'"
+    >
+    </li>
+    <li ng-repeat-end><span class="list-insert-item" ng-init="reorderParams={insertAfterPage: page}" drop="reorderParams" drop-style="list-insert-item-drop"></span></li>
+</ul>
+
+{% endverbatim %}

@@ -1,0 +1,86 @@
+$(document).ready(function () {
+    var sliderInputs = $('#{{ form.item.vars.id }}, ' +
+        '#{{ form.valuesDistribution.vars.id }}, ' +
+        '#{{ form.leftLabel.vars.id }}, ' +
+        '#{{ form.centerLabel.vars.id }}, ' +
+        '#{{ form.rightLabel.vars.id }}'
+    ).parents('.form-group');
+    var possibleValues = $('#{{ form.possibleValues.vars.id }}').parents('.form-group');
+    var gaugeMaxValue = $('#{{ form.gaugeMaxValue.vars.id }}').parents('.form-group');
+    var gaugeInvert = $('#{{ form.gaugeInvert.vars.id }}').parents('.form-group');
+    var wellBeingCoefficient = $('#{{ form.wellBeingCoefficient.vars.id }}').parents('.form-group');
+    var engagementCoefficient = $('#{{ form.engagementCoefficient.vars.id }}').parents('.form-group');
+    var tooltip = $('#{{ form.tooltip.vars.id }}').parents('.form-group');
+
+    var changeHandler = function () {
+        {% set questionClass = 'Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::' %}
+        switch(this.value) {
+            case "{{ constant(questionClass~'TYPE_SLIDER_VALUE') }}":
+                sliderInputs.slideDown();
+                possibleValues.slideUp();
+                gaugeMaxValue.slideUp();
+                gaugeInvert.slideUp();
+                wellBeingCoefficient.slideUp();
+                engagementCoefficient.slideUp();
+                tooltip.slideUp();
+                break;
+            case "{{ constant(questionClass~'TYPE_OPEN') }}":
+            case "{{ constant(questionClass~'TYPE_TRUE_FALSE') }}":
+                sliderInputs.slideUp();
+                possibleValues.slideUp();
+                gaugeMaxValue.slideUp();
+                gaugeInvert.slideUp();
+                wellBeingCoefficient.slideUp();
+                engagementCoefficient.slideUp();
+                tooltip.slideDown();
+                break;
+            case "{{ constant(questionClass~'TYPE_CHOICES_MULTIPLES') }}":
+            case "{{ constant(questionClass~'TYPE_CHOICES_UNIQUE') }}":
+                sliderInputs.slideUp();
+                gaugeMaxValue.slideUp();
+                gaugeInvert.slideUp();
+                wellBeingCoefficient.slideUp();
+                engagementCoefficient.slideUp();
+                possibleValues.slideDown();
+                tooltip.slideDown();
+                break;
+            case "{{ constant(questionClass~'TYPE_SATISFACTION_GAUGE') }}":
+                sliderInputs.slideUp();
+                possibleValues.slideUp();
+                gaugeMaxValue.slideDown();
+                gaugeInvert.slideDown();
+                wellBeingCoefficient.slideDown();
+                engagementCoefficient.slideDown();
+                tooltip.slideDown();
+                break;
+        }
+    };
+
+    var type = $('#{{ form.type.vars.id }}');
+    type.change(changeHandler);
+    changeHandler.call(type[0]);
+
+
+    $('*[data-tinymce-config]').each(function(){
+        var config = $(this).data('tinymce-config');
+        config.mode = "exact";
+        config.elements = this.id;
+        tinyMCE.init(config);
+    });
+
+    possibleValues.append('' +
+        'Valeurs prédéfinies : ' +
+        '<button type="button" data-predefinie-values="satisfaction" class="btn btn-default">Satisfaction</button> ' +
+        '<button type="button" data-predefinie-values="accord" class="btn btn-default">Accord</button> <button type="button" data-predefinie-values="utile" class="btn btn-default">Utile</button>')
+    $('*[data-predefinie-values]').click(function(){
+        var predefineValues = $(this).data('predefinie-values');
+        if (predefineValues == 'satisfaction'){
+            $('#{{ form.possibleValues.vars.id }}').val('Très satisfait\nPlutôt satisfait\nNi satisfait, ni insatisfait\nPlutôt insatisfait\nTrès insatisfait');
+        }else if (predefineValues == 'accord'){
+            $('#{{ form.possibleValues.vars.id }}').val('Tout à fait d\'accord\nD\'accord\nNi d\'accord, ni pas d\'accord\nPas d\'accord\nPas du tout d\'accord');
+        }else if (predefineValues == 'utile'){
+            $('#{{ form.possibleValues.vars.id }}').val('Extrêmement utiles\nTrès utiles\nAssez utiles\nPas très utiles\nPas du tout utiles');
+        }
+
+    });
+});

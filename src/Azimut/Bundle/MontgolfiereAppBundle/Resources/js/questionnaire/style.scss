@@ -1,0 +1,94 @@
+@import "~reseter.css/css/reseter.css";
+@import "~@fortawesome/fontawesome-pro/css/fontawesome.css";
+@import "~@fortawesome/fontawesome-pro/css/solid.css";
+@import "variables";
+@import "mixins/icon-background";
+@import "fonts";
+@import "utilities";
+@import "forms";
+@import "buttons";
+@import "footer";
+@import "homepage";
+@import "introduction";
+@import "basic-infos";
+@import "divider";
+@import "question";
+@import "congrats";
+@import "scrollable";
+
+body {
+    background-color: $workcare-white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    scroll-behavior: smooth;
+    color: $workcare-secondary;
+    width: 100vw;
+    min-height: 100vh;
+}
+html, body {
+    overflow: auto;
+}
+
+a {
+    color: $workcare-primary;
+    &:hover {
+        color: $workcare-primary;
+    }
+}
+
+h1 {
+    color: $workcare-primary;
+    margin-bottom: 0.5*$spacer;
+    font-weight: 800;
+    font-size: 2.8em;
+    text-transform: uppercase;
+}
+
+h2 {
+    margin-bottom: $spacer;
+    font-weight: 800;
+}
+.text-heading{
+    font-weight: bold;
+}
+
+.logo-bottom {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    max-width: 30%;
+    @include md {
+        max-width: 10%;
+    }
+}
+
+.actions {
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    @include md {
+        position: absolute;
+        flex-direction: column;
+    }
+    .fa-stack {
+        margin: 5px 0;
+        color: $workcare-primary;
+        pointer-events: all;
+        cursor: pointer;
+        &.disabled {
+            cursor: not-allowed;
+            color: rgba($workcare-secondary, .27);
+        }
+        .fas {
+            pointer-events: none;
+        }
+    }
+}
+
+.tooltip {
+    display: none !important;
+    @include md {
+        display: block !important;
+    }
+}

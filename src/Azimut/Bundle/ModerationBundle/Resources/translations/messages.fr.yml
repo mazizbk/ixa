@@ -1,0 +1,37 @@
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 11:48:48
+
+moderation.app.name: "Modération"
+moderation.meta.title: "Azimut Modération"
+
+contents: "contenus"
+
+suggest: "Proposer"
+validate: "Valider"
+
+suggest.article: "Proposer un article"
+
+your.suggestion.has.been.recorded: "Votre proposition a été enregistrée"
+
+cms.file.buffer.%file_name%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement la fiche "%file_name%"'
+
+target:
+    page: "Page cible"
+    zone: "Zone cible"
+
+notification:
+    error.cms_file_buffer.%id%.get: "Impossible d'accéder à la fiche tampon %id%"
+    success.file.validate: "La fiche a été validée avec succès"
+    error.file.validate: "Impossible de valider la fiche"
+
+email:
+    your.content.suggestion: "Votre proposition de contenu"
+    your.content.suggestion.at.%domain%.has.been.recorded: "Votre proposition de contenu sur le site \"%domain%\" a été enregistrée"
+    your.content.suggestion.has.been.validated: "Votre proposition de contenu a été validée"
+    your.content.suggestion.at.%domain%.has.been.validated: "Votre proposition de contenu sur le site \"%domain%\" a été validée"
+    new.content.suggestion: "Nouvelle proposition de contenu"
+    a.new.content.suggestion.has.been.recorded.at.%domain%: "Une nouvelle proposition de contenu a été enregistrée sur le site \"%domain%\""
+
+files.waiting.for.validation: "Fiches en attente de validation"
+
+cms.file.buffer.has.not.been.saved.are.you.sure.you.want.to.continue: "La fiche n'a pas été sauvegardée, êtes-vous sûr de vouloir continuer ?"

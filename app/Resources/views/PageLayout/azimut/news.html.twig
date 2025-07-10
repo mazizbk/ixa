@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-03 10:54:06
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        {% if page is defined %}
+            <header>
+                <h1>{{ page.pageTitle }}</h1>
+                {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+            </header>
+        {% endif %}
+
+        {{ renderZone(page, 'news', pagePath, {
+            'cmsFileTemplateName': 'cms_file_summary',
+            'pagination': {
+                'paginationNumber': paginationNumber,
+                'paginationLimit': 10,
+                'showItemCount': true
+            }
+        }) }}
+    </div>
+{% endblock %}

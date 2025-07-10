@@ -1,0 +1,39 @@
+.btn {
+    margin: .5em 0;
+    border: 1px solid transparent;
+    border-radius: 1em;
+    outline: none;
+    padding: 8px 25px;
+    font-weight: 800;
+    &:hover, &:active {
+        text-decoration: none;
+        outline: none !important;
+    }
+    &:focus-visible {
+        outline: 7px double #101010;
+    }
+    &[disabled] {
+        background-color: $workcare-secondary;
+    }
+
+    transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out,
+        border-bottom-color 0.35s ease-in-out,
+        border-left-color 0.35s ease-in-out,
+        border-right-color 0.35s ease-in-out,
+        border-top-color 0.35s ease-in-out
+    ;
+}
+
+.btn-primary {
+    color: $workcare-white;
+    background-color: $workcare-primary;
+    &:hover, &:focus, &:active {
+        color: $workcare-primary;
+        border-color: $workcare-primary;
+        background-color: $workcare-white;
+    }
+}
+
+.btn-default{
+    border:1px solid #ccc;
+}

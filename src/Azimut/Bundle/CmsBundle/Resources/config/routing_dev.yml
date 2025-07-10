@@ -1,0 +1,18 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-20 16:09:50
+
+azimut_cms_dev_index:
+    path: /
+    defaults: { _controller: AzimutCmsBundle:Dev:index }
+
+azimut_cms_dev_cms_content:
+    path: /cms_content
+    defaults: { _controller: AzimutCmsBundle:Dev:cmsContent }
+
+azimut_cms_dev_form_cms_file:
+    path: /form_cms_file
+    defaults: { _controller: AzimutCmsBundle:Dev:formCmsFile }
+
+azimut_cms_dev_form_cms_file_with_attachments:
+    path: /form_cms_file_with_attachments
+    defaults: { _controller: AzimutCmsBundle:Dev:formCmsFileWithAttachments }

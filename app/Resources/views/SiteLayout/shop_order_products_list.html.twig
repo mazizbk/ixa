@@ -1,0 +1,59 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 17:58:47
+#
+# Be aware that this template is also used inside email templates
+#}
+
+<div{% if containerClass is defined %} class="{{ containerClass }}"{% endif %}>
+    <table{% if tableClass is defined %} class="{{ tableClass }}"{% endif %}>
+        <thead>
+            <tr>
+                <th>
+                    {{ 'name'|trans|capitalize }}
+                </th>
+                <th>
+                    {{ 'quantity'|trans|capitalize }}
+                </th>
+                <th>
+                    {{ 'price'|trans|capitalize }}
+                </th>
+                <th>
+                    {{ 'total.price'|trans|capitalize }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orderItem in order.orderItems %}
+                <tr id="basketOrderItem{{ orderItem.id }}">
+                    <td>
+                        {{ orderItem.name }}
+                    </td>
+                    <td>
+                        {{ orderItem.quantity }}
+                    </td>
+                    <td>
+                        {{ orderItem.price|az_shop_price }}
+                    </td>
+                    <td>
+                        {{ (orderItem.quantity * orderItem.price)|az_shop_price }}
+                    </td>
+                </tr>
+            {% endfor %}
+                <td colspan="2"></td>
+                <td><b>{{ 'shipping.cost'|trans|capitalize }}</b></td>
+                <td><b>{{ order.shippingCost|az_shop_price }}</b></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td><b>{{ 'total.price'|trans|capitalize }} ({{ 'excl.vat'|trans }})</b></td>
+                <td><b>{{ order.totalPreTaxAmount|az_shop_price }}</b></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td><b>{{ 'total.price'|trans|capitalize }} ({{ 'incl.vat'|trans }})</b></td>
+                <td><b>{{ order.totalAmount|az_shop_price }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

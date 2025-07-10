@@ -1,0 +1,52 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-01-17 15:44:43
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ 'search'|trans|capitalize }}</h1>
+
+        {% if pageLayoutOptions.searchQuery is null %}
+            {% include 'SiteLayout/search_box.html.twig' %}
+        {% else %}
+            <p>
+                {{ 'your.search.query'|trans|capitalize }} : {{ pageLayoutOptions.searchQuery }}<br />
+
+                {{ 'results.found'|transchoice(pageLayoutOptions.searchResults|length) }}
+            </p>
+
+            {% if pageLayoutOptions.searchResults|length >= search_engine_max_results %}
+                <p>{{ 'too.many.search.results.found'|trans|capitalize }}. {{ 'displayed.results.have.been.limited.to.%max_results%'|trans({'%max_results%': search_engine_max_results})|capitalize }}</p>
+            {% endif %}
+
+            {% for result in pageLayoutOptions.searchResults %}
+                {% if loop.first or result.cmsFile.id != pageLayoutOptions.searchResults[loop.index0 - 1].cmsFile.id %}
+                    <h2>
+                    {% if '' == result.cmsFile.name or result.cmsFile.isHiddenType %}
+                        {{ result.zone.page.pageTitle|emphasis_words(pageLayoutOptions.searchKeywords)|raw }}
+                    {% else %}
+                        {{ result.cmsFile.name|emphasis_words(pageLayoutOptions.searchKeywords)|raw }}
+                    {% endif %}
+                    </h2>
+                    <p>{{ result.cmsFile.abstract|limit_length(250)|emphasis_words(pageLayoutOptions.searchKeywords)|raw }}</p>
+                {% else %}
+                    <br />
+                {% endif %}
+
+                {% set path = result.zone.page.fullSlug %}
+                {% if result.zone.page.layout.hasStandaloneCmsfilesRoutes and not result.cmsFile.isHiddenType %}
+                    {% if result.zone.page.fullSlug == '' %}
+                        {% set path = result.cmsFile.slug %}
+                    {% else %}
+                        {% set path = result.zone.page.fullSlug ~ '/' ~ result.cmsFile.slug %}
+                    {% endif %}
+                {% endif %}
+
+                <a href="{{ path('azimut_frontoffice', {'path': path}) }}">/{{ path }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

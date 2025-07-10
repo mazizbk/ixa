@@ -1,0 +1,136 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 12:29:17
+
+cms.app.name: "Contenus"
+
+cms.meta.title: "Azimut Contenus"
+
+cms.file: "fiche|fiches"
+
+cms.all.files: "toutes les fiches"
+
+select.cmsfile: "sélectionner la fiche"
+
+read.more: "lire la suite"
+published.on: "publié le"
+
+create: "créer"
+update: "mettre à jour"
+delete: "supprimer"
+
+search.files: "Chercher dans les fiches"
+
+cms.new.file: "Nouvelle fiche"
+new.comment: "Nouveau commentaire"
+new.product.item: "Nouvel déclinaison de produit"
+
+publish.start.datetime: "Date et heure de début de publication"
+publish.end.datetime: "Date et heure de fin de publication"
+
+event.start.datetime: "Date et heure de début d'événement"
+event.end.datetime: "Date et heure de fin d'événement"
+
+subtitle: "soustitre"
+text: "texte"
+geolocation: "géolocalisation"
+location: "emplacement"
+associated.products: "produits associés"
+
+main.attachment: "média principal"
+secondary.attachment: "média secondaires"
+complementary.attachment: "média complémentaire"
+complementary.attachment.2: "média complémentaire 2"
+complementary.attachment.3: "média complémentaire 3"
+complementary.attachment.4: "média complémentaire 4"
+related.articles: "articles liés"
+
+comment: "commentaire"
+comments: "commentaires"
+post.comment: "Poster le commentaire"
+your.comment.has.been.saved: "Votre commentaire a été enregistré"
+your.comment.will.be.visible.once.validated.by.admin: "Votre commentaire sera visible une fois validé par un administrateur"
+
+product.item: "déclinaison de produit"
+product.items: "déclinaisons de produit"
+
+rating: "note"
+ratings: "notes"
+visible: "visible"
+not.visible: "non visible"
+published: "publié"
+not.published: "non publié"
+
+file.publications: "Publications de la fiche"
+publications: "Publications"
+
+cms.file.%file_name%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement la fiche "%file_name%" ?'
+comment.%id%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement le commentaire "%id%" ?'
+product.item.%name%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement la déclinaison de produit "%name%" ?'
+
+no.cmsfile.found: "Aucune fiche trouvée"
+no.comment.found: "Aucun commentaire trouvé"
+no.product.item.found: "Aucune déclinaison de produit trouvée"
+
+notification:
+
+    error.file.create: "la fiche n'a pas pu être créée"
+    success.file.create: "la fiche a été créée avec succès"
+    error.file.update: "la fiche n'a pas pu être mise à jour"
+    success.file.update: "la fiche a été mise à jour avec succès"
+    error.file.delete: "la fiche n'a pas pu être supprimée"
+    success.file.delete: "la fiche a été supprimée avec succès"
+    success.cms_file.trash: "la fiche a été mise à la corbeille avec succès"
+    error.cms_file.trash: "impossible de mettre la fiche à la corbeille"
+    success.cms_file.untrash: "la fiche a été restaurée avec succès"
+    error.cms_file.untrash: "impossible de restaurer la fiche"
+    error.cms_file.%id%.get: "Impossible d'accéder à la fiche %id%"
+    error.cms_file.%id%.not.allowed: "Vous n'êtes pas autorisé à consulter la fiche %id%"
+
+    error.comment.create: "Le commentaire n'a pas pu être créé"
+    success.comment.create: "Le commentaire a été créé avec succès"
+    error.comment.update: "Le commentaire n'a pas pu être mis à jour"
+    success.comment.update: "Le commentaire a été mis à jour avec succès"
+    error.comment.delete: "Le commentaire n'a pas pu être supprimé"
+    success.comment.delete: "Le commentaire a été supprimé avec succès"
+    error.comment.%id%.get: "Impossible d'accéder au commentaire %id%"
+    error.comment.%id%.not.allowed: "Vous n'êtes pas autorisé à consulter le commentaire %id%"
+    error.comment.validate: "Le commentaire n'a pas pu être validé"
+    success.comment.validate: "Le commentaire a été validé avec succès"
+    error.comment.unvalidate: "Le commentaire n'a pas pu être invalidé"
+    success.comment.unvalidate: "Le commentaire a été invalidé avec succès"
+
+    error.product.item.create: "La déclinaison de produit n'a pas pu être créée"
+    success.product.item.create: "La déclinaison de produit a été créée avec succès"
+    error.product.item.update: "La déclinaison de produit n'a pas pu être mise à jour"
+    success.product.item.update: "La déclinaison de produit a été mise à jour avec succès"
+    error.product.item.delete: "La déclinaison de produit n'a pas pu être supprimée"
+    success.product.item.delete: "La déclinaison de produit a été supprimée avec succès"
+    error.product.item.%id%.get: "Impossible d'accéder à la déclinaison de produit %id%"
+    error.product.item.%id%.not.allowed: "Vous n'êtes pas autorisé à consulter la déclinaison de produit %id%"
+
+
+roles:
+    PRICES: "Gérer les prix"
+
+cms.file.type:
+    article: "article|articles"
+    block: "bloc|blocs"
+    press_review: "revue de presse|revues de presse"
+    product: "produit|produits"
+    map_point: "point de carte|points de carte"
+    event: "événement|événements"
+    demo: "démo|démos"
+
+# class names translation (for security bundle)
+cmsfilearticle: "article"
+cmsfileblock: "bloc"
+cmsfilepress_review: "revue de presse"
+cmsfileproduct: "produit"
+cmsfilemap_point: "point de carte"
+cmsfileevent: "événement"
+cmsfiledemo: "démo"
+
+cms.file.has.not.been.saved.are.you.sure.you.want.to.continue: "La fiche n'a pas été enregistrée, êtes-vous sûr de vouloir continuer ?"
+comment.has.not.been.saved.are.you.sure.you.want.to.continue: "Le commentaire n'a pas été enregistrée, êtes-vous sûr de vouloir continuer ?"
+product_item.has.not.been.saved.are.you.sure.you.want.to.continue: "La déclinaison de produit  n'a pas été enregistrée, êtes-vous sûr de vouloir continuer ?"
+no.cmsfile.available: "Aucune fiche disponible"

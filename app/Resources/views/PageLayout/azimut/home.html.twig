@@ -1,0 +1,25 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-10-01 10:28:43
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ renderZone(page, 'title', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}</h1>
+
+            {{ renderZone(page, 'intro', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="emphasized_bloc">
+            {{ renderZone(page, 'products', pagePath, {cmsFileTemplateName: 'cms_file_summary'}) }}
+        </div>
+
+        {{ renderZone(page, 'news', pagePath, {cmsFileTemplateName: 'cms_file_summary'}) }}
+        {{ renderZone(page, 'events', pagePath, {cmsFileTemplateName: 'cms_file_summary'}) }}
+    </div>
+{% endblock %}

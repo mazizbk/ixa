@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-06-12 11:47:36
+#}
+
+<header class="header-bar ng-scope">
+    <div class="left ng-binding">
+        {% verbatim %}{{ Translator.trans('security.editgroup.header.%name%', {'name': forms.data.group.name}) }}{% endverbatim %}
+    </div>
+</header>
+<section class="body scrollable-container">
+    <div class="scrollable">
+        <div class="margin-block">
+            <div class="well">
+                <h2 style="margin-top: 0">{{ 'security.edituser.sections.general_information'|trans }}</h2>
+                <div ng-include="formGroupTemplateUrl"></div>
+                <h2>{{ 'security.edituser.sections.access_rights'|trans }}</h2>
+                <div ng-include="'{{ path('azimut_security_backoffice_jsview_access_right_list_group') }}'"></div>
+            </div>
+        </div>
+    </div>
+</section>

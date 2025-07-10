@@ -1,0 +1,31 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-06-27 12:16:45
+#}
+
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutModeration'} %}
+    {% block content %}
+        {% verbatim %}
+            <ul class="tree-list">
+                <li>
+                    <span class="list-item">
+                        <a href ui-sref="backoffice.moderation.cms_file_buffer_list({ targetZoneId: null })" class="list-label">
+                            <span class="glyphicon glyphicon-list-alt"></span> {% endverbatim %} {{ 'contents'|trans|capitalize }}{% verbatim %}
+                        </a>
+                    </span>
+                </li>
+                <li>
+                    <span class="list-item">
+                        <a href ui-sref="backoffice.moderation.comment_list" class="list-label">
+                            <span class="glyphicon glyphicon-comment"></span> {% endverbatim %} {{ 'comments'|trans|capitalize }}{% verbatim %}
+                        </a>
+                    </span>
+                </li>
+            </ul>
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

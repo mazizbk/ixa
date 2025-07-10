@@ -1,0 +1,728 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-06
+
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: search_engine_stop_words.yml }
+    - { resource: "@AzimutDemoPaymentBundle/Resources/config/services.yml" }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts: ~
+    session:
+        save_path: "%sessions_dir%"
+    fragments:       ~
+    http_method_override: true
+    assets:
+        version_strategy: 'azimut.assets.versioning.capifony'
+        packages:
+            build:
+                base_path: /build
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        locales: "%locales%" #displayed locales in frontoffice switcher
+        backoffice_locales: "%backoffice_locales%" #displayed locales in backoffice switcher
+        active_backoffice_apps: "%active_backoffice_apps%"
+        gmap_api_key: "%gmap_api_key%"
+        jira_issue_collector_url: "%jira_issue_collector_url%"
+        search_engine_max_results: "%search_engine_max_results%"
+        allow_front_user_impersonation: "%allow_front_user_impersonation%"
+        comment_ratings: "%comment_ratings%"
+        default_vat_rate: "%shop_default_vat_rate%"
+    exception_controller:  azimut_frontoffice.exception_controller:showAction
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    #java: /usr/bin/java
+    write_to: "%kernel.root_dir%/../web/build"
+    node: "%node_bin%"
+    filters:
+        cssrewrite: ~
+        less:
+            node_paths: ["node_modules"]
+            apply_to: ".less$"
+
+
+        uglifyjs2:
+            bin: node_modules/.bin/uglifyjs
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+    assets:
+        tinymce_css_content:
+            inputs:
+                - '../app/Resources/less/tinymce_content.less'
+                - '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+        intl_tel_input_css:
+            inputs:
+                - "%kernel.root_dir%/../node_modules/intl-tel-input/build/css/intlTelInput.css"
+            output: css/intlTelInput.css
+        intl_tel_input_js:
+            inputs:
+                - "%kernel.root_dir%/../node_modules/intl-tel-input/build/js/intlTelInput.js"
+                - "%kernel.root_dir%/../node_modules/intl-tel-input/build/js/utils.js"
+            filters:
+                - ?uglifyjs2
+            output: js/intlTelInput.js
+        intl_tel_input_img:
+            inputs:
+                - "%kernel.root_dir%/../node_modules/intl-tel-input/build/img/flags.png"
+            output: backoffice/img/flags.png
+        intl_tel_input_img_2x:
+            inputs:
+                - "%kernel.root_dir%/../node_modules/intl-tel-input/build/img/flags@2x.png"
+            output: backoffice/img/flags@2x.png
+        no_ui_slider_css:
+            inputs:
+            - "%kernel.root_dir%/../node_modules/nouislider/distribute/nouislider.css"
+            output: css/nouislider.css
+        no_ui_slider_js:
+            inputs:
+            - "%kernel.root_dir%/../node_modules/nouislider/distribute/nouislider.js"
+            filters:
+            - ?uglifyjs2
+            output: js/nouislider.js
+        bootstrap_datepicker_js:
+            inputs:
+            - '../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js'
+            - '../node_modules/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js'
+            filters:
+            - '?uglifyjs2'
+        bootstrap_datepicker_css:
+            filters:
+            - 'less'
+            inputs:
+            - '../node_modules/bootstrap-datepicker/build/build_standalone.less'
+        jquery_knob_js:
+            inputs:
+            - '../node_modules/jquery-knob/js/jquery.knob.js'
+            filters:
+            - '?uglifyjs2'
+        d3_js:
+            inputs:
+            - '../node_modules/d3/d3.js'
+            filters:
+            - '?uglifyjs2'
+        papaparse_js:
+            inputs:
+            - '../node_modules/papaparse/papaparse.js'
+            filters:
+            - '?uglifyjs2'
+        pivottable_js:
+            inputs:
+            - '../node_modules/pivottable/dist/pivot.js'
+            - '../node_modules/pivottable/dist/pivot.fr.js'
+            filters:
+            - '?uglifyjs2'
+        pivottable_css:
+            inputs:
+            - '../node_modules/pivottable/dist/pivot.css'
+        jquery_js:
+            inputs:
+            - '../node_modules/jquery/dist/jquery.js'
+            filters:
+            - '?uglifyjs2'
+        slick_js:
+            inputs:
+            - '../node_modules/slick-carousel/slick/slick.js'
+            filters:
+            - '?uglifyjs2'
+        slick_css:
+            inputs:
+            - '../node_modules/slick-carousel/slick/slick.less'
+            - '../node_modules/slick-carousel/slick/slick-theme.less'
+            filters:
+            - 'less'
+        font_awesome_css:
+            inputs:
+            - '../node_modules/font-awesome/css/font-awesome.css'
+        font_awesome_css_otf:
+            inputs:
+            - '../node_modules/font-awesome/fonts/FontAwesome.otf'
+            output: layout/fonts/FontAwesome.otf
+        font_awesome_css_eot:
+            inputs:
+            - '../node_modules/font-awesome/fonts/fontawesome-webfont.eot'
+            output: layout/fonts/fontawesome-webfont.eot
+        font_awesome_css_svg:
+            inputs:
+            - '../node_modules/font-awesome/fonts/fontawesome-webfont.svg'
+            output: layout/fonts/fontawesome-webfont.svg
+        font_awesome_css_ttf:
+            inputs:
+            - '../node_modules/font-awesome/fonts/fontawesome-webfont.ttf'
+            output: layout/fonts/fontawesome-webfont.ttf
+        font_awesome_css_woff:
+            inputs:
+            - '../node_modules/font-awesome/fonts/fontawesome-webfont.woff'
+            output: layout/fonts/fontawesome-webfont.woff
+        font_awesome_css_woff2:
+            inputs:
+            - '../node_modules/font-awesome/fonts/fontawesome-webfont.woff2'
+            output: layout/fonts/fontawesome-webfont.woff2
+        email_css:
+            inputs:
+            - '../app/Resources/less/email.less'
+            filters:
+            - 'less'
+        easeljs_js:
+            inputs:
+                - '../node_modules/easeljs/lib/easeljs.js'
+            filters:
+                - '?uglifyjs2'
+        fontfaceobserver:
+            inputs:
+                - '../node_modules/fontfaceobserver/fontfaceobserver.standalone.js'
+
+alex_assetic_extra:
+    asset_directory:
+        enabled: true
+        path: "%kernel.root_dir%/../web/build/assets"
+        target: assets #generated url path relative to parent
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        server_version: "%database_version%"
+        charset:  utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+        types:
+          phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+          nullable_simple_array: Azimut\Bundle\MontgolfiereAppBundle\DBAL\Types\NullableSimpleArrayType
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        filters:
+            softdeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
+            is_comment_visible: Azimut\Bundle\CmsBundle\Doctrine\isCommentVisibleFilter
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    port:      "%mailer_port%"
+    spool:     { type: memory }
+
+sensio_framework_extra:
+    view:
+        annotations: true
+
+fos_rest:
+    routing_loader:
+        default_format: json
+    param_fetcher_listener: force
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    format_listener: false
+    view:
+        view_response_listener: 'force'
+    service:
+        serializer: azimut_cms.services.serializer
+
+fos_js_routing:
+    routes_to_expose:
+        - "^azimut_.+_api_.*" # expose all apis routes
+
+azimut_form_extra:
+    tinymce:
+        script_url: 'js-vendor/tinymce/tinymce.min.js'
+        content_css_url: 'Resources/less/tinymce_content.less'
+        templates_url: 'bundles/azimutformextra/tinymce_templates.json'
+
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: "%uploads_dir%"
+                cache_prefix: thumbs
+    loaders:
+        default:
+            filesystem:
+                data_root: "%uploads_dir%"
+    filter_sets:
+        # CAUTION: if adding or modifying filters name, don't forger
+        # to add them in the azimut_mediacenter_file_proxy_thumb route
+        # requirements
+
+
+        # Standard resize
+        # Keep original aspect ratio
+
+        xxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [60, 60], mode: inset }
+                strip: ~
+
+        xs:
+            quality: 90
+            filters:
+                thumbnail: { size: [150, 150], mode: inset }
+                strip: ~
+
+        s:
+            quality: 90
+            filters:
+                thumbnail: { size: [300, 300], mode: inset }
+                strip: ~
+
+        m:
+            quality: 80
+            filters:
+                thumbnail: { size: [640, 640], mode: inset }
+
+        l:
+            quality: 80
+            filters:
+                thumbnail: { size: [800, 800], mode: inset }
+
+        xl:
+            quality: 70
+            filters:
+                thumbnail: { size: [1280, 1280], mode: inset }
+
+        xxl:
+            quality: 60
+            filters:
+                thumbnail: { size: [1920, 1920], mode: inset }
+
+
+        # Cropped standard resize
+        # Use 15x10 photo format
+        # Cut overflowing pixels
+
+        cxxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [60, 40], mode: outbound }
+                strip: ~
+
+        cxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [150, 100], mode: outbound }
+                strip: ~
+
+        cs:
+            quality: 90
+            filters:
+                thumbnail: { size: [300, 200], mode: outbound }
+                strip: ~
+
+        cm:
+            quality: 80
+            filters:
+                thumbnail: { size: [640, 427], mode: outbound }
+
+        cl:
+            quality: 80
+            filters:
+                thumbnail: { size: [800, 533], mode: outbound }
+
+        cxl:
+            quality: 70
+            filters:
+                thumbnail: { size: [1280, 853], mode: outbound }
+
+        cxxl:
+            quality: 60
+            filters:
+                thumbnail: { size: [1920, 1280], mode: outbound }
+
+
+        # Forced format resize
+        # Use 15x10 photo format
+        # Adding black borders
+
+        fxxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [60, 40], mode: inset }
+                strip: ~
+                background: { size: [60, 40], position: center, color: '#000000' }
+                # Note: to use transparency (0 is transparent, 100 is opaque) : background: { size: [60, 40], position: center, color: '#000000', transparency: 80 }
+
+        fxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [150, 100], mode: inset }
+                background: { size: [150, 100], position: center, color: '#000000' }
+                strip: ~
+
+        fs:
+            quality: 90
+            filters:
+                thumbnail: { size: [300, 200], mode: inset }
+                background: { size: [300, 200], position: center, color: '#000000' }
+                strip: ~
+
+        fm:
+            quality: 80
+            filters:
+                thumbnail: { size: [640, 427], mode: inset }
+                background: { size: [640, 427], position: center, color: '#000000' }
+
+        fl:
+            quality: 80
+            filters:
+                thumbnail: { size: [800, 533], mode: inset }
+                background: { size: [800, 533], position: center, color: '#000000' }
+
+        fxl:
+            quality: 70
+            filters:
+                thumbnail: { size: [1280, 853], mode: inset }
+                background: { size: [1280, 853], position: center, color: '#000000' }
+
+        fxxl:
+            quality: 60
+            filters:
+                thumbnail: { size: [1920, 1280], mode: inset }
+                background: { size: [1920, 1280], position: center, color: '#000000' }
+
+
+        # Cropped square resize
+        # Cut overflowing pixels
+
+        sqcxxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [40, 40], mode: outbound }
+                strip: ~
+
+        sqcxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }
+                strip: ~
+
+        sqcs:
+            quality: 90
+            filters:
+                thumbnail: { size: [200, 200], mode: outbound }
+                strip: ~
+
+        sqcm:
+            quality: 80
+            filters:
+                thumbnail: { size: [427, 427], mode: outbound }
+                strip: ~
+
+        sqcl:
+            quality: 80
+            filters:
+                thumbnail: { size: [533, 533], mode: outbound }
+                strip: ~
+
+        sqcxl:
+            quality: 80
+            filters:
+                thumbnail: { size: [853, 853], mode: outbound }
+                strip: ~
+
+        sqcxxl:
+            quality: 80
+            filters:
+                thumbnail: { size: [1280, 1280], mode: outbound }
+                strip: ~
+
+
+        # Forced format square resize
+        # Cut overflowing pixels
+        # Adding white borders
+
+        sqfxxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [40, 40], mode: inset }
+                background: { size: [40, 40], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfxs:
+            quality: 90
+            filters:
+                thumbnail: { size: [100, 100], mode: inset }
+                background: { size: [100, 100], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfs:
+            quality: 90
+            filters:
+                thumbnail: { size: [200, 200], mode: inset }
+                background: { size: [200, 200], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfm:
+            quality: 80
+            filters:
+                thumbnail: { size: [427, 427], mode: inset }
+                background: { size: [427, 427], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfl:
+            quality: 80
+            filters:
+                thumbnail: { size: [533, 533], mode: inset }
+                background: { size: [533, 533], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfxl:
+            quality: 80
+            filters:
+                thumbnail: { size: [853, 853], mode: inset }
+                background: { size: [853, 853], position: center, color: '#ffffff' }
+                strip: ~
+
+        sqfxxl:
+            quality: 80
+            filters:
+                thumbnail: { size: [1280, 1280], mode: outbound }
+                background: { size: [1280, 1280], position: center, color: '#ffffff' }
+                strip: ~
+
+
+jms_i18n_routing:
+    default_locale: "%locale%"
+    locales: "%backoffice_locales%" #availlable locales in backoffice (availlable ones on front are defined on the azimut_frontoffice route created by FrontRouteLoader)
+    strategy: prefix
+
+jms_di_extra:
+    disable_grep: true
+    locations:
+        all_bundles: false
+        bundles: [AzimutSecurityBundle]
+        directories: ["%kernel.root_dir%/../src"]
+
+jms_security_extra:
+    # Whether you want to secure all services (true), or only secure specific
+    # services (false); see also below
+    secure_all_services: false
+
+    # Enabling this setting will add an additional special attribute "ROLE_IDDQD".
+    # Anybody with this attribute will effectively bypass all security checks.
+    enable_iddqd_attribute: false
+
+    # Enables expression language
+    expressions: true
+
+    # Allows you to disable some, or all built-in voters
+    voters:
+        disable_authenticated: false
+        disable_role:          false
+        disable_acl:           false
+
+    # Allows you to specify access control rules for specific methods, such
+    # as controller actions
+    method_access_control: { }
+
+    #util:
+        #secure_random:
+            #connection: # the doctrine connection name
+            #table_name: seed_table
+            #seed_provider: # service id of your own seed provider implementation
+
+hwi_oauth:
+
+    firewall_names:
+        - main
+    #connect:
+        #registration_form_handler: azimut_security.registration.form.handler
+        #registration_form: azimut_security.form.user
+        #account_connector: azimut.user_provider
+
+    resource_owners:
+        azimut_oauth:
+            type: oauth2
+            client_id: "%client_id%"
+            client_secret: "%client_secret%"
+            access_token_url:   "%access_token_url%"
+            authorization_url:  "%authorization_url%"
+            infos_url:          "%infos_url%"
+            scope: user
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: id
+                nickname: username
+                realname: lastname
+                username: username
+                first_name: firstName
+                last_name: lastName
+
+services:
+    jms_serializer.naming_strategy:
+        class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.array:
+        class: Twig_Extensions_Extension_Array
+        tags:
+            - { name: twig.extension }
+
+    Twig\Extra\CssInliner\CssInlinerExtension:
+        tags:
+            - { name: twig.extension }
+
+    colored_formatter:
+        class: Bramus\Monolog\Formatter\ColoredLineFormatter
+
+    azimut.assets.versioning.capifony:
+        class: Azimut\Component\AssetExtra\VersionStrategy\CapifonyVersionStrategy
+        arguments:
+            - "%kernel.root_dir%/../"
+            - "REVISION"
+            - "%%s?version=%%s"
+        public: false
+    Sentry\Integration\IgnoreErrorsIntegration:
+        arguments:
+            $options:
+                ignore_exceptions:
+                    - 'Symfony\Component\HttpKernel\Exception\HttpException'
+                    # 400
+                    - 'Symfony\Component\HttpKernel\Exception\BadRequestHttpException'
+                    # 401
+                    - 'Symfony\Component\Security\Core\Exception\BadCredentialsException'
+                    - 'Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException'
+                    - 'Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException'
+                    # 403
+                    - 'Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException'
+                    - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
+                    # 404
+                    - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+                    - 'Symfony\Component\Console\Exception\CommandNotFoundException'
+
+knp_paginator:
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+
+ewz_recaptcha:
+    public_key:  "%recaptcha_public_key%"
+    private_key: "%recaptcha_private_key%"
+    # Not needed as "%kernel.default_locale%" is the default value for the locale key
+    locale_key:  "%kernel.default_locale%"
+    locale_from_request: true
+    enabled: true
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+            sluggable: true
+            sortable: true
+            softdeleteable: true
+            blameable: true
+
+azimut_cms:
+    comment_ratings: "%comment_ratings%"
+#    feeds:
+#        -
+#            name: "test"
+#            zone_id: 2
+#            feed_types: [rss, atom]
+#            title: "Mon titre"
+#            description: "Ma desc"
+
+azimut_frontoffice:
+    search_engine:
+        stop_words: "%stop_words%"
+        max_results: "%search_engine_max_results%"
+        entities:
+            Azimut\Bundle\FrontofficeBundle\Entity\CmsFileText:
+                - text
+            Azimut\Bundle\FrontofficeBundle\Entity\CmsFileRichText:
+                - text
+            Azimut\Bundle\FrontofficeBundle\Entity\CmsFileTitle:
+                - title
+            Azimut\Bundle\CmsBundle\Entity\CmsFileArticle:
+                - title
+                - author
+                - text
+            Azimut\Bundle\CmsBundle\Entity\CmsFileProduct:
+                - title
+                - subtitle
+                - text
+            Azimut\Bundle\CmsContactBundle\Entity\CmsFileContact:
+                - firstName
+                - lastName
+            Azimut\Bundle\CmsBundle\Entity\CmsFileEvent:
+                - title
+                - text
+
+azimut_frontoffice_security:
+    frontoffice_user_roles:
+        - ROLE_FRONT_USER
+        - ROLE_FRONT_VISITOR
+        - ROLE_FRONT_CONSULTANT
+
+azimut_demo_payment:
+    normal_return_url: '%demo_payment_base_url%/fr/order/payment/demo/complete'
+    cancel_return_url: '%demo_payment_base_url%/fr/order/payment/demo/cancel'
+    automatic_response_url: '%demo_payment_base_url%/fr/order/payment/demo/notification'
+
+parameters:
+    session.storage.options:
+        cache_limiter: 0
+    access_token_url: '%base_url_login%/oauth/v2/token'
+    authorization_url: '%base_url_login%/oauth/v2/auth'
+    infos_url: '%base_url_login%/api/oauthserver/v2/users/me'
+    oauth_server_url: '%base_url_login%/api/oauthserver/'
+    oauth_server_logout_url: '%base_url_login%/logout'
+    backoffice_locales:
+        - fr
+        - en
+    angularjs_template_max_age: 86400 # 24h
+    ixa_questionnaire_locales: ['fr', 'en']
+
+webpack_encore:
+    output_path: '%kernel.project_dir%/web/build-wp'
+
+webit_doctrine_json:
+    jms_json:
+        type_name: "jms_json"
+
+sentry:
+    dsn: "%sentry_dsn%"
+    options:
+        send_default_pii: true
+        integrations:
+            - 'Sentry\Integration\IgnoreErrorsIntegration'

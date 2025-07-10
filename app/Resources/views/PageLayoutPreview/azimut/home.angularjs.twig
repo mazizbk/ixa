@@ -1,0 +1,19 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-10-01 10:34:15
+#}
+
+<table style="width:100%;height:100%;">
+    <tr style="height: 10%">
+        <td ng-click="openZone(getZoneByName('title'))">{{ 'zone_names.title'|trans }}</td>
+    </tr>
+    <tr style="height: 15%">
+        <td ng-click="openZone(getZoneByName('intro'))">{{ 'zone_names.intro'|trans }}</td>
+    </tr>
+    <tr>
+        <td ng-click="openZone(getZoneByName('products'))">{{ 'zone_names.products'|trans }}</td>
+    </tr>
+    <tr>
+        <td ng-click="openZone(getZoneByName('news'))">{{ 'zone_names.news'|trans }}</td>
+    </tr>
+</table>

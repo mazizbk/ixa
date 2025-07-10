@@ -1,0 +1,119 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 11:02:48
+
+yes: "yes"
+no: "no"
+
+type: "type"
+language: "language"
+
+medias: "medias"
+
+longitude: "longitude"
+latitude: "latitude"
+
+address: "Address"
+addresses: "Addresses"
+postal.code: "Postal code"
+city: "City"
+country: "Country"
+
+submit: "submit"
+cancel: "cancel"
+
+member: "member"
+member.area: "member area"
+private.area: "private area"
+hello.%name%: "Hello %name%"
+welcome.to.member.area: "Welcome to member area"
+welcome.to.private.area: "Welcome to private area"
+
+the.page.cannot.be.found: "Page cannot be found"
+go.to.home.page: "Go to home page"
+error: "error"
+error.occured.sorry.for.inconvenience: "Sorry, an error occured, we cannot display the page you are looking for."
+
+page.up: 'page up'
+previous: 'previous'
+next: 'next'
+go.back.to: 'go back to'
+read.the.story: 'read the story'
+
+# Frontoffice page zone names
+zone_names:
+    intro: 'intro'
+    products: 'products'
+    news: 'news'
+    center: 'center'
+    left: 'left'
+    right: 'right'
+    form.fixed: 'form (fixed)'
+    content: 'content'
+    diaporama: 'diaporam'
+    header: 'header'
+    map: 'map'
+    title: 'title'
+
+# used by paginator
+# Next:
+# Previous:
+there.are.%nb%.elements: '%nb% elements'
+
+search: "search"
+your.search.query: "your search query"
+results.found: "{0}no result found|{1}1 result found|[2,Inf[%count% results found"
+too.many.search.results.found: "too many search results found"
+displayed.results.have.been.limited.to.%max_results%: "displayed results have been limited to %max_results%"
+
+all.news: "All news"
+legal.notice: "Legal Notice"
+subscribe.to.our.newsletter: "Subcribe to our newsletter"
+subscribe: "Subscribe"
+no.archive: "no archive available"
+
+mentions:
+    editeur: "Editor"
+    responsable_de_la_publication: "Publication director"
+    realisation_et_hebergement: "Production and hosting"
+
+    # NB: "email" should be a translation domain and not a key, change this in the future
+email:
+    hello: 'Hello'
+    your.account.at.%domain%: "Your account at %domain%"
+    account.created.for.you.at.%domain%: "An account has been created for you at %domain%"
+    your.login: "Your login"
+    to.log.in.follow.this.link: "To log in, follow this link"
+    log.in: "Log in"
+    if.you.dont.know.password.use.lost.password: "If someone created the account for you and you don't know the password, use the \"lost password\" feature to choose a new one"
+    lost.password: "lost password"
+    password.reset.requested.for.your.account.at.%domain%: "A password reset has been requested for your account at %domain%"
+    to.set.new.password.follow.this.link: "To set a new password, follow this link"
+    reset.password: "reset password"
+    reset.password.at.%domain%: "reset password  at %domain%"
+    your.account.will.be.activated.after.validation: "Your account will be activated as soon as an administrator has validated it"
+    your.account.at.%domain%.has.been.activated: "Your account at %domain% has been activated"
+    confirm.email.address: "Confirm email address"
+    confirm.email.address.for.%domain%: "Confirm email address for %domain%"
+    click.on.following.link.to.confirm.your.email.address: "Click on the following link to confirm your email address"
+
+    shop:
+        your.order.at.%domain%: "Your order at %domain%"
+        new.order.at.%domain%: "New order at %domain%"
+        order.cancellation.%domain%: "Order cancellation at %domain%"
+        thank.you: "Thank you"
+        your.order.has.been.registered: "Your order has been registered"
+        order.number: "Order number"
+        total.amount: "Total amount"
+        a.new.order.has.been.placed: "A new order has been placed"
+        your.order.has.been.cancelled: "Your order has been cancelled"
+        an.order.has.been.cancelled: "An order has been cancelled"
+
+    contact:
+        subject: "Contact from %siteName% website"
+        name: "Name"
+        email: "Email"
+        message: "Message"
+
+# Frontoffice user roles
+"ROLE_FRONT_MEMBER": "Member"
+"ROLE_FRONT_VISITOR": "Visitor"

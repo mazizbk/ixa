@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-01-26 15:52:57
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.site_layout.submitAction()', 'az-submit-params': 'forms.params.site_layout', 'az-confirm-dirty-data-state-change': 'forms.params.site_layout.confirmDirtyDataStateChangeMessage'}}) }}
+    {{ form_widget(form) }}
+{{ form_end(form) }}

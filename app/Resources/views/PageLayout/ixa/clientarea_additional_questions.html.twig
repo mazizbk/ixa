@@ -1,0 +1,80 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% extends siteLayout %}
+{% set selectedMenu = 'additional-questions' %}
+{% set verbatimExport = verbatimExport|default(false) %}
+{% block bodyContent %}
+    <div class="clearfix"></div>
+    <div class="well">
+        {% if verbatimExport %}
+            <div style="float:right">
+                <a href="{{ path('azimut_frontoffice', request.query.all|merge({'path': pageSlug(page)~'/campaign/'~campaign.id ~'/verbatim-export'})) }}" class="Btn btn">Export verbatims</a>
+            </div>
+        {% endif %}
+        {% if form is defined and form is not null%}
+            {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form(form, {attr: {class: 'form-inline'}}) }}
+        {% endif %}
+        <div class="clearfix"></div>
+    </div>
+
+    {% if campaign.participations|length == 0  %}
+        <p class="text-center">Aucun participant</p>
+    {% elseif campaign.participations|length < 5  %}
+        <p class="text-center">Il faut au moins 5 participants pour afficher le résultat des questions annexes</p>
+    {% else %}
+        <div class="Grid Grid--2 Grid--xxs-1 Grid--marginBottom">
+            {% set additionalQuestions = campaign.additionalQuestions([
+                    constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_UNIQUE'),
+                    constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_MULTIPLES'),
+                    constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_TRUE_FALSE'),
+            ], userType) %}
+            {% for additionalQuestion in additionalQuestions %}
+                {% if additionalQuestion.participationCount > 0 %}
+                    <div class="Bloc">
+                        <div class="Bloc-content">
+                            {% include ':PageLayout/ixa/_partial:additional_question_results.html.twig' with {'additionalQuestion' : additionalQuestion} only %}
+                            <br>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="Grid Grid--3 Grid--xxs-1 Grid--marginBottom">
+            {% set additionalQuestions = campaign.additionalQuestions([
+                constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_SATISFACTION_GAUGE'),
+            ], userType) %}
+            {% for additionalQuestion in additionalQuestions %}
+                {% if additionalQuestion.participationCount > 0 %}
+                    {% set answersSum = 0 %}
+                    {% for answerValue,answerCount in additionalQuestion.answers  %}
+                        {% set answersSum = answersSum + (answerValue * answerCount) %}
+                    {% endfor %}
+                    {% set quantifiablebValue = (answersSum / additionalQuestion.participationCount)|round(1) %}
+                    <div class="Bloc">
+                        {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {'title' : additionalQuestion.question.question.question, 'value': quantifiablebValue, 'tooltip': additionalQuestion.question.question.description|ixa_questionnaire_wildcard|striptags } only %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="Grid Grid--2 Grid--xxs-1 Grid--marginBottom">
+            {% set engagementAverage = campaign.engagementAverage|round(1) %}
+            <div class="Bloc">
+                {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {
+                    'title' : 'Indice d\'Engagement moyen',
+                    'subtitle' : 'montgolfiere.frontoffice.private_area.engagment_definition'|trans,
+                    'tooltip' : 'montgolfiere.frontoffice.private_area.engagment_definition_detail'|trans ,
+                    'value': engagementAverage|round(1)
+                } only %}
+            </div>
+            {% set wellBeingAverage = campaign.wellBeingAverage|round(1) %}
+            <div class="Bloc">
+                {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {
+                    'title' : 'Indice de Bien-&Ecirc;tre moyen',
+                    'subtitle' : 'montgolfiere.frontoffice.private_area.wellness_definition'|trans,
+                    'tooltip' : 'montgolfiere.frontoffice.private_area.wellness_definition_detail'|trans,
+                    'value': wellBeingAverage
+                } only %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

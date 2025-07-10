@@ -1,0 +1,28 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:26:35
+
+services:
+
+    azimut_cmscontact.roles:
+        class: Azimut\Bundle\CmsContactBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_cmscontact_roles }
+
+    azimut_cmscontact.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_cmscontact.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\CmsContactBundle\DataFixtures\ORM\LoadCmsFileContactData:
+        tags:
+            - { name: doctrine.fixture.orm }

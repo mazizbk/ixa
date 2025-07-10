@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-07-19 16:57:12
+#}
+
+{% include 'AzimutBackofficeBundle:Backoffice:dashboard_entity_shortcut.angularjs.twig' with {
+    'backgroundColor': '#5d7cd1',
+    'glyphicon': 'glyphicon-pro glyphicon-pro-conversation',
+    'entitiesName': 'files.waiting.for.validation'|trans,
+    'entitiesCount': waitingCmsFilesBufferCount,
+    'listEntitiesState': "backoffice.moderation.cms_file_buffer_list"
+} %}

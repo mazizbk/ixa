@@ -1,0 +1,215 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2013-11-10 10:08:24
+
+services:
+
+    azimut_frontoffice.roles:
+        class: Azimut\Bundle\FrontofficeBundle\Security\AccessRoleService
+        arguments: ['@doctrine', '%active_backoffice_apps%']
+        tags:
+            - { name: role_provider, alias: azimut_frontoffice_roles }
+
+    azimut_frontoffice.access_right_voter:
+        class: Azimut\Bundle\SecurityBundle\Security\Voter
+        arguments:
+            - "@service_container"
+            - "@doctrine"
+            - "@azimut_frontoffice.roles"
+            - "@azimut_security.role_provider_chain"
+            - "@?logger"
+        tags:
+            - { name: security.voter }
+            - { name: monolog.logger, channel: security }
+
+    azimut_frontoffice.front_route_loader:
+        class: Azimut\Bundle\FrontofficeBundle\Routing\FrontRouteLoader
+        arguments:
+            - "%locales%"
+            - "%use_front_url_locale_prefix_if_one_locale%"
+        tags: [routing.loader]
+
+    #form type services
+    azimut_frontoffice.form.page:
+        class: Azimut\Bundle\FrontofficeBundle\Form\Type\PageType
+        arguments:
+            - "@doctrine"
+            - "%azimut_frontoffice_security.frontoffice_user_roles%"
+            - "@security.authorization_checker"
+        tags:
+            - { name: form.type }
+
+    azimut_frontoffice.form.menu_definition:
+        class: Azimut\Bundle\FrontofficeBundle\Form\Type\MenuDefinitionType
+        arguments: ["@security.authorization_checker"]
+        tags:
+            - { name: form.type }
+
+    azimut_frontoffice.form.zone_permanent_filter:
+        class: Azimut\Bundle\FrontofficeBundle\Form\Type\ZonePermanentFilterType
+        arguments:
+            - "@doctrine"
+        tags:
+            - { name: form.type }
+
+    twig.extension.menu:
+        class: Azimut\Bundle\FrontofficeBundle\Twig\Extension\MenuExtension
+        arguments: ['@doctrine', '@request_stack', '@azimut_frontoffice.menu_builder']
+        tags:
+            - {name: twig.extension}
+
+    twig.extension.page:
+        class: Azimut\Bundle\FrontofficeBundle\Twig\Extension\PageExtension
+        arguments:
+            - "@doctrine"
+            - "@router"
+            - "@azimut_frontoffice.front"
+        tags:
+            - {name: twig.extension}
+
+    twig.extension.zone:
+        class: Azimut\Bundle\FrontofficeBundle\Twig\Extension\ZoneExtension
+        arguments: ['@doctrine', '@azimut_frontoffice.zone_renderer']
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.site:
+            class: Azimut\Bundle\FrontofficeBundle\Twig\Extension\SiteExtension
+            arguments:
+                - '@doctrine'
+                - '@request_stack'
+                - '@azimut_frontoffice.front'
+                - '@router'
+            tags:
+                - { name: twig.extension }
+
+    azimut_frontoffice.exception_controller:
+        class: Azimut\Bundle\FrontofficeBundle\Controller\ExceptionController
+        arguments: [ "@twig", "%kernel.debug%", "@doctrine" ]
+
+    azimut_frontoffice.menu_builder:
+        class: Azimut\Bundle\FrontofficeBundle\Service\MenuBuilder
+        public: true
+        arguments:
+            - "@knp_menu.factory"
+            - '@doctrine'
+
+    validator.unique_redirection_in_site:
+        class: Azimut\Bundle\FrontofficeBundle\Validator\Constraints\UniqueRedirectionInSiteValidator
+        arguments:
+            - "@doctrine"
+        tags:
+            - { name: validator.constraint_validator }
+
+    azimut_frontoffice.page_doctrine_event_subscriber:
+        class: Azimut\Bundle\FrontofficeBundle\EventListener\Doctrine\PageSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_frontoffice.menu_definition_doctrine_event_subscriber:
+        class: Azimut\Bundle\FrontofficeBundle\EventListener\Doctrine\MenuDefinitionSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_frontoffice.zone_definition_doctrine_event_subscriber:
+        class: Azimut\Bundle\FrontofficeBundle\EventListener\Doctrine\ZoneDefinitionSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_frontoffice.zone_doctrine_event_subscriber:
+        class: Azimut\Bundle\FrontofficeBundle\EventListener\Doctrine\ZoneSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    azimut_frontoffice.search_engine_provider_chain:
+        class: Azimut\Bundle\FrontofficeBundle\Service\SearchEngineProviderChain
+
+    azimut_frontoffice.search_engine:
+        class: Azimut\Bundle\FrontofficeBundle\Service\SearchEngine
+        arguments:
+            - "@doctrine"
+            - "@azimut_frontoffice.search_engine_provider_chain"
+            - "%azimut_frontoffice.search_engine%"
+            - "@security.authorization_checker"
+
+    azimut_frontoffice.front_collector:
+        class: Azimut\Bundle\FrontofficeBundle\DataCollector\FrontDataCollector
+        tags:
+            -
+                name:     data_collector
+                template: 'AzimutFrontofficeBundle:DataCollector:front_data_collector.html.twig'
+                # must match the value returned by the getName() method
+                id:       'azimut_frontoffice.front_data_collector'
+
+    azimut_frontoffice.zone_renderer:
+        class: Azimut\Bundle\FrontofficeBundle\Service\ZoneRenderer
+        arguments:
+            - '@doctrine'
+            - '@knp_paginator'
+            - '@request_stack'
+            - '@router'
+            - '@templating'
+            - '@kernel'
+
+    azimut_frontoffice.front:
+        class: Azimut\Bundle\FrontofficeBundle\Service\FrontService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.firewall.map'
+            - '@request_stack'
+
+    azimut_frontoffice.mailer:
+        class: Azimut\Bundle\FrontofficeBundle\Service\Mailer
+        arguments:
+            - '@mailer'
+            - '@templating'
+            - '@translator'
+            - '@azimut_frontoffice.front'
+            - '%sender_address%'
+
+    Azimut\Bundle\FrontofficeBundle\EventListener\Entity\ZoneCmsFileAttachmentEventSubscriber:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Azimut\Bundle\FrontofficeBundle\Command\reindexZoneCmsFileAttachmentDisplayOrderCommand:
+            arguments: ['@doctrine.orm.entity_manager']
+            tags:
+                - { name: console.command }
+
+    # Doctrine fixtures
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadAccessRightClassData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut_security.access_right_service'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadAccessRightObjectData:
+        arguments:
+            - '@azimut.user_manager'
+            - '@azimut.group_manager'
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadPageLayoutData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadSiteLayoutData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadSitePageData:
+        arguments: ['%fixtures_frontoffice_sites_gtld%']
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadZoneCmsFileAttachmentData:
+        tags:
+            - { name: doctrine.fixture.orm }
+
+    Azimut\Bundle\FrontofficeBundle\DataFixtures\ORM\LoadInitPageLayoutData:
+        tags:
+        - { name: doctrine.fixture.orm }
+

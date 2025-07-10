@@ -1,0 +1,4 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-27 11:32:12
+
+"basket.do.not.accept.more.than.5.products": "Basket do not accept more than 5 products (this is a demo functionnality, unplug DemoShopExtraBundle)"

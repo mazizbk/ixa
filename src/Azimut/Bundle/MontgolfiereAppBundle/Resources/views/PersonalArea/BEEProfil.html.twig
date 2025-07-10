@@ -1,0 +1,187 @@
+{% set selectedMenu = 'BEEProfil' %}
+{% extends '@AzimutMontgolfiereApp/PersonalArea/base.html.twig' %}
+{% import _self as macros %}
+{% block body %}
+    {% set engagementRatio = (wbeText.engagementProfile*100/5)|round %}
+    {% set wellBeingRatio = (wbeText.wellBeingProfile*100/10)|round %}
+    {% set engagmentColor = ixa_trend_color(engagementRatio,100,participation.campaign) %}
+    {% set wellBeignColor = ixa_trend_color(wellBeingRatio,200,participation.campaign) %}
+    <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom-0 Grid Grid--2--1-2 Grid--xxs-noGrid">
+        <div class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="264.84" height="323.346" viewBox="0 0 264.84 323.346">
+                <defs>
+                    <clipPath id="clip-path">
+                        <rect id="Rectangle_179" data-name="Rectangle 179" width="264.84" height="323.346" fill="none"/>
+                    </clipPath>
+                    <clipPath id="clip-path-2">
+                        <rect id="Rectangle_178" data-name="Rectangle 178" width="64.669" height="64.047" fill="none"/>
+                    </clipPath>
+                    <clipPath id="clip-path-4">
+                        <rect id="Rectangle_180" data-name="Rectangle 180" width="81.623" height="37.862" transform="translate(-2 -7)" fill="none"/>
+                    </clipPath>
+                    <clipPath id="clip-path-5">
+                        <rect id="Rectangle_183" data-name="Rectangle 183" width="64.047" height="64.047" fill="none"/>
+                    </clipPath>
+                </defs>
+                <g id="Groupe_473" data-name="Groupe 473" transform="translate(-293.66 -518.654)">
+                    <g id="Groupe_296" data-name="Groupe 296" transform="translate(293.66 518.654)">
+                        <g id="Groupe_295" data-name="Groupe 295" clip-path="url(#clip-path)">
+                            <path id="Tracé_685" data-name="Tracé 685" d="M161.614,168.835a84.418,84.418,0,1,1,84.418-84.418,84.511,84.511,0,0,1-84.418,84.418" transform="translate(-29.194)" fill="{{ engagmentColor }}"/>
+                            <g id="Groupe_294" data-name="Groupe 294" transform="translate(103.194 27.982)" opacity="0.75" style="mix-blend-mode: multiply;isolation: isolate">
+                                <g id="Groupe_293" data-name="Groupe 293">
+                                    <g id="Groupe_292" data-name="Groupe 292" clip-path="url(#clip-path-2)">
+                                        <g id="Groupe_291" data-name="Groupe 291" transform="translate(0)">
+                                            <g id="Groupe_290" data-name="Groupe 290" clip-path="url(#clip-path-2)">
+                                                <image id="Rectangle_176" data-name="Rectangle 176" width="64.669" height="64.047" xlink:href="data:image/png;base64,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"/>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                            <path id="Tracé_686" data-name="Tracé 686" d="M221.9,77.614a22.541,22.541,0,1,1-22.541-22.541A22.541,22.541,0,0,1,221.9,77.614" transform="translate(-66.869 -20.828)" fill="#fff"/>
+                            <path id="Tracé_687" data-name="Tracé 687" d="M196.411,77.135a3.382,3.382,0,1,0-3.382-3.381,3.386,3.386,0,0,0,3.382,3.381" transform="translate(-73 -26.613)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_688" data-name="Tracé 688" d="M197.716,80.854h-.04a.361.361,0,0,0-.223.076,3.628,3.628,0,0,1-4.317.007.368.368,0,0,0-.233-.083h-.043a2.8,2.8,0,0,0-2.8,2.8l.118,5.956a2.8,2.8,0,0,0,1.642,2.549v6.874a1.834,1.834,0,0,0,1.833,1.83h3.265a1.833,1.833,0,0,0,1.83-1.83V92.163c-.061-2.016-.061-8.513-.061-8.513C198.692,82.108,199.26,80.854,197.716,80.854Z" transform="translate(-71.879 -30.577)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_689" data-name="Tracé 689" d="M209.719,87.127h0a1.907,1.907,0,0,1-2.56.823l-6.231-3.2a1.9,1.9,0,1,1,1.737-3.383l6.232,3.2a1.907,1.907,0,0,1,.823,2.56" transform="translate(-75.597 -30.692)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_690" data-name="Tracé 690" d="M228.907,73.753a3.382,3.382,0,1,0-3.382,3.381,3.386,3.386,0,0,0,3.382-3.381" transform="translate(-84.01 -26.613)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_691" data-name="Tracé 691" d="M223.025,80.854c-1.543,0-.975,1.254-.976,2.8,0,0,0,6.5-.061,8.513v6.874a1.833,1.833,0,0,0,1.83,1.831h3.265a1.834,1.834,0,0,0,1.833-1.831V92.162a2.794,2.794,0,0,0,1.642-2.548l.118-5.956a2.8,2.8,0,0,0-2.8-2.8h-.043a.368.368,0,0,0-.233.083,3.63,3.63,0,0,1-4.317-.008.364.364,0,0,0-.223-.075h-.04Z" transform="translate(-83.936 -30.577)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_692" data-name="Tracé 692" d="M212.5,86.994l-1.155-.593-.289.148a1.908,1.908,0,0,0-.9,2.393l1.062.545a1.4,1.4,0,0,0,1.28-2.493" transform="translate(-79.426 -32.675)" fill="{{ engagmentColor }}"/>
+                            <path id="Tracé_693" data-name="Tracé 693" d="M221.313,82.19h0a1.907,1.907,0,0,0-2.56-.823L213.9,83.856l.517.266a2.4,2.4,0,0,1,1.053,3.2l5.014-2.575a1.907,1.907,0,0,0,.823-2.56" transform="translate(-80.895 -30.692)" fill="{{ engagmentColor }}"/>
+                        </g>
+                    </g>
+                    <text id="Engagement" transform="translate(379.534 618.709)" fill="#fff" font-size="13" font-family="Montserrat-ExtraBold, Montserrat" font-weight="800"><tspan x="0" y="0">E</tspan><tspan y="0" letter-spacing="0.008em">n</tspan><tspan y="0">g</tspan><tspan y="0" letter-spacing="0.008em">a</tspan><tspan y="0">ge</tspan><tspan y="0" letter-spacing="0.008em">m</tspan><tspan y="0">ent</tspan></text>
+                    <path id="Tracé_694" data-name="Tracé 694" d="M264.84,436.7H0c0-76.808,9.906-136.972,132.42-136.972S264.84,359.888,264.84,436.7" transform="translate(293.66 405.304)" fill="{{  wellBeignColor }}"/>
+                    <g id="Groupe_304" data-name="Groupe 304" transform="translate(399.341 705.028)" opacity="0.75" style="mix-blend-mode: multiply;isolation: isolate">
+                        <g id="Groupe_303" data-name="Groupe 303">
+                            <g id="Groupe_302" data-name="Groupe 302" clip-path="url(#clip-path-5)">
+                                <g id="Groupe_301" data-name="Groupe 301" transform="translate(0)">
+                                    <g id="Groupe_300" data-name="Groupe 300" clip-path="url(#clip-path-5)">
+                                        <image id="Rectangle_181" data-name="Rectangle 181" width="64.047" height="64.047" xlink:href="data:image/png;base64,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"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <path id="Tracé_696" data-name="Tracé 696" d="M225.125,367.922a22.541,22.541,0,1,1-22.541-22.541,22.541,22.541,0,0,1,22.541,22.541" transform="translate(225.571 366.103)" fill="#fff"/>
+                    <rect id="Rectangle_184" data-name="Rectangle 184" width="264.84" height="323.346" transform="translate(293.66 518.654)" fill="none"/>
+                    <path id="Tracé_697" data-name="Tracé 697" d="M239.288,383.07a.313.313,0,0,1,0,.559,28.649,28.649,0,0,1-3.45,1.505,21.2,21.2,0,0,1-2.706.775.311.311,0,0,1-.282-.083q-.181-.175-.364-.341a16.728,16.728,0,0,0-1.481-1.209.31.31,0,0,1,0-.5,16.821,16.821,0,0,0,1.481-1.208c.466-.427.931-.893,1.384-1.394a.313.313,0,0,1,.311-.095,22.924,22.924,0,0,1,2.595.856c.824.325,1.663.706,2.512,1.138" transform="translate(206.347 352.607)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_698" data-name="Tracé 698" d="M197.058,383.69a.31.31,0,0,1,0,.5,16.74,16.74,0,0,0-1.481,1.209q-.3.273-.593.565c-.074-.012-.15-.024-.226-.039a20.876,20.876,0,0,1-3.21-.876,28.588,28.588,0,0,1-3.452-1.505.313.313,0,0,1,0-.559c.848-.432,1.689-.813,2.513-1.138a22.639,22.639,0,0,1,3.158-1,.313.313,0,0,1,.3.1,20.769,20.769,0,0,0,1.506,1.529,16.739,16.739,0,0,0,1.481,1.209" transform="translate(222.591 352.69)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_699" data-name="Tracé 699" d="M205.2,390.982l-.155.088a12.85,12.85,0,0,1-1.919.858,18.583,18.583,0,0,1-2.947.782c-.736.134-1.508.238-2.309.308a.265.265,0,0,1-.251-.4,24.183,24.183,0,0,1,1.8-2.622q.479-.6.981-1.14.306-.332.621-.635c.1-.1.206-.2.308-.289.144-.131.285-.254.425-.372a10.844,10.844,0,0,1,1.048-.788c.118-.078.245-.16.379-.242a.268.268,0,0,1,.246-.014,4.51,4.51,0,0,0,.959.307h0c.045.009.09.017.135.022-.012.272-.007.531,0,.763v0c.009.256.028.517.059.782a11.018,11.018,0,0,0,.244,1.329c.1.412.225.834.374,1.261" transform="translate(218.941 350.555)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_700" data-name="Tracé 700" d="M231.264,392.617a.265.265,0,0,1-.251.4c-.8-.07-1.573-.173-2.309-.308a18.674,18.674,0,0,1-2.948-.782,12.719,12.719,0,0,1-1.918-.858c-.115-.063-.226-.127-.333-.192a.266.266,0,0,1-.117-.307c.022-.071.042-.142.062-.212a11.5,11.5,0,0,0,.385-1.906c.016-.144.028-.287.039-.429.007-.116.014-.23.016-.342q.013-.413-.012-.794c.037,0,.073,0,.109,0s.08,0,.119-.007a4.182,4.182,0,0,0,1.349-.361.266.266,0,0,1,.246.014c.134.082.261.164.379.241a10.946,10.946,0,0,1,1.025.768c.147.125.3.254.448.393.086.078.171.157.257.239.2.2.407.4.609.616.353.376.7.78,1.043,1.209a24.241,24.241,0,0,1,1.8,2.622" transform="translate(209.184 350.555)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_701" data-name="Tracé 701" d="M217.81,387.17c0,.206,0,.422-.016.645a9.634,9.634,0,0,1-.336,1.918c-.012.043-.024.086-.036.131-.057.2-.119.4-.19.606-.076.228-.161.458-.256.692a16.534,16.534,0,0,1-.732,1.6,23.177,23.177,0,0,1-1.823,2.909l-.144-.211a22.433,22.433,0,0,1-2.079-3.488c-.088-.187-.171-.374-.249-.558-.1-.223-.185-.446-.267-.666q-.134-.354-.24-.7c-.083-.26-.154-.515-.215-.767a8.755,8.755,0,0,1-.265-1.83c0-.133-.009-.277-.007-.425,0-.047,0-.1,0-.143a.267.267,0,0,1,.193-.251l.075-.022a3.432,3.432,0,0,0,.444-.167c.062-.029.122-.057.181-.088a.265.265,0,0,1,.284.032,3.8,3.8,0,0,0,.473.313,3.319,3.319,0,0,0,.328.159,3.7,3.7,0,0,0,1.477.308,3.64,3.64,0,0,0,1.1-.171,3.861,3.861,0,0,0,.946-.448h0a3.991,3.991,0,0,0,.392-.3.259.259,0,0,1,.3-.023c.068.041.137.08.206.116.031.016.062.033.1.047.05.026.1.049.153.072a.265.265,0,0,1,.165.214c.017.159.027.325.03.495" transform="translate(213.881 350.67)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_702" data-name="Tracé 702" d="M201.614,379.2c-.08-.035-.16-.072-.242-.113-.192-.1-.382-.2-.565-.312-.209-.124-.408-.252-.588-.371a14.015,14.015,0,0,1-1.745-1.372c-.268-.246-.534-.5-.794-.775-.233-.238-.463-.486-.69-.741-.209-.236-.415-.481-.618-.733-.053-.063-.106-.129-.158-.195a28.629,28.629,0,0,1-2.131-3.1.314.314,0,0,1,.3-.474c.948.083,1.862.205,2.733.364.5.093,1,.2,1.476.319a.313.313,0,0,1,.233.27q.1.943.282,1.818c.054.268.113.526.176.776.068.287.146.561.228.827s.17.529.264.782c.008.021.014.041.022.062a12.111,12.111,0,0,0,.588,1.355,6.05,6.05,0,0,0,.7,1.071,4.362,4.362,0,0,0,.5.516l.03.027" transform="translate(220.279 356.409)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_703" data-name="Tracé 703" d="M233.915,371.013a.314.314,0,0,1,.3.474,28.543,28.543,0,0,1-2.132,3.1c-.081.1-.162.2-.246.3-.2.248-.405.488-.612.719q-.335.375-.676.723c-.241.246-.483.479-.727.7a14.081,14.081,0,0,1-1.744,1.372c-.18.119-.379.246-.588.371-.182.108-.372.215-.565.311-.141.07-.278.131-.411.182a3.211,3.211,0,0,1-.9.223,2.124,2.124,0,0,1-.236.008,4.249,4.249,0,0,0,.432-.327c.018-.017.039-.033.057-.053a4.465,4.465,0,0,0,.635-.706,6.326,6.326,0,0,0,.509-.827,11.737,11.737,0,0,0,.578-1.331c.012-.029.022-.058.033-.086.092-.249.18-.5.26-.767s.16-.545.229-.831c.066-.254.123-.516.178-.787.1-.5.187-1.026.252-1.566a.313.313,0,0,1,.22-.264,23.694,23.694,0,0,1,2.425-.578c.871-.159,1.785-.282,2.733-.364" transform="translate(208.428 356.409)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_704" data-name="Tracé 704" d="M225.662,367.173c-.008.217-.021.434-.035.647-.019.307-.045.608-.078.905-.033.317-.074.626-.121.932-.045.28-.093.555-.147.823-.1.485-.209.935-.338,1.363q-.119.4-.258.774c-.022.063-.047.127-.073.192a9.471,9.471,0,0,1-.455,1.038,3.685,3.685,0,0,1-.821,1.1,2.486,2.486,0,0,1-.27.2,2.629,2.629,0,0,1-.361.2,4.977,4.977,0,0,0,.113-.493c.032-.168.057-.34.075-.524v0c0-.014,0-.03.006-.045a11.357,11.357,0,0,0,.043-1.353c0-.064,0-.127,0-.188a14.512,14.512,0,0,0-.135-1.636c-.035-.269-.08-.545-.131-.827,0-.025-.011-.049-.014-.076-.053-.283-.115-.571-.182-.862h0a23.143,23.143,0,0,0-.747-2.526c-.017-.047-.033-.093-.052-.139.416-.529.872-1.056,1.364-1.577.609-.644,1.275-1.282,1.991-1.908a.313.313,0,0,1,.519.207,28.448,28.448,0,0,1,.113,3.763" transform="translate(209.827 359.392)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_705" data-name="Tracé 705" d="M208.286,366.889a.313.313,0,0,1,.047.29c-.216.642-.4,1.277-.546,1.9-.037.155-.074.311-.106.464-.027.129-.053.254-.078.381-.06.3-.109.588-.15.874-.073.5-.121.989-.145,1.47-.016.307-.02.6-.016.886a9.524,9.524,0,0,0,.146,1.605c.035.208.08.411.133.608a.51.51,0,0,0,.014.057c.012.041.022.081.037.123-.029-.006-.055-.014-.084-.022a2.968,2.968,0,0,1-.575-.233h0v0a2.815,2.815,0,0,1-.4-.264c-.031-.025-.062-.049-.09-.076a3.593,3.593,0,0,1-.8-1.071c-.006-.011-.012-.021-.019-.033a10.536,10.536,0,0,1-.494-1.139c-.012-.03-.022-.061-.035-.092-.1-.268-.19-.544-.274-.833-.122-.409-.227-.841-.321-1.3-.078-.385-.145-.784-.2-1.191-.041-.3-.076-.6-.1-.9-.029-.289-.049-.582-.063-.879-.006-.111-.012-.221-.016-.334a28.541,28.541,0,0,1,.111-3.762.313.313,0,0,1,.519-.208c.717.627,1.383,1.265,1.992,1.908.553.587,1.063,1.181,1.523,1.778" transform="translate(216.466 359.393)" fill="{{ wellBeignColor }}"/>
+                    <path id="Tracé_706" data-name="Tracé 706" d="M217.582,374.155c-.006.121-.014.242-.027.36-.008.072-.016.139-.024.207-.014.106-.031.207-.053.3a3.071,3.071,0,0,1-.26.795l-.012.027c-.018.035-.037.07-.057.1a2.754,2.754,0,0,1-.54.674.2.2,0,0,1-.017.016,2.8,2.8,0,0,1-.845.526,2.731,2.731,0,0,1-2.3-.1.542.542,0,0,1-.078-.039,2.5,2.5,0,0,1-.246-.154,2.566,2.566,0,0,1-.4-.352,2.119,2.119,0,0,1-.187-.223,2.565,2.565,0,0,1-.282-.467c-.008-.014-.014-.03-.023-.045a2.671,2.671,0,0,1-.121-.33c-.008-.025-.016-.05-.022-.074-.035-.129-.068-.264-.094-.4a7.732,7.732,0,0,1-.115-.847,10.816,10.816,0,0,1-.012-1.392c0-.084.009-.168.017-.252.022-.35.062-.706.114-1.073.045-.307.1-.618.166-.942.012-.065.027-.131.041-.2q.119-.559.282-1.132c.095-.342.2-.69.317-1.038.1-.318.217-.637.34-.958.039-.106.082-.213.123-.32.325-.824.705-1.665,1.137-2.513a.314.314,0,0,1,.56,0c.43.84.813,1.674,1.142,2.493q.188.467.35.926c0,.01.009.022.012.032q.172.479.315.952a19.35,19.35,0,0,1,.538,2.14c.008.041.014.08.022.119.058.307.1.6.139.89v0a13.1,13.1,0,0,1,.1,1.312c0,.047,0,.1,0,.146,0,.26.006.547-.008.833" transform="translate(213.542 359.009)" fill="{{ wellBeignColor }}"/>
+                    <rect id="Rectangle_185" data-name="Rectangle 185" width="264.84" height="323.346" transform="translate(293.66 518.654)" fill="none"/>
+                    <rect id="Rectangle_186" data-name="Rectangle 186" width="264.84" height="323.346" transform="translate(293.66 518.654)" fill="none"/>
+                    <text id="Bien-être" transform="translate(393.534 780.709)" fill="#fff" font-size="13" font-family="Montserrat-ExtraBold, Montserrat" font-weight="800">Bien être</text>
+                </g>
+            </svg>
+
+        </div>
+        <div>
+            <p>
+                {{ 'montgolfiere.frontoffice.personal_area.intro'|trans|raw }}<br>
+                {{ 'montgolfiere.frontoffice.personal_area.intro2'|trans|raw }}
+            </p>
+            <br>
+            <div class="Title Title--5 Title--bold text-center">
+                {{ 'montgolfiere.questionnaire.results.engagement'|trans }}
+                <button type="button" class="Btn Btn--small"  data-toggle="tooltip" data-placement="left" title="{{ 'montgolfiere.frontoffice.personal_area.engagment_definition_detail'|trans }}">?</button>
+            </div>
+            <div class="ProgressBar">
+                <div class="ProgressBar-value" role="progressbar" style="background: {{ engagmentColor }};width: {{ engagementRatio }}%"></div>
+            </div>
+            <div class="ProgressBar-graduation">
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+            </div>
+            <div class="ProgressBar-legend">
+                <div class="">{{ 'montgolfiere.frontoffice.personal_area.lack'|trans }}</div>
+                <div class="">{{ 'montgolfiere.frontoffice.personal_area.durable'|trans }}</div>
+                <div class="">{{ 'montgolfiere.frontoffice.personal_area.excess'|trans }}</div>
+            </div>
+            <br>
+            <div class="Title Title--5 text-center">
+                {{ 'montgolfiere.questionnaire.results.well_being'|trans }}
+                <button type="button" class="Btn Btn--small" data-toggle="tooltip" data-placement="left" title="{{ 'montgolfiere.frontoffice.personal_area.wellness_definition_detail'|trans }}">?</button>
+            </div>
+            <div class="ProgressBar">
+                <div class="ProgressBar-value" role="progressbar" style="background: {{ wellBeignColor }};width: {{ wellBeingRatio }}%"></div>
+            </div>
+            <div class="ProgressBar-graduation">
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+                <div class="ProgressBar-graduation-segment"></div>
+            </div>
+            <div class="ProgressBar-legend">
+                <div>{{ 'montgolfiere.frontoffice.personal_area.tough'|trans }}</div>
+                <div>{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.well_being.4'|trans }}</div>
+                <div>{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.well_being.8'|trans }}</div>
+            </div>
+            <br>
+        </div>
+    </div>
+    {% if wbeText.text %}
+    <div class="MainBody--dark" style="background:url('{{ asset('img/personal_area/Groupe 324.png') }}') top center no-repeat;background-size: cover;">
+        <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom">
+            <h3 class="Title Title--1 Title--white Title--bold text-center Title--with-point">{{ wbeText.title }}</h3>
+            <div style="column-count: 2;column-gap: 3em;">{{ wbeText.text|raw }}</div>
+        </div>
+    </div>
+    {% endif %}
+    {% if wbeText.advice %}
+        <div class="MainBody--white">
+            <div class="MainBody-content MainBody-content--small MainBody-content--marginBottom Grid Grid--2--1-2 Grid--noGap Grid--xxs-noGrid">
+                <div style="background:url('{{ asset('img/personal_area/green-lines.svg') }}') bottom left no-repeat, top center / contain no-repeat url('{{ asset('img/personal_area/Team.png') }}');">
+
+                </div>
+                <div class="MainBody--grey MainBody-content">
+                    <h3 class="Title Title--1 Title--bold Title--with-point Title--left">{{ 'montgolfiere.frontoffice.personal_area.team_advice'|trans }}</h3>
+                    <div>{{ wbeText.advice|raw }}</div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="MainBody-content MainBody-content--small">
+        <h3 class="Title Title--1 Title--bold Title--with-point">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.title'|trans }}</h3>
+        <p class="text-center">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.intro'|trans|raw }}</p>
+        <br>
+        <div class="Matrix">
+            {{ macros.profilMatrixLine(8, wbeText) }}
+            {{ macros.profilMatrixLine(7, wbeText) }}
+            {{ macros.profilMatrixLine(6, wbeText) }}
+            {{ macros.profilMatrixLine(5, wbeText) }}
+            {{ macros.profilMatrixLine(4, wbeText) }}
+            {{ macros.profilMatrixLine(3, wbeText) }}
+            {{ macros.profilMatrixLine(2, wbeText) }}
+            {{ macros.profilMatrixLine(1, wbeText) }}
+            <div class="Matrix-line">
+                <div class="Matrix-label Matrix-label--transparent"></div>
+                <div class="Matrix-values Matrix-values--transparent">
+                    <div class="Matrix-label {{ wbeText.engagementProfile == 1 ? 'Matrix-label--green': '' }}">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.engagement.1'|trans }}</div>
+                    <div class="Matrix-label {{ wbeText.engagementProfile == 2 ? 'Matrix-label--green': '' }}">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.engagement.2'|trans }}</div>
+                    <div class="Matrix-label {{ wbeText.engagementProfile == 3 ? 'Matrix-label--green': '' }}">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.engagement.3'|trans }}</div>
+                    <div class="Matrix-label {{ wbeText.engagementProfile == 4 ? 'Matrix-label--green': '' }}">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.engagement.4'|trans }}</div>
+                    <div class="Matrix-label {{ wbeText.engagementProfile == 5 ? 'Matrix-label--green': '' }}">{{ 'montgolfiere.frontoffice.personal_area.wbe_profiles.engagement.5'|trans }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% macro profilMatrixLine( wellBeeingProfil, wbeText) %}
+    <div class="Matrix-line">
+        <div class="Matrix-label {{ wbeText.wellBeingProfile == wellBeeingProfil ? 'Matrix-label--green' : '' }}">{{ ('montgolfiere.frontoffice.personal_area.wbe_profiles.well_being.'~wellBeeingProfil)|trans }}</div>
+        <div class="Matrix-values">
+            {% for index in 1..5 %}
+                <div class="Matrix-point {{ wbeText.wellBeingProfile == wellBeeingProfil and wbeText.engagementProfile == index ? 'Matrix-point--green' : '' }}"></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,71 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $uploadsDir: '%uploads_dir%'
+            $targetDir: 'montgolfiere'
+            $questionnaireLocales: '%ixa_questionnaire_locales%'
+
+    Azimut\Bundle\MontgolfiereAppBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Repository,Traits,Form/DataTransformer,Model}'
+
+    Azimut\Bundle\MontgolfiereAppBundle\ParamConverter\BackofficeSubEntityConverter:
+        tags:
+        - { name: request.param_converter, converter: azimut_backoffice_subentity }
+
+    Azimut\Bundle\MontgolfiereAppBundle\ParamConverter\BackofficeEntityConverter:
+        tags:
+        - { name: request.param_converter, converter: azimut_backoffice_entity }
+
+    Azimut\Bundle\MontgolfiereAppBundle\EventSubscriber\NewFrontUserSubscriber:
+        arguments:
+            $fromAddress: "%contact_form_recipient%"
+            $fromName: "Workcare"
+            $sender: "%sender_address%"
+            $replyTo: "%contact_form_recipient%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Util\EmailCSSInliner:
+        arguments:
+            $asseticDir: "%assetic.write_to%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Controller\QuestionnaireController:
+        arguments:
+            $fromAddress: "%contact_form_recipient%"
+            $fromName: "Workcare"
+            $sender: "%sender_address%"
+            $replyTo: "%contact_form_recipient%"
+            $alternativeContactFromRecipient: "%alternative_contact_from_recipient%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Util\WBEManager:
+        arguments:
+            $fromAddress: "%contact_form_recipient%"
+            $fromName: "Workcare"
+            $sender: "%sender_address%"
+            $replyTo: "%contact_form_recipient%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Form\Extension\UploadableEntityExtension:
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+    Azimut\Bundle\MontgolfiereAppBundle\TwigExtension:
+        arguments:
+            $publicDir: "%kernel.project_dir%/web"
+
+    Azimut\Bundle\MontgolfiereAppBundle\EventSubscriber\HouseImageSerializationListener:
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    Azimut\Bundle\MontgolfiereAppBundle\Controller\BackofficeClientsContactsController:
+        arguments:
+            $allowFrontUserImpersonation: "%allow_front_user_impersonation%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Controller\BackofficeConsultantsController:
+        arguments:
+            $allowFrontUserImpersonation: "%allow_front_user_impersonation%"
+
+    Azimut\Bundle\MontgolfiereAppBundle\Util\CampaignWordGenerator:
+        arguments:
+            $kernelRootDir: '%kernel.root_dir%'

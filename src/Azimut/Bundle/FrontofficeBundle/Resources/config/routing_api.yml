@@ -1,0 +1,29 @@
+azimut_frontoffice_api_site:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiSiteController
+    name_prefix: azimut_frontoffice_api_
+
+azimut_frontoffice_api_menu:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiMenuController
+    name_prefix: azimut_frontoffice_api_
+
+azimut_frontoffice_api_page:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiPageController
+    name_prefix: azimut_frontoffice_api_
+
+azimut_frontoffice_api_zone:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiZoneController
+    name_prefix: azimut_frontoffice_api_
+
+azimut_frontoffice_api_site_layout:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiSiteLayoutController
+    name_prefix: azimut_frontoffice_api_
+
+azimut_frontoffice_api_page_layout:
+    type: rest
+    resource: Azimut\Bundle\FrontofficeBundle\Controller\ApiPageLayoutController
+    name_prefix: azimut_frontoffice_api_

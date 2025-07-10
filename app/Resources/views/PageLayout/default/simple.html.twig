@@ -1,0 +1,25 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-11-04 10:54:02
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% block headerContent %}
+        {% if page is defined %}
+            <div class="container">
+                <header>
+                    <h1>{{ page.pageTitle }}</h1>
+                    {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+                </header>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block zoneContent %}
+        <div class="container">
+            {{ renderZone(page, 'content', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+        </div>
+    {% endblock zoneContent %}
+{% endblock %}

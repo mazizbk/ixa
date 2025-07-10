@@ -1,0 +1,186 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+.unselectable * {
+   .user-select(none);
+}
+
+.margin-block {
+    position: relative;
+    padding: 25px;
+
+    > :first-child {
+        //padding-top: 0;
+        margin-top: 0;
+    }
+
+    + .margin-block {
+        padding-top: 0;
+    }
+}
+
+// flexbox shrink helper
+.shrinkX(@index) when (@index >= 0) {
+  .shrink@{index} {
+    .flex-shrink(@index) !important;
+  }
+  .shrinkX(@index - 1);
+}
+.shrinkX(6);
+
+// flexbox grow helper
+.growX(@index) when (@index >= 0) {
+  .grow@{index} {
+    .flex-grow(@index) !important;
+  }
+  .growX(@index - 1);
+}
+.growX(6);
+
+.tag-color1 {
+    color: @az-tag-color1;
+}
+.tag-color2 {
+    color: @az-tag-color2;
+}
+.tag-color3 {
+    color: @az-tag-color3;
+}
+
+// --------------------------------------------------
+// bootstrap components and extensions
+
+.well {
+    box-shadow: none;
+    background-color: @az-well-bg-color;
+    border-color: @az-well-border-color;
+
+    &.selected {
+        border-color: @az-selected-item-border-color;
+        box-shadow: 0px 2px 6px @az-selected-item-shadow-color;
+    }
+}
+
+.glyphicon {
+    top: 2px;
+
+    &.on {
+        color: @az-on-color !important;
+    }
+    &.off {
+        color: @az-off-color !important;
+    }
+}
+.glyphicon-overlay {
+    top: 1px;
+    font-size: 0.5em;
+    margin-bottom: 1em;
+    margin-left: -2.07em;
+}
+.glyphicon-add {
+    vertical-align: super;
+    top: 0px !important;
+    font-size: 0.5em;
+    margin-left: -0.4em;
+}
+.glyphicon-overlay-text {
+    position: absolute;
+    left: 0px;
+    bottom: 0.334em;
+    width: 3.05em;
+    font-size: 0.3em;
+    text-align: center;
+    font-family: sans-serif;
+    color: #FFF;
+}
+.glyphicon-flip {
+    .scaleX(-1);
+}
+.glyphicon-rotate-90 {
+    .rotate(90deg);
+}
+.glyphicon-rotate-180 {
+    .rotate(180deg);
+}
+.glyphicon-rotate-270 {
+    .rotate(270deg);
+}
+
+.caret-vertical {
+    .rotate(270deg);
+}
+.caret-vertical-inverse {
+    .rotate(90deg);
+}
+.caret-inverse {
+    .rotate(180deg);
+}
+
+.glyphicon-pro-chevron-last-up {
+    &::after {
+        content:"\E601";
+    }
+    &::before {
+        content: '';
+        display: block;
+        margin-bottom: -4px;
+        border-bottom: 2px solid currentColor;
+    }
+}
+.glyphicon-pro-chevron-last-down {
+    &::before {
+        content:"\E602";
+    }
+    &::after {
+        content: '';
+        display: block;
+        margin-top: -4px;
+        border-bottom: 2px solid currentColor;
+    }
+}
+// --------------------------------------------------
+
+.inactive, .disabled {
+    color: @az-off-color !important;
+    .glyphicon {
+        color: inherit !important;
+    }
+    &:hover {
+        background: none !important;
+    }
+}
+
+.outdated {
+    &, & a {
+        color: @az-off-color !important;
+        .glyphicon {
+            color: inherit !important;
+        }
+    }
+}
+
+// --------------------------------------------------
+
+.img-loading {
+    background: url(https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif);
+}
+
+// --------------------------------------------------
+
+.full-height {
+    height: 100%;
+}
+
+// --------------------------------------------------
+
+.nl2br {
+    white-space: pre-line
+}
+
+// --------------------------------------------------
+
+.no-overflow {
+    overflow: hidden;
+}

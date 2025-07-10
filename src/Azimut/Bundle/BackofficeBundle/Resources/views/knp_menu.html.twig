@@ -1,0 +1,126 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-07
+#}
+{# inspired from : http://linkofy.wordpress.com/2012/04/02/using-knpmenubundle-and-twitter-bootstrap/ #}
+
+{% extends 'knp_menu.html.twig' %}
+{% import 'knp_menu.html.twig' as _origin_knp_menu %}
+
+{% block list %}
+    {% import _origin_knp_menu as knp_menu %}
+{% spaceless %}
+    {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+        <ul{{ knp_menu.attributes(listAttributes|merge({'class': [
+                options.rootClass is defined ? options.rootClass : '',
+                listAttributes.class is defined ? listAttributes.class : ''
+            ]|join(' ')
+        })) }}>
+            {% set options = options|merge({'rootClass': '' }) %}
+            {{ block('children') }}
+        </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block item %}
+    {% import _origin_knp_menu as knp_menu %}
+{% if item.displayed %}
+    {%- set attributes = item.attributes %}
+    {%- set is_dropdown = attributes.dropdown|default(false) %}
+    {%- set divider_prepend = attributes.divider_prepend|default(false) %}
+    {%- set divider_append = attributes.divider_append|default(false) %}
+
+{# unset bootstrap specific attributes #}
+    {%- set attributes = attributes|merge({'dropdown': null, 'divider_prepend': null, 'divider_append': null }) %}
+
+    {%- if divider_prepend %}
+        {{ block('dividerElement') }}
+    {%- endif %}
+
+{# building the class of the item #}
+    {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
+    {%- if matcher.isCurrent(item) %}
+        {%- set classes = classes|merge([options.currentClass]) %}
+    {%- elseif matcher.isAncestor(item, options.depth) %}
+        {%- set classes = classes|merge([options.ancestorClass]) %}
+    {%- endif %}
+    {%- if item.actsLikeFirst %}
+        {%- set classes = classes|merge([options.firstClass]) %}
+    {%- endif %}
+    {%- if item.actsLikeLast %}
+        {%- set classes = classes|merge([options.lastClass]) %}
+    {%- endif %}
+
+{# building the class of the children #}
+    {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
+    {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
+
+{# adding classes for dropdown #}
+    {%- if is_dropdown %}
+        {%- if item.level > 1 %}
+            {%- set classes = classes|merge(['dropdown-submenu']) %}
+        {%- else %}
+            {%- set classes = classes|merge(['dropdown']) %}
+        {%- endif %}
+        {%- set childrenClasses = childrenClasses|merge(['dropdown-menu']) %}
+    {%- endif %}
+
+{# putting classes together #}
+    {%- if classes is not empty %}
+        {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+    {%- endif %}
+    {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+
+{# displaying the item #}
+    <li{{ knp_menu.attributes(attributes) }}>
+        {%- if is_dropdown %}
+            {{ block('dropdownElement') }}
+        {%- elseif item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
+            {{ block('linkElement') }}
+        {%- else %}
+            {{ block('spanElement') }}
+        {%- endif %}
+{# render the list of children#}
+        {{ block('list') }}
+    </li>
+
+    {%- if divider_append %}
+        {{ block('dividerElement') }}
+    {%- endif %}
+{% endif %}
+{% endblock %}
+
+{% block dividerElement %}
+{% if item.level == 1 %}
+    <li class="divider-vertical"></li>
+{% else %}
+    <li class="divider"></li>
+{% endif %}
+{% endblock %}
+
+{% block dropdownElement %}
+    {% import _origin_knp_menu as knp_menu %}
+    {%- set classes = item.linkAttribute('class') is not empty ? [item.linkAttribute('class')] : [] %}
+    {%- set classes = classes|merge(['dropdown-toggle']) %}
+    {%- set attributes = item.linkAttributes %}
+    {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+    {%- set attributes = attributes|merge({'data-toggle': 'dropdown'}) %}
+
+    {% set itemLinkAttributes = item.linkAttributes %}
+    {%- if item.level <= 1 %}
+        {%- set itemLinkAttributes = item.linkAttributes|merge({'class': 'pull-left'}) %}
+    {%- endif %}
+
+    <a href="{{ item.uri }}"{{ knp_menu.attributes(itemLinkAttributes) }}>{{ block('label') }}</a>
+
+    {% if item.level <= 1 %}
+        <a href="#"{{ knp_menu.attributes(attributes|merge({'class': 'pull-left link-addon'})) }}>
+             <span class="caret"></span>
+        </a>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block label %}{{ parent() }}{% endblock %}

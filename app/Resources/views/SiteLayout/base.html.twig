@@ -1,0 +1,65 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-08-27 10:58:24
+#}
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}{{ pageTitle|capitalize }}{% endblock %}</title>
+        <meta name="description" content="{{ pageDescription }}">
+
+        {% if site.metaNoIndex or page is defined and page.metaNoIndex %}
+            <meta name="robots" content="noindex, nofollow" />
+        {% endif %}
+
+        <meta property="og:title" content="{{ block('title') }}" />
+        <meta property="og:description" content="{{ pageDescription }}" />
+        <meta property="og:image" content="{% block OgImage %}{% endblock %}" />
+        <meta property="og:locale" content="{{ app.request.locale }}" />
+        {% if page is defined %}
+            {% set pageUrl = absolute_url(path('azimut_frontoffice', {'path': page.fullSlug})) %}
+            <meta property="og:url" content="{{ pageUrl }}{% if cmsFile is defined %}{% if '/' != pageUrl|last %}/{% endif %}{{ cmsFile.slug }}{% endif %}" />
+            }
+        {% else %}
+            <meta property="og:url" content="{{ app.request.baseUrl ~ app.request.pathInfo }}" />
+        {% endif %}
+
+        {% if page is defined and page.pageType == 'alias' %}
+            {% set pageCanonicalPath = absolute_url(path('azimut_frontoffice', {'path': page.pageContent.fullSlug})) %}
+        {% endif %}
+        {% if cmsFile is defined and cmsFile.canonicalPath is not null %}
+            {% set pageCanonicalPath = cmsFile.canonicalPath %}
+        {% endif %}
+        {% if pageCanonicalPath is defined %}
+            <link href="{{ pageCanonicalPath }}" rel="canonical" />
+        {% endif %}
+
+        {% block meta %}{% endblock %}
+
+        {% block stylesheets %}{% endblock %}
+
+        {% block jsonLd %}
+            {% if siteLogoPath is defined %}
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "url": "{{ site.uri }}",
+                    "logo": "{{ absolute_url(siteLogoPath) }}"
+                }
+                </script>
+            {% endif %}
+        {% endblock %}
+
+        {% block head_javascripts %}{% endblock %}
+    </head>
+
+    <body>
+        {% block htmlBody %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+{% endspaceless %}

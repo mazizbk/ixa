@@ -1,0 +1,44 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-04 10:53:33
+#}
+
+{% macro stepElement(step, label, routeName, currentStep, displayLink) %}
+    <li {% if currentStep == step %} class="active"{% endif %}>
+        {% if displayLink %}
+            <a href="{{ path(routeName) }}">{{ label }}</a>
+        {% else %}
+            {{ label }}
+        {% endif %}
+    </li>
+{% endmacro %}
+{% import _self as steps_macro %}
+
+{% set displayLink = true %}
+
+ <ul class="shop-order-steps">
+   {{ steps_macro.stepElement('basket', 'basket'|trans, 'azimut_shop_basket_index', step, displayLink) }}
+   {% if 'basket' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+   {{ steps_macro.stepElement('login', 'login'|trans, 'azimut_shop_account_login', step, displayLink) }}
+   {% if 'login' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+   {{ steps_macro.stepElement('addresses', 'addresses'|trans, 'azimut_shop_order_addresses', step, displayLink) }}
+   {% if 'addresses' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+   {{ steps_macro.stepElement('delivery', 'delivery'|trans, 'azimut_shop_delivery', step, displayLink) }}
+   {% if 'delivery' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+   {{ steps_macro.stepElement('summary', 'summary'|trans, 'azimut_shop_summary', step, displayLink) }}
+   {% if 'summary' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+   {{ steps_macro.stepElement('payment', 'payment'|trans, 'azimut_shop_summary', step, displayLink) }}
+   {% if 'payment' == step %}
+       {% set displayLink = false %}
+   {% endif %}
+ </ul>

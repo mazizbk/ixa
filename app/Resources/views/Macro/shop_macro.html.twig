@@ -1,0 +1,27 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-03 15:29:35
+#}
+
+{# Display "add to basket" button #}
+{% macro addToBasketBtn(site, productItemClass, id, class = 'btn btn-primary', label) %}
+    {% if site.hasShop %}
+        {% if label is null %}
+            {% set label = 'add.to.basket'|trans %}
+        {% endif %}
+        <a class="{{ class }}" data-basket-item-class="{{ productItemClass }}" data-basket-item-id="{{ id }}" data-basket-add-item-url="{{ path('azimut_shop_api_post_addbasketitem') }}">{{ label }}</a>
+    {% endif %}
+{% endmacro addToBasketBtn %}
+
+{# Format order address #}
+{% macro orderAddress(address) %}
+    <p>
+        {% if address.firstName %}{{ address.firstName }}{% endif %} {{ address.lastName }}<br />
+        {% if address.line1 %}{{ address.line1 }}<br />{% endif %}
+        {% if address.line2 %}{{ address.line2 }}<br />{% endif %}
+        {% if address.postalCode %}{{ address.postalCode }} {% endif %}
+        {% if address.city %}{{ address.city }}{% endif %}
+        {% if address.postalCode or address.city %}<br />{% endif %}
+        {% if address.country %}{{ address.country }}<br />{% endif %}
+    </p>
+{% endmacro orderAddress %}

@@ -1,0 +1,50 @@
+.Matrix-line{
+    display:flex;
+    margin-bottom:5px;
+}
+.Matrix-label{
+    text-align: center;
+    color:white;
+    background:var(--dark-grey);
+    border-radius:15px;
+    flex:0 1 16%;
+    padding: 5px 0;
+}
+.Matrix-label--green{
+    background: var(--green);
+}
+.Matrix-label--transparent{
+    background: transparent;
+}
+.Matrix-values{
+    border-radius:15px;
+    background:white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex:1;
+    margin-left:15px;
+}
+.Matrix-values--transparent{
+    background: transparent;
+}
+
+.Matrix-line:nth-child(even) .Matrix-values{
+    background:transparent;
+}
+.Matrix-point{
+    background: var(--dark-grey);
+    border-radius: 50%;
+    width:15px;
+    height:15px;
+}
+.Matrix-point--green{
+    background: var(--green);
+}
+@media (max-width: 600px) {
+    .Matrix-label{
+        font-size: 0.8em;
+        max-width: 57px;
+        overflow: hidden;
+    }
+}

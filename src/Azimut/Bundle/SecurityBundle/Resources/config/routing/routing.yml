@@ -1,0 +1,36 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2013-11-11 11:30:04
+
+
+# Overide HWI Oauth Bundle login route
+azimut_security_oauth_login:
+    path: /login
+    defaults: { _controller: AzimutSecurityBundle:OAuthConnect:connect }
+
+azimut_security_hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix: /connect
+    #options: {i18n: false}
+
+azimut_security_login:
+    path: /login
+    defaults: { _controller: AzimutSecurityBundle:Security:login }
+    options:
+        i18n: false
+        expose: true
+
+azimut_security_oauth2_login:
+    path: /login/check-oauth2
+    options: {i18n: false}
+
+azimut_security_login_check:
+    path: /login_check
+
+azimut_security_logout:
+    path: /logout
+    defaults: { _controller: AzimutSecurityBundle:Security:logout }
+    options: {i18n: false}
+
+#azimut_account_create:
+#    path: /register
+#    defaults: { _controller: AzimutSecurityBundle:User:create }

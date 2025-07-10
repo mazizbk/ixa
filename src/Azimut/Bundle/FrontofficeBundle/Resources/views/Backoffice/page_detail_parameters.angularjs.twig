@@ -1,0 +1,20 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-12-21 16:33:50
+#}
+
+{% verbatim %}
+    <div class="margin-block">
+        <div class="text-right">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+
+        <div class="well" ng-include="formPageTemplateUrl" ng-class="{'block-readonly': false === pageEditIsGranted}"></div>
+
+        <div ng-if="page.childrenPages.length > 0">
+            <br />
+            <p class="text-center"><b>{% endverbatim %}{{ 'children.pages'|trans|capitalize }}{% verbatim %} :</b></p>
+            <div ng-include="'{% endverbatim %}{{ path('azimut_frontoffice_backoffice_jsview_children_pages_list') }}{% verbatim %}'" ng-init="pagesParent = page; borderedPagesTable = true"></div>
+        </div>
+    </div>
+{% endverbatim %}

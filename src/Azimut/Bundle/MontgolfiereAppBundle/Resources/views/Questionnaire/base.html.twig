@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }}{% endblock %}</title>
+    {% stylesheets filter='less' package='build' output='layout/css/montgolfiere_questionnaire.css'
+        '@no_ui_slider_css'
+        '@AzimutBackofficeBundle/Resources/less/base.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {{ encore_entry_link_tags('ixa-questionnaire') }}
+</head>
+<body{% if bodyClass is defined %} class="{{ bodyClass }}"{% endif %}>
+{% block body %}{% endblock %}
+
+{% block end_javascripts %}
+    {% javascripts filter='?uglifyjs2' package='build' output='layout/js/montgolfiere_questionnairemain.js'
+        '../vendor/azimut/system-assets/jquery/jquery.min.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/dist/js/bootstrap.min.js'
+        '@jquery_knob_js'
+        '@no_ui_slider_js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {{ encore_entry_script_tags('ixa-questionnaire') }}
+    <script src="https://opentech-ux.org/lom-captor/dist/opentech-ux-lib.js" data-endpoint="https://workcare.ux-key.com/endpoint"></script>
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-10-25 16:53:02
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.embed_html_media.submitAction()', 'az-submit-params': 'forms.params.embed_html_media'}}) }}
+    {{ form_row(form.embed, {'attr': { 'rows': 3 }}) }}
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}

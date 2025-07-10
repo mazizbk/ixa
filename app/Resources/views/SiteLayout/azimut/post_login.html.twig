@@ -1,0 +1,15 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-09-17 12:03:27
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ 'private.area'|trans|capitalize }}</h1>
+
+        <p>{{ 'hello.%name%'|trans({'%name%': app.user.fullname}) }},</p>
+        <p>{{ 'welcome.to.private.area'|trans|capitalize }}.</p>
+    </div>
+{% endblock %}

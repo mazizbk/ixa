@@ -1,0 +1,35 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    {% form_theme form "bootstrap_3_layout.html.twig" "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" _self %}
+    <div class="divider">
+        <div class="top">
+            <div class="blend-container">
+                <div class="blend-content">
+                    <h2><span class="bubble">{{ themeIndex }}</span> {{ theme.name[app.request.locale] }}</h2>
+                    {{ (theme.description[app.request.locale]??'')|raw }}
+
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <ol>
+                {% for step in participation.segment.steps %}
+                    {% if step.type == constant('TYPE_DIVIDER', step) %}
+                        <li{% if step.theme == theme %} class="active"{% endif %}>{{ step.theme.name[app.request.locale]??'' }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <img src="{{ asset('img/questionnaire/logo-white.svg') }}" alt="{{ 'montgolfiere.questionnaire.workcare_logo'|trans }}" class="logo-bottom" />
+{% endblock %}
+{% block end_javascripts %}
+    {{ parent() }}
+    <style>
+        .top {
+            background-image: url({{ path('azimut_montgolfiere_questionnaire_theme_image', {questionnaireToken: campaign.questionnaireToken, theme: theme.id}) }});
+        }
+    </style>
+{% endblock %}

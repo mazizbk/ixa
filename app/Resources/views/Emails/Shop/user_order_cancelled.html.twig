@@ -1,0 +1,9 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2019-02-26 17:04:59
+#}
+
+<p>{{ 'email.hello'|trans }},</p>
+
+<p>{{ 'email.shop.your.order.has.been.cancelled'|trans }}.</p>
+<p>{{ 'email.shop.order.number'|trans }}: <a href="{{ order.site.uri ~ path('azimut_shop_user_order_show', { 'orderNumber': order.number }) }}">{{ order.number }}</a>.</p>

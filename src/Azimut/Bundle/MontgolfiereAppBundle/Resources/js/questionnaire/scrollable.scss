@@ -1,0 +1,39 @@
+.scrollable {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    overflow: auto hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    > div {
+        scroll-snap-align: start;
+        width: 100%;
+        flex: 0 0 auto;
+        padding: 4%;
+    }
+}
+
+.scroll-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    > div {
+        content: "";
+        width: 7px;
+        height: 7px;
+        margin: 0 3.5px;
+        background-color: rgba($workcare-primary, 0.50);
+        border-radius: 50%;
+        transition: background-color $transition-speed $transition-animation;
+
+        &.active {
+            background-color: $workcare-primary;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-11-02 09:06:07
+#}
+
+{% extends 'PageLayout/azimut/simple.html.twig' %}
+
+{% block headerContent %}
+    {{ parent() }}
+
+    {{ renderZone(page, 'diaporama', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+{% endblock %}

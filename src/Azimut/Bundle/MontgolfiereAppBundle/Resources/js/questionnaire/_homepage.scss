@@ -1,0 +1,354 @@
+$header-size: 57px;
+$header-md-size: 100px;
+$home-left-size: 25%;
+
+.homepage {
+    header {
+        position: sticky;
+        top: 0;
+        display: flex;
+        height: $header-size;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $workcare-white;
+        z-index: 10;
+
+        img {
+            max-height: 100%;
+            width: $home-left-size; // Aligns navigation menu with home left part
+        }
+
+        nav {
+            max-height: 0;
+            position: absolute;
+            top: $header-size;
+            z-index: 10;
+            background-color: $workcare-white;
+            width: 100%;
+            overflow: hidden;
+            transition: max-height $transition-animation $transition-speed;
+
+            @include md {
+                display: block;
+                position: initial;
+                width: auto;
+                max-height: 500px;
+            }
+            &.active {
+                max-height: 500px;
+            }
+            a {
+                color: $workcare-white;
+                font-weight: bold;
+                display: block;
+                padding: 20px;
+                background: $workcare-primary;
+                border-bottom: 1px solid darken($workcare-primary, 33%);
+                &:first-child {
+                    border-top: 1px solid darken($workcare-primary, 33%);
+                }
+                &.active {
+                    color: $workcare-primary;
+                }
+
+                @include md {
+                    display: inline;
+                    padding: 0;
+                    border: none !important;
+                    background: none;
+                    color: $workcare-secondary;
+                    &:before {
+                        content: " ";
+                        display: inline-block;
+                        width: 5px;
+                        height: 5px;
+                        margin: 0 20px;
+                    }
+                    &:first-child:before {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .burger-menu {
+            padding: 6px;
+            border-radius: 10px;
+            justify-self: flex-end;
+            margin-right: 20px;
+
+            @include md {
+                display: none;
+            }
+        }
+
+        @include md {
+            height: $header-md-size;
+            justify-content: start;
+        }
+    }
+
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-padding: $header-size;
+    @include md {
+        scroll-padding: $header-md-size;
+    }
+    section {
+        display: flex;
+        flex-direction: column;
+        scroll-snap-align: start;
+
+        min-height: calc(100vh - #{$header-size});
+        overflow: hidden;
+        @include md {
+            min-height: calc(100vh - #{$header-md-size});
+            flex-direction: row;
+        }
+
+        &#home {
+            .home-left {
+                display: flex;
+                flex-direction: column;
+                padding: 10%;
+                line-height: 1.5;
+                @include md {
+                    padding: 2%;
+                }
+                .home-left-content {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+            }
+            .home-right {
+                background: url('../../img/homepage-home-background.jpg') center/cover no-repeat;
+                color: $workcare-white;
+                > div {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    background: rgba($workcare-secondary, 0.80);
+                    font-weight: 500;
+                    font-size: 1em;
+                    padding: 0 10%;
+                    flex-grow: 1;
+                    @include md {
+                        padding: 0 30%;
+                        font-size: 1.2em;
+                    }
+                }
+            }
+        }
+        &#about {
+            .home-left {
+                display: flex;
+                flex-direction: column;
+                div {
+                    width: 100%;
+                    height: 50%;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                    &:nth-child(1) {
+                        background-image: url('../../img/person1.jpg');
+                    }
+                    &:nth-child(2) {
+                        background-image: url('../../img/person2.jpg');
+                    }
+                }
+            }
+            .home-right {
+                padding: 7% 7% $mobile-safe-padding;
+                display: flex;
+                flex-direction: column;
+                @include md {
+                    font-size: 1.2em;
+                }
+            }
+            .scroll-container {
+                height: 100%;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+            }
+            .about-items {
+                height: 80%;
+                display: flex;
+                flex-grow: 1;
+                flex-direction: row;
+                overflow: auto hidden;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .about-items-container {
+                    scroll-snap-align: start;
+                    width: 100%;
+                    flex: 0 0 auto;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    padding: 2%;
+
+                    > div {
+                        width: 100%;
+                        padding: 5% 0;
+
+                        @include icon-with-bg(2);
+                        &:nth-child(2) {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-end;
+                            text-align: right;
+                        }
+                    }
+
+                    @include md {
+                        width: 50%;
+                        > div {
+                            height: 50%;
+                            &:nth-child(2) {
+                                align-items: flex-start;
+                                text-align: left;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &#howitworks {
+            .home-left {
+                display: flex;
+                flex-direction: column;
+                div {
+                    width: 100%;
+                    height: 100%;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    @include md {
+                        height: 50%;
+                    }
+                    &:nth-child(1) {
+                        display: none;
+                        background-image: url('../../img/person3.jpg');
+                        @include md {
+                            display: block;
+                        }
+                    }
+                    &:nth-child(2) {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding: 10%;
+                        line-height: 1.2;
+                    }
+                }
+            }
+            .home-right {
+                background: $workcare-tertiary;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                padding: 5%;
+                @include md {
+                    font-size: 1.2em;
+                }
+                .widget-container {
+                    padding: 0 13%;
+                }
+            }
+        }
+        &#results {
+            background: $workcare-white;
+            .home-left {
+                display: flex;
+                flex-direction: column;
+                justify-content: stretch;
+                order: 2;
+                @include md {
+                    order: 1;
+                }
+                div {
+                    width: 100%;
+                    &:nth-child(1) {
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding: 10% 10% $mobile-safe-padding;
+                        font-size: .8em;
+                        @include md {
+                            height: 43%;
+                            line-height: 1.8;
+                            padding: 10%;
+                        }
+                    }
+                    &:nth-child(2) {
+                        height: 37%;
+                        background: url('../../img/person4.jpg') center/cover no-repeat;
+                    }
+                }
+            }
+            .home-right {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                padding: 6%;
+                order: 1;
+                @include md {
+                    order: 2;
+                }
+
+                .scrollable {
+                    > div {
+                        @include md {
+                            width: 50%;
+                        }
+                    }
+                    .illustration{
+                        width: auto;
+                        max-height:187px;
+                    }
+                }
+            }
+        }
+    }
+
+    .home-left {
+        width: 100%;
+        color: $workcare-white;
+        background-color: $workcare-secondary;
+        @include md {
+            width: $home-left-size;
+        }
+        p {
+            margin: 0;
+            &.home-title {
+                font-weight: 800;
+                font-size: 1.4em;
+                line-height: 1.2;
+                @include md {
+                    font-size: 2.2em;
+                }
+            }
+        }
+    }
+    .home-right {
+        width: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        @include md {
+            width: #{100% - $home-left-size};
+        }
+    }
+}
+

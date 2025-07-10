@@ -1,0 +1,83 @@
+# Prevent running jobs twice in merge requests
+workflow:
+    rules:
+        - if: '$CI_FORCE_PIPELINE'
+          when: always
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"' # Always create pipeline for merge requests
+        - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS' # Don't create branch pipeline if a merge request exists
+          when: never
+        - if: '$CI_COMMIT_BRANCH'                            # Create branch pipeline for branches without a merge request
+
+variables:
+    MYSQL_VERSION: "5.5"
+
+include:
+    - project: azimut/deployment-definitions
+      file: "/jobs/build/Symfony-assets.gitlab-ci.yml"
+      inputs:
+          php_version: "7.2"
+          alpine_version: "3.8"
+          node_version: "10"
+          node_alpine_extra_packages: "git"
+          composer_ignore_platform_reqs: "ext-gd"
+          composer_installer_arguments: "--2.2"
+    - project: azimut/deployment-definitions
+      file: "/jobs/build/Symfony-Webpack-Encore.gitlab-ci.yml"
+      inputs:
+          php_version: "7.2"
+          alpine_version: "3.10"
+          node_version: "10"
+          node_alpine_extra_packages: "git"
+          composer_ignore_platform_reqs: "ext-gd"
+          composer_installer_arguments: "--2.2"
+          build_dir: "web/build-wp"
+    - project: azimut/deployment-definitions
+      file: "/jobs/deploy/Deployer.gitlab-ci.yml"
+      inputs:
+          deployer_version: "7.3.3"
+    - project: azimut/deployment-definitions
+      file: "/jobs/deploy/Deployer.gitlab-ci.yml"
+      inputs:
+          deployer_version: "7.3.3"
+          stage: review
+
+stages:
+    - prepare
+    - build
+    - review
+    - production
+
+deploy_production:
+    environment:
+        name: production
+        url: https://jeparticipe.workcare.fr
+
+deploy_review:
+    variables:
+        MYSQL_SERVER: "127.0.0.1"
+        MYSQL_USER: "dev"
+        MYSQL_PASSWORD: "dev"
+        MYSQL_DATABASE: "${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_REF_SLUG}"
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+    environment:
+        name: review/$CI_COMMIT_REF_NAME
+        url: https://review-ixa-$CI_COMMIT_REF_NAME.extrazimut.com
+        on_stop: stop_review
+
+stop_review:
+    stage: review
+    variables:
+        GIT_STRATEGY: none
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+          when: manual
+    before_script:
+        - !reference [.load_ssh_keys, script]
+    script:
+        - echo "mysql -udev -pdev -e 'DROP DATABASE IF EXISTS \`$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG\`'" > commands
+        - echo "rm -rf /var/www/review-ixa-$(echo $CI_COMMIT_REF_NAME | tr '[:upper:]' '[:lower:]').extrazimut.com/" >> commands
+        - ssh dev@vm-debian-reviewapps.azimut.local "/bin/bash -s" < commands
+    environment:
+        name: review/$CI_COMMIT_REF_NAME
+        action: stop

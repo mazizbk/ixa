@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-10-03 10:24:08
+#}
+
+{% if site.hasShop %}
+    <a href="{{ path('azimut_shop_basket_index') }}">
+        <span class="glyphicon glyphicon-pro glyphicon-pro-shopping-bag"></span> {{ 'basket'|trans }} (<span id="shopBasketCount">{{ az_shop_basket().count }}</span>)
+    </a>
+{% endif %}

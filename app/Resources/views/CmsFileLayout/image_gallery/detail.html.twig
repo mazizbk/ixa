@@ -1,0 +1,17 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2016-02-11 17:25:52
+#}
+
+{% if cmsFile.secondaryAttachments != null and cmsFile.secondaryAttachments.count > 0 %}
+    <div class="image-gallery">
+        {% for attachment in cmsFile.secondaryAttachments %}
+            {% include 'CmsFileLayout/media_attachment.html.twig' with {
+                'attachment': attachment,
+                'width': '100%',
+                'class': '',
+                'mediaSize': 'l'
+            } %}
+        {% endfor %}
+    </div>
+{% endif %}

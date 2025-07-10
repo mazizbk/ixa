@@ -1,0 +1,38 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; // Prevent scroll on narrow devices
+}
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'open_sansregular',Arial,'Helvetica Neue',Helvetica,sans-serif;
+    color: @az-body-color;
+}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('@{az-font-path}.eot');
+    src: url('@{az-font-path}.eot') format('embedded-opentype'), url('@{az-font-path}.woff') format('woff'), url('@{az-font-path}.ttf') format('truetype'), url('@{az-font-path}.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[ng-click] {
+    cursor: pointer;
+}
+
+// Prevent the text contents of draggable elements from being selectable.
+[draggable] {
+    .user-select(none);
+
+    // prevent default behavior during dragging (for img child elements)
+    img {
+        pointer-events: none;
+    }
+}

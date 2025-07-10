@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-10 10:31:51
+#}
+
+{% form_theme form 'AzimutBackofficeBundle::backoffice_form_theme.html.twig' %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.frontoffice_user.submitAction()', 'az-submit-params': 'forms.params.frontoffice_user', 'az-confirm-dirty-data-state-change': 'forms.params.frontoffice_user.confirmDirtyDataStateChangeMessage', ' az-confirm-dirty-data-state-change-ignore-substates-of': 'forms.params.frontoffice_user.confirmDirtyDataStateChangeIgnoreSubstatesOf'}}) }}
+
+{{ form_end(form) }}

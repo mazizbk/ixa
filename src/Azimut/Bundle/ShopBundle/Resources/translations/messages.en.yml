@@ -1,0 +1,96 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:38:25
+
+shop.app.name: "Shop"
+
+shop.meta.title: "Shop"
+
+order: "Order"
+your.order: "Your order"
+search.orders: "Search in orders"
+basket: "Basket"
+number: "Number"
+order.date: 'Order date'
+order.number: 'Order number'
+client: "Client"
+total.amount: "Total amount"
+delivery.city: "Delivery city"
+client.comment: "Client comment"
+private.comment: "Private comment"
+billing.address: "Billing address"
+delivery.address: "Delivery address"
+delivery.trackings: "Delivery trackings"
+delivery.tracking: "Delivery tracking"
+delivery.tracking.label: "Label"
+tracking.code: "Tracking code"
+shipping.date: "Shipping date"
+delivery.date: "Delivery date"
+delivered: "Delivered"
+delivery.in.process: "In process"
+status: "Status"
+
+quantity: "Quantity"
+price: "Price"
+total.price: "Total price"
+incl.vat: "incl. VAT"
+excl.vat: "excl. VAT"
+shipping.cost: "Shipping cost"
+
+basket: "Basket"
+add.to.basket: "Add to basket"
+product.has.been.added.to.basket: "Product has been added to basket"
+product.has.not.been.added.to.basket: "Product has not been added to basket"
+an.error.occured.while.adding.product.to.basket: "An error occured while adding product to basket"
+an.error.occured.while.changing.quantity: "An error occured while changing quantity"
+quantity.has.not.been.changed: "Quantity has not been changed"
+continue.shopping: "Continue shopping"
+order.now: "Order now"
+close: "Close"
+delivery: "Delivery"
+delivery.method: "Delivery method"
+summary: "Summary"
+payment: "Payment"
+confirm.order: "Confirm order"
+standard.delivery: "Standard delivery"
+demo.relay.package.delivery: "Relay package delivery (démo)"
+
+payment.method: 'Payment method'
+amount: 'Amount'
+check.payment: "Check payment"
+demo.payment: "Demo payment"
+demo.simple.payment: "Simple demo payment"
+card.number: "Card number"
+pay.%amount%: "Pay %amount%"
+payment.refused: "Payment refused"
+sorry.your.payment.has.been.refused: "Sorry, your payment has been refused"
+payment.confirmed: "Payment confirmed"
+thank.you.for.your.order: "Thank you for your order"
+your.order.is.paid.and.will.be.processed.has.soon.has.possible: "Your order is paid and will be processed has soon has possible"
+please.send.us.a.check.payable.to.%name%: "Please send us a check payable to \"%name%\""
+to.the.following.address: "To the following address"
+specifying.your.order.number.on.the.back.of.the.check: "Specifying your order number on the back of the check"
+payment.date: "Payment date"
+vat: "VAT"
+
+dont.have.account.yet: "Don't have account yet ?"
+your.orders: "Your orders"
+
+no.order.available: "No order"
+order.%order_number%.confirm.permanent.delete: 'Are you sure you want to permanently delete order "%order_number%"'
+oder.has.not.been.saved.are.you.sure.you.want.to.continue: "Order has not been saved, are you sure you want to continue ?"
+
+there.is.no.product.in.your.basket: "There is no product in your basket"
+
+order.status.validated: "Order validated, unpaid"
+order.status.paid: "Order paid, to be processed"
+order.status.processed: "Order processed"
+order.status.cancelled: "Order canceled"
+order.status.payment.refused: "Payment refused"
+
+notification:
+    error.order.update: "order could not be updated"
+    success.order.update: "order successfully updated"
+    error.order.delete: "order could not be deleted"
+    success.order.delete: "order successfully deleted"
+    error.order.%id%.get: "Can't access order %id%"
+    error.order.%id%.not.allowed: "You are not allowed to view order %id%"

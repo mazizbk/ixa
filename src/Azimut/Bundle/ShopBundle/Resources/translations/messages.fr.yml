@@ -1,0 +1,97 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:45:23
+
+shop.app.name: "Boutique"
+
+shop.meta.title: "Boutique"
+
+order: "Commande"
+your.order: "Votre commande"
+search.orders: "Chercher dans les commandes"
+basket: "Panier"
+number: "Numéro"
+order.number: 'Numéro de commande'
+order.date: 'Date commande'
+client: "Client"
+total.amount: "Montant total"
+delivery.city: "Ville de livraison"
+client.comment: "Commentaire client"
+private.comment: "Commentaire interne"
+billing.address: "Adresse de facturation"
+delivery.address: "Adresse de livraison"
+delivery.trackings: "Suivi des colis"
+delivery.tracking: "Suivi du colis"
+delivery.tracking.label: "Intitulé"
+tracking.code: "Code de suivi"
+shipping.date: "Date d'expédition"
+delivery.date: "Date de livraison"
+delivered: "Livré"
+delivery.in.process: "En cours"
+status: "Etat"
+
+quantity: "Quantité"
+price: "Prix"
+total.price: "Prix total"
+incl.vat: "TTC"
+excl.vat: "HT"
+shipping.cost: "Frais de port"
+
+basket: "Panier"
+add.to.basket: "Ajouter au panier"
+product.has.been.added.to.basket: "Le produit a été ajouté au panier"
+product.has.not.been.added.to.basket: "Le produit n'a pas été ajouté au panier"
+an.error.occured.while.adding.product.to.basket: "Une erreur s'est produite lors de l'ajout du produit au panier"
+an.error.occured.while.changing.quantity: "Une erreur s'est produite lors du changement de quantité"
+quantity.has.not.been.changed: "La quantité n'a pas été modifiée"
+continue.shopping: "Continuer mes achats"
+order.now: "Commander"
+close: "Fermer"
+delivery: "Livraison"
+delivery.method: "Mode de livraison"
+summary: "Récapitulatif"
+payment: "Paiement"
+confirm.order: "Confirmer la commande"
+standard.delivery: "Livraison standard"
+demo.relay.package.delivery: "Livraison en colis relais (démo)"
+
+payment.method: 'Mode de paiement'
+amount: 'Montant'
+check.payment: "Paiement par chèque"
+demo.simple.payment: "Paiement démo simple"
+demo.payment: "Paiement Démo"
+card.number: "Numéro de carte"
+pay.%amount%: "Payer %amount%"
+payment.refused: "Paiement refusé"
+sorry.your.payment.has.been.refused: "Désolé, votre paiement a été refusé"
+select.another.payment.method: "Sélectionner un autre mode de paiement"
+payment.confirmed: "Paiement confirmé"
+thank.you.for.your.order: "Merci pour votre commande"
+your.order.is.paid.and.will.be.processed.has.soon.has.possible: "Votre commande est payée et sera traitée aussi rapidement que possible"
+please.send.us.a.check.payable.to.%name%: "Merci de nous envoyer un chèque à l'ordre de \"%name%\""
+to.the.following.address: "À l'adresse suivante"
+specifying.your.order.number.on.the.back.of.the.check: "En précisant votre numéro de commande au dos du chèque"
+payment.date: "Date de paiement"
+vat: "TVA"
+
+dont.have.account.yet: "Pas encore de compte ?"
+your.orders: "Vos commandes"
+
+no.order.available: "Aucune commande"
+order.%order_number%.confirm.permanent.delete: 'Etes-vous sûr de vouloir supprimer définitivement la commande "%order_number%"'
+oder.has.not.been.saved.are.you.sure.you.want.to.continue: "La commande n'a pas été enregistrée, êtes-vous sûr de vouloir continuer ?"
+
+there.is.no.product.in.your.basket: "Il n'y a aucun produit dans votre panier"
+
+order.status.validated: "Commande validée, non payée"
+order.status.paid: "Commande payée, à traiter"
+order.status.processed: "Commande traitée"
+order.status.cancelled: "Commande annulée"
+order.status.payment.refused: "Paiement refusé"
+
+notification:
+    error.order.update: "la commande n'a pas pu être mise à jour"
+    success.order.update: "la commande a été mise à jour avec succès"
+    error.order.delete: "la commande n'a pas pu être supprimée"
+    success.order.delete: "la commande a été supprimée avec succès"
+    error.order.%id%.get: "Impossible d'accéder à la commande %id%"
+    error.order.%id%.not.allowed: "Vous n'êtes pas autorisé à consulter la commande %id%"

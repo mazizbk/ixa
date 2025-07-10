@@ -1,0 +1,46 @@
+{% set hasCollapsableTopPanel = false %}
+{% set hasFooterPanel = false %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.questions.create.header'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_questions_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.questions.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="scrollable">
+        <div class="margin-block">
+            {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/Questions/values_distribution_theme.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+            {{ form_start(form) }}
+            {{ form_row(form.label) }}
+            {{ form_row(form.question) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.gaugeMaxValue) }}
+            {{ form_row(form.gaugeInvert) }}
+            {{ form_row(form.wellBeingCoefficient) }}
+            {{ form_row(form.engagementCoefficient) }}
+            {{ form_row(form.item) }}
+            {{ form_row(form.valuesDistribution) }}
+            {{ form_row(form.leftLabel) }}
+            {{ form_row(form.centerLabel) }}
+            {{ form_row(form.rightLabel) }}
+            {{ form_row(form.tooltip) }}
+            {{ form_row(form.possibleValues) }}
+            {{ form_row(form.canBeSkipped) }}
+            {{ form_row(form.tags) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block footerscripts %}
+    {{ parent() }}
+    <script>
+        {% include "@AzimutMontgolfiereApp/Backoffice/Questions/form_script.js.twig" %}
+    </script>
+{% endblock %}

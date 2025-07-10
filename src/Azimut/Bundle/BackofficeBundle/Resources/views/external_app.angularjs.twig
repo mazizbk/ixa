@@ -1,0 +1,11 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-02-09 15:12:08
+#}
+
+{% verbatim %}
+    <section class="main-panel">
+        <az-mediacenter-widget><div class="main-panel" ui-view="mediacenter-widget"></div></az-mediacenter-widget>
+        <iframe id="externalAppIframe" class="external-app-iframe" ng-src="{{ appUrl }}" az-iframe-onload="onIframeLoad" frameborder="0"></iframe>
+    </section>
+{% endverbatim %}

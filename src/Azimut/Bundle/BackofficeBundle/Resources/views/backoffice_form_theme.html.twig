@@ -1,0 +1,448 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+* date:   2013-10-17
+#}
+
+{% use 'AzimutFormExtraBundle::form_div_layout.html.twig' with
+    form_widget_simple as base_form_widget_simple,
+    collection_widget as base_collection_widget,
+    textarea_widget as base_textarea_widget,
+    choice_widget_collapsed as base_choice_widget_collapsed,
+    choice_widget_expanded as base_choice_widget_expanded,
+    checkbox_widget as base_checkbox_widget,
+    radio_widget as base_radio_widget,
+    datetime_widget as base_datetime_widget,
+    date_widget as base_date_widget,
+    form_row as base_form_row,
+    widget_attributes as base_widget_attributes,
+    entity_js_widget as base_entity_js_widget,
+    tinymce_config_widget as base_tinymce_config_widget,
+    submit_widget as base_submit_widget,
+    submit_or_cancel_widget as base_submit_or_cancel_widget,
+    form_hint as base_form_hint
+%}
+
+
+{# Widgets #}
+
+{% block form_widget_simple %}
+{# we add bootstrap form-control class #}
+{% if type is not defined or ('checkbox' != type and 'radio' != type) %}
+    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+{% endif %}
+{% spaceless %}
+    {# for i18n field, display an input addon with the locale name #}
+    {% if attr['data-form-i18n'] is defined %}
+        <div class="input-group">
+            {{ block('base_form_widget_simple') }}
+            <span class="input-group-addon">{{ attr['data-form-i18n']|upper }}</span>
+        </div>
+    {% elseif attr['data-form-pre-icon'] is defined %}
+        <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon-pro {{ attr['data-form-pre-icon'] }}"{% if attr['data-icon-loading'] is defined %} ng-class="{'{{ attr['data-form-pre-icon'] }}':!{{ attr['data-icon-loading'] }}, 'glyphicon-pro-refresh spin': {{ attr['data-icon-loading'] }} }"{% endif %}></span>
+            </span>
+            {{ block('base_form_widget_simple') }}
+        </div>
+    {% elseif attr['data-form-pre-text'] is defined %}
+        <div class="input-group">
+            <span class="input-group-addon">
+                {{ attr['data-form-pre-text'] }}
+            </span>
+            {{ block('base_form_widget_simple') }}
+        </div>
+    {% else %}
+        {{ block('base_form_widget_simple') }}
+    {% endif %}
+{% endspaceless %}
+{# angularjs form validation #}
+{% if type is not defined or type != 'hidden' %}
+<div class="popover popover-static bottom" ng-show="{{ root_form_name }}.$dirty && {{ root_form_name }}.$submitted && {{ root_form_name }}['{{ full_name }}'].$error.required">
+    <div class="arrow"></div>
+    <div class="popover-content">{{ 'form.error.required'|trans }}.</div>
+</div>
+{% endif %}
+{% endblock form_widget_simple %}
+
+{% block collection_widget %}
+{% spaceless %}
+    {% if prototype is defined %}
+        {%
+            set attr = attr|merge({
+                'data-prototype': form_row(prototype),
+                'data-prototype-name': prototype.vars.name,
+                'data-prototype-is-compound': prototype.vars.compound ? 'true' : 'false',
+                'az-form-data-prototype': ng_model|raw
+            })
+        %}
+        {% if allow_add == true %}
+            {% set attr = attr|merge({'data-prototype-allow-add': 'true'}) %}
+        {% endif %}
+        {% if allow_delete == true %}
+            {% set attr = attr|merge({'data-prototype-allow-delete': 'true'}) %}
+        {% endif %}
+    {% endif %}
+
+    {{ block('form_widget') }}
+{% endspaceless %}
+{% endblock collection_widget %}
+
+{% block textarea_widget %}
+{% spaceless %}
+    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+
+    {# for i18n field, display an input addon with the locale name #}
+    {% if attr['data-form-i18n'] is defined %}
+        <div class="input-group">
+            {{ block('base_textarea_widget') }}
+            <span class="input-group-addon">{{ attr['data-form-i18n']|upper }}</span>
+        </div>
+    {% else %}
+        {{ block('base_textarea_widget') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock textarea_widget %}
+
+{%- block choice_widget_expanded -%}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+        {%- for child in form %}
+            <label class="{% if 'radio' in child.vars.block_prefixes %}radio-inline{% else %}checkbox-inline{% endif %}">
+                {{- form_widget(child) -}} {{ child.vars.label|trans({}, choice_translation_domain) }}
+            </label>
+        {% endfor -%}
+    </div>
+{% endspaceless %}
+{%- endblock choice_widget_expanded -%}
+
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({
+        'class': attr.class|default('') ~ ' form-control',
+        'az-select': '',
+    }) %}
+    {{ block('base_choice_widget_collapsed') }}
+{% endblock choice_widget_collapsed %}
+
+{% block checkbox_widget %}
+{% if form.parent.vars.expanded is defined and true == form.parent.vars.expanded and form.parent.vars.multiple is defined and true == form.parent.vars.multiple %}
+    {# add an angularjs directive to bind multiple checkboxes value (ex: choice expanded) #}
+    {% set attr = attr|merge({
+        'az-compound-checkboxes': 'forms.data.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''}),
+        'az-compound-checkboxes-values': 'forms.values.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''}),
+        'az-compound-checkboxes-inherited': 'forms.inheritedData.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''})
+    }) %}
+    {% set ng_model = null %}
+{% endif %}
+{#% set widget_type = "checkbox" %#}
+{{ block('base_checkbox_widget') }}
+{% endblock checkbox_widget %}
+
+{%- block radio_widget -%}
+    {% set attr = attr|merge({
+        'az-compound-radios': 'forms.data.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''}),
+    }) %}
+    {% set ng_model = null %}
+
+    {{ block('base_radio_widget') }}
+{%- endblock radio_widget -%}
+
+{% block datetime_widget %}
+{% if widget == 'single_text' %}
+    {% set attr = attr|merge({'az-datepicker': '', 'az-datepicker-time': 'true'}) %}
+{% else %}
+    {% set attr = attr|merge({'az-compound-datetime': 'forms.data.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''}) }) %}
+{% endif %}
+{% spaceless %}
+    <div class="datetime-form-widget">
+        {{ block('base_datetime_widget') }}
+    </div>
+{% endspaceless %}
+{% endblock datetime_widget %}
+
+{% block date_widget %}
+{% if widget == 'single_text' %}
+    {% set attr = attr|merge({'az-datepicker': ''}) %}
+{% else %}
+    {% set attr = attr|merge({'az-compound-date': 'forms.data.' ~ full_name|replace({"[":"['","]":"']"})|replace({"['']":''}) }) %}
+{% endif %}
+{% spaceless %}
+    <div class="date-form-widget">
+        {{ block('base_date_widget') }}
+    </div>
+{% endspaceless %}
+{% endblock date_widget %}
+
+{% block submit_commun_widget %}
+{% spaceless %}
+    {% set attr = attr|merge({
+            'class': attr.class|default('') ~ ' btn btn-success',
+            'ng-disabled': '!forms.params.' ~ root_form_name ~ '.submitActive',
+            'ng-bind': 'forms.params.' ~ root_form_name ~ '.submitLabel',
+            'ng-class': "{'btn-loading': !forms.params." ~ root_form_name ~ ".submitActive}"
+        })
+    %}
+    {{ block('base_submit_widget') }}
+    {# angularjs global form validation #}
+    <div class="form-help-error" ng-show="{{ root_form_name }}.$dirty && {{ root_form_name }}.$submitted && !{{ root_form_name }}.$valid"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'form.error.invalid.data'|trans }}</div>
+{% endspaceless %}
+{% endblock submit_commun_widget %}
+
+{% block submit_widget %}
+{% spaceless %}
+    <div class="text-center">
+        {{ block('submit_commun_widget') }}
+    </div>
+{% endspaceless %}
+{% endblock submit_widget %}
+
+{% block submit_or_cancel_widget %}
+{% spaceless %}
+    {% set label_submit = label %}
+    {% set attr_submit = attr %}
+    {% set submit_id = id %}
+    {% set submit_full_name = full_name %}
+    {% set cancel_id = id ~ '_cancel' %}
+
+    {% set attr_cancel = attr_cancel|merge({
+            'class': 'btn btn-danger',
+            'ng-disabled': '!forms.params.' ~ root_form_name ~ '.submitActive',
+            'ng-bind': 'forms.params.' ~ root_form_name ~ '.cancelLabel',
+            'ng-click': 'forms.params.' ~ root_form_name ~ '.cancelAction()'
+        })
+    %}
+    <div class="submit-or-cancel text-center">
+
+        {% set id = cancel_id %}
+        {% set full_name = null %}
+        {% set attr = attr_cancel %}
+        {% set label = cancel_label %}
+        {{ block('button_widget') }}
+
+        &nbsp;
+
+        {% set id = submit_id %}
+        {% set full_name = submit_full_name %}
+        {% set attr = attr_submit %}
+        {% set label = label_submit %}
+        {{ block('submit_commun_widget') }}
+
+    </div>
+{% endspaceless %}
+{% endblock submit_or_cancel_widget %}
+
+{# Labels #}
+
+{% block form_label_attributes %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if 'checkbox' in form.vars.block_prefixes %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' checkbox-inline')|trim}) %}
+        {% endif %}
+        {% if 'radio' in form.vars.block_prefixes %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' radio-inline')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}
+{% endblock form_label_attributes %}
+
+{% block form_label %}
+{% spaceless %}
+    {% if label is not same as(false) %}
+        <label{{ block('form_label_attributes') }}>{{ label|trans({}, translation_domain)|capitalize }}</label>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}
+
+{# Rows #}
+
+{% block form_row %}
+{% set form_row_class="form-group" %}
+{% set form_row_attr = {} %}
+
+{% if 'checkbox' in form.vars.block_prefixes %}
+    {% set form_row_class = 'checkbox-inline' %}
+{% endif %}
+{% if 'radio' in form.vars.block_prefixes %}
+    {% set form_row_class = 'radio-inline' %}
+{% endif %}
+
+{% if attr['data-form-i18n'] is defined %}
+    {% set form_row_attr = form_row_attr|merge({'az-form-i18n-row': 'formLocale', 'ng-model': ng_model|slice(0, -6)|raw }) %}
+{% endif %}
+{% if attr['data-form-section'] is defined and attr['data-form-section-value'] is defined %}
+    {% set form_row_attr = form_row_attr|merge({'data-form-section': form.parent.vars.id ~ '---' ~ attr['data-form-section'], 'data-form-section-value': attr['data-form-section-value'] }) %}
+{% endif %}
+{% spaceless %}
+    <div ng-class="{ 'has-error': {{ model_errors }} }">
+        {{ block('base_form_row') }}
+        {{ block('form_error_angular') }}
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+{# Misc #}
+
+{% block form_end %}
+    {% if not render_rest is defined or render_rest %}
+        {{ form_rest(form) }}
+    {% endif %}
+    {% spaceless %}
+        <div ng-class="{ 'has-error': {{ model_errors }} }">
+            {{ block('form_error_angular') }}
+        </div>
+    {% endspaceless %}
+    </form>
+{% endblock form_end %}
+
+{# Support #}
+
+{%- block widget_attributes -%}
+    {# we add Angular ng-model #}
+    {% if ng_model is defined and null != ng_model %}
+    ng-model="{{ ng_model|raw }}"
+    {% endif %}
+
+    {#{ block('base_widget_attributes') }#}
+
+    {# original widget_attributes whithout form html validation attributes #}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {%- if attrname not in ['maxlength', 'pattern'] -%}
+            {{- " " -}}
+            {%- if attrname in ['placeholder', 'title'] -%}
+                {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+            {%- elseif attrvalue is same as(true) -%}
+                {{- attrname }}="{{ attrname }}"
+            {%- elseif attrvalue is not same as(false) -%}
+                {{- attrname }}="{{ attrvalue }}"
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}
+
+
+
+{# Custom #}
+
+{% block file_widget %}
+{% spaceless %}
+    <div ng-init="replaceFile = false">
+        <div class="form-group" ng-show="undefined != {{ ng_model }}">
+            <input type="text" disabled="disabled" class="form-control" ng-value="{{ ng_model }}" />
+        </div>
+
+        <label ng-show="undefined != {{ ng_model }}">
+            <input type="checkbox" ng-model="replaceFile" />
+            {{ 'replace.file'|trans|capitalize }}
+        </label>
+
+        {% set type = type|default('file') %}
+        {# we add az-file-input directive for angularjs #}
+        <div class="form-group" ng-show="undefined == {{ ng_model }} || replaceFile">
+            <input type="{{ type }}" az-file-input="forms.files.{{ root_form_name }}" {{ block('base_widget_attributes') }} {%- if required %} required="required"{% endif -%} />
+        </div>
+        {# note that we don't create binding on file input for angularjs, because it can't handle it #}
+    </div>
+{% endspaceless %}
+{% endblock file_widget %}
+
+{% block entity_js_widget %}
+{% spaceless %}
+<div ng-class="{ 'has-error': {{ model_errors }} }">
+    <div
+        az-form-entity-js="{{ id }}"
+        az-form-entity-js-params="forms.widgets.{{ id }}"
+        ng-model="{{ ng_model|raw }}"
+        {% if true == form.parent.vars.compound and grand_parent_id != null%}
+            az-form-entity-js-compound-params="forms.widgets.{{ grand_parent_id }}.compound.{{ name }}"
+        {% endif %}
+    >
+        {% set img_attr = {
+            'id': id~'-img',
+            'ng-show': model_infos~'.thumb',
+            'src': 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=',
+            'ng-model': model_infos ~ '.thumb'
+        } %}
+
+        {% set wrapper_attr = {
+            'ng-class': "{'input-group': !forms.widgets."~ id ~".hideLabel}"
+        } %}
+
+        {% set buttons_wrapper_attr = {
+            'ng-class': "{'input-group-btn': !forms.widgets."~ id ~".hideLabel}"
+        } %}
+
+        {% set button_label_model = 'forms.widgets.'~ id ~'.buttonLabel' %}
+        {% if grand_parent_id != null %}
+            {% set button_label_model = button_label_model ~ '|| forms.widgets.'~ grand_parent_id ~'.compound.'~ name ~'.buttonLabel' %}
+        {% endif %}
+        {% set button_attr = {
+            'class': 'btn btn-default',
+            'ng-bind': button_label_model
+        } %}
+
+        {% set label_attr = {
+            'ng-value': model_infos~'.name',
+            'class': 'form-control',
+            'ng-hide': 'forms.widgets.'~ id ~'.hideLabel'
+        } %}
+        {% set remove_button_attr = {
+            'class': 'btn btn-default',
+            'ng-show': ng_model|raw ~ ' && !forms.widgets.'~ id ~'.hideLabel'
+        } %}
+        {% set remove_button_label = '<span class="glyphicon glyphicon-remove"></span>' %}
+
+        <img {{ block('entity_js_img_widget_attributes') }} />
+        {{ block('base_entity_js_widget') }}
+
+    </div>
+    {{ block('form_error_angular') }}
+    <div class="clearfix"></div>
+</div>
+{% endspaceless %}
+{% endblock %}
+
+{% block entity_js_img_widget_attributes %}
+{% spaceless %}
+{% for attrname, attrvalue in img_attr %}
+    {{ attrname }}="{{ attrvalue|raw }}"
+{% endfor %}
+{% endspaceless %}
+{% endblock %}
+
+{% block tinymce_config_widget %}
+{% spaceless %}
+    {% set attr = attr|merge({
+        'az-tinymce': '',
+        'az-tinymce-mediacenter-widget-params' : 'forms.widgets.' ~ id
+    }) %}
+    {{ block('base_tinymce_config_widget') }}
+{% endspaceless %}
+{% endblock tinymce_config_widget %}
+
+
+{% block form_error_angular %}
+{# placeholder for displaying symfony form errors with angular #}
+<p class="help-block" ng-repeat="errorMessage in {{ model_errors }}">
+    <span ng-bind="errorMessage"></span>
+    <br ng-if="!$last" />
+</p>
+{% endblock form_error_angular %}
+
+{%- block form_hint -%}
+    {% set form_hint_class = 'help-block' %}
+    {{ block('base_form_hint') }}
+{%- endblock form_hint -%}
+
+{% block burgov_key_value_widget %}
+    {% set attr = attr|merge({ 'data-is-array-key-value': 'true' }) %}
+    {{ block('collection_widget') }}
+{% endblock %}

@@ -1,0 +1,92 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 17:26:47
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutFrontoffice'} %}
+    {% block content %}
+        {% verbatim %}
+
+            <ul class="tree-list">
+                {% endverbatim %}
+                    {% if is_granted('SUPER_ADMIN') %}
+
+                        <li ng-init="showLayoutsChildren=false">
+                            <span class="list-item">
+                                <span class="list-toggle" ng-click="showLayoutsChildren=!showLayoutsChildren">
+                                    <span ng-model="showLayoutsChildren" ng-class="{true:'caret', false:'caret caret-vertical'}[showLayoutsChildren]"></span>
+                                </span>
+                                <a class="list-label" href><span class="glyphicon glyphicon-th"></span> {{ 'layouts'|trans|capitalize }}</a>
+                            </span>
+                            <ul ng-show="showLayoutsChildren">
+                                <li>
+                                    <span class="list-item">
+                                        <span class="list-toggle">&nbsp;</span>
+                                        <a class="list-label" ui-sref="backoffice.frontoffice.site_layouts_list"><span class="glyphicon glyphicon-globe"></span> {{ 'site_layouts'|trans|capitalize }}</a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="list-item">
+                                        <span class="list-toggle">&nbsp;</span>
+                                        <a class="list-label" ui-sref="backoffice.frontoffice.page_layouts_list"><span class="glyphicon glyphicon-file"></span> {{ 'page_layouts'|trans|capitalize }}</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% verbatim %}
+
+                <li ng-init="showSitesChildren=true">
+                    <span class="list-item">
+                        <span class="list-toggle" ng-click="showSitesChildren=!showSitesChildren">
+                            <span ng-model="showSitesChildren" ng-class="{true:'caret', false:'caret caret-vertical'}[showSitesChildren]"></span>
+                        </span>
+                        <a class="list-label" ui-sref="backoffice.frontoffice.list"><span class="glyphicon glyphicon-globe"></span> {% endverbatim %}{{ 'all.sites'|trans|capitalize }}{% verbatim %}</a>
+                    </span>
+                    <ul ng-show="showSitesChildren">
+                        <li ng-repeat="site in sites" ng-init="site.showChildren=(sites.length < 2)" ng-if="site">
+
+                            <span class="list-item">
+                                <span ng-if="site.menus.length>0" class="list-toggle" ng-click="site.showChildren=!site.showChildren">
+                                    <span ng-model="site.showChildren" ng-class="{true:'caret', false:'caret caret-vertical'}[site.showChildren]"></span>
+                                </span>
+                                <span ng-if="site.menus.length==0" class="list-toggle">&nbsp;</span>
+
+                                <span class="list-label" ng-click="openSite(site)" ng-class="{'selected': site == currentElement}"><span class="glyphicon glyphicon-globe"></span> {{ site.name }}</span>
+                            </span>
+
+                            <ul ng-show="site.showChildren">
+                                <li ng-repeat="menu in site.menus" ng-init="menu.showChildren=true">
+                                    <span class="list-item" drop="menu" drop-style="list-item-drop">
+                                        <span ng-if="menu.pages.length>0" class="list-toggle" ng-click="menu.showChildren=!menu.showChildren">
+                                            <span ng-model="menu.showChildren" ng-class="{true:'caret', false:'caret caret-vertical'}[menu.showChildren]"></span>
+                                        </span>
+                                        <span ng-if="menu.pages.length==0" class="list-toggle">&nbsp;</span>
+
+                                        <span class="list-label" ng-click="openMenu(menu)" ng-class="{'selected': menu == currentElement}"><span class="glyphicon glyphicon-align-justify"></span> {{ menu.name }}</span>
+                                    </span>
+
+                                    <ul ng-show="menu.showChildren">
+                                        <li><span class="list-insert-item" ng-init="reorderParams={insertAfterPage: {displayOrder: 0, parentElement: menu}}" drop="reorderParams" drop-style="list-insert-item-drop"></span></li>
+                                        <li
+                                            ng-repeat-start="page in menu.pages | orderBy:'displayOrder'"
+                                            ng-init="page.showChildren=false"
+                                            ng-include="'{% endverbatim %}{{ path('azimut_frontoffice_backoffice_jsview_page_tree_child') }}{% verbatim %}'"
+                                        ></li>
+                                        <li ng-repeat-end><span class="list-insert-item" ng-init="reorderParams={insertAfterPage: page}" drop="reorderParams" drop-style="list-insert-item-drop"></span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView" ng-class="isMainContentLoading?'loading':''"></section>

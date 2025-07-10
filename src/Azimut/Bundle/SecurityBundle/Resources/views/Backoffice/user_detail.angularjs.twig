@@ -1,0 +1,24 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-06-12 11:47:36
+#}
+
+<header class="header-bar ng-scope">
+    <div class="left ng-binding">
+        <span ng-if="!forms.data.user.isConfirmed">{% verbatim %}{{ Translator.trans('security.edituser.header.%email%', {'email': forms.data.user.username}) }}{% endverbatim %}</span>
+        <span ng-if="forms.data.user.isConfirmed">{% verbatim %}{{ Translator.trans('security.edituser.header.%firstname%.%lastname%', {'firstname': forms.data.user.firstName, 'lastname': forms.data.user.lastName}) }}{% endverbatim %}</span>
+    </div>
+</header>
+<section class="body scrollable-container">
+    <div class="scrollable">
+        <div class="margin-block">
+            <div class="well">
+                <h2 style="margin-top: 0">{{ 'security.edituser.sections.general_information'|trans }}</h2>
+                <div ng-include="formUserTemplateUrl"></div>
+                <div class="clearfix"></div>
+                <h2>{{ 'security.edituser.sections.access_rights'|trans }}</h2>
+                <div ng-include="'{{ path('azimut_security_backoffice_jsview_access_right_list_user') }}'"></div>
+            </div>
+        </div>
+    </div>
+</section>

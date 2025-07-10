@@ -1,0 +1,30 @@
+{% set activeTab = 'edit' %}
+{% set client = entity %}
+{% extends '@AzimutMontgolfiereApp/Backoffice/Clients/read_base.html.twig' %}
+
+{% block readBody %}
+    {% form_theme form "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+    {{ form_start(form) }}
+    {{ form_row(form.corporateName) }}
+    {{ form_row(form.tradingName) }}
+    {{ form_row(form.questionName) }}
+    {{ form_row(form.clientStatus) }}
+    {{ form_row(form.postalAddress) }}
+    {{ form_row(form.workforce) }}
+    {{ form_row(form.legalStatus) }}
+    {{ form_row(form.activity) }}
+    {{ form_row(form.NAFCode) }}
+    {{ form_row(form.turnover) }}
+    {{ form_row(form.website) }}
+    {{ form_row(form.comments) }}
+    {{ form_label(form.uploadedFile) }}
+    {% if client.filename %}
+        <br />
+        <div class="thumbnail" style="display:inline-block;">
+            <img src="{{ path('azimut_montgolfiere_app_backoffice_clients_logo', {'slug': client.slug}) }}" alt="{{ client.corporateName }}" class="form_image_thumb" />
+        </div>
+    {% endif %}
+    {{ form_row(form.uploadedFile, {'help': 'montgolfiere.backoffice.clients.fields.logo_help', 'label': false}) }}
+
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.campaigns.read.header'|trans({"%name%": campaign.name}) }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_homepage') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.campaigns.read.back_to_list"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <header class="header-bar header-bar-tabs">
+        <ul class="nav nav-tabs">
+            <li{% if activeTab == 'sheet' %} class="active"{% endif %}>
+                <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_read', {'id': campaign.id}) }}">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-notes-2"></i>
+                    {{ 'montgolfiere.backoffice.campaigns.read.tabs.sheet'|trans }}
+                </a>
+            </li>
+            <li class="dropdown{% if activeTab in ['edit', 'segments', 'sorting_factors', 'automatic_affectations'] %} active{% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-fw glyphicon-pencil"></i>
+                    {{ 'montgolfiere.backoffice.campaigns.read.tabs.manage'|trans }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li{% if activeTab == 'edit' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_update', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pencil"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.edit'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'segments' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_segments', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-group"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.segments'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'sorting_factors' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_sorting_factors', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-sort"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.sorting_factors'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'automatic_affectations' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_automatic_affectations', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-filter"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.automatic_affectations'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown{% if activeTab in ['analysis_groups', 'participations', 'analyze', 'cartography', 'house'] %} active{% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-search"></i>
+                    {{ 'montgolfiere.backoffice.campaigns.read.tabs.analyze_and_results'|trans }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li{% if activeTab == 'analysis_groups' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_analysis_groups', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-cluster"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.analysis_groups'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'participations' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-chat"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.participations'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'analyze' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_analyze', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-database-search"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.analyze'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'cartography' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_cartography', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-table"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.cartography'|trans }}
+                        </a>
+                    </li>
+                    <li{% if activeTab == 'house' %} class="active"{% endif %}>
+                        <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_house', {'id': campaign.id}) }}">
+                            <i class="glyphicon glyphicon-fw glyphicon-pro glyphicon-pro-home"></i>
+                            {{ 'montgolfiere.backoffice.campaigns.read.tabs.house'|trans }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+    <div class="scrollable">
+        <div{% if noMargin is not defined or not noMargin %} class="margin-block"{% endif %}>
+            {% block readBody %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% set _bodyClass = 'interior' %}
+{% extends siteLayout %}
+{% block body %}
+    <header>
+        <h1>{{ page.pageTitle }}</h1>
+        {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+    </header>
+    {{ renderZone(page, 'content', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+{% endblock %}

@@ -1,0 +1,10 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-28 10:34:21
+
+services:
+
+    azimut_frontoffice_custom.demo_subrouter_cmsfile_search_engine_provider:
+        class: Azimut\Bundle\FrontofficeCustomBundle\Service\DemoSubrouterCmsFileSearchEngineProvider
+        arguments: ['@doctrine']
+        tags:
+            - { name: azimut_frontoffice.search_engine_provider }

@@ -1,0 +1,30 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-14 11:22:34
+#
+# This template relates to AngularJS NotificationService
+# located in BackofficeBunde/Resources/public/js/backoffice-services.js
+#}
+
+{% verbatim %}
+
+	<div class="notifications" ng-show="NotificationService.notifications.length > 0">
+	    <div ng-repeat="notification in NotificationService.notifications">
+	        <div ng-class="'fade in alert alert-'+notification.type" ng-hide="notification.hide">
+	            <a href class="close" data-dismiss="alert" ng-if="!notification.critical">×</a>
+	            <strong><span ng-class="'glyphicon glyphicon-'+notification.icon"></span></strong> {{ notification.message }}
+                <small ng-if="notification.serverMessages.length > 0">
+                    <br ng-repeat-start="serverMessage in notification.serverMessages">
+                    <i ng-repeat-end >{{ serverMessage }}</i>
+                </small>
+                <small ng-if="notification.hintMessage">
+                    <br /><i>{{ notification.hintMessage }}</i>
+                </small>
+                <span ng-if="notification.link">
+                    <br /><a href="{{ notification.link }}" target="_blank">{{ notification.linkLabel || notification.link }}</a>
+                </span>
+	        </div>
+	    </div>
+    </div>
+
+{% endverbatim %}

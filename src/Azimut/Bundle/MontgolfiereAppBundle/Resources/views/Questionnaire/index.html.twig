@@ -1,0 +1,204 @@
+{% extends "@AzimutMontgolfiereApp/Questionnaire/base.html.twig" %}
+{% block title %}{{ 'montgolfiere.questionnaire.title'|trans }} - {{ campaign.name }}{% endblock %}
+{% block body %}
+    <div class="homepage">
+        <header>
+            <img src="{{ asset('img/questionnaire/logo-black.svg') }}" alt="Logo Workcare" width="100" />
+            <nav id="main-nav">
+                <a tabindex="1" href="#home">{{ 'montgolfiere.questionnaire.index.menu.home'|trans }}</a>
+                <a tabindex="1" href="#about">{{ 'montgolfiere.questionnaire.index.menu.about'|trans }}</a>
+                <a tabindex="1" href="#howitworks">{{ 'montgolfiere.questionnaire.index.menu.how_does_it_work'|trans }}</a>
+                <a tabindex="1" href="#results">{{ 'montgolfiere.questionnaire.index.menu.results'|trans }}</a>
+            </nav>
+            <a href="#" class="btn btn-primary burger-menu" data-action="toggle" data-target="#main-nav" title="Menu"><i class="fas fa-lg fa-fw fa-bars"></i></a>
+        </header>
+        <section id="home">
+            <div class="home-left">
+                <div class="mb-3">
+                    {{ campaign.name }}
+                </div>
+                <div class="home-left-content">
+                    <p class="home-title">
+                        <span class="d-block text-primary">{{ 'montgolfiere.questionnaire.index.home.left.participate'|trans }}</span>
+                        {{ 'montgolfiere.questionnaire.index.home.left.the_study'|trans }}
+                    </p>
+                    <p class="home-title">
+                        <span class="d-block text-primary">{{ 'montgolfiere.questionnaire.index.home.left.guide'|trans }}</span>
+                        {{ 'montgolfiere.questionnaire.index.home.left.futur_actions'|trans }}
+                    </p>
+                    <p class="home-title">
+                        <span class="d-block text-primary">{{ 'montgolfiere.questionnaire.index.home.left.improve'|trans }}</span>
+                        {{ 'montgolfiere.questionnaire.index.home.left.your_daily_life'|trans }}
+                    </p>
+                </div>
+            </div>
+            <div class="home-right">
+                <div>
+                    <p class="fw-800 fs-133">{{ 'montgolfiere.questionnaire.index.home.right.title'|trans|ixa_trans }}</p>
+                    <p>
+                        {{ 'montgolfiere.questionnaire.index.home.right.text'|trans|ixa_trans }}<br />
+                        <small><a href="https://workcare.fr/faq/" target="_blank">{{ 'montgolfiere.questionnaire.know_more'|trans }}</a></small>.
+                    </p>
+                    {% form_theme form "bootstrap_3_layout.html.twig" "@AzimutMontgolfiereApp/Questionnaire/form_theme.html.twig" %}
+                    {{ form_start(form) }}
+                    {{ form_row(form.submit) }}
+                    {{ form_end(form) }}
+                    {% if campaign.participationsCount > 10 %}
+                        <div class="mb-3">
+                            {{ 'montgolfiere.questionnaire.participation_count'|trans({"%participation_count%":campaign.participationsCount}) }}
+                        </div>
+                    {% endif %}
+                    {% if campaign.allowedLanguages|length > 1 %}
+                        {% for locale in campaign.allowedLanguages if locale != app.request.session.get('questionnaire_locale', app.request.locale) and campaign.hasValidLocalizedSegment(locale) %}
+                            <a href="?switchLocale={{ locale }}" class="btn btn-primary">{{ 'montgolfiere.questionnaire.change_locale'|trans(locale=locale) }}</a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section id="about">
+            <div class="home-left show-md">
+                <div></div>
+                <div></div>
+            </div>
+            <div class="home-right">
+                <div class="text-center fw-500 fs-125">
+                    {{ 'montgolfiere.questionnaire.index.about.right.text'|trans|ixa_trans }}
+                </div>
+                <div class="scroll-container">
+                    <div class="fw-bold about-items scrollable">
+                        <div class="about-items-container">
+                            <div>
+                                <div class="icon-container">
+                                    <i class="fas fa-2x fa-lock fa-fw text-primary"></i>
+                                </div>
+                                <span>{{ 'montgolfiere.questionnaire.index.about.right.block_1'|trans|ixa_trans }}</span>
+                            </div>
+                            <div>
+                                <div class="icon-container">
+                                    <i class="fas fa-2x fa-child fa-fw text-primary"></i>
+                                </div>
+                                <span>{{ 'montgolfiere.questionnaire.index.about.right.block_2'|trans|ixa_trans }}</span>
+                            </div>
+                        </div>
+                        <div class="about-items-container">
+                            <div>
+                                <div class="icon-container">
+                                    <i class="fas fa-2x fa-hands-helping fa-fw text-primary"></i>
+                                </div>
+                                <span>{{ 'montgolfiere.questionnaire.index.about.right.block_3'|trans|ixa_trans }}</span>
+                            </div>
+                            <div>
+                                <div class="icon-container">
+                                    <i class="fas fa-2x fa-spa fa-fw text-primary"></i>
+                                </div>
+                                <span>{{ 'montgolfiere.questionnaire.index.about.right.block_4'|trans|ixa_trans }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hide-md scroll-buttons">
+                        <div class="active"></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="howitworks">
+            <div class="home-left">
+                <div></div>
+                <div>
+                    <p class="home-title">
+                        {{ 'montgolfiere.questionnaire.index.howitworks.left.text_1'|trans }}
+                        <span class="text-primary">{{ 'montgolfiere.questionnaire.index.howitworks.left.text_2'|trans }}</span>
+                        {{ 'montgolfiere.questionnaire.index.howitworks.left.text_3'|trans }}
+                    </p>
+                </div>
+            </div>
+            <div class="home-right">
+                <div class="text-center fw-500">
+                    <span class="fs-125">{{ 'montgolfiere.questionnaire.index.howitworks.right.text_1'|trans|ixa_trans }}</span><br />
+                    {{ 'montgolfiere.questionnaire.index.howitworks.right.text_2'|trans|ixa_trans }}
+                </div>
+                <div class="text-center">
+                    <div class="widget-container">
+                        <img src="{{ asset('img/questionnaire/homepage-howitworks-widget.png') }}" alt="" style="width:auto;" width="500" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="results">
+            <div class="home-left">
+                <div>
+                    <p class="home-title pb-3">{{ 'montgolfiere.questionnaire.index.results.left.title'|trans|ixa_trans }}</p>
+                    <p class="fw-500 fs-125">
+                        {{ 'montgolfiere.questionnaire.index.results.left.text'|trans }}
+                    </p>
+                </div>
+                <div class="show-md"></div>
+                <div class="bg-primary show-md">
+                    <img src="{{ asset('img/questionnaire/logo-white.svg') }}" alt="Logo Workcare" aria-hidden="true" style="width: auto" width="0" />
+                </div>
+            </div>
+            <div class="home-right">
+                <div class="text-center fw-500 pb-4 fs-150">
+                    {{ 'montgolfiere.questionnaire.index.results.right.text_1'|trans|ixa_trans }}
+                </div>
+                <div class="scroll-container">
+
+                    <div class="fw-500 scrollable">
+                        <div style="padding: 0 10%;">
+                            <p>
+                                <strong class="text-primary">{{ 'montgolfiere.questionnaire.index.results.right.text_3'|trans }}</strong><br />
+                                {{ 'montgolfiere.questionnaire.index.results.right.text_4'|trans }}
+                            </p>
+                            <div class="text-center">
+                                <img src="{{ asset('img/questionnaire/profil-BEE.svg') }}" alt="" class="illustration" width="500" />
+                            </div>
+                        </div>
+                        <div style="padding: 0 10%;">
+                            <p>
+                                <strong class="text-primary">{{ 'montgolfiere.questionnaire.index.results.right.text_5'|trans }}</strong><br />
+                                {{ 'montgolfiere.questionnaire.index.results.right.text_6'|trans }}
+                            </p>
+                            <div class="text-center">
+                                <img src="{{ asset('img/questionnaire/homepage-results-house.png') }}" alt="" class="illustration" width="500" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="hide-md scroll-buttons">
+                        <div class="active"></div>
+                        <div></div>
+                    </div>
+                </div>
+                <p class="pt-4 text-center">
+                    <a href="#" class="btn btn-primary" onclick="document.getElementById('{{ form.submit.vars.id }}').click();return false;">{{form.submit.vars.label|trans}}</a>
+                </p>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+{% block end_javascripts %}
+    {{ parent() }}
+    <script>
+        (function() {
+            var options = {
+                root: document.querySelector(".homepage"),
+                rootMargin: "0px",
+                threshold: 0.25,
+            };
+
+            var observer = new IntersectionObserver(function(entries, observer) {
+                const intersecting = entries.filter(entry => entry.isIntersecting);
+                if(intersecting.length === 0) {
+                    return;
+                }
+                observer.root.querySelectorAll('a').forEach(el => el.classList.remove('active'));
+                observer.root.querySelector('a[href="#'+intersecting[0].target.id+'"]').classList.add('active');
+            }, options);
+
+            document.querySelectorAll('.homepage > section').forEach(el => observer.observe(el));
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,54 @@
+/**
+ * @author: Goulven Salaun <goulven.salaun@azimut.net>
+ * date:   2015-10-05 17:46:41
+ */
+
+@width: 150px;
+
+.roleLine {
+    display:flex;
+    flex-flow: row nowrap;
+    width:100%;
+}
+
+.roleLine>div {
+    width:100px;
+    text-align:center;
+}
+
+.roleLine>div:first-child {
+    width:@width;
+    text-align: left;
+    overflow: hidden;
+}
+
+.roleLevel .roleLine>div:first-child{
+    width:@width;
+}
+
+.roleHeader{
+    font-size:12px;
+}
+
+.nested-levels-colors(@n; @base-color; @i : 1) when (@i =< @n)
+{
+    .roleLevel {
+        background: darken(@base-color, @i*5);
+        .nested-levels-colors(@n; @base-color; (@i + 1));
+    }
+}
+.nested-levels-colors(6, #f0f0f0);
+
+.indented {
+    padding-left: 30px;
+}
+
+.nested-levels-indent(@n; @i : 1) when (@i =< @n)
+{
+    .nested@{i} {
+        padding-left: @i*30px;
+    }
+
+    .nested-levels-indent(@n; (@i + 1));
+}
+.nested-levels-indent(60);

@@ -1,0 +1,23 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-03-05 11:24:29
+#}
+
+{% verbatim %}
+    <header class="header-bar">
+        <div class="left">
+            {% endverbatim %}{{ 'new.site'|trans|capitalize }}{% verbatim %}
+        </div>
+        <div class="right shrink0">
+            <az-form-locale-selector ng-model="formLocale"></az-form-locale-selector>
+        </div>
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+            <div class="margin-block">
+                <div class="well" ng-include="formSiteTemplateUrl"></div>
+            </div>
+        </div>
+    </section>
+{% endverbatim %}

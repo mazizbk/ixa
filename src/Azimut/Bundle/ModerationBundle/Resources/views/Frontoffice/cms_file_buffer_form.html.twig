@@ -1,0 +1,17 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-07-05 17:53:18
+#}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% if cmsFileSaved %}
+    <p>{{ 'your.suggestion.has.been.recorded'|trans }}.</p>
+{% else %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <button type="submit" class="btn-default btn">{{ 'suggest'|trans }}</button>
+        </div>
+    {{ form_end(form) }}
+{% endif %}

@@ -1,0 +1,98 @@
+security.app.name: "Users"
+
+security.meta.title: "Azimut Users"
+
+user: "user|users"
+group: "group|groups"
+groups: "groups"
+new.user: "New user"
+new.group: "New group"
+
+username: "username"
+first.name: "First name"
+last.name: "Last name"
+email: "Email address"
+name: "name"
+
+search.users: "Find in users"
+search.groups: "Find in groups"
+search.accessright: "Find in access rights"
+
+template.error.message: "You don't have access to this page"
+application.error.message: "You don't have any access to this application please contact the administrator or logout with this link"
+
+no.user.found: "no user found"
+no.group.found: "no group found"
+
+security:
+    newuser:
+        found.%firstname%.%lastname%: "We found a user matching this email address: %firstname% %lastname%"
+        notfound: "No existing user was found with this email address. We'll send him or her an email so he or she can create its account."
+        header: "Creating a new user"
+    edituser:
+        notice:
+            %firstname%.%lastname%: "If required, %firstname% %lastname% can edit its own information by going to"
+            notconfirmed: "This user has not confirmed its account yet."
+            notconfirmed2: "In order to confirm its account, the user must follow the link that we sent him to its email address."
+            notconfirmed3: "If required, you may "
+            resentemail: "resent the email"
+        header:
+            %firstname%.%lastname%: "Editing user %firstname% %lastname%"
+            %email%: "Editing user %email%"
+        sections:
+            general_information: 'General information'
+            access_rights: 'Access rights'
+        access_rights:
+            simple_roles: "Simple roles"
+            applications: "Applications"
+        groups:
+            update: 'After updating group membership, you will need to save the user in order to see it''s effective access rights'
+            removing_group_would_remove_access: 'Unable to update your groups, because this operation would remove your access to the security application.'
+        rights:
+          removing_group_would_remove_access: 'Unable to remove the right to the security application because no other group grants you access to it.'
+    users_list:
+        confirmed_accounts: 'Confirmed accounts'
+        accounts_waiting_confirmation: 'Accounts awaiting confirmation'
+    editgroup:
+        header.%name%: "Editing group %name%"
+        rights:
+            removing_group_would_remove_access: 'Unable to update this group''s rights, because it is the last one granting you access to the security application.'
+    deletegroup.deleting_group_would_remove_access: 'Unable to remove this group because it is the last one granting you access to the security application.'
+roles:
+    VIEW: View
+    CREATE: Create
+    EDIT: Modify
+    DELETE: Delete
+    GLOBAL_ADMIN: Administrator
+    GLOBAL_EDIT_ALL_LANG: "Edit all languages"
+    GLOBAL_EDIT_FR: "Edit French"
+    GLOBAL_EDIT_EN: "Edit English"
+    EDIT_PARAMS: "Modify parameters"
+    SUGGEST: "Suggest"
+    WRITE: "Write"
+
+notification:
+
+    error.user.create: "User could not be created"
+    success.user.create: "User successfully created"
+    error.user.update: "User could not be updated"
+    success.user.update: "User successfully updated"
+    error.user.delete: "User could not be deleted"
+    success.user.delete: "User successfully deleted"
+    success.user.validationemail: "Validation email was sent"
+
+    error.group.create: "Group could not be created"
+    success.group.create: "Group successfully created"
+    error.group.update: "Group could not be updated"
+    success.group.update: "Group successfully updated"
+    error.group.delete: "Group could not be deleted"
+    success.group.delete: "Group successfully deleted"
+
+    error.accessrights.update: "Access rights could not be updated"
+
+user.has.not.been.saved.are.you.sure.you.want.to.continue: "User has not been saved, are you sure you want to continue ?"
+group.has.not.been.saved.are.you.sure.you.want.to.continue: "Group has not been saved, are you sure you want to continue ?"
+accesss.rights.have.not.been.saved.are.you.sure.you.want.to.continue: "Access rights have not been saved, are you sure you want to continue ?"
+
+user.%name%.confirm.permanent.delete: "Are you sure you want to permanently delete user \"%name%\""
+group.%name%.confirm.permanent.delete: "Are you sure you want to permanently delete group \"%name%\""

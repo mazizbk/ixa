@@ -1,0 +1,21 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-03-12 17:15:24
+#}
+
+{% verbatim %}
+
+    <div class="disk-quota hidden-sm-max">
+        <div>
+            <span class="glyphicon glyphicon-cloud"></span> <span ng-bind="diskInfos.diskUsage"></span> / <span ng-bind="diskInfos.diskQuota"></span><span ng-bind="diskInfos.diskUnit"></span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ diskInfos.diskUsagePercent }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ diskInfos.diskUsagePercent }}%;"></div>
+        </div>
+    </div>
+
+    <div class="disk-quota visible-sm-max-block">
+        <span class="glyphicon glyphicon-cloud"></span> <span ng-bind="diskInfos.diskUsagePercent"></span>%
+    </div>
+
+{% endverbatim %}

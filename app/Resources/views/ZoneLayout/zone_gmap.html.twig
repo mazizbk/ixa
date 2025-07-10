@@ -1,0 +1,79 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-08-21 16:25:04
+#}
+
+{% if options.zoom is not defined %}
+    {% set options = options|merge({'zoom': 5}) %}
+{% endif %}
+
+{% if options.centerCoordinates is not defined %}
+    {% set options = options|merge({'centerCoordinates': [48.856614, 2.3522219]}) %}
+{% endif %}
+
+{% if options.titleAttribute is not defined %}
+    {% set options = options|merge({'titleAttribute': 'title'}) %}
+{% endif %}
+
+{% if options.textAttribute is not defined %}
+    {% set options = options|merge({'textAttribute': 'text'}) %}
+{% endif %}
+
+
+{% if zone.title %}
+    <h1 class="zone-title">{{ zone.title }}</h1>
+{% endif %}
+
+{% include 'ZoneLayout/filters.html.twig' %}
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key={{ gmap_api_key }}"></script>
+<script>
+    function initialize() {
+
+        var centerCoordinates = new google.maps.LatLng({{ options.centerCoordinates|join(',') }});
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+            zoom: {{ options.zoom }},
+            center: centerCoordinates
+        });
+
+        var infoWindows = [];
+
+        function closeAllInfoWindows() {
+            for (var i=0;i<infoWindows.length;i++) {
+                infoWindows[i].close();
+            }
+        }
+
+        {% for cmsFile in paginatedCmsFiles %}
+
+            {% if cmsFile.geolocation is defined %}
+
+                var marker{{ loop.index }} = new google.maps.Marker({
+                    position: new google.maps.LatLng({{ cmsFile.geolocation.latitude }}, {{ cmsFile.geolocation.longitude }}),
+                    map: map,
+                    title: "{{ attribute(cmsFile, options.titleAttribute) }}"
+                });
+                var infoWindow{{ loop.index }} = new google.maps.InfoWindow({
+                    content:
+                        '<b>{{ cmsFile.title }}</b><br /><br />'+
+                        '{{ attribute(cmsFile, options.textAttribute)|render_media_declination_tags|replace({"\n": "'+\n'", "'": "\\'"})|raw }}'
+                });
+                infoWindows.push(infoWindow{{ loop.index }});
+                marker{{ loop.index }}.addListener('click', function() {
+                    closeAllInfoWindows();
+                    infoWindow{{ loop.index }}.open(map, marker{{ loop.index }});
+                });
+
+            {% endif %}
+        {% endfor %}
+
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<div id="map-canvas" class="gmap" style="height:500px"></div>

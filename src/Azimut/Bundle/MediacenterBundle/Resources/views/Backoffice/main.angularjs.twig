@@ -1,0 +1,67 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2013-09
+#}
+
+{% embed "AzimutBackofficeBundle::side_panel.html.twig" with {'prefixId': 'azimutMediacenter'} %}
+    {% block content %}
+        {% verbatim %}
+
+            <ul class="tree-list">
+
+                <li ng-repeat="file in files"
+                    ng-include="'{% endverbatim %}{{ path('azimut_mediacenter_backoffice_jsview_folder_tree_child') }}{% verbatim %}'"
+                >
+
+                <li>
+                    <span class="list-item inactive">
+                        <span class="list-toggle">&nbsp;</span>
+                        <span class="list-label">
+                            <span class="glyphicon glyphicon-star"></span> {% endverbatim %} {{ 'favorite'|transchoice(2)|capitalize }}{% verbatim %}
+                        </span>
+                    </span>
+                <li>
+                    <span class="list-item inactive">
+                        <span class="list-toggle">&nbsp;</span>
+                        <span class="list-label">
+                            <span class="glyphicon glyphicon-time"></span> {% endverbatim %} {{ 'recent'|transchoice(2)|capitalize }}{% verbatim %}
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span
+                        drop="trashBin" drop-style="list-item-drop" drop-accept-type="mediacenterfile"
+                        class="list-item"
+                    >
+                        <span class="list-toggle">&nbsp;</span>
+                        <span class="list-label" ng-click="openTrashBin()">
+                            <span class="glyphicon glyphicon-trash"></span> {% endverbatim %} {{ 'trash'|trans|capitalize }}{% verbatim %}
+                        </span>
+                    </span>
+                </li>
+
+                <li ng-if="filesWaitingForUpload.length>0">
+                    <br />
+                    <span class="list-item">
+                        <span class="list-toggle">&nbsp;</span>
+                        <span class="list-label">
+                            <span class="glyphicon glyphicon-cloud-upload"></span> uploads: {{ filesWaitingForUpload.length }}
+                        </span>
+                    </span>
+                </li>
+
+            </ul>
+
+        {% endverbatim %}
+    {% endblock %}
+{% endembed %}
+
+{% include 'AzimutBackofficeBundle::notifications.angularjs.twig' %}
+<section class="main-panel" ui-view ng-show="showContentView && 0 < files.length" ng-class="isMainContentLoading?'loading':''"></section>
+<section class="main-panel" ng-show="0 === files.length">
+
+    <div class="well" style="max-width:370px;margin:50px auto">
+        <p>{{ 'security.no.access.to.any.folder'|trans }}</p>
+    </div>
+
+</section>

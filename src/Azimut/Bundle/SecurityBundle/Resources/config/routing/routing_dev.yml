@@ -1,0 +1,50 @@
+# @author: Gerda Le Duc <gerda.leduc@azimut.net>
+# date:   2014-05-27 10:30:04
+
+azimut_security_dev_index:
+    path: /
+    defaults: { _controller: AzimutSecurityBundle:Dev:index }
+
+azimut_security_dev_form_access_right_class:
+    path: /form_access_right_class
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRightClass }
+
+azimut_security_dev_form_access_role:
+    path: /form_access_role
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRole }
+
+azimut_security_dev_form_access_right_role:
+    path: /form_access_right_role
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRightRole }
+
+azimut_security_dev_form_access_right_app_role:
+    path: /form_access_right_app_role
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRightAppRole }
+
+azimut_security_dev_form_access_right_acl:
+    path: /form_access_right_acl
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRightAcl }
+
+azimut_security_dev_form_access_right_object:
+    path: /form_access_right_object
+    defaults: { _controller: AzimutSecurityBundle:Dev:formAccessRightObject }
+
+azimut_security_dev_form_user_update:
+    path: /form_user_update
+    defaults: { _controller: AzimutSecurityBundle:Dev:formUserUpdate }
+
+azimut_security_dev_link_user_client:
+    path: /user_client_link
+    defaults: { _controller: AzimutSecurityBundle:Dev:userClientLink }
+
+azimut_security_dev_unlink_user_client:
+    path: /user_client_unlink
+    defaults: { _controller: AzimutSecurityBundle:Dev:userClientUnlink }
+
+azimut_security_dev_get_ar_app:
+    path: /access_right_app
+    defaults: { _controller: AzimutSecurityBundle:Dev:getAccessRightApp }
+
+azimut_security_dev_form_user_accessright:
+    path: /form_user_access_right
+    defaults: { _controller: AzimutSecurityBundle:Dev:formUserAccessRight }

@@ -1,0 +1,3 @@
+{% for cmsFile in paginatedCmsFiles %}
+    {% include 'CmsFileLayout/'~cmsFileTemplateName~'.html.twig' with { 'cmsFile': cmsFile, 'pagePath':  pagePath} %}
+{% endfor %}

@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 14:19:20
+#}
+
+<section class="side-panel collapsable-panel collapsed-size-full scrollable-container" id="{{ prefixId }}SidePanel" az-collapsable-panel="{enableStorage: true}" az-resizable-panel="true">
+
+    <div class="scrollable">
+        {% block content %}{% endblock %}
+    </div>
+
+    <a href class="collapsable-border-btn">
+        <span class="caret"></span>
+    </a>
+
+    <div class="resizable-border"></div>
+
+</section>

@@ -1,0 +1,14 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 16:57:54
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'demo.payment'|trans }}</h1>
+
+    <p>WARNING : This is a demo payment provider, you should not use it for production</p>
+
+    {{ paymentServiceResponse|raw }}
+{% endblock %}

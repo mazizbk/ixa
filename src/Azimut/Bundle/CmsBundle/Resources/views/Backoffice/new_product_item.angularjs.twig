@@ -1,0 +1,16 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-18 11:32:10
+#}
+
+{% verbatim %}
+    <div class="text-center">
+        <b>{% endverbatim %}{{ 'new.product.item'|trans|capitalize }}{% verbatim %}</b>
+    </div>
+
+    <section class="body" ng-class="{'scrollable-container': true !== disableBodyScroll}">
+        <div class="margin-block" ng-class="{'scrollable': true !== disableBodyScroll}">
+            <div class="well" ng-include="formProductItemTemplateUrl"></div>
+        </div>
+    </section>
+{% endverbatim %}

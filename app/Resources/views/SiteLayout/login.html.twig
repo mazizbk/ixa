@@ -1,0 +1,22 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@gmail.com>
+# date:    2017-05-04 14:16:26
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    {% block form_login %}
+        {{ error }}
+
+        {{ form_start(form, { 'attr': { 'action': path(loginPath|default('azimut_frontofficesecurity_login')) } } ) }}
+            {{ form_widget(form) }}
+            <div class="form-group">
+                <button type="submit" class="btn-default btn">{{ 'login'|trans }}</button>
+            </div>
+        {{ form_end(form) }}
+    {% endblock %}
+
+    <a href="{{ path('azimut_frontofficesecurity_lost_password') }}">{{ 'lost.password'|trans }}</a><br />
+    {% block register_link %}<a href="{{ path('azimut_frontofficesecurity_register') }}">{{ 'register'|trans }}</a>{% endblock %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-11 16:57:54
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <h1>{{ 'demo.simple.payment'|trans }}</h1>
+
+    <p>WARNING : This is a demo payment provider, you should not use it for production</p>
+    <p>Use number "0001000100010001" to simulate accepted payment</p>
+
+    <p>{{ 'order.number'|trans }} : {{ order.number }}</p>
+    <p>{{ 'amount'|trans }} : {{ order.totalAmount|az_shop_price }}</p>
+
+    {% form_theme form 'SiteLayout/shop_payment_form_template.html.twig' %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="text-center">
+            <input class="btn btn-success" type="submit" value="{{ 'pay.%amount%'|trans({'%amount%': order.totalAmount|az_shop_price}) }}" />
+        </div>
+    {{ form_end(form) }}
+
+{% endblock %}

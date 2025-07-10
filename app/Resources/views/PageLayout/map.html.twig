@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-08-21 16:11:21
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+    <div class="container">
+        {#{{ renderZone(page, 'main', pagePath, {'templateName': 'zone_gmap'}) }}#}
+        {{ render(controller('AzimutFrontofficeBundle:Front:pageZoneCmsFiles', {
+            'pageId': page.id,
+            'zoneName': 'main',
+            'templateName': 'zone_gmap',
+            'pagePath': pagePath
+        })) }}
+    </div>
+{% endblock %}

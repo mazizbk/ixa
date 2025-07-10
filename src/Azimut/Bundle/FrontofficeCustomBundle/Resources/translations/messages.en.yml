@@ -1,0 +1,8 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-07-28 11:55:09
+
+your.name: "your name"
+your.email: "your email"
+your.message: "your message"
+send.message: "send message"
+your.message.has.been.sent: 'your message has been sent'

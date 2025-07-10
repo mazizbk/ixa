@@ -1,0 +1,51 @@
+{% verbatim %}
+
+<div ng-init="state={visible: false, class: appRole.classes[obj.accessRightType].namespace }; class = appRole.classes[obj.accessRightType];" ng-class="{'roleLevel': obj.class!=parentClass }">
+    <div class="roleLine">
+        <div>
+            <div ng-class="obj.class==parentClass && 'nested'+nestLevel">
+                <a href ng-if="obj.childrenSecurityContextObject.length!=0" ng-click="state.visible=!state.visible;loadObjectOfChildrenClass(class.namespace)" >
+                    <div ng-class="{true:'caret', false:'caret caret-vertical'}[state.visible]"></div>
+                    {{ obj.__toString }}
+                </a>
+
+                <span ng-if="obj.childrenSecurityContextObject.length==0" ng-click="state.visible=!state.visible;loadObjectOfChildrenClass(class.namespace)">
+                    {{ obj.__toString }}
+                </span>
+            </div>
+        </div>
+
+        <div ng-repeat="role in class.roles">
+            <div class="checkbox">
+                <input type="checkbox" az-compound-checkboxes="forms.data[form_name].object[obj.accessRightType+obj.id].roles" az-compound-checkboxes-inherited="forms.inheritedData[form_name].object[obj.accessRightType+obj.id].roles.concat(parentsViewInheritedRights[obj.accessRightType+obj.id].roles||[])" az-compound-checkboxes-values="class.roles" ng-value="role.id" /> <!-- {{ Translator.trans(role.role) }} -->
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="state.visible" ng-init="parentClass=obj.class" ng-if="obj.childrenSecurityContextObject.length > 0">
+
+        <div ng-repeat="obj in obj.childrenSecurityContextObject" ng-class="{'indented': obj.class!=parentClass }" ng-init="nestLevel=(obj.class!=parentClass)?0:nestLevel+1" >
+
+            <div ng-if="0==$index && parentClass!=obj.class " class="roleLine roleHeader" ng-init="class = appRole.classes[obj.accessRightType] " >
+                <div></div>
+                <div ng-repeat="role in class.roles" ng-init="">
+                      {{ Translator.trans('roles.'+role.role) }}
+                </div>
+            </div>
+            <div
+                ng-include="'{% endverbatim %}{{ path('azimut_security_backoffice_jsview_access_right_list_children') }}{%
+                verbatim %}'"
+                include-replace
+
+            ></div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{% endverbatim %}

@@ -1,0 +1,134 @@
+{% block _question_valuesDistribution_widget %}
+    <script>
+        $(document).ready(function(){
+            var container = document.getElementById('{{ id }}-distribution-container');
+            var defaultContainer = document.getElementById('{{ id }}-distribution-container-default');
+            var inputs = document.getElementById('{{ id }}').getElementsByTagName('input');
+            var sizes = [];
+            sizes = {{ value|json_encode|raw }};
+            for(var i=0;i<sizes.length;i++) {
+                sizes[i] = parseInt(sizes[i]);
+            }
+
+            var start = Array.from(sizes);
+            start.splice(0, 0, 0); // Add zero at the start
+            start.splice(18, 2); // Remove values between 7 and 10
+            start.splice(14, 3); // Remove values between 3 and 7
+            start.splice(11, 2); // Remove values between 0 and 3
+            start.splice(8, 2); // Remove values between -3 and 0
+            start.splice(4, 3); // Remove values between -7 and -3
+            start.splice(1, 2); // Remove values between -10 and -7
+
+            noUiSlider.create(container, {
+                start: start,
+                margin: 5,
+                connect: (new Array(start.length+1)).fill(true),
+                format: {
+                    to: Math.round,
+                    from: function(a){return a;}
+                },
+                range: {
+                    'min': [  0 ],
+                    'max': [ 1000 ]
+                },
+                tooltips: true
+            });
+
+            var origins = container.getElementsByClassName('noUi-origin');
+            origins[0].setAttribute('disabled', true);
+            origins[origins.length-1].setAttribute('disabled', true);
+
+            container.noUiSlider.on('update', function(values){
+                var finalValues = [0]; // First value is always zero
+                for (var i = 1; i<sizes.length+1; i++) {
+                    var segmentStartValue, segmentEndValue;
+                    var valuesInSegment, positionInSegment;
+                    switch(i) {
+                        case 1:
+                        case 2:
+                        case 3:
+                            segmentStartValue = 0;
+                            segmentEndValue = values[1];
+                            positionInSegment = i;
+                            valuesInSegment = 3;
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                            segmentStartValue = values[1];
+                            segmentEndValue = values[2];
+                            positionInSegment = i-3;
+                            valuesInSegment = 4;
+                            break;
+                        case 8:
+                        case 9:
+                        case 10:
+                            segmentStartValue = values[2];
+                            segmentEndValue = values[3];
+                            positionInSegment = i-7;
+                            valuesInSegment = 3;
+                            break;
+                        case 11:
+                        case 12:
+                        case 13:
+                            segmentStartValue = values[3];
+                            segmentEndValue = values[4];
+                            positionInSegment = i-10;
+                            valuesInSegment = 3;
+                            break;
+                        case 14:
+                        case 15:
+                        case 16:
+                        case 17:
+                            segmentStartValue = values[4];
+                            segmentEndValue = values[5];
+                            positionInSegment = i-13;
+                            valuesInSegment = 4;
+                            break;
+                        case 18:
+                        case 19:
+                        case 20:
+                            segmentStartValue = values[5];
+                            segmentEndValue = values[6];
+                            positionInSegment = i-17;
+                            valuesInSegment = 3;
+                            break;
+                    }
+
+                    finalValues[i] = ((segmentEndValue - segmentStartValue)/valuesInSegment*positionInSegment)+segmentStartValue;
+                }
+
+                if(defaultContainer.noUiSlider) {
+                    defaultContainer.noUiSlider.set(finalValues);
+                }
+                for(var j=0;j<inputs.length;j++) {
+                    inputs[j].value = finalValues[j+1]; // +1 so we skip the first value, which is always 0 and is not stored
+                }
+            });
+
+            // The "default" slider, with all values, not just 0 3 7 10 7 3 0
+
+            start = Array.from(sizes);
+            start.splice(0, 0, 0);
+
+            noUiSlider.create(defaultContainer, {
+                start: start,
+                margin: 5,
+                connect: (new Array(sizes.length+2)).fill(true),
+                format: {
+                    to: Math.round,
+                    from: function(a){return a;}
+                },
+                range: {
+                    'min': [  0 ],
+                    'max': [ 1000 ]
+                }
+            });
+            defaultContainer.style.display = 'none';
+        });
+    </script>
+    <div id="{{ id }}-distribution-container-default" class="distribution-container" disabled="disabled"></div>
+    <div id="{{ id }}-distribution-container" class="distribution-container"></div>
+    {{ block('collection_widget') }}
+{% endblock %}

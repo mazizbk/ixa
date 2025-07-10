@@ -1,0 +1,38 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-06 10:45:19
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+
+        <az-breadcrumb class="left shrink2" breadcrumb="breadcrumb" current-element="menu" open-function="openBreadcrumbElement"></az-breadcrumb>
+
+        <div class="right shrink0">
+
+            <a href ui-sref="backoffice.frontoffice.new_page_in_menu({ menuId: menu.id })"><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span> {% endverbatim %}{{ 'page'|trans|capitalize }}{% verbatim %}</a>
+
+        </div>
+
+    </header>
+{% endverbatim %}
+{# Uncomment this if menu entity has customizable data (ex: title, icon, color, ...)
+    <section class="horizontal-panel collapsable-panel has-labelled-btn scrollable-container grow1 collapsed" az-collapsable-panel>
+        <div class="scrollable">
+            <div class="margin-block">
+                <div ng-include="formMenuTemplateUrl"></div>
+            </div>
+        </div>
+        <a href class="collapsable-border-btn collapsable-border-btn-bottom collapsed">
+            <span><span class="glyphicon glyphicon-cog"></span> {% endverbatim %}{{ 'menu.parameters'|trans|capitalize }}{% verbatim %} <span class="caret"></span></span>
+        </a>
+    </section>
+#}
+{% verbatim %}
+    <section class="body scrollable-container">
+        <div class="scrollable" ng-include="'{% endverbatim %}{{ path('azimut_frontoffice_backoffice_jsview_children_pages_list') }}{% verbatim %}'" ng-init="pagesParent = menu">
+        </div>
+    </section>
+
+{% endverbatim %}

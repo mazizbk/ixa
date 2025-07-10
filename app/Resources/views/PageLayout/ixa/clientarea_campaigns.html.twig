@@ -1,0 +1,47 @@
+{# @var campaign \Azimut\Bundle\MontgolfiereAppBundle\Entity\Campaign #}
+{% extends siteLayout %}
+{% block title %}{{ pageTitle }} - {{ parent() }}{% endblock %}
+{% block bodyContent %}
+    <h1 class="Title Title--1">Vos campagnes</h1>
+
+    <div class="clearfix"></div>
+    {% set _user = app.user %}
+    {# @var _client \Azimut\Bundle\MontgolfiereAppBundle\Entity\Client #}
+    {% set _client = _user.clientContact.client %}
+
+    <div class="Bloc">
+        {% if _client.campaigns|length > 0 %}
+        <table class="Table Table--spaceLines Table--rowsSeparator Table--thLeft Table--verticalCenterLines Table--white">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th class="hideMobile">Date de début</th>
+                <th class="hideMobile">Date de fin</th>
+                <th class="hideMobile">Participation</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for campaign in _client.campaigns|reverse %}
+                <tr>
+                    <td>{{ campaign.name }}</td>
+                    <td class="hideMobile">{{ campaign.startDate?campaign.startDate|localizeddate(timeFormat='none') }}</td>
+                    <td class="hideMobile">{{ campaign.endDate?campaign.endDate|localizeddate(timeFormat='none') }}</td>
+                    <td class="hideMobile">
+                        {% set ratio = (campaign.participationsCount*100/campaign.expectedAnswers)|round %}
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ ratio }}%">{{ ratio }}%</div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{{ path('azimut_frontoffice', {'path': pageSlug(page)~'/campaign/'~campaign.id}) }}" class="Btn Btn--small">Détail</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            Aucune campagne à afficher
+        {% endif %}
+    </div>
+{% endblock %}

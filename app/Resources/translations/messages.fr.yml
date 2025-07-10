@@ -1,0 +1,120 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-03 11:02:48
+
+yes: "oui"
+no: "non"
+
+type: "type"
+language: "langue"
+
+medias: "médias"
+
+longitude: "longitude"
+latitude: "latitude"
+
+address: "Adresse"
+addresses: "Adresses"
+postal.code: "Code postal"
+city: "Ville"
+country: "Pays"
+
+submit: "soumettre"
+cancel: "annuler"
+
+member.area: "espace membre"
+private.area: "espace privé"
+hello.%name%: "Bonjour %name%"
+welcome.to.member.area: "Bienvenue sur l'espace membre"
+welcome.to.private.area: "Bienvenue sur l'espace privé"
+
+the.page.cannot.be.found: "page introuvable"
+go.to.home.page: "Aller à la page d'accueil"
+error: "erreur"
+error.occured.sorry.for.inconvenience: "Désolé, une erreur s'est produite, nous ne pouvons afficher la page que vous recherchez."
+
+page.up: 'Retour'
+previous: 'précédent'
+next: 'suivant'
+go.back.to: 'revenir à'
+read.the.story: "lire l'histoire"
+
+# Frontoffice page zone names
+zone_names:
+    intro: 'intro'
+    products: 'produits'
+    news: 'actualités'
+    center: 'centre'
+    left: 'gauche'
+    right: 'droite'
+    form.fixed: 'formulaire (fixe)'
+    content: 'contenu'
+    diaporama: 'diaporama'
+    header: 'entête'
+    map: 'carte'
+    title: 'titre'
+
+# used by paginator
+Next: 'Suivant'
+Previous: 'Précédent'
+there.are.%nb%.elements: '%nb% éléments'
+
+search: "rechercher"
+your.search.query: "Votre requête"
+results.found: "{0}aucun résultat trouvé|{1}1 résultat trouvé|[2,Inf[%count% résultats trouvés"
+too.many.search.results.found: "un trop grand nombre de résultats a été trouvé"
+displayed.results.have.been.limited.to.%max_results%: "l'affichage des résultats a été limité à %max_results%"
+
+all.news: "Toutes les actualités"
+legal.notice: "Mentions légales"
+subscribe.to.our.newsletter: "S'inscrire à notre newsletter"
+subscribe: "S'inscrire"
+no.archive: "aucune archive disponible"
+
+mentions:
+    editeur: "Éditeur"
+    responsable_de_la_publication: "Responsable de la publication"
+    realisation_et_hebergement: "Réalisation et hébergement"
+
+# NB: "email" should be a translation domain and not a key, change this in the future
+email:
+    hello: 'Bonjour'
+    your.account.at.%domain%: "Votre compte sur %domain%"
+    account.created.for.you.at.%domain%: "Un compte a été créé pour vous sur %domain%"
+    your.login: "Votre identifiant"
+    to.log.in.follow.this.link: "Pour vous connecter, suivez ce lien"
+    log.in: "se connecter"
+    if.you.dont.know.password.use.lost.password: "Si une personne a créé un compte pour vous et que vous ne connaissez pas le mot de passe, utilisez la fonction \"mot de passe perdu\" pour en définir un nouveau"
+    lost.password: "mot de passe perdu"
+    password.reset.requested.for.your.account.at.%domain%: "Une réinitialisation de mot de passe a été demandée pour votre compte sur le site %domain%"
+    to.set.new.password.follow.this.link: "Pour définir un nouveau mot de passe, suivez ce lien"
+    reset.password: "réinitialiser le mot de passe"
+    reset.password.at.%domain%: "réinitialiser le mot de passe sur %domain%"
+    your.account.will.be.activated.after.validation: "Votre compte sera activé dès qu'un administrateur l'aura validé"
+    your.account.at.%domain%.has.been.activated: "Votre compte chez %domain% a été activé"
+    confirm.email.address: "Confirmation adresse email"
+    confirm.email.address.for.%domain%: "Confirmation adresse email pour %domain%"
+    click.on.following.link.to.confirm.your.email.address: "Cliquez sur le lien suivant pour confirmer votre adresse email"
+
+    shop:
+        your.order.at.%domain%: "Votre commande sur %domain%"
+        new.order.at.%domain%: "Nouvelle commande sur %domain%"
+        order.cancellation.%domain%: "Annulation de commande sur %domain%"
+        thank.you: "Merci"
+        your.order.has.been.registered: "Votre commande a été enregistrée"
+        order.number: "Numéro de commande"
+        total.amount: "Montant total"
+        a.new.order.has.been.placed: "Une nouvelle commande a été passée"
+        your.order.has.been.cancelled: "Votre commande a été annulée"
+
+    contact:
+        subject: "Contact depuis le site %siteName%"
+        name: "Nom"
+        email: "Email"
+        message: "Message"
+
+
+# Frontoffice user roles
+"ROLE_FRONT_MEMBER": "Membre"
+"ROLE_FRONT_VISITOR": "Visiteur"
+"ROLE_FRONT_USER": "Client"
+"ROLE_FRONT_CONSULTANT": "Consultant"

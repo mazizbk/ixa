@@ -1,0 +1,35 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:   2014-08-01
+ */
+
+namespace Azimut\Bundle\MediacenterBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+use JMS\Serializer\Annotation\Groups;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="mediacenter_media_declination_%media_type_lowercase%_translation")
+ *
+ * @DynamicInheritanceSubClass(discriminatorValue="%media_type_lowercase%")
+ */
+class MediaDeclination%media_type_capitalize%Translation extends MediaDeclinationTranslation
+{
+    /**
+     * @ORM\Column(type="string", length=150)
+     * @Groups({"detail_media"})
+     */
+    protected $myTranslatedDeclinationField;
+
+    public function getMyTranslatedDeclinationField() {
+        return $this->myTranslatedDeclinationField;
+    }
+
+    public function setMyTranslatedDeclinationField($myTranslatedDeclinationField) {
+        $this->myTranslatedDeclinationField = $myTranslatedDeclinationField;
+        return $this;
+    }
+}

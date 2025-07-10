@@ -1,0 +1,18 @@
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.restitution.read.header'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_index') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.settings.back_to_settings"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="scrollable">
+        <div{% if noMargin is not defined or not noMargin %} class="margin-block"{% endif %}>
+            {% block readBody %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

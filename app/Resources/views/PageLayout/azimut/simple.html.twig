@@ -1,0 +1,29 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-10-18 13:46:06
+#}
+
+{% extends siteLayout %}
+
+{% block body %}
+
+    {% block headerContent %}
+        {% if page is defined %}
+            <div class="container">
+                <header>
+                    <h1>{{ page.pageTitle }}</h1>
+                    {% if page.pageSubtitle %}<h2>{{ page.pageSubtitle }}</h2>{% endif %}
+                </header>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block zoneContent %}
+        {% include 'PageLayout/page_submenu.html.twig' with { 'forceShowPages': true }%}
+
+        <div class="container">
+            {{ renderZone(page, 'content', pagePath, {cmsFileTemplateName: 'cms_file_detail'}) }}
+        </div>
+    {% endblock zoneContent %}
+    
+{% endblock %}

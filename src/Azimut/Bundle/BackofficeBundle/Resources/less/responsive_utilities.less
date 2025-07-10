@@ -1,0 +1,98 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+// responsive utilities extended
+
+.responsive-visibility(@media) {
+    &-block {
+        @media (@media) {
+            display: block !important;
+        }
+    }
+    &-inline {
+        @media (@media) {
+            display: block !important;
+        }
+    }
+    &-inline-block {
+        @media (@media) {
+            display: inline-block !important;
+        }
+    }
+}
+.visible-xs-max-block,
+.visible-xs-max-inline,
+.visible-xs-max-inline-block,
+.visible-sm-max-block,
+.visible-sm-max-inline,
+.visible-sm-max-inline-block,
+.visible-md-max-block,
+.visible-md-max-inline,
+.visible-md-max-inline-block,
+.visible-sm-min-block,
+.visible-sm-min-inline,
+.visible-sm-min-inline-block,
+.visible-md-min-block,
+.visible-md-min-inline,
+.visible-md-min-inline-block,
+.visible-lg-min-block,
+.visible-lg-min-inline,
+.visible-lg-min-inline-block {
+    display: none !important;
+}
+.visible-xs-max {
+    .responsive-visibility(~"max-width: @{screen-xs-max}");
+}
+.visible-sm-max {
+    .responsive-visibility(~"max-width: @{screen-sm-max}");
+}
+.visible-md-max {
+    .responsive-visibility(~"max-width: @{screen-md-max}");
+}
+.visible-sm-min {
+    .responsive-visibility(~"min-width: @{screen-sm-min}");
+}
+.visible-md-min {
+    .responsive-visibility(~"min-width: @{screen-md-min}");
+}
+.visible-lg-min {
+    .responsive-visibility(~"min-width: @{screen-lg-min}");
+}
+
+.hidden-xxs-max {
+    @media (max-width: @screen-xxs-max) {
+        .responsive-invisibility();
+    }
+}
+.hidden-xs-max {
+    @media (max-width: @screen-xs-max) {
+        .responsive-invisibility();
+    }
+}
+.hidden-sm-max {
+    @media (max-width: @screen-sm-max) {
+        .responsive-invisibility();
+    }
+}
+.hidden-md-max {
+    @media (max-width: @screen-md-max) {
+        .responsive-invisibility();
+    }
+}
+.hidden-sm-min {
+    @media (min-width: @screen-sm-min) {
+        .responsive-invisibility();
+    }
+}
+.hidden-md-min {
+    @media (min-width: @screen-md-min) {
+        .responsive-invisibility();
+    }
+}
+.hidden-lg-min {
+    @media (min-width: @screen-lg-min) {
+        .responsive-invisibility();
+    }
+}

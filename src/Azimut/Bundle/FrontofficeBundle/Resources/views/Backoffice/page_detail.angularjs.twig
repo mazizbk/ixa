@@ -1,0 +1,40 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-06 10:46:07
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+        <az-breadcrumb class="left shrink2" breadcrumb="breadcrumb" current-element="page" open-function="openBreadcrumbElement"></az-breadcrumb>
+
+        <div class="right shrink0">
+            <a href ui-sref="backoffice.frontoffice.new_page_in_page({ pageId: page.id })"><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span> {% endverbatim %}{{ 'page'|trans|capitalize }}{% verbatim %}</a>
+
+            <a href ng-click="deletePage(page)" az-confirm-click="Translator.trans('page.%name%.confirm.permanent.delete', {name: page.name})"><span class="glyphicon glyphicon-trash"></span></a>
+        </div>
+    </header>
+
+    <header class="header-bar header-bar-tabs" ng-if="'content' == page.pageType">
+        <ul class="nav nav-tabs" ng-if="'content' == page.pageType">
+            <li ng-class="{'active': state.is('backoffice.frontoffice.page_detail.parameters')}">
+                <a href ng-click="openPageParameters(page)"><span class="glyphicon glyphicon-cog"></span> {% endverbatim %}{{ 'page.parameters'|trans|capitalize }}{% verbatim %}</a>
+            </li>
+            <li ng-class="{'active': state.is('backoffice.frontoffice.page_detail.zones') || state.is('backoffice.frontoffice.page_detail.monozone') || state.is('backoffice.frontoffice.page_detail.freecontent')}">
+                <a href ng-click="openPageContent(page)"><span class="glyphicon glyphicon-file"></span> {% endverbatim %}{{ 'page.content'|trans|capitalize }}{% verbatim %}</a>
+            </li>
+        </ul>
+    </header>
+
+    <section class="body scrollable-container">
+        <div ui-view class="scrollable">
+        </div>
+    </section>
+
+    <footer class="footer-bar footer-bar-sm">
+        <div class="right">
+            <a href ng-click="openPagePreview(page)" ng-if="'placeholder' != page.pageType && 'link' != page.pageType"><span class="glyphicon glyphicon-eye-open"></span> {% endverbatim %}{{ 'page.preview'|trans|capitalize }}{% verbatim %}</a>
+        </div>
+    </footer>
+
+{% endverbatim %}

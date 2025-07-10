@@ -1,0 +1,44 @@
+{% extends ':SiteLayout/ixa:consultant_area.html.twig' %}
+{% block title %}{{ pageTitle }} - {{ parent() }}{% endblock %}
+{% block body %}
+    <h1 class="Title Title--1">Campagnes à suivre</h1>
+
+    <div class="clearfix"></div>
+    {% set _user = app.user %}
+
+    <div class="Bloc">
+        {% if _user.campaigns|length > 0 %}
+            <table class="Table Table--spaceLines Table--rowsSeparator Table--thLeft Table--verticalCenterLines Table--white">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th class="hideMobile">Date de début</th>
+                    <th class="hideMobile">Date de fin</th>
+                    <th class="hideMobile">Participation</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for campaign in _user.campaigns|reverse %}
+                    <tr>
+                        <td>{{ campaign.name }}</td>
+                        <td class="hideMobile">{{ campaign.startDate?campaign.startDate|localizeddate(timeFormat='none') }}</td>
+                        <td class="hideMobile">{{ campaign.endDate?campaign.endDate|localizeddate(timeFormat='none') }}</td>
+                        <td class="hideMobile">
+                            {% set ratio = campaign.expectedAnswers ? (campaign.participationsCount*100/campaign.expectedAnswers)|round : 0 %}
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ ratio }}%">{{ ratio }}%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ path('azimut_frontoffice', {'path': pageSlug(page)~'/campaign/'~campaign.id}) }}" class="Btn Btn--small">Détail</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            Aucune campagne à afficher
+        {% endif %}
+    </div>
+{% endblock %}

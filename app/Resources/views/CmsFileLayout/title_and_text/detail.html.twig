@@ -1,0 +1,3 @@
+{% set titleTag = "h"~(options.titleLevel??"1") %}
+<{{ titleTag }}>{{ cmsFile.title }}</{{ titleTag }}>
+<p>{{ cmsFile.text }}</p>

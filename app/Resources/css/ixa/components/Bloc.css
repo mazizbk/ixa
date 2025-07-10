@@ -1,0 +1,12 @@
+.Bloc{
+    background:var(--light-grey);
+    padding:1em;
+    margin-bottom:1em;
+}
+.Bloc-content{
+    margin-left:0.8em;
+}
+.Bloc-footer{
+    padding:1em 0;
+    text-align: right;
+}

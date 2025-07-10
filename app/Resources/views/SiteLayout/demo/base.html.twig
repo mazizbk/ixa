@@ -1,0 +1,121 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-02-10 15:13:59
+#}
+
+{% extends 'SiteLayout/base.html.twig' %}
+
+{# Define site's logo path (will be included as json-ld data) #}
+{% set siteLogoPath = asset('bundles/azimutbackoffice/img/logo-azimut.png') %}
+
+{% block title %}{{ pageTitle|capitalize }}{% endblock %}
+
+{% block meta %}{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='less,cssrewrite,assetdirectory' package='build' output='layout/css/main.css'
+        '../app/Resources/less/original-bootstrap.less'
+        '../vendor/azimut/system-assets/azimut/twitter-bootstrap-glyphicons-pro/bootstrap-glyphicons-pro.css'
+        '../vendor/azimut/system-assets/ylc/ylcJsMap/ylcJsMap.css'
+        '../app/Resources/less/commun.less'
+        '../app/Resources/less/shop.less'
+        '../app/Resources/less/demo/base.less'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block head_javascripts %}
+    {% javascripts package='build' output='layout/js/main.js'
+        '../vendor/azimut/system-assets/jquery/jquery.min.js'
+        '../vendor/azimut/system-assets/twitter/bootstrap/dist/js/bootstrap.min.js'
+        '../app/Resources/js/bugfixes.js'
+        '../vendor/azimut/system-assets/ylc/ylcJsMap/ylcJsMap.min.js'
+        '@AzimutShopBundle/Resources/js/basket.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block htmlBody %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">{{ site.title }}</a>
+            </div>
+
+            {{ knp_menu_render(siteMenu(site, 'main'), {
+                'currentClass': 'active',
+                'template': 'AzimutBackofficeBundle::knp_menu.html.twig',
+                'rootClass': 'nav navbar-nav'
+            }) }}
+
+            <div class="navbar-right navbar-text">
+                {% include 'SiteLayout/user_info.html.twig' %}
+            </div>
+
+            {% if site.hasShop %}
+                <div class="navbar-right navbar-text">
+                    {% include 'SiteLayout/basket_header.html.twig' %}
+                </div>
+            {% endif %}
+
+            <div class="navbar-right navbar-text">
+                {% include 'SiteLayout/locale_switcher.html.twig' %}
+            </div>
+
+            <div class="navbar-right">
+                {% include 'SiteLayout/search_box.html.twig' %}
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Hello Azimut System!</h1>
+            <p>This is a demo website built with Azimut System.</p>
+        </div>
+    </div>
+
+    {% include 'SiteLayout/breadcrumb.html.twig' with { class: 'breadcrumb' } %}
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+
+
+    <div class="well">
+        {{ 'subscribe.to.our.newsletter'|trans }} :
+        {{ renderAzimailingSubscriptionForm('demo') }}
+    </div>
+
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            {{ knp_menu_render(siteMenu(site, 'menu_2'), {
+                'currentClass': 'active',
+                'template': 'AzimutBackofficeBundle::knp_menu.html.twig',
+                'rootClass': 'nav navbar-nav'
+            }) }}
+        </div>
+        <div class="container navbar-text">
+            <div itemscope itemtype="http://schema.org/Organization">
+                <div itemprop="name">{{ site.publisherName }}</div>
+                <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                    <span itemprop="streetAddress">5 rue de Bretagne</span>&nbsp;<span itemprop="postalCode">56260</span>&nbsp;<span itemprop="addressLocality">Larmor-Plage</span>
+                </div>
+                <a href="tel:02 97 88 26 26"><span itemprop="telephone">02 97 88 26 26</span></a> - <a href="mailto:azimut@azimut.net"><span itemprop="email">azimut@azimut.net</span></a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,47 @@
+<?php
+/**
+ * @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+ * date:    2016-08-30 17:10:33
+ */
+
+namespace Azimut\Bundle\CmsBundle\Entity;
+
+use Azimut\Bundle\DoctrineExtraBundle\Configuration\DynamicInheritanceSubClass;
+use Azimut\Bundle\SecurityBundle\Entity\AccessRight;
+use Doctrine\ORM\Mapping as ORM;
+use Azimut\Bundle\CmsBundle\Entity\Traits\AccessRightCmsFileTrait;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cms_access_right_cmsfile%cms_file_type_lowercase%")
+ * @DynamicInheritanceSubClass(discriminatorValue="cmsfile%cms_file_type_lowercase%")
+ */
+class AccessRightCmsFile%cms_file_type_capitalize% extends AccessRight
+{
+    use AccessRightCmsFileTrait;
+
+    /**
+     * @var CmsFile%cms_file_type_capitalize%
+     * @ORM\ManyToOne(targetEntity="Azimut\Bundle\CmsBundle\Entity\CmsFile%cms_file_type_capitalize%", inversedBy="accessRights")
+     * @ORM\JoinColumn(name="cmsfile%cms_file_type_lowercase%_id", referencedColumnName="id", onDelete="cascade")
+     */
+    protected $cmsfile%cms_file_type_lowercase%;
+
+    public static function getObjectClass()
+    {
+        return 'Azimut\Bundle\CmsBundle\Entity\CmsFile%cms_file_type_capitalize%';
+    }
+
+    public function getObject()
+    {
+        return $this->cmsfile%cms_file_type_lowercase%;
+    }
+
+    public function setObject(CmsFile $object)
+    {
+        $this->cmsfile%cms_file_type_lowercase% = $object;
+        $object->addAccessRight($this);
+
+        return $this;
+    }
+}

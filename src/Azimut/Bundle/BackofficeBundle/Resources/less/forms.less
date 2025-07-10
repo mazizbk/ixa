@@ -1,0 +1,163 @@
+// --------------------------------------------------
+// @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+// date:   2014-12-16 14:40:53
+// --------------------------------------------------
+
+.form-group textarea {
+    .resizable(vertical);
+}
+
+label {
+    + .help-block {
+        float: right;
+        font-size: @font-size-small;
+    }
+}
+
+.form-preview-img {
+    margin: -10px 10px;
+    height: 40px;
+}
+
+.dropdown-menu-form {
+    padding-left: 15px;
+    padding-right: 15px;
+    .form-group {
+        margin: 15px 0;
+    }
+}
+
+.datetime-form-widget, .date-form-widget {
+    .form-control {
+        width: auto;
+        display: inline;
+    }
+}
+
+.input-group-btn .glyphicon, .input-group-addon .glyphicon {
+    color: @az-main-color;
+}
+
+// custom form validation (azSubmit AngularJS directive)
+form[az-submit] {
+    &.ng-dirty.ng-submitted .ng-dirty.ng-invalid .well {
+        border: 1px solid @az-form-error-color;
+        background: #ffe5e5;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 0, .6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 0, .6);
+    }
+    &.ng-dirty.ng-submitted input.ng-invalid, &.ng-dirty textarea.ng-invalid, &.ng-dirty select.ng-invalid {
+        border: 1px solid @az-form-error-color;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 0, .6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 0, 0, .6);
+    }
+    .form-help-error {
+        color: @az-form-error-color;
+    }
+    .form-group {
+        position: relative;
+    }
+    .popover-static {
+        display: block;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+    }
+    &.bottom {
+        margin-top: 5px;
+    }
+}
+
+form[az-confirm-dirty-data-state-change] .ng-dirty {
+    color: #0066ff;
+}
+
+// directive used by widgets
+div[az-form-entity-js] img {
+    float: left;
+    margin-right: 20px;
+}
+
+
+.checkbox {
+    margin-top: 0;
+
+    // move padding from label to checkbox
+    // (modified to comply to third-state checkboxes in AzCompoundCheckboxes directive)
+    padding-left: 20px;
+    label {
+        padding-left: 0;
+    }
+}
+
+// simulate form readonly with css (for now "inert" attribute is not supported in browsers)
+.block-readonly {
+    pointer-events: none;
+
+    input textarea select {
+        background-color: @az-well-bg-color;
+    }
+
+    .form-control {
+        background-color: @az-well-bg-color;
+    }
+
+    .submit-or-cancel {
+        display: none;
+    }
+
+    // hide TinyMCE toolbar
+    .mce-tinymce .mce-toolbar-grp {
+        display: none;
+    }
+}
+
+select:disabled {
+    color: @az-off-color;
+}
+
+// Tiny MCE hack : force hiding statusbar while keeping resize handle
+.mce-statusbar {
+    border: none !important;
+
+    .mce-container-body {
+        height: 0 !important;
+    }
+}
+// Tiny MCE hack : hide "powered by TinyMCE"
+.mce-branding-powered-by {
+    display: none !important;
+}
+
+div[data-prototype] {
+    padding-left: 30px;
+}
+
+.form-remove-btn {
+    float: right;
+    margin: -10px 0 30px 0;
+}
+
+.form-sort-btns {
+    text-align: center;
+    margin: -10px 0 30px 0;
+
+    > a {
+        margin: 0 10px;
+    }
+}
+
+.help-block {
+    font-size: .9em;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.form-group + .help-block {
+    margin-top: -10px;
+}
+
+[data-is-array-key-value] label {
+    display: none;
+}

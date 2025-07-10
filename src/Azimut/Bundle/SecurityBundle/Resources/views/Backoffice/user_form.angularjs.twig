@@ -1,0 +1,85 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-06-12 11:53:53
+#}
+
+{% form_theme form with [_self, 'AzimutBackofficeBundle::backoffice_form_theme.html.twig'] %}
+
+{{ form_start(form, {'attr': {'az-submit': 'forms.params.user.submitAction()', 'az-submit-params': 'forms.params.user', 'az-confirm-dirty-data-state-change': 'forms.params.user.confirmDirtyDataStateChangeMessage'}}) }}
+
+{% if isnew %}
+
+    {#FIXME This does not follow theme's structure#}
+    {{ form_label(form.username) }}
+    {{ form_widget(form.username, {'attr': {'ng-change': 'findUserByEmail()', 'data-icon-loading': 'findLoading'}}) }}
+    {{ form_errors(form.username) }}
+    <br>
+
+<div class="alert alert-info" ng-if="!findDirty && !findLoading && forms.data.user.username && !forms.errors.user.username && !forms.data.user.firstName">
+    {% verbatim %}{{ Translator.trans('security.newuser.notfound') }}{% endverbatim %}
+</div>
+
+    <div class="form-group" ng-if="!findDirty && !findLoading && forms.data.user.firstName">
+        <label class="col-sm-2 control-label">{{ 'first.name'|trans }}</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">{% verbatim %}{{forms.data.user.firstName}}{% endverbatim %}</p>
+        </div>
+    </div>
+    <div class="form-group" ng-if="!findDirty && !findLoading && forms.data.user.firstName">
+        <label class="col-sm-2 control-label">{{ 'last.name'|trans }}</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">{% verbatim %}{{forms.data.user.lastName}}{% endverbatim %}</p>
+        </div>
+    </div>
+
+{% else %}
+    <div class="alert alert-info">
+        <span ng-if="forms.data.user.firstName && forms.data.user.lastName">
+            {% verbatim %}{{ Translator.trans('security.edituser.notice.%firstname%.%lastname%', {'firstname': forms.data.user.firstName, 'lastname': forms.data.user.lastName}) }}{% endverbatim %}
+            <a href="{{ base_url_login }}" target="_blank">Azimut Login</a>
+
+        </span>
+        <span ng-if="!forms.data.user.firstName || !forms.data.user.lastName">
+            {% verbatim %}
+                {{ Translator.trans('security.edituser.notice.notconfirmed') }}<br />
+                {{ Translator.trans('security.edituser.notice.notconfirmed2') }}<br />
+                {{ Translator.trans('security.edituser.notice.notconfirmed3') }}<a href ng-click="resendEmail()">{{ Translator.trans('security.edituser.notice.resentemail') }}</a>
+            {% endverbatim %}
+        </span>
+    </div>
+    <div class="form-group" ng-if="forms.data.user.firstName">
+        <label class="col-sm-2 control-label">{{ 'first.name'|trans }}</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">{% verbatim %}{{forms.data.user.firstName}}{% endverbatim %}</p>
+        </div>
+    </div>
+    <div class="form-group" ng-if="forms.data.user.lastName">
+        <label class="col-sm-2 control-label">{{ 'last.name'|trans }}</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">{% verbatim %}{{forms.data.user.lastName}}{% endverbatim %}</p>
+        </div>
+    </div>
+    <div class="form-group" ng-if="forms.data.user.username">
+        <label class="col-sm-2 control-label">{{ 'email'|trans }}</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">{% verbatim %}{{forms.data.user.username}}{% endverbatim %}</p>
+        </div>
+    </div>
+    {% do form.username.setRendered %}{#Hide email input#}
+
+{% endif %}
+<div class="clearfix"></div>
+<div class="form-group">
+    {{ form_label(form.groups, null, {"label_attr": {'class': 'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(form.groups) }}
+        {{ form_errors(form.groups) }}
+        {% if not isnew %}
+            <div class="alert alert-info col-lg-6 col-sm-8">{{ 'security.edituser.groups.update'|trans }}</div>
+        {% endif %}
+    </div>
+</div>
+
+
+{{ form_rest(form) }}
+{{ form_end(form) }}

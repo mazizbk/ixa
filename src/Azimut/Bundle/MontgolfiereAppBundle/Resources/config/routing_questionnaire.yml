@@ -1,0 +1,17 @@
+azimut_montgolfiere_questionnaire_index:
+    path: /
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:Questionnaire:index" }
+
+azimut_montgolfiere_questionnaire_email:
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:Questionnaire:sendEmail" }
+    path:   /email
+    methods: POST
+
+azimut_montgolfiere_questionnaire_contact:
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:Questionnaire:contact" }
+    path:   /contact
+    methods: POST
+
+azimut_montgolfiere_questionnaire_theme_image:
+    path: /{theme}
+    defaults: { _controller: "AzimutMontgolfiereAppBundle:Questionnaire:themeImage" }

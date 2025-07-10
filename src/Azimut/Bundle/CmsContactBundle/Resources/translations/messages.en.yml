@@ -1,0 +1,41 @@
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2015-10-30 10:26:35
+
+cms_contact.app.name: "Contacts"
+
+cms_contact.meta.title: "Azimut Contacts"
+
+search.contacts: "search in contacts"
+
+cms_contact.welcome.message: "Select a contact from the side panel"
+
+new.contact: "new contact"
+
+address: "address"
+zip.code: "zip code"
+city: "city"
+country: "country"
+phone: "phone"
+
+contact.%contact_name%.confirm.permanent.delete: 'Are you sure you want to permanently delete contact "%contact_name%"'
+
+notification:
+    error.contact.create: "contact could not be created"
+    success.contact.create: "contact successfully created"
+    error.contact.update: "contact could not be updated"
+    success.contact.update: "contact successfully updated"
+    error.contact.delete: "contact could not be deleted"
+    success.contact.delete: "contact successfully deleted"
+    success.contact.trash: "contact successfully trashed"
+    error.contact.trash: "unable to trash contact"
+    success.contact.untrash: "contact successfully restored"
+    error.contact.untrash: "unable to restore contact"
+    error.contact.%id%.get: "Can't access contact %id%"
+
+roles:
+    VIEW_CONFIDENTIAL: "View confidential data"
+
+cms.file.type.contact: contact
+
+# class names translation (for security bundle)
+cmsfilecontact: "contact"

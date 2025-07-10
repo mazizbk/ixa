@@ -1,0 +1,253 @@
+@import '../../../../../../vendor/azimut/system-assets/twitter/bootstrap/less/variables';
+@import '../../../../Bundle/BackofficeBundle/Resources/less/variables';
+
+@font-face {
+    font-family: "DIN";
+    src: local('DIN-Regular Medium'), local('DIN-Regular'), url("../../../../../../../../web/fonts/din/din-regular.ttf") format("truetype");
+}
+
+.montgolfiereapp {
+    &.overflow {
+        overflow: auto;
+    }
+    form.form-horizontal {
+        margin: 0 15px 0 15px; // Fix form position (remove scrollbars)
+    }
+
+    .root > .body > .main-panel a {
+        &.btn-default {
+            color: @btn-default-color;
+        }
+        &.btn-primary {
+            color: @btn-primary-color;
+        }
+        &.btn-success {
+            color: @btn-success-color;
+        }
+        &.btn-info {
+            color: @btn-info-color;
+        }
+        &.btn-warning {
+            color: @btn-warning-color;
+        }
+        &.btn-danger {
+            color: @btn-danger-color;
+        }
+    }
+
+    .footer-bar {
+        ul.pagination {
+            margin-left: auto;
+            margin-right: auto;
+            > li > span, > li > a {
+                border-radius: 0;
+                padding-top: 3px;
+                padding-bottom: 3px;
+                background: transparent;
+            }
+            > .active > a, .active > span {
+                background-color: @az-main-color;
+            }
+        }
+    }
+
+
+    .root > .body > .main-panel a .glyphicon.danger {
+        color: #d75553;
+    }
+
+    form.form-horizontal {
+        margin: 0;
+        .form-group {
+            margin: 0 !important;
+        }
+    }
+
+    section.horizontal-panel {
+        height: auto !important;
+        .margin-block {
+            padding: 10px;
+        }
+    }
+    section.horizontal-panel form, form.form-force-inline {
+        max-height: 200px;
+        &.form-no-label {
+            .form-group {
+                > input[type=button], > input[type=submit], > button {
+                    margin-top: -5px;
+                }
+            }
+        }
+        .form-group {
+            display: inline-block !important;
+            float: left;
+            top: 0;
+            padding: 10px;
+            width: inherit;
+
+            > input, > select, > div.buttons, > button {
+                margin-top: 25px;
+            }
+            label + input, label + select {
+                margin-top: 0;
+            }
+
+            &.force-block {
+                margin-bottom: 0;
+                margin-top: 20px;
+
+                .form-group {
+                    display: block !important;
+                    float: none;
+                    margin-bottom: 0;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    .checkbox {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+            &.has-feedback {
+                .form-control-feedback {
+                    top: 35px;
+                    right: 10px;
+                }
+            }
+        }
+    }
+
+    .search-engine .nav-tabs .active a{
+        background-color: #f0f0f0;
+    }
+
+    .panel-heading .glyphicon {
+        margin-right: 5px;
+    }
+
+    .table {
+        > thead > tr > th {
+            border-bottom: 2px solid @table-border-color !important;
+            &:last-child {
+                border-right: none;
+            }
+        }
+        > tfoot > tr > th {
+            border-top: 2px solid @table-border-color !important;
+            &:last-child {
+                border-right: none;
+            }
+        }
+        > tbody > tr > td, > tr > th {
+            border-bottom: 1px solid @table-border-color !important;
+            &:last-child {
+                border-right: none;
+            }
+        }
+        &.table-head-sticky {
+            border-collapse: separate;
+            > thead, > thead > tr, > thead > tr > th {
+                position: sticky;
+                top: 0;
+                background: #FFF;
+                z-index: 10;
+            }
+        }
+    }
+    .glyphicon.glyphicon-fw {
+        width: 20px;
+    }
+
+    .form_image_thumb {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .intl-tel-input {
+        display:block;
+    }
+
+    .distribution-container {
+        margin: 20px 0 20px 0;
+    }
+
+    .noUi-origin:nth-child(2) .noUi-handle, .noUi-origin:last-child .noUi-handle {
+        width: 18px;
+    }
+    .noUi-origin:last-child .noUi-handle {
+        width: 18px;
+        right: -1px !important;
+    }
+    .noUi-origin:nth-child(2) .noUi-handle::before,
+    .noUi-origin:nth-child(2) .noUi-handle::after,
+    .noUi-origin:last-child .noUi-handle::before,
+    .noUi-origin:last-child .noUi-handle::after {
+        display: none;
+    }
+
+    .progress-bar-black {
+        background-color: #555;
+        color: #FAFAFA;
+    }
+
+
+    @media (min-width: @screen-lg) {
+        .modal-xlg {
+            width: 90%;
+        }
+    }
+}
+
+#restitutions-grid{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+
+    border: 1px solid #e3e3e3;
+    padding: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.restitution-item{
+    margin: 2%;
+    /*Useful to display 4 box per row*/
+    flex: 1 0 20%;
+}
+
+.restitutions-theme{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    margin-top: 10%;
+}
+
+.restitution-text{
+    margin: 0 10px 10px;
+}
+.restitution-text textarea {
+    resize: none;
+}
+
+.restitution-text-title{
+    font-size: 16px;
+}
+
+.restitution-color-square{
+    border-radius: 5px;
+    margin-bottom: 2px;
+    display: inline-block;
+
+}
+
+.restitution-categorie{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

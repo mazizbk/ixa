@@ -1,0 +1,30 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-22 10:18:26
+#}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cms Dev demos</title>
+
+        {% block stylesheets %}{% endblock %}
+
+        {% block head_javascripts %}
+            {% javascripts
+                '../vendor/azimut/system-assets/jquery/jquery.min.js'
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+
+    </body>
+</html>

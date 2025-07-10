@@ -1,0 +1,10 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-12-13 10:40:40
+#}
+
+<p>Use "0001000100010001" as card number to get a successfull payment</p>
+
+{{ form_start(form, {'action': path('azimut_demo_payment_call_payment')}) }}
+    {{ form_widget(form) }}
+{{ form_end(form) }}

@@ -1,0 +1,113 @@
+{% extends siteLayout %}
+{% block title %}{{ pageTitle }} - {{ parent() }}{% endblock %}
+{% block body %}
+        {{ renderZone(page, 'content', pagePath, {cmsFileTemplateName: 'cms_file_detail', templateOptions: {titleLevel: 2}}) }}
+        <div class="Dashboard">
+            {% set _user = app.user %}
+            {# @var _client \Azimut\Bundle\MontgolfiereAppBundle\Entity\Client #}
+            {% set _client = _user.clientContact.client %}
+            {% if _client.campaigns|length > 0 %}
+            <div>
+                <div class="Bloc">
+                    <h2 class="Title Title--2">Dernières campagnes</h2>
+                    <table class="Table Table--spaceLines Table--rowsSeparator Table--thLeft Table--verticalCenterLines Table--white">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th class="hideMobile">Date de fin</th>
+                            <th class="hideMobile">Participation</th>
+                            <th class="hideMobile"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for campaign in _client.campaigns|reverse|slice(0,2) %}
+                            <tr>
+                                <td>{{ campaign.name }}</td>
+                                <td class="hideMobile">{{ campaign.endDate?campaign.endDate|localizeddate(timeFormat='none') }}</td>
+                                <td class="hideMobile">
+                                    {% set ratio = (campaign.participationsCount*100/campaign.expectedAnswers)|round %}
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-{{ campaign.progressColor }}" role="progressbar" style="width: {{ ratio }}%">{{ ratio }}%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ path('azimut_frontoffice', {'path': pageSlug(page)~'/campaign/'~campaign.id}) }}" class="Btn Btn--small">Détail</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if _client.campaigns|length > 2 %}
+                        <div class="Bloc-footer">
+                            <a href="{{ path('azimut_frontoffice', {'path': pageSlug(page)~'/campaign/'}) }}">Voir toutes les campagnes</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="Grid Grid--2 Grid--xxs-1 Grid--marginBottom">
+                    {% set lastCampaign = _client.campaigns|last %}
+                    {% if lastCampaign.participationsCount >= 5 %}
+                        {% set engagementAverage = lastCampaign.engagementAverage|round(1) %}
+                        <div class="Bloc">
+                            {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {
+                                'title' : 'Indice d\'Engagement moyen',
+                                'subtitle' : 'montgolfiere.frontoffice.private_area.engagment_definition'|trans,
+                                'tooltip' : 'montgolfiere.frontoffice.private_area.engagment_definition_detail'|trans ,
+                                'value': engagementAverage
+                            } only %}
+                        </div>
+                        {% set wellBeingAverage = lastCampaign.wellBeingAverage|round(1) %}
+                        <div class="Bloc">
+                            {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {
+                                'title' : 'Indice de Bien-&Ecirc;tre moyen',
+                                'subtitle' : 'montgolfiere.frontoffice.private_area.wellness_definition'|trans,
+                                'tooltip' : 'montgolfiere.frontoffice.private_area.wellness_definition_detail'|trans,
+                                'value': wellBeingAverage
+                            } only %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="Grid Grid--3 Grid--xxs-1 Grid--marginBottom">
+                    {% set quantifiableQuestions = lastCampaign.additionalQuestions([constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_SATISFACTION_GAUGE')], 'client')|slice(0,3) %}
+                    {% for quantifiableQuestion in quantifiableQuestions %}
+                        {% if quantifiableQuestion.participationCount > 0 %}
+                            {% set answersSum = 0 %}
+                            {% for answerValue,answerCount in quantifiableQuestion.answers  %}
+                                {% set answersSum = answersSum + (answerValue * answerCount) %}
+                            {% endfor %}
+                            {% set quantifiablebValue = (answersSum / quantifiableQuestion.participationCount)|round(1) %}
+                            <div class="Bloc">
+                                {% include ':PageLayout/ixa/_partial:cicular_chart.html.twig' with {'title' : quantifiableQuestion.question.question.question, 'value': quantifiablebValue } only %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% set additionalQuestions = lastCampaign.additionalQuestions([
+                constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_UNIQUE'),
+                constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_CHOICES_MULTIPLES'),
+                constant('\\Azimut\\Bundle\\MontgolfiereAppBundle\\Entity\\Question::TYPE_TRUE_FALSE'),
+            ], 'client') %}
+            {% if additionalQuestions|length > 0 %}
+            <div>
+                <div class="Bloc">
+                    <h2 class="Title Title--2">Questions en cours</h2>
+                    <div class="Bloc-content">
+                        {% for additionalQuestion in additionalQuestions|slice(0,3) %}
+                            {% include ':PageLayout/ixa/_partial:additional_question_results.html.twig' with {'additionalQuestion' : additionalQuestion} only %}
+                            <br>
+                        {% endfor %}
+                        {% if additionalQuestions|length > 3 %}
+                            <div class="Bloc-footer">
+                                <a href="{{ path('azimut_frontoffice', {'path': pageSlug(page)~'/campaign/'~campaign.id ~'/additional-questions'}) }}">Voir toutes les questions</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+                <div class="Bloc text-center">Aucune campagne en cours</div>
+            {% endif %}
+        </div>
+        {{ renderZone(page, 'medias', pagePath, {cmsFileTemplateName: 'ixa/clientarea_medias', templateOptions: {titleLevel: 2}}) }}
+{% endblock %}

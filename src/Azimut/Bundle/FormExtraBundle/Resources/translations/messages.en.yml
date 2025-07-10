@@ -1,0 +1,28 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-02-08 17:35:11
+
+tinymce.style_formats:
+    headers: 'Headers'
+    header: 'Header'
+    inline: 'Inline'
+    bold: 'Bold'
+    italic: 'Italic'
+    underline: 'Underline'
+    strikethrough: 'Strikethrough'
+    superscript: 'Superscript'
+    subscript: 'Subscript'
+    code: 'Code'
+    blocks: 'Blocks'
+    paragraph: 'Paragraph'
+    blockquote: 'Blockquote'
+    button: 'Button'
+    media: 'Media'
+    float.left: 'Float left'
+    float.right: 'Float right'
+    no.float: 'No float'
+    clear.float: 'Clear float'
+    clear.formatting: 'Clear formatting'
+
+hint.format:
+    date.picker: 'Date in format dd/mm/yyyy'
+    datetime.picker: 'Date and time in format dd/mm/yyyy hh:mm aa'

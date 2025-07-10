@@ -1,0 +1,39 @@
+{% extends '@AzimutMontgolfiereApp/Backoffice/base.html.twig' %}
+
+{% block header %}
+    <div class="left"><h3>{{ 'montgolfiere.backoffice.settings.tooltips'|trans }}</h3></div>
+    <div class="right">
+        <a href="{{ path('azimut_montgolfiere_app_backoffice_settings_index') }}">
+            <i class="glyphicon glyphicon-arrow-left"></i> {{ "montgolfiere.backoffice.settings.back_to_settings"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well">
+                    <form action="" method="get" class="form-inline">
+                        <div class="form-group">
+                            <label for="locale">{{ 'montgolfiere.backoffice.settings.wbe_texts.locale'|trans }}</label>
+                            <select name="locale" id="locale" class="form-control">
+                                {% for locale in availableLocales %}
+                                    <option value="{{ locale }}"{% if locale == currentLocale %} selected="selected"{% endif %}>{{ ('montgolfiere.backoffice.campaigns.locale.'~locale)|trans }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <input type="submit" value="{{ 'montgolfiere.backoffice.common.submit'|trans }}" class="btn btn-default" />
+                    </form>
+                </div>
+                {% form_theme form "@AzimutFormExtra/form_div_layout.html.twig" "@AzimutMontgolfiereApp/Backoffice/form_style.html.twig" %}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit" class="btn btn-success" value="{{ 'montgolfiere.backoffice.common.save'|trans }}">
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,12 @@
+azimut_montgolfiere_app_client_area_logo:
+    path:     /logo
+    defaults: { _controller: AzimutMontgolfiereAppBundle:ClientArea:logo }
+    methods: GET
+
+azimut_montgolfiere_app__client_area_campaigns_house_data:
+    path:     /{id}/house/data
+    defaults: { _controller: AzimutMontgolfiereAppBundle:ClientArea:data }
+    requirements:
+        id: \d+
+    options:
+        expose: true

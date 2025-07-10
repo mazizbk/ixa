@@ -1,0 +1,74 @@
+# @author: Yoann Le Crom <yoann.lecrom@abstractive.fr>
+# date:    2018-09-14 14:34:46
+
+azimut_shop_basket_index:
+    path: /basket
+    defaults: { _controller: AzimutShopBundle:Basket:index }
+
+azimut_shop_account_login:
+    path: /order/login
+    defaults: { _controller: AzimutShopBundle:Account:login }
+
+azimut_shop_account_register:
+    path: /order/register
+    defaults: { _controller: AzimutShopBundle:Account:register }
+
+azimut_shop_order_addresses:
+    path: /order/addresses
+    defaults: { _controller: AzimutShopBundle:OrderAddresses:chooseAddresses }
+
+azimut_shop_delivery:
+    path: /order/delivery
+    defaults: { _controller: AzimutShopBundle:Delivery:chooseDelivery }
+
+azimut_shop_delivery_demo_relay_package:
+    path: /order/delivery/choose_relay
+    defaults: { _controller: AzimutShopBundle:DeliveryDemoRelayPackage:chooseRelay }
+
+azimut_shop_summary:
+    path: /order/summary
+    defaults: { _controller: AzimutShopBundle:Summary:summary }
+
+azimut_shop_payment:
+    path: /order/payment
+    defaults: { _controller: AzimutShopBundle:Payment:choosePayment }
+
+azimut_shop_payment_simple_demo:
+    path: /order/payment/simple_demo
+    defaults: { _controller: AzimutShopBundle:PaymentDemoSimple:index }
+
+azimut_shop_payment_demo:
+    path: /order/payment/demo
+    defaults: { _controller: AzimutShopBundle:PaymentDemo:checkout }
+
+azimut_shop_payment_demo_complete:
+    path: /order/payment/demo/complete
+    defaults: { _controller: AzimutShopBundle:PaymentDemo:complete }
+
+azimut_shop_payment_demo_cancel:
+    path: /order/payment/demo/cancel
+    defaults: { _controller: AzimutShopBundle:PaymentDemo:cancel }
+
+azimut_shop_payment_demo_notification:
+    path: /order/payment/demo/notification
+    defaults: { _controller: AzimutShopBundle:PaymentDemo:notification }
+
+azimut_shop_payment_check:
+    path: /order/payment/check/{orderNumber}
+    defaults: { _controller: AzimutShopBundle:PaymentCheck:index }
+
+azimut_shop_payment_confirmed:
+    path: /order/payment/confirmed/{orderNumber}
+    defaults: { _controller: AzimutShopBundle:Payment:paymentConfirmed }
+
+azimut_shop_payment_refused:
+    path: /order/payment/refused/{orderNumber}
+    defaults: { _controller: AzimutShopBundle:Payment:paymentRefused }
+
+azimut_shop_user_order_index:
+    path: /my_orders
+    defaults: { _controller: AzimutShopBundle:UserOrder:index }
+
+azimut_shop_user_order_show:
+    path: /my_orders/{orderNumber}
+    defaults: { _controller: AzimutShopBundle:UserOrder:show }

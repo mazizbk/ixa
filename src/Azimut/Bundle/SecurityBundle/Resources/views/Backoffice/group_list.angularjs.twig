@@ -1,0 +1,66 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:   2014-01-10 17:30:10
+#}
+
+{% verbatim %}
+
+    <header class="header-bar">
+
+        <div class="left">
+            <div class="form-inline">
+                <input type="search" class="form-control" ng-model="searchKeywords" placeholder="{% endverbatim %}{{ 'search.groups'|trans|capitalize }}{% verbatim %}" />
+            </div>
+        </div>
+
+        <div class="right">
+            <a href ui-sref="backoffice.security.new_group"><span class="glyphicon  glyphicon-pro glyphicon-pro-group"></span><span class="glyphicon glyphicon-add glyphicon-plus-sign"></span>{% endverbatim %} {{ 'group'|transchoice(1)|capitalize }}{% verbatim %}</a>
+        </div>
+
+    </header>
+
+    <section class="body scrollable-container">
+        <div class="scrollable">
+
+            <div class="table-responsive" ng-if="groups.length > 0">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="icon-column"></th>
+                            <th az-data-sort-link="groupsSortDefinitionBuilder" az-data-sort-link-property="name">{% endverbatim %}{{ 'name'|trans|capitalize }}{% verbatim %}</th>
+                            <th class="icon-column"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            ng-repeat="group in groups | filter: { $:searchKeywords}| orderBy: natural(groupsSortDefinitionBuilder.property):groupsSortDefinitionBuilder.reverse"
+                        >
+                            <td class="icon-column">
+                                <span class="glyphicon glyphicon-pro glyphicon-pro-group"></span>
+                            </td>
+                            <td>
+                                <a href ng-click="openGroup(group)">{{ group.name|capitalize }}</a>
+                            </td>
+                            <td class="icon-column">
+                                <a href ng-click="openGroup(group)"><span class="glyphicon glyphicon-pro glyphicon-pro-pencil"></span></a>
+
+                                <a href ng-click="deleteGroup(group)" az-confirm-click="Translator.trans('group.%name%.confirm.permanent.delete', { name: group.name })"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p class="data-not-found-message" ng-if="0 == groups.length"><span class="glyphicon glyphicon-info-sign"></span> {% endverbatim %}{{ 'no.group.found'|trans|capitalize }}{% verbatim %}</p>
+
+        </div>
+    </section>
+
+    <footer class="footer-bar footer-bar-sm">
+        <div class="right">
+            <az-data-sort-menu ng-model="groupsSortDefinitionBuilder"></az-data-sort-menu>
+        </div>
+    </footer>
+{% endverbatim %}

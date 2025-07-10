@@ -1,0 +1,18 @@
+{#
+# @author: Yoann Le Crom <yoann.lecrom@azimut.net>
+# date:    2016-09-20 15:14:23
+#}
+
+{% if page.childrenPages|length > 0 %}
+	{# Set forceShowPages flag to true if you want to display pages that aren't displayed in default menus #}
+	{% if forceShowPages is not defined %}
+		{% set forceShowPages = false %}
+	{% endif %}
+    <div class="navbar navbar-default" role="navigation">
+        {{ knp_menu_render(submenu(page, { 'forceShowPages': forceShowPages }), {
+            'currentClass': 'active',
+            'template': 'AzimutBackofficeBundle::knp_menu.html.twig',
+            'rootClass': 'nav navbar-nav'
+        }) }}
+    </div>
+{% endif %}
