@@ -405,19 +405,6 @@ class QuestionnaireController extends AbstractController
         $this->mailer->send($message);
         $participation->setWBEAlertSent(true);
 
-        if ($participation->getEmailAddress() && !$participation->isContactRequested()) {
-            $refusal = (new \Swift_Message())
-                ->setSubject($this->translator->trans('montgolfiere.emails.contact_refusal.subject'))
-                ->setTo($participation->getEmailAddress())
-                ->setFrom($this->sender, $this->fromName)
-                ->setSender($this->sender)
-                ->setReplyTo($this->replyTo);
-            $refusal
-                ->setBody($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.txt.twig', ['campaign' => $participation->getCampaign()]), 'text/plain')
-                ->addPart($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.html.twig', ['campaign' => $participation->getCampaign()]), 'text/html');
-
-            $this->mailer->send($refusal);
-        }
 
         $this->getDoctrine()->getManager()->flush();
     }
@@ -534,6 +521,35 @@ class QuestionnaireController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
 
         return new Response(null, 204);
+    }
+
+    public function refuseContactAction(Campaign $campaign): Response
+    {
+        $participation = $this->getParticipation($campaign, true);
+        if (!$participation) {
+            return new Response('', Response::HTTP_BAD_REQUEST);
+        }
+
+        $participation->setContactRefused(true);
+
+        if ($participation->getEmailAddress()) {
+            $refusal = (new \Swift_Message())
+                ->setSubject($this->translator->trans('montgolfiere.emails.contact_refusal.subject', [], 'messages'))
+                ->setTo($participation->getEmailAddress())
+                ->setFrom($this->sender, $this->fromName)
+                ->setSender($this->sender)
+                ->setReplyTo($this->replyTo);
+
+            $refusal
+                ->setBody($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.txt.twig', ['campaign' => $campaign]), 'text/plain')
+                ->addPart($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.html.twig', ['campaign' => $campaign]), 'text/html');
+
+            $this->mailer->send($refusal);
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function themeImageAction(Theme $theme, UploadSubscriber $uploadSubscriber): Response

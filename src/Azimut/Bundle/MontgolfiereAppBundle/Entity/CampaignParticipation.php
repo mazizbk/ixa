@@ -261,6 +261,13 @@ class CampaignParticipation
     private $contactRequested = false;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $contactRefused = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -752,6 +759,18 @@ class CampaignParticipation
     public function setContactRequested(bool $contactRequested): self
     {
         $this->contactRequested = $contactRequested;
+
+        return $this;
+    }
+
+    public function isContactRefused(): bool
+    {
+        return $this->contactRefused;
+    }
+
+    public function setContactRefused(bool $contactRefused): self
+    {
+        $this->contactRefused = $contactRefused;
 
         return $this;
     }
