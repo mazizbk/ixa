@@ -254,6 +254,13 @@ class CampaignParticipation
     private $WBEAlertSent = false;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $contactRequested = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -733,6 +740,18 @@ class CampaignParticipation
     public function setWBEAlertSent(bool $WBEAlertSent): self
     {
         $this->WBEAlertSent = $WBEAlertSent;
+
+        return $this;
+    }
+
+    public function isContactRequested(): bool
+    {
+        return $this->contactRequested;
+    }
+
+    public function setContactRequested(bool $contactRequested): self
+    {
+        $this->contactRequested = $contactRequested;
 
         return $this;
     }

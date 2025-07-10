@@ -1,0 +1,20 @@
+{% extends '@AzimutMontgolfiereApp/Email/base.html.twig' %}
+{% block bodyContainer %}
+    <tr>
+        <td class="email-body" width="100%" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="600" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                    <td class="content-cell" align="left">
+                        <div class="f-fallback">
+                            <p>{{ 'montgolfiere.emails.contact_confirmation.intro'|trans({'%employer%': campaign.name}) }}</p>
+                            <p>{{ 'montgolfiere.emails.contact_confirmation.line2'|trans }}</p>
+                            <p>{{ 'montgolfiere.emails.contact_confirmation.line3'|trans }}</p>
+                            <p>{{ 'montgolfiere.emails.contact_confirmation.closing'|trans }}</p>
+                            <p>Bien cordialement,<br />Edith<br />Psychologue du travail – Cabinet Workcare</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+{% endblock %}
