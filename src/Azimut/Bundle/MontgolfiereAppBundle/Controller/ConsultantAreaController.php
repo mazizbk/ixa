@@ -108,6 +108,8 @@ class ConsultantAreaController extends AbstractController
             return $this->redirectToRoute('azimut_frontoffice', ['path' => 'espace-consultant',]);
         }
 
+        $rpsAlertCount = $this->countRpsAlerts($campaign);
+
         return $this->render(':PageLayout/ixa:consultantarea_campaign.html.twig', [
             'site' => $site,
             'page' => $page,
@@ -116,6 +118,7 @@ class ConsultantAreaController extends AbstractController
             'pageDescription' => $page->getMetaDescription(),
             'pagePath' => $pagePath,
             'campaign' => $campaign,
+            'rpsAlertCount' => $rpsAlertCount,
         ]);
     }
 
@@ -335,6 +338,19 @@ class ConsultantAreaController extends AbstractController
         $this->participationFilterHelper->handleFilterForm($form, $qb, $campaign);
 
         return $qb->getQuery()->getResult();
+    }
+
+    private function countRpsAlerts(Campaign $campaign): int
+    {
+        $repo = $this->getDoctrine()->getRepository(CampaignParticipation::class);
+
+        return (int)$repo->createQueryBuilder('cp')
+            ->select('COUNT(cp.id)')
+            ->where('cp.campaign = :campaign')
+            ->andWhere('cp.rpsAlert = true')
+            ->setParameter('campaign', $campaign)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function generateWordDocumentAction(Campaign $campaign, Request $request)

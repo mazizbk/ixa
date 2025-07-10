@@ -12,6 +12,9 @@
                 </div>
                 <br>
             {% endif %}
+            {% if is_granted('ROLE_FRONT_CONSULTANT_ADVANCED') and rpsAlertCount > 0 %}
+                <div class="alert alert-danger">{{ 'montgolfiere.consultantarea.rps_alert_count'|trans({'%count%': rpsAlertCount}) }}</div>
+            {% endif %}
 
             {% for sortingFactor in campaign.sortingFactors %}
                 {% if sortingFactor.values|length>1 %}
