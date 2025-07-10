@@ -346,7 +346,8 @@ class ConsultantAreaController extends AbstractController
 
         return (int)$repo->createQueryBuilder('cp')
             ->select('COUNT(cp.id)')
-            ->where('cp.campaign = :campaign')
+            ->leftJoin('cp.segment', 's')
+            ->where('s.campaign = :campaign')
             ->andWhere('cp.rpsAlert = true')
             ->setParameter('campaign', $campaign)
             ->getQuery()
