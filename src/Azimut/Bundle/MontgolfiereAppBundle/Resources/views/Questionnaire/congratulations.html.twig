@@ -20,7 +20,7 @@
                         </p>
                         <p>
                             <a href="#" class="btn btn-primary" data-toggle="contact-modal" data-contact-type="low-score" data-contact-finish="changeSection(1, document.querySelector('#scrollable-container'))">{{ 'montgolfiere.questionnaire.results.yes'|trans }}</a>
-                            <a href="#" class="btn btn-primary" data-action="next" data-target="#scrollable-container">{{ 'montgolfiere.questionnaire.results.no'|trans }}</a>
+                            <a href="#" class="btn btn-primary" onclick="refuseContact(); return false;">{{ 'montgolfiere.questionnaire.results.no'|trans }}</a>
                         </p>
                         <p>
                             {{ 'montgolfiere.questionnaire.results.low_score_text3'|trans }}
@@ -111,6 +111,13 @@
             }).always(function() {
                 $(el).removeClass('active').text('{{ 'montgolfiere.questionnaire.results.modals.email.submit'|trans }}');
             });
+        }
+
+        function refuseContact() {
+            $.post('{{ path('azimut_montgolfiere_questionnaire_refuse_contact', {questionnaireToken: campaign.questionnaireToken}) }}')
+                .always(function() {
+                    changeSection(1, document.querySelector('#scrollable-container'));
+                });
         }
     </script>
 {% endblock %}
