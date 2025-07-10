@@ -258,6 +258,13 @@ class CampaignParticipation
      *
      * @ORM\Column(type="boolean", options={"default":false})
      */
+    private $rpsAlert = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
     private $contactRequested = false;
 
     /**
@@ -747,6 +754,18 @@ class CampaignParticipation
     public function setWBEAlertSent(bool $WBEAlertSent): self
     {
         $this->WBEAlertSent = $WBEAlertSent;
+
+        return $this;
+    }
+
+    public function isRpsAlert(): bool
+    {
+        return $this->rpsAlert;
+    }
+
+    public function setRpsAlert(bool $rpsAlert): self
+    {
+        $this->rpsAlert = $rpsAlert;
 
         return $this;
     }

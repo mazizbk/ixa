@@ -412,3 +412,9 @@ montgolfiere:
         footer:
             text1: "Questions? Suggestions?"
             text2: "Glad to hear you"
+    backoffice:
+        campaigns:
+            participations:
+                rps_alert_flag: "RPS alert"
+    consultantarea:
+        rps_alert_count: "%count% RPS alert(s)"

@@ -404,6 +404,7 @@ class QuestionnaireController extends AbstractController
 
         $this->mailer->send($message);
         $participation->setWBEAlertSent(true);
+        $participation->setRpsAlert(true);
 
 
         $this->getDoctrine()->getManager()->flush();

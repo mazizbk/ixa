@@ -308,6 +308,7 @@ montgolfiere:
                 consult_wbe: "Consulter le profil"
                 block_wbe: "Bloquer le profil"
                 ip_address: "Adresse IP"
+                rps_alert_flag: "Alerte RPS"
                 opinions:
                     title: "Avis des participants"
                     flash:
@@ -1023,3 +1024,5 @@ montgolfiere:
         footer:
             text1: "Des questions ? Des suggestions ?"
             text2 : "Nous serions heureux de les entendre"
+    consultantarea:
+        rps_alert_count: "%count% alerte(s) RPS"
