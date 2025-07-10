@@ -404,6 +404,21 @@ class QuestionnaireController extends AbstractController
 
         $this->mailer->send($message);
         $participation->setWBEAlertSent(true);
+
+        if ($participation->getEmailAddress() && !$participation->isContactRequested()) {
+            $refusal = (new \Swift_Message())
+                ->setSubject($this->translator->trans('montgolfiere.emails.contact_refusal.subject'))
+                ->setTo($participation->getEmailAddress())
+                ->setFrom($this->sender, $this->fromName)
+                ->setSender($this->sender)
+                ->setReplyTo($this->replyTo);
+            $refusal
+                ->setBody($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.txt.twig', ['campaign' => $participation->getCampaign()]), 'text/plain')
+                ->addPart($this->renderView('@AzimutMontgolfiereApp/Email/contact_refusal.html.twig', ['campaign' => $participation->getCampaign()]), 'text/html');
+
+            $this->mailer->send($refusal);
+        }
+
         $this->getDoctrine()->getManager()->flush();
     }
 
@@ -500,6 +515,23 @@ class QuestionnaireController extends AbstractController
         ]), 'text/plain');
 
         $this->mailer->send($email);
+
+        if ($emailAddress) {
+            $confirm = (new \Swift_Message())
+                ->setSubject($this->translator->trans('montgolfiere.emails.contact_confirmation.subject'))
+                ->setTo($emailAddress)
+                ->setFrom($this->sender, $this->fromName)
+                ->setSender($this->sender)
+                ->setReplyTo($this->replyTo);
+            $confirm
+                ->setBody($this->renderView('@AzimutMontgolfiereApp/Email/contact_confirmation.txt.twig', ['campaign' => $campaign]), 'text/plain')
+                ->addPart($this->renderView('@AzimutMontgolfiereApp/Email/contact_confirmation.html.twig', ['campaign' => $campaign]), 'text/html');
+
+            $this->mailer->send($confirm);
+        }
+
+        $participation->setContactRequested(true);
+        $this->getDoctrine()->getManager()->flush();
 
         return new Response(null, 204);
     }
