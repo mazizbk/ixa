@@ -17,6 +17,7 @@
                 <select id="subtitleParticipants" class="form-control">
                     <option value="count">Afficher le nombre de participants</option>
                     <option value="ratio">Afficher le pourcentage de participants</option>
+                    <option value="both">Afficher le nombre et le pourcentage de participants</option>
                     <option value="none">Ne pas afficher de participants</option>
                 </select>
             </div>
@@ -942,6 +943,7 @@
                 var subtitles = {
                     count: null,
                     ratio: null,
+                    both: null,
                     none: null
                 };
                 var createSubtitle = function(parts, invisible) {
@@ -962,9 +964,14 @@
                 }
                 subtitles.count = createSubtitle(['Nombre de répondants : '+data.participants, subtitle], false);
                 subtitles.ratio = (data.expectedParticipants && data.participants) ? createSubtitle(['Taux de participation : '+Math.round(data.participants*100/data.expectedParticipants)+'%', subtitle], true) : null;
+                subtitles.both = (data.expectedParticipants && data.participants) ? createSubtitle(['Nombre de répondants : '+data.participants, 'Taux de participation : '+Math.round(data.participants*100/data.expectedParticipants)+'%', subtitle], true) : null;
                 subtitles.none = createSubtitle([subtitle], true);
                 if(!subtitles.ratio) {
                     $('#subtitleParticipants > option[value=ratio]')
+                        .attr('disabled', true)
+                        .css('backgroundColor', '#DEDEDE')
+                    ;
+                    $('#subtitleParticipants > option[value=both]')
                         .attr('disabled', true)
                         .css('backgroundColor', '#DEDEDE')
                     ;
