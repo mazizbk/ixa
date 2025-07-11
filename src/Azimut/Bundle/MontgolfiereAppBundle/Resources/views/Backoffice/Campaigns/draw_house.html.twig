@@ -1,5 +1,5 @@
 {% set showOptions = showOptions|default(false) %}
-{% set showLegend = showLegend|default(true) %}
+{% set showLegend = showLegend|default(false) %}
 {% if campaign is defined and form is defined and participations is defined %}
     {% if data_route is not defined %}
         {% set data_route = 'azimut_montgolfiere_app_backoffice_campaigns_house_data' %}
@@ -15,6 +15,7 @@
                 <br />
                 <label><input type="checkbox" id="alternativeTexts" /> Afficher les textes alternatifs</label><br />
                 <label><input type="checkbox" id="alternativeBlocks" /> Afficher les blocs alternatifs</label><br />
+                <label><input type="checkbox" id="showLegend" /> Afficher la légende</label><br />
                 <select id="subtitleParticipants" class="form-control">
                     <option value="count">Afficher le nombre de participants</option>
                     <option value="ratio">Afficher le pourcentage de participants</option>
@@ -41,6 +42,8 @@
             var mainTexts = [];
             var alternativeTexts = [];
             var mainBlocks = [];
+
+            var legendContainer = null;
 
             var legendParts = [];
             function buildLegend(analysisVersion) {
@@ -228,6 +231,8 @@
                 return '#'+red.toString(16).padStart(2, '0')+green.toString(16).padStart(2, '0')+blue.toString(16).padStart(2, '0');
             }
             function drawLegend(stage, analysisVersion) {
+                legendContainer = new createjs.Container();
+                legendContainer.visible = showLegend;
                 // Legend config
                 var gradientX = 0, gradientY = analysisVersion.legendY, gradientHeight = 75, originalGradientX = gradientX;
                 var singleBlockWidth = 125, partSeparator = 12;
@@ -284,7 +289,7 @@
                     .moveTo(lineThirdStart, arrowsY)
                     .lineTo(lineThirdEnd, arrowsY)
                 ;
-                stage.addChild(legendBGArrows);
+                legendContainer.addChild(legendBGArrows);
 
                 for(var i in legendParts) {
                     var legendPart = legendParts[i];
@@ -304,7 +309,7 @@
                         if(analysisVersion.blocksShadow) {
                             legendBlockShape.shadow =  new createjs.Shadow('rgba(0, 0, 0, .2)', 10, 10, 15);
                         }
-                        stage.addChild(legendBlockShape);
+                        legendContainer.addChild(legendBlockShape);
                         gradientX+= blockWidth;
                     }
                     var legendPartEndX = gradientX;
@@ -315,7 +320,7 @@
                         var legendPartTextMetrics = legendPartText.getMetrics();
                         legendPartText.x = legendPartStartX + (legendPartEndX - legendPartStartX) / 2 - legendPartTextMetrics.width / 2;
                         legendPartText.y = gradientY + gradientHeight + 55;
-                        stage.addChild(legendPartText);
+                        legendContainer.addChild(legendPartText);
 
                         if(legendPart.arrowDirection && analysisVersion.legendZonesIcons) {
                             const arrowSize = 32;
@@ -336,10 +341,10 @@
                         .moveTo(gradientX, gradientY - 20)
                         .lineTo(gradientX, legendPartText.y)
                     ;
-                    stage.addChild(rightGradientSeparator);
+                    legendContainer.addChild(rightGradientSeparator);
 
-                    drawArrowIcon(stage, 'down', 32, gradientX + 100, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
-                    stage.addChild(
+                    drawArrowIcon(legendContainer, 'down', 32, gradientX + 100, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
+                    legendContainer.addChild(
                         (new createjs.Text("CONSENSUS", "Bold 25px Montserrat", '#394A52'))
                             .set({
                                 x: gradientX + 125,
@@ -358,12 +363,12 @@
                             lineHeight: 35
                         })
                     ;
-                    stage.addChild(consensusText);
+                    legendContainer.addChild(consensusText);
 
                     let consensusTypesY = consensusText.y + consensusText.getMetrics().height + 15;
                     for(const consensusDefinition of analysisVersion.consensusDefinitions) {
-                        stage.addChild(...drawConsensus(consensusDefinition, {x: gradientX + 100, y: consensusTypesY}, 16));
-                        stage.addChild(
+                        legendContainer.addChild(...drawConsensus(consensusDefinition, {x: gradientX + 100, y: consensusTypesY}, 16));
+                        legendContainer.addChild(
                             (new createjs.Text(consensusDefinition.name, '23px Montserrat', '#394A52'))
                                 .set({
                                     x: gradientX + 100 + 24,
@@ -387,7 +392,7 @@
                     .moveTo(gradientX - 150, gradientY - 20)
                     .lineTo(gradientX - 150, legendPartText.y)
                 ;
-                stage.addChild(gradientSeparator);
+                legendContainer.addChild(gradientSeparator);
 
                 var legendHouseParts = 1 + analysisVersion.structure.items.map(i => i.size ?? 1).reduce((acc, i) => acc + i, 0); // +1 for the roof
                 var
@@ -403,7 +408,7 @@
                 for(let i in analysisVersion.structure.items) {
                     const structureItem = analysisVersion.structure.items[i];
                     if(isRoof) {
-                        stage.addChild(
+                        legendContainer.addChild(
                             (new createjs.Shape(
                                 new createjs.Graphics()
                                     .beginFill(colors[i%2])
@@ -418,7 +423,7 @@
                     }
 
                     const height = legendHouseHeight * (structureItem.size ?? 1);
-                    stage.addChild(
+                    legendContainer.addChild(
                         (new createjs.Shape(new createjs.Graphics().beginFill(colors[i%2]).drawRoundRect(legendHouseX, legendCurrentY, legendHouseWidth, height, 10)))
                             .set({shadow:legendHouseShadow}),
                         (new createjs.Text(structureItem.text, "Bold 30px Montserrat", analysisVersion.structure.color))
@@ -442,14 +447,14 @@
                         if(structureLegendTextMetrics.lines.length > 1) {
                             structureLegendText.y-= structureLegendTextMetrics.height/structureLegendTextMetrics.lines.length*(structureLegendTextMetrics.lines.length-1);
                         }
-                        stage.addChild(structureLegendText);
+                        legendContainer.addChild(structureLegendText);
                     }
                     legendCurrentY+= height + legendHouseMargin;
                 }
 
                 if(analysisVersion.displayLegendTitles) {
-                    drawArrowIcon(stage, 'down', 32, legendHouseX - 50, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
-                    stage.addChild(
+                    drawArrowIcon(legendContainer, 'down', 32, legendHouseX - 50, gradientY - 125, '#394A52', '#FFFFFF', '#394A52');
+                    legendContainer.addChild(
                         (new createjs.Text("STRUCTURE", "Bold 25px Montserrat", '#394A52'))
                             .set({
                                 x: legendHouseX - 10,
@@ -471,7 +476,7 @@
                     });
                     stage.update();
                 };
-                stage.addChild(
+                legendContainer.addChild(
                     logo,
                     (new createjs.Text('Toute reproduction interdite sans autorisation. Copyright '+(new Date).getFullYear()+' SARL Workcare', "25px Carlito", "#000"))
                         .set({
@@ -480,6 +485,7 @@
                         })
                 );
 
+                stage.addChild(legendContainer);
                 stage.update();
             }
             function drawBlock(stage, analysis, type, analysisVersion) {
@@ -903,9 +909,7 @@
                 });
             }).then(function(data) {
                 buildLegend(data.analysisVersion);
-                if (showLegend) {
-                    drawLegend(stage, data.analysisVersion);
-                }
+                drawLegend(stage, data.analysisVersion);
                 setColor("restitution-color-square");
                 // Title
                 house.data("title", data.title);
@@ -1063,6 +1067,13 @@
                     }
                     stage.update();
                 });
+                $('#showLegend').change(function() {
+                    showLegend = this.checked;
+                    if (legendContainer) {
+                        legendContainer.visible = showLegend;
+                        stage.update();
+                    }
+                }).prop('checked', showLegend);
             });
         });
 
