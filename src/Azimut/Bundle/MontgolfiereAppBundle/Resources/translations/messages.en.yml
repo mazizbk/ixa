@@ -4,6 +4,12 @@ montgolfiere:
             cancel: "Cancel"
             submit: "Submit"
             save: "Save"
+        campaigns:
+            participations:
+                rps_alert_flag: "RPS alert"
+    consultantarea:
+        rps_alert_count: "%count% RPS alert(s)"
+
     questionnaire:
         please_select_a_value: "Please select a value"
         please_input_a_value: "Please input a value"
@@ -318,6 +324,19 @@ montgolfiere:
             your_well_being_score: "Your Well-Being index:"
             your_engagement_score: "Your Engagement index:"
             the_ixa_team: "The iXa team"
+        contact_confirmation:
+            subject: "Confirmation of your request for an appointment"
+            intro: "As part of the initiative launched by your employer, %employer%, to improve quality of life at work, you asked to speak with a Workcare psychologist."
+            line2: "This meeting will be entirely independent and strictly confidential: your employer will not be informed. Only anonymous, collective data will be used in the follow-up of this initiative."
+            line3: "To schedule this appointment, please confirm your request, indicate any urgency and provide your availability."
+            closing: "Feel free to contact me by email if needed."
+        contact_refusal:
+            subject: "Following your choice not to be contacted"
+            intro: "As part of the initiative launched by your employer, %employer%, to improve quality of life at work, your BEE profile suggests you may be experiencing difficulties."
+            line2: "We note that you chose not to speak with a Workcare psychologist."
+            line3: "This initiative is entirely independent: your employer has no access to individual information, only anonymous collective data. Your answers remain confidential."
+            line4: "If you change your mind, you can contact me anytime by email."
+            line5: "You may also reach the Croix Rouge psychosocial support service at 0800 858 858."
     frontoffice:
         personal_area:
             unkown_email: "This email is not linked to any workcare participation"

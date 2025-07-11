@@ -47,7 +47,12 @@
 
             {% for participation in participations %}
             <tr{% if participation.archivedAt %} class="warning" {% endif %}>
-                <td>{{ participation.firstName }} {{ participation.lastName }}</td>
+                <td>
+                    {% if participation.rpsAlert %}
+                        <span class="glyphicon glyphicon-warning-sign text-danger" data-toggle="tooltip" title="{{ 'montgolfiere.backoffice.campaigns.participations.rps_alert_flag'|trans }}"></span>
+                    {% endif %}
+                    {{ participation.firstName }} {{ participation.lastName }}
+                </td>
                 {% for sortingFactor in campaign.sortingFactors %}
                     <td>{{ participation.getSortingFactorValue(sortingFactor)?ixa_sorting_factor_value_name(participation.getSortingFactorValue(sortingFactor)) }}</td>
                 {% endfor %}
@@ -58,6 +63,7 @@
                 <td>{{ participation.managerName }}</td>
                 <td>{{ participation.updatedAt|localizeddate }}</td>
                 <td class="icon-column">
+
                     {{ form(deleteForms[participation.id]) }}
                     <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_read', {'id': campaign.id, 'participation': participation.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-eye-open"></i></a>
                     <a href="{{ path('azimut_montgolfiere_app_backoffice_campaigns_participations_edit', {'id': campaign.id, 'participation': participation.id}) }}"><i class="glyphicon glyphicon-pro glyphicon-pro-pencil"></i></a>

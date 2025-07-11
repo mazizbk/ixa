@@ -1,4 +1,5 @@
 {% set showOptions = showOptions|default(false) %}
+{% set showLegend = showLegend|default(true) %}
 {% if campaign is defined and form is defined and participations is defined %}
     {% if data_route is not defined %}
         {% set data_route = 'azimut_montgolfiere_app_backoffice_campaigns_house_data' %}
@@ -17,6 +18,7 @@
                 <select id="subtitleParticipants" class="form-control">
                     <option value="count">Afficher le nombre de participants</option>
                     <option value="ratio">Afficher le pourcentage de participants</option>
+                    <option value="both">Afficher le nombre et le pourcentage de participants</option>
                     <option value="none">Ne pas afficher de participants</option>
                 </select>
             </div>
@@ -30,6 +32,7 @@
             var house = $('#house');
             house.before('<span id="loading">Chargement de l\'image en cours</span>');
             var stage = new createjs.Stage("house");
+            var showLegend = {{ showLegend|json_encode|raw }};
             setTimeout(function() {
                 stage.update();
             }, 10000);
@@ -43,31 +46,17 @@
             function buildLegend(analysisVersion) {
                 legendParts = [
                     {
-                        blocks: [
-                            {
-                                min: 0,
-                                max: {{ixa_trends_cuts[0]}},
-                                color: analysisVersion.colors[0]
-                            },
-                            {
-                                min: {{ixa_trends_cuts[0]}},
-                                max: {{ixa_trends_cuts[1]}},
-                                color: analysisVersion.colors[1]
-                            }
-                        ]
-                    },
-                    {
                         text: 'Vers le manque, l\'insuffisance, le déficit',
                         arrowDirection: 'left',
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[1]}},
-                                max: {{ixa_trends_cuts[2]}},
+                                min: 0,
+                                max: {{ixa_trends_cuts[0]}},
                                 color: analysisVersion.colors[2]
                             },
                             {
-                                min: {{ixa_trends_cuts[2]}},
-                                max: {{ixa_trends_cuts[3]}},
+                                min: {{ixa_trends_cuts[0]}},
+                                max: {{ixa_trends_cuts[1]}},
                                 color: analysisVersion.colors[3]
                             }
                         ]
@@ -75,13 +64,13 @@
                     {
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[3]}},
-                                max: {{ixa_trends_cuts[4]}},
+                                min: {{ixa_trends_cuts[1]}},
+                                max: {{ixa_trends_cuts[2]}},
                                 color: analysisVersion.colors[4]
                             },
                             {
-                                min: {{ixa_trends_cuts[4]}},
-                                max: {{ixa_trends_cuts[5]}},
+                                min: {{ixa_trends_cuts[2]}},
+                                max: {{ixa_trends_cuts[3]}},
                                 color: analysisVersion.colors[5]
                             }
                         ]
@@ -92,8 +81,8 @@
                         // FIXME V2 uses 3 blocks
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[5]}},
-                                max: {{ixa_trends_cuts[10]}},
+                                min: {{ixa_trends_cuts[3]}},
+                                max: {{ixa_trends_cuts[8]}},
                                 color: analysisVersion.colors[7], // color is 7-8-9
                                 size: 3
                             }
@@ -102,13 +91,13 @@
                     {
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[10]}},
-                                max: {{ixa_trends_cuts[11]}},
+                                min: {{ixa_trends_cuts[8]}},
+                                max: {{ixa_trends_cuts[9]}},
                                 color: analysisVersion.colors[11]
                             },
                             {
-                                min: {{ixa_trends_cuts[11]}},
-                                max: {{ixa_trends_cuts[12]}},
+                                min: {{ixa_trends_cuts[9]}},
+                                max: {{ixa_trends_cuts[10]}},
                                 color: analysisVersion.colors[12]
                             }
                         ]
@@ -118,28 +107,14 @@
                         arrowDirection: 'right',
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[12]}},
-                                max: {{ixa_trends_cuts[13]}},
+                                min: {{ixa_trends_cuts[10]}},
+                                max: {{ixa_trends_cuts[11]}},
                                 color: analysisVersion.colors[13]
                             },
                             {
-                                min: {{ixa_trends_cuts[13]}},
-                                max: {{ixa_trends_cuts[14]}},
+                                min: {{ixa_trends_cuts[11]}},
+                                max: {{ixa_trends_cuts[12]}},
                                 color: analysisVersion.colors[14]
-                            }
-                        ]
-                    },
-                    {
-                        blocks: [
-                            {
-                                min: {{ixa_trends_cuts[14]}},
-                                max: {{ixa_trends_cuts[15]}},
-                                color: analysisVersion.colors[15]
-                            },
-                            {
-                                min: {{ixa_trends_cuts[15]}},
-                                max: {{ixa_trends_cuts[16]}},
-                                color: analysisVersion.colors[16]
                             }
                         ]
                     }
@@ -281,18 +256,18 @@
                 legendBGArrows
                     .graphics
                     .setStrokeStyle(5, 'round')
-                    .beginStroke(analysisVersion.colors[0])
+                    .beginStroke(analysisVersion.colors[2])
                     .moveTo(lineFirstStart + arrowSize, arrowsY - arrowSize)
                     .lineTo(lineFirstStart,             arrowsY)
                     .lineTo(lineFirstStart + arrowSize, arrowsY + arrowSize)
 
-                    .beginStroke(analysisVersion.colors[analysisVersion.colors.length-1])
+                    .beginStroke(analysisVersion.colors[analysisVersion.colors.length-3])
                     .moveTo(lineThirdEnd - arrowSize, arrowsY - arrowSize)
                     .lineTo(lineThirdEnd,             arrowsY)
                     .lineTo(lineThirdEnd - arrowSize, arrowsY + arrowSize)
 
                     .beginLinearGradientStroke(
-                        analysisVersion.colors,
+                        analysisVersion.colors.slice(2, -2),
                         [0, ...{{ ixa_trends_cuts|map(c => c/100)|json_encode }}],
                         gradientX, gradientY, lineThirdEnd, arrowsY
                     )
@@ -437,7 +412,7 @@
                                     .lineTo(legendHouseX + legendHouseWidth - 5, legendHouseY) // Right
                                     .closePath()
                             ))
-                            .set({shadow:legendHouseShadow})
+                                .set({shadow:legendHouseShadow})
                         );
                         isRoof = false;
                     }
@@ -928,7 +903,9 @@
                 });
             }).then(function(data) {
                 buildLegend(data.analysisVersion);
-                drawLegend(stage, data.analysisVersion);
+                if (showLegend) {
+                    drawLegend(stage, data.analysisVersion);
+                }
                 setColor("restitution-color-square");
                 // Title
                 house.data("title", data.title);
@@ -942,6 +919,7 @@
                 var subtitles = {
                     count: null,
                     ratio: null,
+                    both: null,
                     none: null
                 };
                 var createSubtitle = function(parts, invisible) {
@@ -962,9 +940,14 @@
                 }
                 subtitles.count = createSubtitle(['Nombre de répondants : '+data.participants, subtitle], false);
                 subtitles.ratio = (data.expectedParticipants && data.participants) ? createSubtitle(['Taux de participation : '+Math.round(data.participants*100/data.expectedParticipants)+'%', subtitle], true) : null;
+                subtitles.both = (data.expectedParticipants && data.participants) ? createSubtitle(['Nombre de répondants : '+data.participants, 'Taux de participation : '+Math.round(data.participants*100/data.expectedParticipants)+'%', subtitle], true) : null;
                 subtitles.none = createSubtitle([subtitle], true);
                 if(!subtitles.ratio) {
                     $('#subtitleParticipants > option[value=ratio]')
+                        .attr('disabled', true)
+                        .css('backgroundColor', '#DEDEDE')
+                    ;
+                    $('#subtitleParticipants > option[value=both]')
                         .attr('disabled', true)
                         .css('backgroundColor', '#DEDEDE')
                     ;

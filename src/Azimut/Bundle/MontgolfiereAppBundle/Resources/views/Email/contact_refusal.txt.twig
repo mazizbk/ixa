@@ -1,0 +1,8 @@
+{% extends "@AzimutMontgolfiereApp/Email/base.txt.twig" %}
+{% block body %}
+{{ 'montgolfiere.emails.contact_refusal.intro'|trans({'%employer%': campaign.name}) }}
+{{ 'montgolfiere.emails.contact_refusal.line2'|trans }}
+{{ 'montgolfiere.emails.contact_refusal.line3'|trans }}
+{{ 'montgolfiere.emails.contact_refusal.line4'|trans }}
+{{ 'montgolfiere.emails.contact_refusal.line5'|trans }}
+{% endblock %}

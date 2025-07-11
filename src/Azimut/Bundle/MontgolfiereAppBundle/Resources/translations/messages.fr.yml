@@ -315,6 +315,7 @@ montgolfiere:
                         entity_updated: "L'avis a été mise à jour"
                         entity_created: "L'avis a été créé"
                 unarchive: "Désarchiver"
+                rps_alert_flag: "Alert RPS"
             locale:
                 fr: 'Français'
                 en: 'Anglais'
@@ -914,6 +915,19 @@ montgolfiere:
             wbe_agree: "Profil BEE correspond au ressenti :"
             participation: "Voir la participation :"
             message: "Message :"
+        contact_confirmation:
+            subject: "Confirmation de votre demande d’entretien"
+            intro: "Dans le cadre de la démarche initiée par votre employeur, %employer%, pour améliorer la qualité de vie au travail, vous avez exprimé le souhait d’échanger avec un(e) psychologue du cabinet Workcare."
+            line2: "Cet entretien se déroulera de manière totalement indépendante, dans le respect le plus strict de la confidentialité : votre employeur ne sera pas informé de nos échanges. Seules des données anonymes et collectives seront prises en compte dans la suite de la démarche."
+            line3: "Pour organiser ce rendez-vous, merci de confirmer votre demande, de signaler toute urgence éventuelle et d’indiquer vos disponibilités."
+            closing: "N’hésitez pas à me contacter par email si besoin."
+        contact_refusal:
+            subject: "Suite à votre choix de ne pas donner suite"
+            intro: "Dans le cadre de la démarche initiée par votre employeur, %employer%, pour améliorer la qualité de vie au travail, nous avons identifié, à partir de votre profil BEE (évaluation individuelle et confidentielle du Bien-être et de l’Engagement), que vous pourriez rencontrer certaines difficultés professionnelles."
+            line2: "Nous avons bien noté votre choix de ne pas engager d’échange avec un(e) psychologue du cabinet Workcare."
+            line3: "Pour rappel, cette démarche est totalement indépendante : votre employeur n’a pas accès aux informations individuelles, et seules des données anonymes et collectives sont utilisées. La confidentialité de vos réponses est pleinement garantie."
+            line4: "Si vous changez d’avis, vous pouvez me contacter à tout moment par email."
+            line5: "Vous pouvez également contacter le service de soutien psychosocial de la Croix Rouge au 0800 858 858."
     frontoffice:
         account_creation:
             page_title: "Activation de votre compte"
@@ -1010,3 +1024,5 @@ montgolfiere:
         footer:
             text1: "Des questions ? Des suggestions ?"
             text2 : "Nous serions heureux de les entendre"
+    consultantarea:
+        rps_alert_count: "%count% alerte(s) RPS"
