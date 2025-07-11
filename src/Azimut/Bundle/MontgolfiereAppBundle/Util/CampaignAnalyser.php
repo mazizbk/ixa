@@ -153,80 +153,35 @@ class CampaignAnalyser
 
     public function getFileName(Campaign $campaign, FormInterface $form, $documentType): string
     {
-        $locale = $this->translator->getLocale();
-        $sortingFactorTitle = 'Global';
-        foreach ($campaign->getSortingFactors() as $sortingFactor) {
-            $fieldName = 'sorting_factor_'.$sortingFactor->getId();
-            if(!$form->get('fastSearch')->has($fieldName) || !($value = $form->get('fastSearch')->get($fieldName)->getData())) {
-                continue;
-            }
-            $sortingFactorTitle = $this->sortingFactorManager->getSortingFactorValueName($locale, $value);
-        }
-        $fileName = $sortingFactorTitle .' - '. $campaign->getClient()->getCorporateName() .' - '. $campaign->getStartDate()->format('m Y') .' - '. $documentType;
+        $title = $this->getHouseTitle($campaign, $form);
 
-        return $fileName;
+        return $title.' - '.$documentType;
     }
 
     protected function getHouseTitle(Campaign $campaign, ?FormInterface $form = null): string
     {
         $locale = $this->translator->getLocale();
-        $tr = function ($id) {
-            return $this->translator->trans($id);
-        };
 
-        $title = $campaign->getName();
-        if(!$form) {
-            return $title;
-        }
-        $groups = $form->get('groups')->getData()??[];
-        foreach ($groups as $group) {
-            if(!$group->getName()) {
-                continue;
+        $selectedValue = null;
+        if ($form) {
+            foreach ($campaign->getSortingFactors() as $sortingFactor) {
+                $fieldName = 'sorting_factor_'.$sortingFactor->getId();
+                if (!$form->get('fastSearch')->has($fieldName)) {
+                    continue;
+                }
+                if ($value = $form->get('fastSearch')->get($fieldName)->getData()) {
+                    $selectedValue = $value;
+                }
             }
-            $title.= ' - '.$group->getName();
         }
 
-        if ($segment = $form->get('fastSearch')->get('segment')->getData()) {
-            $title .= ' - '.$segment->getName();
-        }
+        $sortingFactorTitle = $selectedValue
+            ? $this->sortingFactorManager->getSortingFactorValueName($locale, $selectedValue)
+            : 'Global';
 
-        foreach ($campaign->getSortingFactors() as $sortingFactor) {
-            $fieldName = 'sorting_factor_'.$sortingFactor->getId();
-            if(!$form->get('fastSearch')->has($fieldName) || !($value = $form->get('fastSearch')->get($fieldName)->getData())) {
-                continue;
-            }
-            $title.= ' - '.$this->sortingFactorManager->getSortingFactorName($locale, $sortingFactor).' : '.$this->sortingFactorManager->getSortingFactorValueName($locale, $value);
-        }
+        $year = $campaign->getStartDate()->format('Y');
 
-        if ($form->get('fastSearch')->has('managerName') && $managerName = $form->get('fastSearch')->get('managerName')->getData()) {
-            $title .= ' - Manager : '.$managerName;
-        }
-        if ($form->get('fastSearch')->has('gender') && $gender = $form->get('fastSearch')->get('gender')->getData()) {
-            $title .= ' - Sexe : '.$tr('montgolfiere.questionnaire.basic_information.genders.'.$gender);
-        }
-        if ($form->get('fastSearch')->has('seniority') && $seniority = $form->get('fastSearch')->get('seniority')->getData()) {
-            $title .= ' - Ancienneté : '.$tr('montgolfiere.questionnaire.basic_information.seniorities.'.$seniority);
-        }
-        if ($form->get('fastSearch')->has('education') && $education = $form->get('fastSearch')->get('education')->getData()) {
-            $title .= ' - Niveau d\'étude : '.$tr('montgolfiere.questionnaire.basic_information.educations.'.$education);
-        }
-        if ($form->get('fastSearch')->has('csp') && $csp = $form->get('fastSearch')->get('csp')->getData()) {
-            $title .= ' - CSP : '.$tr('montgolfiere.questionnaire.basic_information.csps.'.$csp);
-        }
-        if ($form->get('fastSearch')->has('age') && $age = $form->get('fastSearch')->get('age')->getData()) {
-            $title .= ' - Tranche d\'âge : '.$tr('montgolfiere.questionnaire.basic_information.ages.'.$age);
-        }
-        if ($form->get('fastSearch')->has('maritalStatus') && $maritalStatus = $form->get('fastSearch')->get('maritalStatus')->getData()) {
-            $title .= ' - Situation familiale : '.$tr('montgolfiere.questionnaire.basic_information.marital_statuses.'.$maritalStatus);
-        }
-        if ($form->get('fastSearch')->has('managementResponsibilities') && $managementResponsibilities = $form->get('fastSearch')->get('managementResponsibilities')->getData()) {
-            $title .= ' - Resp. de management : '.$tr('montgolfiere.questionnaire.basic_information.management_responsibilities_values.'.$managementResponsibilities);
-        }
-        if ($form->get('fastSearch')->has('residenceState') && $residenceState = $form->get('fastSearch')->get('residenceState')->getData()) {
-            $title .= ' - Département de résidence : '.$tr('montgolfiere.questionnaire.basic_information.states.'.$residenceState);
-        }
-
-        return $title;
+        return $campaign->getClient()->getCorporateName().' – '.$year.' – '.$sortingFactorTitle;
     }
 
     protected function getExpectedParticipations(Campaign $campaign, ?FormInterface $form): ?int
