@@ -15,6 +15,7 @@
                 <br />
                 <label><input type="checkbox" id="alternativeTexts" /> Afficher les textes alternatifs</label><br />
                 <label><input type="checkbox" id="alternativeBlocks" /> Afficher les blocs alternatifs</label><br />
+                <label><input type="checkbox" id="toggleLegend" /> Afficher la légende</label><br />
                 <select id="subtitleParticipants" class="form-control">
                     <option value="count">Afficher le nombre de participants</option>
                     <option value="ratio">Afficher le pourcentage de participants</option>
@@ -42,6 +43,7 @@
             var alternativeTexts = [];
             var mainBlocks = [];
 
+            var legendElements = [];
             var legendParts = [];
             function buildLegend(analysisVersion) {
                 legendParts = [
@@ -903,8 +905,15 @@
                 });
             }).then(function(data) {
                 buildLegend(data.analysisVersion);
+                function renderLegend() {
+                    if (legendElements.length === 0) {
+                        var startIndex = stage.children.length;
+                        drawLegend(stage, data.analysisVersion);
+                        legendElements = stage.children.slice(startIndex);
+                    }
+                }
                 if (showLegend) {
-                    drawLegend(stage, data.analysisVersion);
+                    renderLegend();
                 }
                 setColor("restitution-color-square");
                 // Title
@@ -1063,6 +1072,15 @@
                     }
                     stage.update();
                 });
+                $('#toggleLegend').change(function() {
+                    if(this.checked) {
+                        renderLegend();
+                        legendElements.forEach(function(el){ el.visible = true; });
+                    } else {
+                        legendElements.forEach(function(el){ el.visible = false; });
+                    }
+                    stage.update();
+                }).prop('checked', showLegend).trigger('change');
             });
         });
 
