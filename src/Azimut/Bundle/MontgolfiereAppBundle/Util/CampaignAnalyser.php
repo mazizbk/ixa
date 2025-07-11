@@ -294,27 +294,25 @@ class CampaignAnalyser
 
     public static function getTrendsCuts(): array
     {
+        // The two outermost segments have been removed. The remaining cuts are
+        // scaled so that the final total still reaches 100.
         $i = 0;
         return [
-            $i+= 8.0,
-            $i+= 7.5,
-            $i+= 7.0,
-            $i+= 5.0,
-            $i+= 5.0,
-            $i+= 5.0,
+            $i += 10.1,
+            $i += 7.3,
+            $i += 7.2,
+            $i += 7.3,
+            $i += 7.2,
+            $i += 7.3,
 
-            $i+= 5.0, // Green blue
-            $i+= 5.0, // Solid green
-            $i+= 5.0, // Solid green
-            $i+= 5.0, // Solid green
-            $i+= 5.0, // Green yellow
+            $i += 7.2, // Green blue
+            $i += 7.3, // Solid green
+            $i += 7.2, // Solid green
+            $i += 7.3, // Solid green
+            $i += 7.2, // Green yellow
 
-            $i+= 5.0,
-            $i+= 5.0,
-            $i+= 5.0,
-            $i+= 7.0,
-            $i+= 7.5,
-            $i+= 8.0,
+            $i += 7.3,
+            $i += 10.1,
         ];
     }
 
@@ -337,11 +335,15 @@ class CampaignAnalyser
     {
         $colors = $campaign->getAnalysisVersion()->getColors();
         $trend = self::getTrend($value, $base);
-        if($trend >= count($colors)){
-            $trend = count($colors) - 1;
+
+        $offset = (int) ((count($colors) - count(self::getTrendsCuts())) / 2);
+        $index = $trend + $offset;
+
+        if ($index >= count($colors)) {
+            $index = count($colors) - 1;
         }
-        $color = $colors[$trend];
-        return $color;
+
+        return $colors[$index];
     }
 
 }

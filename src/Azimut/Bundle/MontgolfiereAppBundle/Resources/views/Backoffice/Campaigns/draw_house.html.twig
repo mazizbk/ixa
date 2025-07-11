@@ -44,31 +44,17 @@
             function buildLegend(analysisVersion) {
                 legendParts = [
                     {
-                        blocks: [
-                            {
-                                min: 0,
-                                max: {{ixa_trends_cuts[0]}},
-                                color: analysisVersion.colors[0]
-                            },
-                            {
-                                min: {{ixa_trends_cuts[0]}},
-                                max: {{ixa_trends_cuts[1]}},
-                                color: analysisVersion.colors[1]
-                            }
-                        ]
-                    },
-                    {
                         text: 'Vers le manque, l\'insuffisance, le déficit',
                         arrowDirection: 'left',
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[1]}},
-                                max: {{ixa_trends_cuts[2]}},
+                                min: 0,
+                                max: {{ixa_trends_cuts[0]}},
                                 color: analysisVersion.colors[2]
                             },
                             {
-                                min: {{ixa_trends_cuts[2]}},
-                                max: {{ixa_trends_cuts[3]}},
+                                min: {{ixa_trends_cuts[0]}},
+                                max: {{ixa_trends_cuts[1]}},
                                 color: analysisVersion.colors[3]
                             }
                         ]
@@ -76,13 +62,13 @@
                     {
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[3]}},
-                                max: {{ixa_trends_cuts[4]}},
+                                min: {{ixa_trends_cuts[1]}},
+                                max: {{ixa_trends_cuts[2]}},
                                 color: analysisVersion.colors[4]
                             },
                             {
-                                min: {{ixa_trends_cuts[4]}},
-                                max: {{ixa_trends_cuts[5]}},
+                                min: {{ixa_trends_cuts[2]}},
+                                max: {{ixa_trends_cuts[3]}},
                                 color: analysisVersion.colors[5]
                             }
                         ]
@@ -93,8 +79,8 @@
                         // FIXME V2 uses 3 blocks
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[5]}},
-                                max: {{ixa_trends_cuts[10]}},
+                                min: {{ixa_trends_cuts[3]}},
+                                max: {{ixa_trends_cuts[8]}},
                                 color: analysisVersion.colors[7], // color is 7-8-9
                                 size: 3
                             }
@@ -103,13 +89,13 @@
                     {
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[10]}},
-                                max: {{ixa_trends_cuts[11]}},
+                                min: {{ixa_trends_cuts[8]}},
+                                max: {{ixa_trends_cuts[9]}},
                                 color: analysisVersion.colors[11]
                             },
                             {
-                                min: {{ixa_trends_cuts[11]}},
-                                max: {{ixa_trends_cuts[12]}},
+                                min: {{ixa_trends_cuts[9]}},
+                                max: {{ixa_trends_cuts[10]}},
                                 color: analysisVersion.colors[12]
                             }
                         ]
@@ -119,28 +105,14 @@
                         arrowDirection: 'right',
                         blocks: [
                             {
-                                min: {{ixa_trends_cuts[12]}},
-                                max: {{ixa_trends_cuts[13]}},
+                                min: {{ixa_trends_cuts[10]}},
+                                max: {{ixa_trends_cuts[11]}},
                                 color: analysisVersion.colors[13]
                             },
                             {
-                                min: {{ixa_trends_cuts[13]}},
-                                max: {{ixa_trends_cuts[14]}},
+                                min: {{ixa_trends_cuts[11]}},
+                                max: {{ixa_trends_cuts[12]}},
                                 color: analysisVersion.colors[14]
-                            }
-                        ]
-                    },
-                    {
-                        blocks: [
-                            {
-                                min: {{ixa_trends_cuts[14]}},
-                                max: {{ixa_trends_cuts[15]}},
-                                color: analysisVersion.colors[15]
-                            },
-                            {
-                                min: {{ixa_trends_cuts[15]}},
-                                max: {{ixa_trends_cuts[16]}},
-                                color: analysisVersion.colors[16]
                             }
                         ]
                     }
