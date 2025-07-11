@@ -284,18 +284,21 @@
                 legendBGArrows
                     .graphics
                     .setStrokeStyle(5, 'round')
-                    .beginStroke(analysisVersion.colors[0])
+                    // Left arrow uses the first gradient colour
+                    .beginStroke(analysisVersion.colors[2])
                     .moveTo(lineFirstStart + arrowSize, arrowsY - arrowSize)
                     .lineTo(lineFirstStart,             arrowsY)
                     .lineTo(lineFirstStart + arrowSize, arrowsY + arrowSize)
 
-                    .beginStroke(analysisVersion.colors[analysisVersion.colors.length-1])
+                    // Right arrow uses the last gradient colour
+                    .beginStroke(analysisVersion.colors[analysisVersion.colors.length-3])
                     .moveTo(lineThirdEnd - arrowSize, arrowsY - arrowSize)
                     .lineTo(lineThirdEnd,             arrowsY)
                     .lineTo(lineThirdEnd - arrowSize, arrowsY + arrowSize)
 
+                    // Use slice to ensure the gradient receives the same number of colours as ratios
                     .beginLinearGradientStroke(
-                        analysisVersion.colors,
+                        analysisVersion.colors.slice(2, -2),
                         [0, ...{{ ixa_trends_cuts|map(c => c/100)|json_encode }}],
                         gradientX, gradientY, lineThirdEnd, arrowsY
                     )
